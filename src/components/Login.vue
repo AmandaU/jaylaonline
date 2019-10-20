@@ -1,0 +1,105 @@
+<template>
+  <div class="login">
+    <div class="centralcontainer" >
+       <div class="centreblock">
+        <!-- <cube-spin v-if="busy"></cube-spin> -->
+        <br>
+        <div class="infoblock">
+         <h3>Sign In</h3>
+        <input type="text" v-model="email" placeholder="Email"  class="infoblockitem"><br>
+        <input type="password" v-model="password" placeholder="Password"  class="infoblockitem"><br>
+        <button @click="login" class="infoblockitem">Login</button>
+        <p>You don't have an account ? You can 
+          <span @click="goToSignup()" style="color:blue;cursor:pointer">create one</span>
+         </p>
+         </div>
+ </div>
+           </div>
+    </div>
+</template>
+
+<script>
+  import firebase from '../firebase-config';
+  import {  db } from '../firebase-config';
+  //import CubeSpin from 'vue-loading-spinner/src/components/ScaleOut'
+ 
+ export default {
+    name: 'login',
+    data() {
+      return {
+         busy: true,
+        email: "",
+        password: "",
+        users: []
+      }
+    },
+     props: {
+      cartref: '',
+   },
+
+ created() {
+    if(localStorage.getItem(this.$props.cartref))
+     {
+        this.shoppingcart = JSON.parse(localStorage.getItem(this.$props.cartref));
+    }
+    // let img = this.shoppingcart? this.shoppingcart.event? this.shoppingcart.event.imageurl:'' : '';
+    // this.$eventHub.$emit('eventimageurl', img);
+    },
+
+   
+ methods: {
+
+    goToSignup ()
+    {
+      
+      this.$router.replace({ name: 'Signup', params: {cartref: this.shoppingcart.reference}});
+    },
+    
+    login: function() {
+      
+     this.busy = true;
+       let self = this;
+      firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
+        (user) => {
+          let uid = user.user.uid;
+          alert('Successful login');
+          self.$eventHub.$emit('loggedin', '');
+          self.$bindAsArray(
+                  "users",
+                 db.ref('users').orderByChild("uid").equalTo(uid).limitToFirst(1),
+                  null,
+                  () => {
+                    debugger;
+                    
+                    if(self.shoppingcart)
+                    {
+                      self.shoppingcart.userid = uid;
+                      localStorage.setItem(self.shoppingcart.reference, JSON.stringify(self.shoppingcart));
+                      self.$router.replace({ name: 'Checkout', query: {cartref: self.$props.cartref}});
+                      self.busy = false;
+                    }
+                    else if(self.$props.cartref)
+                    {
+                      self.$router.replace({ name: 'Event', params: {cartref: self.shoppingcart}});
+                    }
+                    else
+                    {
+                      self.$router.replace({ name: 'Home'});
+                    }
+                  }
+                );
+           
+        },
+        (err) => {
+           alert('Oops. ' + err.message);
+          self.busy = false;
+        }
+      );
+      }
+    }
+  }
+</script>
+
+<style lang="scss" scoped>
+  @import "~@/styles/styles.scss";
+</style>
