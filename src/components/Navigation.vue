@@ -58,7 +58,7 @@ firebase () {
 
 methods: {
     navigate (navPath) {
-      debugger
+    
       if(navPath == "Logout")
        {
          let self = this;
@@ -109,6 +109,7 @@ methods: {
     width: 100vw;
     z-index: 10;
     height:10vh;
+     position: relative;
 }
 
  .menu {

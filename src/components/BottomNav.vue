@@ -54,6 +54,8 @@ methods: {
    width:100%;
    height:10vh;   /* Height of the footer */
     background-color:white;
+     position: relative;
+
 }
 
 .menuitem{

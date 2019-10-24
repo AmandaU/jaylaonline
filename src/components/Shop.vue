@@ -1,14 +1,11 @@
 <template>
-  <div class="centralcontainer">
-    <div class="centreblock">
-    <br> <br>
-    
-       <div class="photocontainer">
-
+   <div class="centralcontainer">
+   
+  <div class="photocontainer">
      <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media> 
       
-        <div  class="cols">  
-             <div  v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItems(product)">
+       <div  v-bind:class="[isRow ? 'rowstyle' : 'cols']">  
+           <div  v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItems(product)">
                  <div  :style="getImageStyle(product)"  > 
                    <!-- <img src="@/assets/IMG_0758.jpg" :style="getImageStyle(project)"  >  -->
                   <!-- <img src="require('@/assets/IMG_0758.jpg')" :style="getImageStyle(project)"  >  -->
@@ -25,14 +22,13 @@
         </div>  
     </div>
       
-   </div>
-  </div>
+       </div>  
 </template>
 
 <script>
-
+ import firebase from '../firebase-config';
 import { db } from '../firebase-config';
-  
+ //const products = db.ref('products')
 export default {
   name: 'shop',
   components: {
@@ -42,40 +38,59 @@ export default {
       return {
          busy: false,
          products: [],
-        greaterThan800: window.innerWidth > 800
+         numberOfProducts: 0,
+        greaterThan800: window.innerWidth > 800,
+        containerWidth: window.innerWidth > 800? window.innerWidth/3: window.innerWidth > 600? window.innerWidth/ 2: window.innerWidth,
      }
     },
 
 firebase () {
         return {
-          products: db.ref('products') ,
-          // items: db.ref('items') ,
-          // itemimages: db.ref('itemimages') ,
-        }
+          items: db.ref('items'),
+          itemimages: db.ref('itemimages'),
+          products: db.ref('products'),
+         }
       },
 
-created() {
-      //  this.$firebaseRefs.products.push({
-      //                   id: "product2",
-      //                   name: "Cargos burnt sienna",
-      //                   descriptipon: "RudeBoyz pants they wore in Berlin",
-      //                   linkphotourl: "12345",
-      //                   ratio: "1"
-      //   });
-      //   this.$firebaseRefs.items.push({
-      //                   productid: "product2",
-      //                   number: "10",
-      //                   size: "M"
-      //   });
-         
-      //   this.$firebaseRefs.itemimages.push({
-      //                   productid: "product2",
-      //                   url: "jhjkhkj"
-      //   });
-       
- },
+//  created: function () {
+//   this.addProducts();
+//  },
+
+ created () {
+    //   this.$rtdbBind('products', products.orderByKey()).then(products => {
+    //     this.products === products;
+    //     this.numberOfProducts = products.length
+    //  });
+    },
+
+ computed: {
+  isRow: function () {
+    return this.greaterThan800 ?  this.products.length <= 4 : false;
+    }
+  },
 
 methods: {
+
+  addProducts ()
+   {
+    //  this.$firebaseRefs.products.push({
+    //                     id: "product3",
+    //                     name: "TShirt",
+    //                     descriptipon: "RudeBoyz t-shirt special",
+    //                     linkphotourl: "12345",
+    //                     ratio: "1"
+    //     });
+    //     this.$firebaseRefs.items.push({
+    //                     productid: "product2",
+    //                     number: "10",
+    //                     size: "S"
+    //     });
+         
+        // this.$firebaseRefs.itemimages.push({
+        //                 productid: "product2",
+        //                 url: "jhjkhkj"
+        // });
+   },
 
   media800Enter(mediaQueryString) {
       this.greaterThan800 = false
