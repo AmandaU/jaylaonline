@@ -1,28 +1,25 @@
 <template>
-   <div class="centralcontainer">
+   <div >
+    <div class="productcontainer">
+    <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media> 
+      
+     <div class="row">
+        <div  v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
+           <div class="column">
+              <div class="product-image">
+               <img v-bind:src="product.linkphotourl" >
+              </div>
+              <div class="hovercolumn">
+                <h2 >{{product.name}}</h2>
+              </div>
+           </div>
+        </div>
+  
+     </div>
+                
+    </div> 
+  </div> 
    
-  <div class="photocontainer">
-     <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media> 
-      
-       <div  v-bind:class="[isRow ? 'rowstyle' : 'cols']">  
-           <div  v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItems(product)">
-                 <div  :style="getImageStyle(product)"  > 
-                   <!-- <img src="@/assets/IMG_0758.jpg" :style="getImageStyle(project)"  >  -->
-                  <!-- <img src="require('@/assets/IMG_0758.jpg')" :style="getImageStyle(project)"  >  -->
-                  <img v-bind:src="product.linkphotourl" :style="getImageStyle(product)"  > 
-                    <div  class="hoverLayer" >
-                       <ul class="centerInHover" >  
-                        <li >{{product.name}}</li>
-                        <li >{{product.description}}</li>
-                      </ul>
-                  </div>  
-                 </div> 
-                  
-               </div> 
-        </div>  
-    </div>
-      
-       </div>  
 </template>
 
 <script>
@@ -46,7 +43,7 @@ export default {
 
 firebase () {
         return {
-          items: db.ref('items'),
+         // items: db.ref('items'),
           itemimages: db.ref('itemimages'),
           products: db.ref('products'),
          }
@@ -65,8 +62,25 @@ firebase () {
 
  computed: {
   isRow: function () {
-    return this.greaterThan800 ?  this.products.length <= 4 : false;
+    if (this.isMobile) {
+      return false
+    } 
+    if (this.products.length <= 4 ) {
+      return true
     }
+   return !this.greaterThan800 ;
+    }
+  },
+ 
+  isMobile: function()
+  {
+      return navigator.userAgent.match(/Android/i) ||
+        navigator.userAgent.match(/webOS/i) ||
+        navigator.userAgent.match(/iPhone/i) ||
+        navigator.userAgent.match(/iPad/i) ||
+        navigator.userAgent.match(/iPod/i) ||
+        navigator.userAgent.match(/BlackBerry/i) ||
+        navigator.userAgent.match(/Windows Phone/i) ;
   },
 
 methods: {
@@ -94,35 +108,35 @@ methods: {
 
   media800Enter(mediaQueryString) {
       this.greaterThan800 = false
-    },
-    media800Leave(mediaQueryString) {
+  },
+
+  media800Leave(mediaQueryString) {
       this.greaterThan800 = true
-    },
+  },
 
-    getImageStyle: function (product) { 
+  getImageStyle: function (product) { 
       // var t = 1.34 * this.containerWidth;
-       var t = product.ratio * this.containerWidth;
-          return  {
-           'background-color':'rgb(255, 255, 255)',
-           'max-width': '100%',
-           'width': this.containerWidth + 'px',
-           'height': t + 'px',
-           'position': 'relative'
-          
-        }
-    },
+      var t = product.ratio * this.containerWidth;
+        return  {
+          'background-color':'rgb(255, 255, 255)',
+          'max-width': '100%',
+          'width': this.containerWidth + 'px',
+          'height': t + 'px',
+          'position': 'relative'
+        
+      }
+  },
 
-    navigateToItems(product) {
-        this.$router.replace({ name: 'Items', params: {productId: product.id}});
-    },
-
+  navigateToItem(product) {
+      this.$router.replace({ name: 'Product', params: {productid: product.id}});
+     
+  },
 
 },
-
 
 }
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/styles/styles.scss";
+   @import "~@/styles/shopstyle.scss";
   </style>

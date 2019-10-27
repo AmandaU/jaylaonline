@@ -102,7 +102,7 @@ methods: {
 <style> 
 
 .nav{
-    background-color:white;
+    background-color:rgb(253, 252, 252);
     position: fixed;
     top: 0;
     left: 0;

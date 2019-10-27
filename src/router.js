@@ -20,6 +20,7 @@ import Contact from './components/Contact.vue';
 // import ManageEvent from './components/ManageEvent.vue';
 // import ScanQR from './components/ScanQR.vue';
 import Shop from './components/Shop.vue';
+import Product from './components/Product.vue';
 
 
 import { rtdbPlugin } from 'vuefire'
@@ -60,6 +61,12 @@ const router = new Router({
       name: 'Shop',
       component: Shop
    },
+   {
+    path: '/product',
+    name: 'Product',
+    component: Product,
+    props: true,
+  },
     {
       path: '/login',
       name: 'Login',

@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    
     <Navigation ></Navigation>
       <div class="fullpage" >
         <router-view />
