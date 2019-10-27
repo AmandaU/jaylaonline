@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="centralcontainer" >
-       <div class="centreblock">
+       <!-- <div class="centreblock"> -->
         <!-- <cube-spin v-if="busy"></cube-spin> -->
         <br>
         <div class="infoblock">
@@ -13,7 +13,7 @@
           <span @click="goToSignup()" style="color:blue;cursor:pointer">create one</span>
          </p>
          </div>
- </div>
+ <!-- </div> -->
            </div>
     </div>
 </template>

@@ -109,7 +109,7 @@ methods: {
     width: 100vw;
     z-index: 10;
     height:10vh;
-     position: relative;
+    position: relative;
 }
 
  .menu {

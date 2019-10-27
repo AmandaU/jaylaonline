@@ -1,6 +1,6 @@
 <template>
    <div >
-    <div class="productcontainer">
+    <div class="centralcontainer">
     <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media> 
       
      <div class="row">
@@ -61,27 +61,29 @@ firebase () {
     },
 
  computed: {
-  isRow: function () {
-    if (this.isMobile) {
-      return false
-    } 
-    if (this.products.length <= 4 ) {
-      return true
-    }
-   return !this.greaterThan800 ;
+   isRow: function () {
+      if (this.isMobile) {
+        return false
+      } 
+      if (this.products.length <= 4 ) {
+        return true
+      }
+      return !this.greaterThan800 ;
+    },
+
+    isMobile: function()
+    {
+        return navigator.userAgent.match(/Android/i) ||
+          navigator.userAgent.match(/webOS/i) ||
+          navigator.userAgent.match(/iPhone/i) ||
+          navigator.userAgent.match(/iPad/i) ||
+          navigator.userAgent.match(/iPod/i) ||
+          navigator.userAgent.match(/BlackBerry/i) ||
+          navigator.userAgent.match(/Windows Phone/i) ;
     }
   },
  
-  isMobile: function()
-  {
-      return navigator.userAgent.match(/Android/i) ||
-        navigator.userAgent.match(/webOS/i) ||
-        navigator.userAgent.match(/iPhone/i) ||
-        navigator.userAgent.match(/iPad/i) ||
-        navigator.userAgent.match(/iPod/i) ||
-        navigator.userAgent.match(/BlackBerry/i) ||
-        navigator.userAgent.match(/Windows Phone/i) ;
-  },
+  
 
 methods: {
 

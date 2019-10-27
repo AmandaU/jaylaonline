@@ -1,5 +1,6 @@
 <template>
  <div class="page"> 
+    <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>
   <div class="navcolumn">
     <div  v-for="product in products" v-bind:key="product.id">
             <h1>{{ product.name }}</h1>
@@ -12,7 +13,7 @@
               <div class="pricebreakrow">
             
                 <div class="pricebreakcolumn1">
-                   <strong>{{item.size}} R {{item.price}} each </strong>
+                   <strong>Size {{item.size}},  R{{item.price}} each </strong>
                   <small>{{ total(item) }}</small>
                 </div>
 
@@ -41,11 +42,12 @@
   </div> 
 
   </div>
- <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>
-  <div v-bind:class="[greaterThan800 ? 'productcontainerrow' : 'productcontainercol']">
-        <div v-bind:class="[greaterThan800 ? 'imageboxrow' : 'imageboxcol']" v-for="image in itemimages" v-bind:key="image.productd">
-            <img v-bind:src="image.url" v-bind:alt="image.alt" >
-        </div> 
+  <div class="centreblock"> 
+    <div v-bind:class="[isMobile ? 'productcontainercol' : 'productcontainerrow']">
+          <div v-bind:class="[isMobile ? 'imageboxcol' : 'imageboxrow' ]"  v-for="image in itemimages" v-bind:key="image.productd">
+              <img v-bind:src="image.url" v-bind:alt="image.alt" >
+          </div> 
+    </div> 
    </div> 
 </div>
  
@@ -89,6 +91,21 @@ firebase () {
        products:  db.ref('products').orderByChild("id").equalTo(productid)
     }
 },
+
+ computed: {
+ 
+    isMobile: function()
+    {
+      return !this.greaterThan800 ||
+      (navigator.userAgent.match(/Android/i) ||
+          navigator.userAgent.match(/webOS/i) ||
+          navigator.userAgent.match(/iPhone/i) ||
+          navigator.userAgent.match(/iPad/i) ||
+          navigator.userAgent.match(/iPod/i) ||
+          navigator.userAgent.match(/BlackBerry/i) ||
+          navigator.userAgent.match(/Windows Phone/i)) ;
+    }
+  },
 
 methods: 
 { 

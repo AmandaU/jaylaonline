@@ -49,8 +49,7 @@ methods: {
     bottom:0;
     width:100%;
      height: 5rem;
-    //background-color:rgb(36, 49, 119);
-    position: absolute;
+     position: absolute;
 }
 
 .menuitem{

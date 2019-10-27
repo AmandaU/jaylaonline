@@ -1,14 +1,12 @@
 <template>
   <div class="centralcontainer">
-    <div class="centreblock">
-    <br> <br>
-    
-         <div class="banner">
-             <img  class="frontimage" v-bind:src="imageurl"  alt=""  /> 
-        </div>
+   
+    <div class="banner">
+       <img  class="frontimage" v-bind:src="imageurl"  alt=""  /> 
+    </div>
       
    </div>
-  </div>
+  
 </template>
 
 <script>
