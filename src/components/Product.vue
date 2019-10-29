@@ -1,56 +1,58 @@
 <template>
- <div class="page"> 
+ <div class="pagecontainer"> 
     <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>
-  <div class="navcolumn">
-    <div  v-for="product in products" v-bind:key="product.id">
-            <h1>{{ product.name }}</h1>
-      <!-- <p v-html="splurb"></p> -->
-      <h2>{{ product.description }}</h2>
-   </div>
-
-     <div class="pricebreakblock">
-             <div  v-for="item in items" :key="item['.key'] ">
-              <div class="pricebreakrow">
-            
-                <div class="pricebreakcolumn1">
-                   <strong>Size {{item.size}},  R{{item.price}} each </strong>
-                  <small>{{ total(item) }}</small>
-                </div>
-
-                <div  class="pricebreakcolumn2">
-                     <div v-show="!isAvailable(item)" class="pricebreakdetailitem">SOLD OUT !! </div>
-                
-                     <div v-show="isAvailable(item)" class="pricebreaknumberrow" >
-
-                        <div  class="ticketselection ">
-                          <div  v-show="item.number> 0" class="pricebreakdetailitem"> {{item.selected}}</div>
-                        </div>  
-                        <br>
-
-                        <div  class="pricebreakbuttonbox">
-                          <img src="../assets/plus.jpg"  alt="plus"  @click="itemsSelected(item,true)" class="pricebreakimage"/>
-                          <img v-show="item.selected > 0" src="../assets/minus.png"  alt="minus"  @click="itemsSelected(item, false)" class="pricebreakimage"/><br>
-                        </div>   
+  <!-- <div class="container"> -->
+    <div class="pricecolumn">
+          <div  v-for="product in products" v-bind:key="product.id">
+                  <h1>{{ product.name }}</h1>
+            <!-- <p v-html="splurb"></p> -->
+                 <h2>{{ product.description }}</h2>
+         
+            <!-- <div class="priceblock">
+               <div  v-for="item in items" :key="item['.key'] ">
+                    <div class="itemrow">
                   
+                        <div class="itemcolumn1">
+                          <strong>Size {{item.size}},  R{{item.price}} each </strong>
+                          <small>{{ total(item) }}</small>
+                        </div>  
+    
+                        <div  class="itemcolumn2">
+                            <div v-show="!isAvailable(item)" class="itemdetail">SOLD OUT !! </div>
+                        
+                            <div v-show="isAvailable(item)" class="numberrow" >
+
+                                <div  class="itemselection ">
+                                  <div  v-show="item.number> 0" class="itemdetail"> {{item.selected}}</div>
+                                </div>  
+                                <br>
+
+                                <div  class="addminusbox">
+                                  <img src="../assets/plus.jpg"  alt="plus"  @click="itemsSelected(item,true)" class="addminusimage"/>
+                                  <img v-visible="item.selected > 0"  src="../assets/minus.png"  alt="minus"  @click="itemsSelected(item, false)" class="addminusimage"/><br>
+                                </div>   
+                          
+                            </div> 
+                        </div> 
+                      <div class="thinline"></div>  
+
                     </div> 
-                </div>  
+                  </div>
+             </div>  --> 
 
-                 <div class="thinline"></div>  
+            </div> 
 
-              </div> 
-             </div> 
-  </div> 
-
-  </div>
-  <div class="centreblock"> 
-    <div v-bind:class="[isMobile ? 'productcontainercol' : 'productcontainerrow']">
-          <div v-bind:class="[isMobile ? 'imageboxcol' : 'imageboxrow' ]"  v-for="image in itemimages" v-bind:key="image.productd">
-              <img v-bind:src="image.url" v-bind:alt="image.alt" >
-          </div> 
     </div> 
-   </div> 
-</div>
- 
+  
+    <div class="productblock"> 
+          
+           <div  class="imagebox" v-for="image in itemimages" v-bind:key="image.productd">
+                  <img v-bind:src="image.url" v-bind:alt="image.alt" >
+              </div> 
+        </div> 
+
+   
+  </div> 
 </template>
 
 <script>
@@ -58,6 +60,9 @@ import firebase from '../firebase-config';
 import {  db } from '../firebase-config';
 let productsRef = db.ref('products');
 //let itemsRef = deb.ref('items');
+
+
+
 export default {
   name: 'product',
 
@@ -67,11 +72,12 @@ export default {
 
   data() {
     return {
-      greaterThan800: window.innerWidth > 800,
+      greaterThan600: window.innerWidth > 600,
       busy: false,
       items: [],
       itemimages: [],
-      product: {}
+      product: {},
+      isMobile: false
     }
   },
 
@@ -94,16 +100,15 @@ firebase () {
 
  computed: {
  
-    isMobile: function()
+    isMobileDevice: function()
     {
-      return !this.greaterThan800 ||
-      (navigator.userAgent.match(/Android/i) ||
+      return navigator.userAgent.match(/Android/i) ||
           navigator.userAgent.match(/webOS/i) ||
           navigator.userAgent.match(/iPhone/i) ||
           navigator.userAgent.match(/iPad/i) ||
           navigator.userAgent.match(/iPod/i) ||
           navigator.userAgent.match(/BlackBerry/i) ||
-          navigator.userAgent.match(/Windows Phone/i)) ;
+          navigator.userAgent.match(/Windows Phone/i);
     }
   },
 
@@ -111,10 +116,11 @@ methods:
 { 
   media800Enter(mediaQueryString) {
     this.greaterThan800 = false
-  },
+   },
+   
   media800Leave(mediaQueryString) {
     this.greaterThan800 = true
-  },
+ },
 
   itemsSelected: function( item, add) {
    if(item.number == 0 && !add)return;
@@ -187,7 +193,6 @@ methods:
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/styles/styles.scss";
- 
+  @import "~@/styles/productstyles.scss";
   </style>
 

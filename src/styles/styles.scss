@@ -685,6 +685,7 @@ button {
   height: auto;
   overflow-y: hidden;
 }
+
 .page{
   height:100%;
   width:100%;
@@ -698,8 +699,7 @@ button {
 
 .navcolumn {
  padding-left: 20px;
-  //padding-top: 20px;
-  padding-right: 20px;
+ padding-right: 20px;
   height:100%;
   width:20vw;
 // background:rgb(252, 253, 253);
@@ -1067,7 +1067,7 @@ display: block ;/*for the img inside your div */
 
     .navcolumn {
 
-      padding: 0;
+     //padding: 0;
       height:20%;
       width:100vw;
       float:top;
@@ -1075,8 +1075,6 @@ display: block ;/*for the img inside your div */
       text-align: center;
       top: 0%;
     } 
-    .navcolumn  p {
-      padding :0;
-    }
+    
   }
 }

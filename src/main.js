@@ -9,6 +9,10 @@ Vue.config.productionTip = false;
 let app = ''
 Vue.prototype.$eventHub = new Vue(); 
 
+Vue.directive('visible', function(el, binding) {
+	el.style.visibility = binding.value ? 'visible' : 'hidden'  ;
+});
+
 firebase.auth().onAuthStateChanged(() => {
   if (!app) {
    
