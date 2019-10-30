@@ -1,27 +1,25 @@
 <template>
  <div class="pagecontainer"> 
     <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>
-  <!-- <div class="container"> -->
-    <div class="pricecolumn">
+     <div class="pricecolumn">
           <div  v-for="product in products" v-bind:key="product.id">
-                  <h1>{{ product.name }}</h1>
-            <!-- <p v-html="splurb"></p> -->
+                <h1>{{ product.name }}</h1> 
                  <h2>{{ product.description }}</h2>
-         
-            <!-- <div class="priceblock">
+                 <br><br>
+            <div class="priceblock">
                <div  v-for="item in items" :key="item['.key'] ">
                     <div class="itemrow">
                   
                         <div class="itemcolumn1">
                           <strong>Size {{item.size}},  R{{item.price}} each </strong>
-                          <small>{{ total(item) }}</small>
+                         
                         </div>  
     
                         <div  class="itemcolumn2">
                             <div v-show="!isAvailable(item)" class="itemdetail">SOLD OUT !! </div>
                         
                             <div v-show="isAvailable(item)" class="numberrow" >
-
+                                
                                 <div  class="itemselection ">
                                   <div  v-show="item.number> 0" class="itemdetail"> {{item.selected}}</div>
                                 </div>  
@@ -34,13 +32,13 @@
                           
                             </div> 
                         </div> 
-                      <div class="thinline"></div>  
-
+                  
                     </div> 
+                     <div class="thinline"></div>  
                   </div>
-             </div>  --> 
-
-            </div> 
+               </div>  
+               <button  v-visible="totalItems > 0" @click="goToCheckout" class="buybutton">Go to checkout</button>
+          </div> 
 
     </div> 
   
@@ -109,7 +107,16 @@ firebase () {
           navigator.userAgent.match(/iPod/i) ||
           navigator.userAgent.match(/BlackBerry/i) ||
           navigator.userAgent.match(/Windows Phone/i);
-    }
+    },
+
+     totalItems: function()
+    {
+      var total = 0;
+      this.items.forEach(element => {
+          total += element.selected;
+       });
+      return total ; 
+   },
   },
 
 methods: 
@@ -153,10 +160,22 @@ methods:
      
      },
 
-    // totalTicketValueForPriceBreak: function(pricebreak){
-    //   var value = Number(pricebreak.tickets * pricebreak.price);
-    //   return value == 0? "R 0.00": String('R ' + value + '.00');
-    // },
+    goToCheckout: function() {
+       var filteredData =   this.items.filter(function(pb) {
+            return pb.selected > 0;
+          });
+        this.shoppingcart.pricebreaks = filteredData;
+        const currentUser = firebase.auth().currentUser;
+        localStorage.setItem(this.shoppingcart.reference, JSON.stringify(this.shoppingcart));
+        if (!currentUser)
+        {
+          this.$router.replace({ name: 'Login', params: {shopref: this.shoppingcart.reference}});
+        } 
+        else
+        {
+           this.$router.replace({ name: 'Checkout', query: {shopref: this.shoppingcart.reference}});
+        }
+      },
 
 },
 
