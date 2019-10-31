@@ -24,35 +24,41 @@
  import {  db } from '../firebase-config';
 
 export default {
-  name: 'Navigation',
-data() {
-    return {
-    isLoggedin: false,
-    user: []
-    }
-  },
+name: 'Navigation',
 
-firebase () {
+  data() {
       return {
-       }
+      isLoggedin: false,
+      shoppingCartItems: 0,
+      user: []
+      }
     },
 
- mounted() {
+  firebase () {
+        return {
+        }
+  },
+
+  mounted() {
     let self = this;
     this.$eventHub.$on('loggedin', ()=> {
       self.isLoggedin = true;
     });
 
+     this.$eventHub.$on('shoppingcart', (selectedItems)=> {
+      self.shoppingCartItems = selectedItems;
+    });
+
    var user = firebase.auth().currentUser;
     if(user){
        this.isLoggedin = true;
-      this.$bindAsArray(
-                "users",
-                db.ref('users').orderByChild("uid").equalTo(user.uid).limitToFirst(1),
-                null,
-                () => {
-                  
-                });
+
+      //   this.$rtdbBind('users', itemsRef.orderByChild("uid").equalTo(user.id)).then(users => {
+      //    this.users.forEach((item) => {
+      //        item.itemsselected = 0;
+      //     });
+      //  });
+      
     }
  },
 

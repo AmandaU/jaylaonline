@@ -1,24 +1,23 @@
 <template>
   <div class="signup" >
     <div class="centralcontainer" >
-      <div class="centreblock">
-          <cube-spin v-if="busy"></cube-spin>
+          <!-- <cube-spin v-if="busy"></cube-spin> -->
           <div class="infoblock">
-          <p>Let's create a new account !</p>
-          <input type="text" v-model="newUser.firstname" placeholder="First name" class="infoblockitem"><br>
-          <input type="text" v-model="newUser.surname" placeholder="Surname" class="infoblockitem"><br>
-          <input type="text" v-model="newUser.email" placeholder="Email" class="infoblockitem"><br>
-          <input type="password" v-model="newUser.password" placeholder="Password" class="infoblockitem"><br>
-          <vue-tel-input class="tel"  v-model="newUser.cellphone"
-                        @onInput="onInput"
-                        :preferredCountries="['za']">
-          </vue-tel-input><br>
-          <button @click="signUp" class="infoblockitem">Sign Up</button>
-          <p>or go back to <span @click="goBackToLogin()" style="color:blue;cursor:pointer">login</span></p>
-        </div>
-     </div>
-   </div>
+            <p>Let's create a new account !</p>
+            <input type="text" v-model="newUser.firstname" placeholder="First name" class="infoblockitem"><br>
+            <input type="text" v-model="newUser.surname" placeholder="Surname" class="infoblockitem"><br>
+            <input type="text" v-model="newUser.email" placeholder="Email" class="infoblockitem"><br>
+            <input type="password" v-model="newUser.password" placeholder="Password" class="infoblockitem"><br>
+            <vue-tel-input class="tel"  v-model="newUser.cellphone"
+                          @onInput="onInput"
+                          :preferredCountries="['za']">
+            </vue-tel-input><br>
+            <button @click="signUp" class="infoblockitem">Sign Up</button>
+            <p>or go back to <span @click="goBackToLogin()" style="color:blue;cursor:pointer">login</span></p>
+          </div>
+    </div>
   </div>
+  
 </template>
 
  <script>
@@ -30,34 +29,39 @@
    let myUsersRef = db.ref('users')
 
  export default {
-    name: 'signup',
-    components: {
-      //CubeSpin
-    },
-    props: {
-       cartref: '',
-    },
-    data() {
+  name: 'signup',
+  
+  components: {
+    //CubeSpin
+  },
+
+  props: {
+    cartref: String,
+  },
+
+  data() {
+    return {
+      busy: false,
+      newUser: {
+        uid: '',
+        firstname: '',
+        surname: '',
+        email: '',
+        password: '',
+        cellphone: '',
+        isAdmin: false,  
+      }
+    }
+  },
+
+  firebase () {
       return {
-        busy: false,
-        newUser: {
-          uid: '',
-          firstname: '',
-          surname: '',
-          email: '',
-          password: '',
-          cellphone: '',
-          isAdmin: false,  
-        }
+        myusers: myUsersRef    
       }
     },
 
-   firebase () {
-        return {
-          myusers: myUsersRef    
-        }
-      },
 created() {
+  debugger
     if(localStorage.getItem(this.$props.cartref))
     {
         this.shoppingcart = JSON.parse(localStorage.getItem(this.$props.cartref));
@@ -109,21 +113,21 @@ methods: {
   
     firebase.auth().createUserWithEmailAndPassword(this.newUser.email, this.newUser.password).then(
       (user) => {
+        let uid = user.user.uid;
           alert('Your account has been created')
-           this.$eventHub.$emit('loggedin', '');
-            self.$eventHub.$emit('isAdmin', false);
-            if(self.$props.shoppingcart)
+            self.$eventHub.$emit('loggedin', '');
+             if(self.$props.cartref)
             {
               self.$props.shoppingcart.userid = uid;
               localStorage.setItem(self.shoppingcart.reference, JSON.stringify(self.shoppingcart));
-              self.$router.replace({ name: 'Checkout', params: {shoppingcart: self.$props.shoppingcart}});
+              self.$router.replace({ name: 'Checkout', params: {cartref: self.$props.cartref}});
               self.busy = false;
             }
-            else if(self.$props.eventid)
-            {
-              self.$router.replace({ name: 'Event', params: {eventid: self.$props.shoppingcart}});
+            // else if(self.$props.eventid)
+            // {
+            //   self.$router.replace({ name: 'Event', params: {eventid: self.$props.shoppingcart}});
               
-            }
+            // }
             else
             {
               self.$router.replace({ name: 'Home'});
