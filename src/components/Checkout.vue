@@ -1,59 +1,80 @@
 <template>
-      <div class="centralcontainer">
-       <div class="centreblock">
-            <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media> 
+
+  <div class="centralcontainer">
+    <div class="checkoutblock" >
+      <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media> 
+      <div class="infoblock"  >
+          <!-- <cube-spin v-if="!isready"></cube-spin> -->
+              <h1 >Check out:</h1>
+              <h2>R {{ purchasevalue }}</h2>
             
-            <!-- <cube-spin v-if="!isready"></cube-spin> -->
-            <h1>Check out:</h1>
-            <!-- <h2>{{ shoppingcart.event.name }}</h2> -->
-            <h2>R {{ purchasevalue }}</h2>
-            <!-- <div class="infoblock">
-              <strong v-show="!invalidpromo">{{promoText}}</strong>
-              <strong v-show="invalidpromo"><font color="red">Your promo code is not quite right yet...</font></strong>
-              <input  type="text" v-model="promocode" placeholder="Promo code" class="infoblockitem"><br>
-          </div> -->
-
-          <div class="infoblock"  >
-              <strong >Each ticket will be emailed. You may change the name and email address to that of the person who will be using the ticket at the event</strong>
+              <strong >Thank you for buying RudeBoyz kit.</strong>
               <br>
+
+
+            <div class="shoppingcartblock">
+             <div class="checkoutblock">
+              <h2>Checkout</h2>
+
               <div  v-for="item in shoppingcart.items" :key="item['.key'] ">
-                 <div class="infoblockinner">
-                  <small > {{item.productname}} size {{item.size}}</small>
-                 </div>
-                  <!-- <div  v-for="ticketHolder in pricebreak.ticketHolders" :key="ticketHolder['.key'] ">
-                    <div class="ticketHolderBlock">
-                      <input type="text" v-model="ticketHolder.name" :placeholder="userName" class="ticketHolderItem"><br>
-                      <input type="text" v-model="ticketHolder.email" :placeholder="buyer.email" class="ticketHolderItem"><br>
-                    </div>
-                  </div> -->
+                <div  class="checkoutrow ">
                 
-             </div>
+                  <div  class="checkouttickets ">
+                    <small>{{item.productname}}: {{item.selected}}</small>
+                  </div>
+
+                  <div  class="checkouttickettotal ">
+                    <small>{{totalValueForItem(item)}}</small>
+                  </div> 
+
+                </div>  
+              </div>
               <br>
-          </div>
 
-        <!-- <creditcard  @eventname="updateparent"></creditcard> -->
-        <!-- <button v-show="isready" @click="saveTicketLocal()" >Buy</button><br>
-        <br> -->
-     <div class="payColumn">
-      <div class="payfastRow">
-          <img src="../assets/PaymentMethods.png"  alt="Payment Methods"   style="margin: 10px;"/>  
+                <div  class="checkoutrow ">
+                    <div  class="checkouttickets "/>
+                    <div  class="checkouttickettotal "> 
+                      <div class="thinline"></div>  
+                    </div> 
+                </div> 
 
-            <br> <br>
-            <a v-show="isready" @click="saveTicket()"  v-bind:href="payFastUrl"><img src="https://www.payfast.co.za/images/buttons/dark-large-paynow.png"  style="margin: 10px; width: 174 ; height: 59" alt="Pay" title="Pay Now with PayFast" /></a>
+                <div  class="checkoutrow ">
+                  <div  class="checkouttickets ">
+                      <small>Total: {{shoppingcart.totalitems}}</small>
+                  </div>
+
+                  <div  class="checkouttickettotal "> 
+                    <small>{{total}}</small>
+                  </div>
+                </div> 
               
-      </div>
-    </div>
+              </div>  
+          </div> 
+
            <br>
+      </div>
+
+      <div class="payColumn">
+        <div class="payfastRow">
+            <img src="../assets/PaymentMethods.png"  alt="Payment Methods"   style="margin: 10px;"/>  
+
+              <br> <br>
+              <a v-show="isready" @click="saveTicket()"  v-bind:href="payFastUrl"><img src="https://www.payfast.co.za/images/buttons/dark-large-paynow.png"  style="margin: 10px; width: 174 ; height: 59" alt="Pay" title="Pay Now with PayFast" /></a>
+                
+        </div>
+
+         <br>
           <div id="Zapper" ></div>
-       </div>
-   </div>
- 
+      </div>
+          
+  </div>
+ </div>
 </template>
 
 <script>
 
 import Media from 'vue-media'
-import CubeSpin from 'vue-loading-spinner/src/components/ScaleOut'
+//import CubeSpin from 'vue-loading-spinner/src/components/ScaleOut'
 import firebase from '../firebase-config';
 import {zapperConfig} from '../config';
 import {  db } from '../firebase-config';
@@ -69,9 +90,6 @@ export default {
       Media
     },
 
-  //  props: {
-  //      cartref: '',
-  //  },
 
   data() {
       return {
@@ -89,35 +107,6 @@ export default {
       }
     },
 
-//  firebase () {
-//      var shopref = this.$props.cartref;
-//       var index = window.location.hash.indexOf("=");
-//       if(index >= 0)
-//       {
-//          shopref =  window.location.hash.substring(index+1,window.location.hash.length) ;
-//       }
-//       debugger
-//      if(localStorage.getItem(shopref))
-//      {
-//         this.shoppingcart = JSON.parse(localStorage.getItem(shopref));
-//       }
-//       let userid =  this.shoppingcart.userid;
-   
-//     return {
-      
-//        users: {
-//         source: db.ref('users').orderByChild("uid").equalTo(userid).limitToFirst(1),
-//         // asObject: true,
-//           readyCallback: () =>   
-//           {
-//             this.buyer = this.users[0];
-//             this.isready = true;
-//         },
-//         }
-//       }
-//   },
-
-
   beforeDestroy: function () {
     window.removeEventListener('resize', this.handleWindowResize)
   },
@@ -128,7 +117,6 @@ export default {
   },
 
   created() {
-    debugger
     let self = this
     let cartref = 'jaylashop'
      if(localStorage.getItem(cartref))
@@ -154,10 +142,6 @@ export default {
 
   computed: {
  
-    userName: function () {
-     return this.buyer? this.buyer.firstname + ' ' + this.buyer.surname: "";
-    },
-
     isMobile: function()
     {
         return navigator.userAgent.match(/Android/i) ||
@@ -177,9 +161,10 @@ export default {
       });
      return theTotal;
     },
+
     // a computed getter
     payFastUrl: function () {
-        const url =  'https://sandbox.payfast.co.za/eng/process?cmd=_paynow&receiver=10011455&item_name=' + this.shoppingcart.event.name 
+        const url =  'https://sandbox.payfast.co.za/eng/process?cmd=_paynow&receiver=10011455&item_name=' + 'JadeAyla Online Shopping'
         + '&item_description=tickets&amount=' + this.purchasevalue + '.00' 
         + '&return_url=https%3A%2F%2Fjayla-tickets.firebaseapp.com%2F%23%2FSuccess%2F%3Fticketref%3D' + this.shoppingcart.reference ; 
         + '&cancel_url=https%3A%2F%2Fjayla-tickets.firebaseapp.com%2F%23%2FCheckout%2F%3Fticketref%3D' + this.shoppingcart.reference ; 
@@ -199,6 +184,12 @@ export default {
   },
 
   methods: {
+
+
+    totalValueForItem: function(item){
+      var value = Number(item.selected * item.price);
+      return value == 0? "R 0.00": String('R ' + value + '.00');
+    },
 
     loadZapperV2()
     {
@@ -243,7 +234,6 @@ export default {
 
     loadZapperScript()
     {
-      debugger
       let self = this;
      this.$loadScript("https://code.zapper.com/zapper.js")
       .then(() => {
@@ -257,12 +247,7 @@ export default {
             self.saveTicket(self); 
              self.$router.replace({ name: 'Success', query: {ticketref: self.shoppingcart.reference}});
           }
-          // else
-          // {
-          //   self.shoppingcart.zapperPaymentId = paymentResult.paymentId;
-          //   localStorage.setItem(self.shoppingcart.reference, JSON.stringify(self.shoppingcart));
-          //   self.$router.replace({ name: 'Cancel', params: {ticketref: self.shoppingcart.reference}});
-          // }
+         
           });
       })
       .catch(() => {
@@ -320,5 +305,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/styles/styles.scss";
+  @import "~@/styles/checkoutstyles.scss";
   </style>

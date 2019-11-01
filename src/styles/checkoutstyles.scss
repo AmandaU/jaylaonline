@@ -1,0 +1,126 @@
+.centralcontainer {
+    // background-color:rgb(147, 253, 40);
+    max-width: 100vw;
+    min-height:80vh;
+    height: 100%;
+    width:100%;
+    float:right;
+   // overflow-y: auto;
+    display: flex;
+     overflow-y:scroll;
+    padding-bottom: 5rem;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+  }
+
+.checkoutblock {
+    position: relative;
+    //background-color:rgb(122, 231, 13);
+    width:100%;
+   // min-width: 25%;
+    max-width: 500px;
+    height: auto;
+    display: flex;
+    flex-direction:column; /* column | row  */
+    overflow-x: hidden;
+    overflow-y: hidden;
+    vertical-align: top; 
+    align-items: right;
+    justify-content: right;
+    border: 1px solid rgb(225, 225, 226);
+    border-radius: 5px;
+    margin: 0, auto; 
+    padding:10px;
+  
+  }
+
+  .checkoutrow{
+    //background-color:white;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin: 0, auto;
+    padding: 5px;
+  }
+  
+  .checkouttickets{
+    flex: 0.6;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    height: 100%;
+    flex-direction: flex;
+    align-items: left;
+    text-align: left; 
+    justify-content: left;
+    vertical-align: middle;
+  }
+  
+  .checkouttickettotal{
+    flex: 0.4;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+     height: 100%;
+    flex-direction: flex;
+    align-items: right;
+    text-align: right; 
+    justify-content: right;
+    vertical-align: middle;
+  }
+  
+  
+.buybutton{
+    display: grid;
+    place-items: center;
+    margin: 20px;
+    cursor: pointer;
+    height: 40px;
+    color:rgb(57, 105, 138);
+    border: 1px solid rgb(57, 105, 138);
+    border-radius: 5px;
+  }
+
+.infoblock {
+ 
+    display: block;
+    text-align: center;
+    width: 400px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+
+.payColumn{
+    display: grid;
+    place-items: center;
+    //height: 100%;
+    padding:5px;
+    border: 1px solid rgb(225, 225, 226);
+    border-radius: 5px;
+  }
+  
+  .payfastRow{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 0, auto;
+    padding: 5px;
+  }
+
+  @media all and (max-width: 800px) {
+
+     .infoblock {
+      width: 400px;
+      }
+    }
+
+    @media all and (max-width: 600px) {
+
+     .infoblock {
+        width: 100%;
+     }
+    }

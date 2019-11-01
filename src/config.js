@@ -16,6 +16,7 @@ export const zapperConfig = {
   siteId: 47945,
   signature: '6022E2B22B3E5AC703B8A43480187179196DE6FEE22459AC2FF2500389C7BB37',
 };
+
 export const googleMapApi = {
   key: 'AIzaSyDsxTsf_KCxsgiJC4dQpQlsM9gf7cvy5aE',
 };
