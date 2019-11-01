@@ -22,11 +22,11 @@
 
  <script>
 
-   //import CubeSpin from 'vue-loading-spinner/src/components/ScaleOut'
-   import firebase from '../firebase-config';
-   import {  db } from '../firebase-config';
-  
-   let myUsersRef = db.ref('users')
+  //import CubeSpin from 'vue-loading-spinner/src/components/ScaleOut'
+  import firebase from '../firebase-config';
+  import {  db } from '../firebase-config';
+
+  let myUsersRef = db.ref('users')
 
  export default {
   name: 'signup',
@@ -36,7 +36,7 @@
   },
 
   props: {
-    cartref: String,
+    goToCheckout: Boolean,
   },
 
   data() {
@@ -49,42 +49,42 @@
         email: '',
         password: '',
         cellphone: '',
+        addressline1: '',
+        addressline2: '',
+        suburb: '',
+        city: '',
+        province: '',
+        country: '',
         isAdmin: false,  
       }
     }
   },
 
   firebase () {
-      return {
-        myusers: myUsersRef    
-      }
-    },
-
-created() {
-  debugger
-    if(localStorage.getItem(this.$props.cartref))
-    {
-        this.shoppingcart = JSON.parse(localStorage.getItem(this.$props.cartref));
+    return {
+      myusers: myUsersRef    
     }
-    // let img = this.shoppingcart? this.shoppingcart.event.imageurl:'';
-    // this.$eventHub.$emit('eventimageurl', img);
-    },
-
+  },
+ 
 methods: {
       
   goBackToLogin ()
   {
-    this.$router.replace({ name: 'Login', params: {cartref: this.$props.shoppingcart.reference}});
+     if(this.$props.goToCheckout)
+      {
+        this.$router.replace({ name: 'Login', params: {goToCheckout: true}});
+      } else {
+        this.$router.replace({ name: 'Login'});
+      }
   },
 
   logout: function() {
     firebase.auth().signOut().then(() => {
-    this.$router.replace('login')
+    this.$router.replace('Login')
   })
   },
 
   insert(uid){
-    
     this.newUser.uid = uid;
     myUsersRef.push(this.newUser);
     this.newUser.firstname = '',
@@ -93,7 +93,6 @@ methods: {
     this.newUser.cellphone = '',
     this.newUser.uid = '',
     this.newUser.isAdmin = false,
-    this.newUser.isPromoter = false;
     this.busy = false;
     alert("Succeessfully added")
   },
@@ -114,24 +113,23 @@ methods: {
     firebase.auth().createUserWithEmailAndPassword(this.newUser.email, this.newUser.password).then(
       (user) => {
         let uid = user.user.uid;
-          alert('Your account has been created')
-            self.$eventHub.$emit('loggedin', '');
-             if(self.$props.cartref)
-            {
-              self.$props.shoppingcart.userid = uid;
-              localStorage.setItem(self.shoppingcart.reference, JSON.stringify(self.shoppingcart));
-              self.$router.replace({ name: 'Checkout', params: {cartref: self.$props.cartref}});
-              self.busy = false;
-            }
-            // else if(self.$props.eventid)
-            // {
-            //   self.$router.replace({ name: 'Event', params: {eventid: self.$props.shoppingcart}});
-              
-            // }
-            else
-            {
-              self.$router.replace({ name: 'Home'});
-            }
+        self.insert(uid)
+        alert('Your account has been created')
+        self.$eventHub.$emit('loggedin', '');
+        if(self.$props.goToCheckout)
+        {
+          self.$router.replace({ name: 'Checkout'});
+          self.busy = false;
+        }
+        // else if(self.$props.eventid)
+        // {
+        //   self.$router.replace({ name: 'Event', params: {eventid: self.$props.shoppingcart}});
+          
+        // }
+        else
+        {
+          self.$router.replace({ name: 'Home'});
+        }
             
       },
       (err) => {

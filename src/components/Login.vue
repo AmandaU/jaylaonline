@@ -20,7 +20,7 @@
   import firebase from '../firebase-config';
   import {  db } from '../firebase-config';
   //import CubeSpin from 'vue-loading-spinner/src/components/ScaleOut'
- 
+
  export default {
   name: 'login',
 
@@ -29,29 +29,25 @@
          busy: true,
         email: "",
         password: "",
-        users: []
+        users: [],
+        shoppingcart: {}
       }
     },
 
   props: {
-    cartref: String,
-  },
-
-  created() {
-    debugger
-    if(localStorage.getItem(this.$props.cartref))
-    {
-      this.shoppingcart = JSON.parse(localStorage.getItem(this.$props.cartref));
-    }
-    // let img = this.shoppingcart? this.shoppingcart.event? this.shoppingcart.event.imageurl:'' : '';
-    // this.$eventHub.$emit('eventimageurl', img);
-  },
-   
+    goToCheckout: Boolean,
+   },
+ 
   methods: {
 
     goToSignup ()
     {
-        this.$router.replace({ name: 'Signup', params: {cartref: this.shoppingcart.reference}});
+      if(this.$props.cartref)
+      {
+        this.$router.replace({ name: 'Signup', params: {goToCheckout: true}});
+      } else {
+        this.$router.replace({ name: 'Signup'});
+      }
     },
     
     login: function() {
@@ -63,28 +59,42 @@
           let uid = user.user.uid;
           alert('Successful login');
           self.$eventHub.$emit('loggedin', '');
-          self.$bindAsArray(
-                  "users",
-                 db.ref('users').orderByChild("uid").equalTo(uid).limitToFirst(1),
-                  null,
-                  () => {
-                    if(self.shoppingcart)
-                    {
-                      self.shoppingcart.userid = uid;
-                      localStorage.setItem(self.shoppingcart.reference, JSON.stringify(self.shoppingcart));
-                      self.$router.replace({ name: 'Checkout', query: {cartref: self.$props.cartref}});
-                      self.busy = false;
-                    }
-                    // else if(self.$props.cartref)
-                    // {
-                    //   self.$router.replace({ name: 'Event', params: {cartref: self.shoppingcart}});
-                    // }
-                    else
-                    {
-                      self.$router.replace({ name: 'Home'});
-                    }
-                  }
-                );
+          if(self.$props.goToCheckout)
+          {
+            self.$router.replace({ name: 'Checkout'});
+            self.busy = false;
+          }
+          // else if(self.$props.cartref)
+          // {
+          //   self.$router.replace({ name: 'Event', params: {cartref: self.shoppingcart}});
+          // }
+          else
+          {
+            self.$router.replace({ name: 'Home'});
+          }
+        
+          // self.$bindAsArray(
+          //         "users",
+          //        db.ref('users').orderByChild("uid").equalTo(uid).limitToFirst(1),
+          //         null,
+          //         () => {
+          //           if(self.shoppingcart)
+          //           {
+          //             self.shoppingcart.userid = uid;
+          //             localStorage.setItem(self.shoppingcart.reference, JSON.stringify(self.shoppingcart));
+          //             self.$router.replace({ name: 'Checkout', query: {cartref: self.$props.cartref}});
+          //             self.busy = false;
+          //           }
+          //           // else if(self.$props.cartref)
+          //           // {
+          //           //   self.$router.replace({ name: 'Event', params: {cartref: self.shoppingcart}});
+          //           // }
+          //           else
+          //           {
+          //             self.$router.replace({ name: 'Home'});
+          //           }
+          //         }
+          //       );
            
         },
         (err) => {

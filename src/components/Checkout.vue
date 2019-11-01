@@ -3,7 +3,7 @@
        <div class="centreblock">
             <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media> 
             
-            <cube-spin v-if="!isready"></cube-spin>
+            <!-- <cube-spin v-if="!isready"></cube-spin> -->
             <h1>Check out:</h1>
             <!-- <h2>{{ shoppingcart.event.name }}</h2> -->
             <h2>R {{ purchasevalue }}</h2>
@@ -52,161 +52,108 @@
 
 <script>
 
-  import Media from 'vue-media'
-  import CubeSpin from 'vue-loading-spinner/src/components/ScaleOut'
-  import firebase from '../firebase-config';
-  import {zapperConfig} from '../config';
-  import {  db } from '../firebase-config';
-  import md5 from "js-md5";
-  import qs from "qs";
-  
-  
+import Media from 'vue-media'
+import CubeSpin from 'vue-loading-spinner/src/components/ScaleOut'
+import firebase from '../firebase-config';
+import {zapperConfig} from '../config';
+import {  db } from '../firebase-config';
+import md5 from "js-md5";
+import qs from "qs";
+
+let usersRef = db.ref('users');
+
 export default {
   name: 'checkout',
   components: {
-      CubeSpin,
+      // CubeSpin,
       Media
     },
 
-   props: {
-       cartref: '',
-   },
+  //  props: {
+  //      cartref: '',
+  //  },
 
   data() {
       return {
         zapperConfig: zapperConfig,
         merchantId: zapperConfig.merchantId,
         siteId: zapperConfig.siteId,
-         purchasevalue: "",
-       
+        purchasevalue: "",
         isready: false,
-        buyer: {
-          name: "",
-          email:""
-        },
-         merchantID: '10011455',//'12581557',
+        user: {},
+        merchantID: '10011455',//'12581557',
         merchantKey: 'ztdbyg14s7nyd',//'49qsjtvgayqaw',//
         greaterThan800: window.innerWidth > 800,
         zapperKey: 0,
-         shoppingcart: {
-          email: "",
-          name: "",
-          userid:  "",
-          reference: "",
-          totalPaid: 0,
-          number: "0",
-          items: [{
-            item:{
-              productid: "",
-              selected: 0,
-              price: "",
-             }}],
-          zapperPaymentMethod: false,
-          zapperPaymentId: 0,
-          zapperReference: ""
-         }
+         shoppingcart: {},
       }
     },
 
- firebase () {
-     var shopref = 'jaylashop';
-      // var index = window.location.hash.indexOf("=");
-      // if(index >= 0)
-      // {
-      //    shopref =  window.location.hash.substring(index+1,window.location.hash.length) ;
-      // }
-      debugger
-     if(localStorage.getItem(shopref))
-     {
-        this.shoppingcart = JSON.parse(localStorage.getItem(shopref));
-      }
-      let userid =  this.shoppingcart.userid;
+//  firebase () {
+//      var shopref = this.$props.cartref;
+//       var index = window.location.hash.indexOf("=");
+//       if(index >= 0)
+//       {
+//          shopref =  window.location.hash.substring(index+1,window.location.hash.length) ;
+//       }
+//       debugger
+//      if(localStorage.getItem(shopref))
+//      {
+//         this.shoppingcart = JSON.parse(localStorage.getItem(shopref));
+//       }
+//       let userid =  this.shoppingcart.userid;
    
-    return {
+//     return {
       
-       users: {
-        source: db.ref('users').orderByChild("uid").equalTo(userid).limitToFirst(1),
-        // asObject: true,
-          readyCallback: () =>   
-          {
-            this.buyer = this.users[0];
-            this.isready = true;
-        },
-        }
-      }
-  },
+//        users: {
+//         source: db.ref('users').orderByChild("uid").equalTo(userid).limitToFirst(1),
+//         // asObject: true,
+//           readyCallback: () =>   
+//           {
+//             this.buyer = this.users[0];
+//             this.isready = true;
+//         },
+//         }
+//       }
+//   },
 
- mounted() {
-    window.addEventListener('resize', this.handleWindowResize);
-    console.log('App mounted!');
-},
-
-created() {
-     
-     this.purchasevalue = this.total;  
-     this.loadZapperScript();
-    // this.loadZapperV2();
-    },
-
-watch: {
-    promocode: function (val) {
-  
-      var foundpromo = false;
-      if(val == "")
-      {
-        this.invalidpromo = false;
-        return;
-      }
-      
-      //  this.promotions.forEach(p => {
-      //   if(foundpromo) return;
-      //     if(p.code.toLowerCase() == val.toLowerCase())
-      //     {
-      //       foundpromo = true;
-      //      this.invalidpromo = false;
-      //       if(p.redeemed >= p.number)
-      //       {
-      //         this.promocode = "Promotion closed"
-      //       }
-      //       else
-      //       {
-      //         this.promocode = p.code;
-      //         this.shoppingcart.promocode = p.code;
-      //         this.shoppingcart.promotionvalue = p.value;
-      //         this.purchasevalue =  String(this.total - p.value);
-      //         if(!this.haspromo)  this.loadZapperScript();
-      //       //    paymentWidget.update({
-      //       //     amount: this.purchasevalue
-      //       // })
-      //         this.haspromo = true;
-      //       }
-      //     }
-          
-      //   });
-        // if(!foundpromo) 
-        //   {
-        //     this.invalidpromo = true;
-            
-        //     this.shoppingcart.promocode = "";
-        //     this.shoppingcart.promotionvalue = 0;
-        //     this.purchasevalue = String(this.total);
-        //     if(this.haspromo)  this.loadZapperScript();
-        //     // paymentWidget.update({
-        //     //     amount: this.purchasevalue
-        //     // })
-        //     this.haspromo = false;
-        //   }
-
-      },
-   },
 
   beforeDestroy: function () {
-  window.removeEventListener('resize', this.handleWindowResize)
-},
+    window.removeEventListener('resize', this.handleWindowResize)
+  },
+
+  mounted() {
+    window.addEventListener('resize', this.handleWindowResize);
+    console.log('App mounted!');
+  },
+
+  created() {
+    debugger
+    let self = this
+    let cartref = 'jaylashop'
+     if(localStorage.getItem(cartref))
+     {
+        this.shoppingcart = JSON.parse(localStorage.getItem(cartref));
+    }
+
+    const currentUser = firebase.auth().currentUser;
+    this.$rtdbBind('users', usersRef.orderByChild("uid").equalTo(currentUser.uid).limitToFirst(1)).then(users => {
+      for(var key in users.val()){
+          console.log("snapshot.val" + users.val()[key]);
+        self.user = users.val()[key];
+      }
+    });
+
+    this.purchasevalue = this.total;  
+    this.loadZapperScript();
+    // this.loadZapperV2();
+  },
+
+  watch: {
+  },
 
   computed: {
  
-
     userName: function () {
      return this.buyer? this.buyer.firstname + ' ' + this.buyer.surname: "";
     },
@@ -255,14 +202,14 @@ watch: {
 
     loadZapperV2()
     {
-        const paymentWidget = new zapper.payments.PaymentWidget(
-        "Zapper",
-        {
-            merchantId: 39547,
-            siteId: 47945,
-            amount: 10.50,
-            reference: "JA12345" 
-        })
+        // const paymentWidget = new zapper.payments.PaymentWidget(
+        // "Zapper",
+        // {
+        //     merchantId: 39547,
+        //     siteId: 47945,
+        //     amount: 10.50,
+        //     reference: "JA12345" 
+        // })
 
         //  const paymentWidget = new zapper.payments.PaymentWidget(
         // "Zapper",
@@ -296,6 +243,7 @@ watch: {
 
     loadZapperScript()
     {
+      debugger
       let self = this;
      this.$loadScript("https://code.zapper.com/zapper.js")
       .then(() => {
@@ -361,9 +309,9 @@ watch: {
       // let key = this.shoppingcart.pricebreak['.key'];
       // let totalreserved  = Number(this.shoppingcart.pricebreak.reserved) + Number(this.shoppingcart.pricebreak.tickets);
       // this.$firebaseRefs.pricebreaks.child(key).child('reserved').set(totalreserved);
-       localStorage.setItem(this.shoppingcart.reference, JSON.stringify(this.shoppingcart));
+      localStorage.setItem(this.shoppingcart.reference, JSON.stringify(this.shoppingcart));
       //test
-      this.$router.replace({ name: 'Success', params: {ticketid: String(this.$props.shoppingcart.reference)}});
+      this.$router.replace({ name: 'Success', params: {cartref: String(this.$props.cartref)}});
     },
 
   }

@@ -6,22 +6,21 @@ import firebase from 'firebase';
 import Vue from 'vue';
 import Router from 'vue-router';
 //import VueFire from 'vuefire';
-//import LoadScript from 'vue-plugin-load-script';
+import LoadScript from 'vue-plugin-load-script';
 import Home from './components/Home.vue';
 import Login from './components/Login.vue';
 import Signup from './components/SignUp.vue';
 import About from './components/About.vue';
 //import Event from './components/Event.vue';
 import Contact from './components/Contact.vue';
-// import Checkout from './components/Checkout.vue';
+ import Checkout from './components/Checkout.vue';
 // import Success from './components/Success.vue';
 // import Cancel from './components/Cancel.vue';
 // import Promoter from './components/Promoter.vue';
 // import ManageEvent from './components/ManageEvent.vue';
-// import ScanQR from './components/ScanQR.vue';
+import Shipping from './components/Shipping.vue';
 import Shop from './components/Shop.vue';
 import Product from './components/Product.vue';
-
 
 import { rtdbPlugin } from 'vuefire'
 
@@ -36,7 +35,7 @@ import { rtdbPlugin } from 'vuefire'
 // }
 
 Vue.use(rtdbPlugin)
-
+Vue.use(LoadScript)
 
 
 //Vue.use(LoadScript);
@@ -97,19 +96,27 @@ const router = new Router({
     //   name: 'Event',
     //   component: Event,
     // },
-    // {
-    //   // path: '/checkout/:ticketref',
-    //   path: '/checkout',
-    //   name: 'Checkout',
-    //   component: Checkout,
-    //   meta: {
-    //     requiresAuth: true,
-    //   },
-    //   props: true,
-    //   props: route => ({
-    //     ticketref: route.query.ticketref,
-    //   }),
-    // },
+    {
+      path: '/checkout',
+      name: 'Checkout',
+      component: Checkout,
+      meta: {
+        requiresAuth: true,
+      },
+      props: true,
+      // props: route => ({
+      //   ticketref: route.query.ticketref,
+      // }),
+    },
+    {
+      path: '/shipping',
+      name: 'Shipping',
+      component: Shipping,
+      meta: {
+        requiresAuth: true,
+      },
+     // props: true,
+     },
     // {
     //   path: '/success',
     //   name: 'Success',

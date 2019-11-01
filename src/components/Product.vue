@@ -81,7 +81,7 @@ export default {
       itemimages: [],
       product: {},
       isMobile: false,
-      shoppingcart: {},
+      shoppingcart: null,
       products:[]
     }
   },
@@ -102,6 +102,24 @@ firebase () {
      // products:  db.ref('products').orderByChild("id").equalTo(productid).limitToFirst(0)
     }
 },
+
+  mounted() {
+      this.initialiseShoppingCart();
+  },
+
+  created () {
+    const pid = this.$props.productid;
+    let self = this
+    this.$rtdbBind('products', productsRef.orderByChild("id").equalTo(pid).limitToFirst(1)).then(products => {
+      for(var key in products.val()){
+          console.log("snapshot.val" + products.val()[key]);
+        self.product = products.val()[key];
+      }
+    });
+    // this.$eventHub.$on('shoppingcart', (shoppingcart)=> {
+    //     self.shoppingcart = shoppingcart
+    // });
+  },
 
  computed: {
  
@@ -137,8 +155,7 @@ methods:
  },
 
   itemsSelected: function( item, add) {
-    debugger
-   if(item.number == 0 && !add)return;
+    if(item.number == 0 && !add)return;
     if(item.selected > item.number)
     {
       alert("no more items");
@@ -152,23 +169,23 @@ methods:
 
      if(add ){
        item.selected += 1
-       this.shoppingcart.totalItems +=1
+       this.shoppingcart.totalitems +=1
 
         if(existingitem) {
           existingitem.selected = item.selected
         } else {
           existingitem = item
           existingitem.productname = this.product.name
-          this.shoppingcart.items.add(existingitem)
+          this.shoppingcart.items.push(existingitem)
         }
      }
      else {
        item.selected -= 1
-       this.shoppingcart.totalItems -=1
+       this.shoppingcart.totalitems -=1
        
         if(existingitem) {
           if (item.selected == 0) {
-            this.shoppingcart.items.remove(existingitem)
+            this.shoppingcart.items.splice(this.shoppingcart.items.indexOf(existingitem), 1);
           } else {
             existingitem.selected = item.selected
           }
@@ -178,11 +195,9 @@ methods:
           this.shoppingcart.items.add(existingitem)
         }
      }
-     this.$eventHub.$emit('shoppingcart', this.shoppingcart.totalItems);
-     
+     this.$eventHub.$emit('shoppingcart', this.shoppingcart);
    },
-
-           
+          
   total : function(item) {
       if(this.isAvailable(item))
       {
@@ -192,49 +207,40 @@ methods:
       }
     },
 
-   isAvailable : function(item) {
-   
-        return true;
-     
-     },
+  isAvailable : function(item) {
+      return true;
+  },
 
-    goToCheckout: function() {
-      debugger
-        
-        localStorage.setItem(this.shoppingcart.reference, JSON.stringify(this.shoppingcart));
-        if (this.shoppingcart.userid == "")
-        {
-          this.$router.replace({ name: 'Login', params: {cartref: this.shoppingcart.reference}});
-        } 
-        else
-        {
-           this.$router.replace({ name: 'Checkout', query: {cartref: this.shoppingcart.reference}});
-        }
-      },
-
-      initialiseShoppingCart() {
-          const currentUser = firebase.auth().currentUser;
-          let shopref = 'jaylashop'
-          if(localStorage.getItem(shopref))
-          {
-              this.shoppingcart = JSON.parse(localStorage.getItem(shopref));
-          } else {
-            this.shoppingcart = {
-              email: currentUser? currentUser.email: "",
-              name: "",
-              userid: currentUser? currentUser.uid: "",
-              reference: 'jaylashop', //'JO' + Math.random().toString(36).substr(2, 9),
-              totalPaid: 0,
-              totalitems: 0,
-              items: [],
-              zapperPaymentMethod: false,
-              zapperPaymentId: 0,
-              zapperReference: ""
-            };
-          }
+  goToCheckout: function() {
+      localStorage.setItem(this.shoppingcart.reference, JSON.stringify(this.shoppingcart));
+      if (this.shoppingcart.userid == "")
+      {
+        this.$router.replace({ name: 'Login', params: {goToCheckout: true}});
+      } 
+      else
+      {
+        this.$router.replace({ name: 'Checkout'});
       }
+  },
 
-},
+  initialiseShoppingCart() {
+        const currentUser = firebase.auth().currentUser;
+         if(!this.shoppingcart) {
+          this.shoppingcart = {
+            email: currentUser? currentUser.email: "",
+            name: "",
+            userid: currentUser? currentUser.uid: "",
+            reference: 'jaylashop',//'JO' + Math.random().toString(36).substr(2, 9),
+            totalPaid: 0,
+            totalitems: 0,
+            items: [],
+            zapperPaymentMethod: false,
+            zapperPaymentId: 0,
+            zapperReference: ""
+          };
+        }
+      }
+  },
 
 // watch: {
 //     productid: {
@@ -248,20 +254,6 @@ methods:
 //       },
 //     },
 //   },
-
- created () {
-      const pid = this.$props.productid;
-      let self = this
-      this.$rtdbBind('products', productsRef.orderByChild("id").equalTo(pid)).then(products => {
-        for(var key in products.val()){
-           console.log("snapshot.val" + products.val()[key]);
-          self.product = products.val()[key];
-        }
-     });
-
-     this.initialiseShoppingCart();
-  },
-
 
 }
 </script>

@@ -9,9 +9,10 @@
      
     </div>
     <div class="menu menuright">
-      <div class="hoveritem" v-show="isLoggedin" v-on:click="navigate('Checkout')" >Checkout</div>
+      <div class="nameitem" v-show="isLoggedin">Hi {{user.firstname}}</div>
+      <div class="hoveritem" v-show="shoppingcart.totalitems > 0" v-on:click="navigate('Checkout')" >Checkout({{shoppingcart.totalitems}})</div>
       <div class="hoveritem" v-show="!isLoggedin" v-on:click="navigate('Login')" >Login</div>
-        <div class="hoveritem"  v-show="isLoggedin" v-on:click="navigate('Logout')" >Logout</div>
+      <div class="hoveritem"  v-show="isLoggedin" v-on:click="navigate('Logout')" >Logout</div>
     </div>
 
   </nav> 
@@ -22,62 +23,68 @@
 
  import firebase from '../firebase-config';
  import {  db } from '../firebase-config';
-
+ let usersRef = db.ref('users');
+ 
 export default {
 name: 'Navigation',
 
-  data() {
-      return {
-      isLoggedin: false,
+data() {
+    return {
+    isLoggedin: false,
       shoppingCartItems: 0,
-      user: []
-      }
-    },
-
-  firebase () {
-        return {
-        }
+      shoppingcart: {},
+      user: {}
+    }
   },
 
-  mounted() {
+firebase () {
+      return {
+      }
+},
+
+mounted() {
     let self = this;
     this.$eventHub.$on('loggedin', ()=> {
-      self.isLoggedin = true;
+       self.fetchUser()
     });
 
-     this.$eventHub.$on('shoppingcart', (selectedItems)=> {
-      self.shoppingCartItems = selectedItems;
+     this.$eventHub.$on('shoppingcart', (shoppingcart)=> {
+       self.shoppingcart = shoppingcart
     });
-
-   var user = firebase.auth().currentUser;
-    if(user){
-       this.isLoggedin = true;
-
-      //   this.$rtdbBind('users', itemsRef.orderByChild("uid").equalTo(user.id)).then(users => {
-      //    this.users.forEach((item) => {
-      //        item.itemsselected = 0;
-      //     });
-      //  });
-      
-    }
+     this.fetchUser()
  },
 
 methods: {
-    navigate (navPath) {
-    
-      if(navPath == "Logout")
-       {
-         let self = this;
-         firebase.auth().signOut().then(function() { 
-          //console.log('Signed Out');
-           alert('You have successfully logged out');
-           self.isLoggedin = false;
-           self.$router.replace({ name: 'Home'});
-           }, 
-           function(error) {
-             alert(error);
-              });
-       }
+
+  fetchUser() {
+    var currentuser = firebase.auth().currentUser;
+    if(currentuser){
+      this.isLoggedin = true;
+      let self = this
+      this.$rtdbBind('users', usersRef.orderByChild("uid").equalTo(currentuser.uid).limitToFirst(1)).then(users => {
+        for(var key in users.val()){
+            console.log("snapshot.val" + users.val()[key]);
+          self.user = users.val()[key];
+        }
+      });
+    }
+  },
+
+  navigate (navPath) {
+  
+    if(navPath == "Logout")
+      {
+        let self = this;
+        firebase.auth().signOut().then(function() { 
+        //console.log('Signed Out');
+          alert('You have successfully logged out');
+          self.isLoggedin = false;
+          self.$router.replace({ name: 'Home'});
+          }, 
+          function(error) {
+            alert(error);
+            });
+      }
 
      if(window.location.hash.length > 8 && window.location.hash.substring(2,6) == "shop")
        {
@@ -116,6 +123,8 @@ methods: {
     z-index: 10;
     height:10vh;
     position: relative;
+    text-align: center;
+
 }
 
  .menu {
@@ -148,8 +157,18 @@ methods: {
     Margin-right: 10px; 
   } 
 
+  .nameitem{
+    background-color:transparent;
+    color: rgb(65, 63, 63);
+    position:relative;
+    text-align: right;
+    justify-content:center;
+    align-content:center;
+    padding: 5px;
+    bottom:0;
+  }
+
   .hoveritem{
-   
     background-color:transparent;
     color: rgb(65, 63, 63);
     position:relative;
