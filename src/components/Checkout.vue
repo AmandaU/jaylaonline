@@ -1,26 +1,26 @@
 <template>
 
   <div class="centralcontainer">
-    <div class="checkoutblock" >
+    <div class="mainblock" >
       <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media> 
       <div class="infoblock"  >
           <!-- <cube-spin v-if="!isready"></cube-spin> -->
-              <h1 >Check out:</h1>
-              <h2>R {{ purchasevalue }}</h2>
+           <div class="shoppingcartblock">
+              <h1 >Check out</h1>
+              <h2>R {{purchasevalue}}</h2>
             
               <strong >Thank you for buying RudeBoyz kit.</strong>
-              <br>
+             <br>
 
-
-            <div class="shoppingcartblock">
+            <!-- <div class="shoppingcartblock"> -->
+                <br>
              <div class="checkoutblock">
-              <h2>Checkout</h2>
-
+             
               <div  v-for="item in shoppingcart.items" :key="item['.key'] ">
                 <div  class="checkoutrow ">
                 
                   <div  class="checkouttickets ">
-                    <small>{{item.productname}}: {{item.selected}}</small>
+                    <small>{{item.productname}}, size {{item.size}} x {{item.selected}}</small>
                   </div>
 
                   <div  class="checkouttickettotal ">
@@ -44,7 +44,7 @@
                   </div>
 
                   <div  class="checkouttickettotal "> 
-                    <small>{{total}}</small>
+                    <small>R {{total}}</small>
                   </div>
                 </div> 
               
@@ -159,9 +159,10 @@ export default {
       this.shoppingcart.items.forEach(item => {
           theTotal += item.selected * Number(item.price);
       });
-     return theTotal;
+     return theTotal.toFixed(2)
     },
 
+   
     // a computed getter
     payFastUrl: function () {
         const url =  'https://sandbox.payfast.co.za/eng/process?cmd=_paynow&receiver=10011455&item_name=' + 'JadeAyla Online Shopping'
@@ -237,7 +238,7 @@ export default {
       let self = this;
      this.$loadScript("https://code.zapper.com/zapper.js")
       .then(() => {
-         zapper("#Zapper", self.merchantId, self.siteId, self.purchasevalue,self.shoppingcart.reference, function (paymentResult) {
+         zapper("#Zapper", self.merchantId, self.siteId, self.purchasevalue, self.shoppingcart.reference, function (paymentResult) {
           self.shoppingcart.zapperPaymentMethod = true;
           if(paymentResult.status == 1)
           {

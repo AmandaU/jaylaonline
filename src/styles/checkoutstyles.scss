@@ -14,12 +14,24 @@
     align-items: center;
   }
 
+  .mainblock {
+   position: relative;
+      height: auto;
+      width: 420px;;
+      display: flex;
+      flex-direction:column; /* column | row  */
+      overflow-x: hidden;
+      overflow-y: hidden;
+      vertical-align: top; 
+      align-items: right;
+      justify-content: right;
+      margin: 0, auto; 
+      padding:20px;
+    
+  }
+  
 .checkoutblock {
     position: relative;
-    //background-color:rgb(122, 231, 13);
-    width:100%;
-   // min-width: 25%;
-    max-width: 500px;
     height: auto;
     display: flex;
     flex-direction:column; /* column | row  */
@@ -31,7 +43,8 @@
     border: 1px solid rgb(225, 225, 226);
     border-radius: 5px;
     margin: 0, auto; 
-    padding:10px;
+    padding:20px;
+    margin:30px;
   
   }
 
@@ -83,23 +96,22 @@
   }
 
 .infoblock {
- 
     display: block;
     text-align: center;
-    width: 400px;
+    width: 100%;
     justify-content: center;
     align-items: center;
     text-align: center;
-  }
 
+  }
 
 .payColumn{
     display: grid;
     place-items: center;
     //height: 100%;
     padding:5px;
-    border: 1px solid rgb(225, 225, 226);
-    border-radius: 5px;
+    // border: 1px solid rgb(225, 225, 226);
+    // border-radius: 5px;
   }
   
   .payfastRow{
