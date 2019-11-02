@@ -7,7 +7,7 @@
           <!-- <cube-spin v-if="!isready"></cube-spin> -->
            <div class="shoppingcartblock">
               <h1 >Check out</h1>
-              <h2>R {{purchasevalue}}</h2>
+              <!-- <h2>R {{shoppingcart.purchasevalue}}</h2> -->
             
               <strong >Thank you for buying RudeBoyz kit.</strong>
              <br>
@@ -96,7 +96,6 @@ export default {
         zapperConfig: zapperConfig,
         merchantId: zapperConfig.merchantId,
         siteId: zapperConfig.siteId,
-        purchasevalue: "",
         isready: false,
         user: {},
         merchantID: '10011455',//'12581557',
@@ -132,8 +131,7 @@ export default {
       }
     });
 
-    this.purchasevalue = this.total;  
-    this.loadZapperScript();
+  this.loadZapperScript();
     // this.loadZapperV2();
   },
 
@@ -166,7 +164,7 @@ export default {
     // a computed getter
     payFastUrl: function () {
         const url =  'https://sandbox.payfast.co.za/eng/process?cmd=_paynow&receiver=10011455&item_name=' + 'JadeAyla Online Shopping'
-        + '&item_description=tickets&amount=' + this.purchasevalue + '.00' 
+        + '&item_description=tickets&amount=' + this.shoppingcart.purchasevalue
         + '&return_url=https%3A%2F%2Fjayla-tickets.firebaseapp.com%2F%23%2FSuccess%2F%3Fticketref%3D' + this.shoppingcart.reference ; 
         + '&cancel_url=https%3A%2F%2Fjayla-tickets.firebaseapp.com%2F%23%2FCheckout%2F%3Fticketref%3D' + this.shoppingcart.reference ; 
         //console.log(url);
@@ -238,7 +236,7 @@ export default {
       let self = this;
      this.$loadScript("https://code.zapper.com/zapper.js")
       .then(() => {
-         zapper("#Zapper", self.merchantId, self.siteId, self.purchasevalue, self.shoppingcart.reference, function (paymentResult) {
+         zapper("#Zapper", self.merchantId, self.siteId, self.shoppingcart.purchasevalue, self.shoppingcart.reference, function (paymentResult) {
           self.shoppingcart.zapperPaymentMethod = true;
           if(paymentResult.status == 1)
           {

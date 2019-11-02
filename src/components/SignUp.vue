@@ -118,7 +118,7 @@ methods: {
         self.$eventHub.$emit('loggedin', '');
         if(self.$props.goToCheckout)
         {
-          self.$router.replace({ name: 'Checkout'});
+          self.$router.replace({ name: 'Shipping'});
           self.busy = false;
         }
         // else if(self.$props.eventid)

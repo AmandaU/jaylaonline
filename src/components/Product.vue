@@ -40,7 +40,7 @@
                      <div class="thinline"></div>  
                 </div>
              </div>  
-              <button  v-visible="totalItems > 0" @click="goToCheckout" class="buybutton">Go to checkout</button>
+              <button  v-visible="totalItems > 0" @click="goToShipping" class="buybutton">Checkout</button>
 
 
           </div> 
@@ -211,7 +211,12 @@ methods:
       return true;
   },
 
-  goToCheckout: function() {
+  goToShipping: function() {
+    var theTotal = 0;
+      this.shoppingcart.items.forEach(item => {
+          theTotal += item.selected * Number(item.price);
+      });
+     this.shoppingcart.purchasevalue = theTotal.toFixed(2)
       localStorage.setItem(this.shoppingcart.reference, JSON.stringify(this.shoppingcart));
       if (this.shoppingcart.userid == "")
       {
@@ -219,7 +224,7 @@ methods:
       } 
       else
       {
-        this.$router.replace({ name: 'Checkout'});
+        this.$router.replace({ name: 'Shipping'});
       }
   },
 
@@ -231,6 +236,7 @@ methods:
             name: "",
             userid: currentUser? currentUser.uid: "",
             reference: 'jaylashop',//'JO' + Math.random().toString(36).substr(2, 9),
+            purchasevalue: 0,
             totalPaid: 0,
             totalitems: 0,
             items: [],

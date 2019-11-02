@@ -4,15 +4,17 @@
        <!-- <cube-spin v-if="busy"></cube-spin> -->
         <br>
         <div class="infoblock">
+          
             <p>Shipping address</p>
-            <input type="text" v-model="newUser.addressline1" placeholder="Address line 1" class="infoblockitem"><br>
-            <input type="text" v-model="newUser.addressline2" placeholder="Address line 2" class="infoblockitem"><br>
-            <input type="text" v-model="newUser.suburb" placeholder="Suburb" class="infoblockitem"><br>
-            <input type="text" v-model="newUser.city" placeholder="City" class="infoblockitem"><br>
-            <input type="text" v-model="newUser.province" placeholder="Province" class="infoblockitem"><br>
-             <input type="text" v-model="newUser.country" placeholder="Country" class="infoblockitem"><br>
+            <input type="text" v-model="user.addressline1" placeholder="Address line 1" class="infoblockitem"><br>
+            <input type="text" v-model="user.addressline2" placeholder="Address line 2" class="infoblockitem"><br>
+            <input type="text" v-model="user.suburb" placeholder="Suburb" class="infoblockitem"><br>
+            <input type="text" v-model="user.city" placeholder="City" class="infoblockitem"><br>
+            <input type="text" v-model="user.province" placeholder="Province" class="infoblockitem"><br>
+             <input type="text" v-model="user.country" placeholder="Country" class="infoblockitem"><br>
            
-            <button @click="shippingQuote" class="infoblockitem">Get shipping quote</button>
+            <button @click="shippingQuote" class="infoblockitem">Get shipping quote</button><br>
+             <button  v-visible="gotShippingQuote" @click="goToCheckout" class="buybutton">Checkout</button>
             <!-- <p>or go back to <span @click="goBackToLogin()" style="color:blue;cursor:pointer">login</span></p> -->
           </div>
      </div>
@@ -32,7 +34,8 @@
   data() {
       return {
          busy: true,
-        users: {},
+        user: {},
+        gotShippingQuote: false
        
       }
     },
@@ -62,6 +65,24 @@ created() {
   {
     
   },
+
+   goToCheckout: function() {
+    var theTotal = 0;
+      this.shoppingcart.items.forEach(item => {
+          theTotal += item.selected * Number(item.price);
+      });
+     this.shoppingcart.purchasevalue = theTotal.toFixed(2)
+      localStorage.setItem(this.shoppingcart.reference, JSON.stringify(this.shoppingcart));
+      if (this.shoppingcart.userid == "")
+      {
+        this.$router.replace({ name: 'Login', params: {goToCheckout: true}});
+      } 
+      else
+      {
+        this.$router.replace({ name: 'Checkout'});
+      }
+  },
+
   }
 }
 </script>
