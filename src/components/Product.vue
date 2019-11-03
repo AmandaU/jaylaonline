@@ -212,11 +212,6 @@ methods:
   },
 
   goToShipping: function() {
-    var theTotal = 0;
-      this.shoppingcart.items.forEach(item => {
-          theTotal += item.selected * Number(item.price);
-      });
-     this.shoppingcart.purchasevalue = theTotal.toFixed(2)
       localStorage.setItem(this.shoppingcart.reference, JSON.stringify(this.shoppingcart));
       if (this.shoppingcart.userid == "")
       {
@@ -240,6 +235,7 @@ methods:
             totalPaid: 0,
             totalitems: 0,
             items: [],
+            shipping: 0,
             zapperPaymentMethod: false,
             zapperPaymentId: 0,
             zapperReference: ""

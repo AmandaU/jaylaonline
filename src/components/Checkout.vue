@@ -5,53 +5,16 @@
       <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media> 
       <div class="infoblock"  >
           <!-- <cube-spin v-if="!isready"></cube-spin> -->
-           <div class="shoppingcartblock">
-              <h1 >Check out</h1>
-              <!-- <h2>R {{shoppingcart.purchasevalue}}</h2> -->
-            
-              <strong >Thank you for buying RudeBoyz kit.</strong>
-             <br>
+        <div class="shoppingcartblock">
+            <h1 >Check out</h1>
+            <!-- <h2>R {{shoppingcart.purchasevalue}}</h2> -->
+          
+            <strong >Thank you for buying RudeBoyz kit.</strong>
+            <br>
 
-            <!-- <div class="shoppingcartblock"> -->
-                <br>
-             <div class="checkoutblock">
-             
-              <div  v-for="item in shoppingcart.items" :key="item['.key'] ">
-                <div  class="checkoutrow ">
-                
-                  <div  class="checkouttickets ">
-                    <small>{{item.productname}}, size {{item.size}} x {{item.selected}}</small>
-                  </div>
-
-                  <div  class="checkouttickettotal ">
-                    <small>{{totalValueForItem(item)}}</small>
-                  </div> 
-
-                </div>  
-              </div>
-              <br>
-
-                <div  class="checkoutrow ">
-                    <div  class="checkouttickets "/>
-                    <div  class="checkouttickettotal "> 
-                      <div class="thinline"></div>  
-                    </div> 
-                </div> 
-
-                <div  class="checkoutrow ">
-                  <div  class="checkouttickets ">
-                      <small>Total: {{shoppingcart.totalitems}}</small>
-                  </div>
-
-                  <div  class="checkouttickettotal "> 
-                    <small>R {{total}}</small>
-                  </div>
-                </div> 
-              
-              </div>  
-          </div> 
-
-           <br>
+            <ShoppingCart ></ShoppingCart>
+            <br>
+        </div>
       </div>
 
       <div class="payColumn">
@@ -74,7 +37,7 @@
 <script>
 
 import Media from 'vue-media'
-//import CubeSpin from 'vue-loading-spinner/src/components/ScaleOut'
+ import ShoppingCart from '../components/ShoppingCart'
 import firebase from '../firebase-config';
 import {zapperConfig} from '../config';
 import {  db } from '../firebase-config';
@@ -86,7 +49,7 @@ let usersRef = db.ref('users');
 export default {
   name: 'checkout',
   components: {
-      // CubeSpin,
+      'ShoppingCart': ShoppingCart,
       Media
     },
 

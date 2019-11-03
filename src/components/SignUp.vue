@@ -49,12 +49,15 @@
         email: '',
         password: '',
         cellphone: '',
-        addressline1: '',
-        addressline2: '',
-        suburb: '',
-        city: '',
-        province: '',
-        country: '',
+        address: {
+          addressline1: '',
+          addressline2: '',
+          suburb: '',
+          city: '',
+          province: '',
+          country: '',
+          postalcode: ''
+        },
         isAdmin: false,  
       }
     }

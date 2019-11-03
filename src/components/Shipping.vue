@@ -6,17 +6,21 @@
         <div class="infoblock">
           
             <p>Shipping address</p>
-            <input type="text" v-model="user.addressline1" placeholder="Address line 1" class="infoblockitem"><br>
-            <input type="text" v-model="user.addressline2" placeholder="Address line 2" class="infoblockitem"><br>
-            <input type="text" v-model="user.suburb" placeholder="Suburb" class="infoblockitem"><br>
-            <input type="text" v-model="user.city" placeholder="City" class="infoblockitem"><br>
-            <input type="text" v-model="user.province" placeholder="Province" class="infoblockitem"><br>
-             <input type="text" v-model="user.country" placeholder="Country" class="infoblockitem"><br>
+            <small v-visible="addressInvalid" style="color: red">Your address is not quite right, please check</small>
+            <input type="text" v-model="user.address.addressline1" placeholder="Address line 1" class="infoblockitem"><br>
+            <input type="text" v-model="user.address.addressline2" placeholder="Address line 2" class="infoblockitem"><br>
+            <input type="text" v-model="user.address.suburb" placeholder="Suburb" class="infoblockitem"><br>
+            <input type="text" v-model="user.address.city" placeholder="City" class="infoblockitem"><br>
+            <input type="text" v-model="user.address.province" placeholder="Province" class="infoblockitem"><br>
+            <input type="text" v-model="user.address.country" placeholder="Country" class="infoblockitem"><br>
+            <input type="text" v-model="user.address.postalcode" placeholder="Code" class="infoblockitem" min="1" max="5"><br>
            
             <button @click="shippingQuote" class="infoblockitem">Get shipping quote</button><br>
-             <button  v-visible="gotShippingQuote" @click="goToCheckout" class="buybutton">Checkout</button>
-            <!-- <p>or go back to <span @click="goBackToLogin()" style="color:blue;cursor:pointer">login</span></p> -->
-          </div>
+            <button  v-visible="gotShippingQuote" @click="goToCheckout" class="infoblockitem">Checkout</button>
+         </div>
+     
+       <ShoppingCart ></ShoppingCart>
+     
      </div>
   </div>
 </template>
@@ -24,25 +28,41 @@
 <script>
   import firebase from '../firebase-config';
   import {  db } from '../firebase-config';
+  import ShoppingCart from '../components/ShoppingCart'
   //import CubeSpin from 'vue-loading-spinner/src/components/ScaleOut'
- let usersRef = db.ref('users');
- 
- export default {
+  const userRef = db.ref('users')
+  
+  export default {
   name: 'shipping',
 
+  components: {
+    'ShoppingCart': ShoppingCart 
+  },
 
-  data() {
+  //  firebase () {
+  //    debugger
+  //    const currentUser = firebase.auth().currentUser;
+  //   return {
+  //     user: db.ref('users').orderByChild('uid').equalTo(currentUser.uid).limitToFirst(1), 
+  //     address: addressRef
+  //   }
+  // },
+
+
+ data() {
       return {
-         busy: true,
-        user: {},
-        gotShippingQuote: false
-       
+        busy: true,
+        user: null,
+        gotShippingQuote: false,
+        addressInvalid: false,
+        address: null,
+        key: ''
       }
     },
 
-created() {
-    debugger
-
+ created() {
+  debugger
+  
     let cartref = 'jaylashop'
     if(localStorage.getItem(cartref))
     {
@@ -50,28 +70,48 @@ created() {
     }
     let self = this
     const currentUser = firebase.auth().currentUser;
-    this.$rtdbBind('users', usersRef.orderByChild("uid").equalTo(currentUser.uid).limitToFirst(1)).then(users => {
-      for(var key in users.val()){
-          console.log("snapshot.val" + users.val()[key]);
-        self.user = users.val()[key];
-      }
-    });
 
-  },
+    let us = this.user
+    this.$rtdbBind('users', userRef.orderByChild("uid").equalTo(currentUser.uid).limitToFirst(1)).then(users => {
+      for(var key in users.val()){
+         console.log("snapshot.val" + users.val()[key]);
+        self.user = users.val()[key];
+        self.key = key
+        self.address = self.user.address
+      }
+     
+    });
+ },
 
   methods: {
       
   shippingQuote ()
   {
-    
+    debugger
+    if(this.user.address.addressline1 == ''
+    || this.user.address.suburb == ''
+    || this.user.address.country == '' 
+    || this.user.address.postalcode == ''
+    || isNaN(this.user.address.postalcode) ) {
+        this.addressInvalid = true
+        return
+    }
+    this.addressInvalid = false
+    this.gotShippingQuote = true
+    this.shoppingcart.shipping = 355
+    this.$eventHub.$emit('shoppingcart', this.shoppingcart);
+    let user = this.user
+    db.ref('users/' + this.key).set(user);
+
+  
   },
 
    goToCheckout: function() {
-    var theTotal = 0;
+      var theTotal = 0;
       this.shoppingcart.items.forEach(item => {
           theTotal += item.selected * Number(item.price);
       });
-     this.shoppingcart.purchasevalue = theTotal.toFixed(2)
+      this.shoppingcart.purchasevalue = String((theTotal + this.shoppingcart.shipping))
       localStorage.setItem(this.shoppingcart.reference, JSON.stringify(this.shoppingcart));
       if (this.shoppingcart.userid == "")
       {
