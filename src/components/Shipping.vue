@@ -1,22 +1,30 @@
 <template>
-  <div class="login">
+  <div class="shipping">
     <div class="centralcontainer" >
        <!-- <cube-spin v-if="busy"></cube-spin> -->
         <br>
-        <div class="infoblock">
+        <div class="addressblock">
           
-            <p>Shipping address</p>
-            <small v-visible="addressInvalid" style="color: red">Your address is not quite right, please check</small>
-            <input type="text" v-model="user.address.addressline1" placeholder="Address line 1" class="infoblockitem"><br>
-            <input type="text" v-model="user.address.addressline2" placeholder="Address line 2" class="infoblockitem"><br>
-            <input type="text" v-model="user.address.suburb" placeholder="Suburb" class="infoblockitem"><br>
-            <input type="text" v-model="user.address.city" placeholder="City" class="infoblockitem"><br>
-            <input type="text" v-model="user.address.province" placeholder="Province" class="infoblockitem"><br>
-            <input type="text" v-model="user.address.country" placeholder="Country" class="infoblockitem"><br>
-            <input type="text" v-model="user.address.postalcode" placeholder="Code" class="infoblockitem" min="1" max="5"><br>
+            <h2>Shipping address</h2>
+            <small v-visible="addressInvalid" style="color: red">Your address is not quite right, please check</small><br>
+            <small class="addresslabel">Address line 1</small><small style="color: red" v-visible="addressInvalid && user.address.addressline1 == ''">*</small>
+            <input type="text" v-model="user.address.addressline1" placeholder="Address line 1" class="addressitem"><br>
+            <small class="addresslabel">Address line 2</small>
+            <input type="text" v-model="user.address.addressline2" placeholder="Address line 2" class="addressitem"><br>
+            <small class="addresslabel">Suburb</small><small style="color: red"  v-visible="addressInvalid && user.address.suburb == ''">*</small>
+            <input type="text" v-model="user.address.suburb" placeholder="Suburb" class="addressitem"><br>
+            <small class="addresslabel">City</small><small style="color: red"  v-visible="addressInvalid && user.address.city == ''">*</small>
+            <input type="text" v-model="user.address.city" placeholder="City" class="addressitem"><br>
+            <small class="addresslabel">Country</small><small style="color: red"  v-visible="addressInvalid && user.address.country == ''">*</small>
+            <country-select v-model="user.address.country" :country="country" topCountry="ZA" class="addressitem"/><br>
+            <small class="addresslabel">Region</small><small style="color: red"  v-visible="addressInvalid && user.address.province == ''">*</small>
+            <region-select v-model="user.address.province" :country="user.address.country" :region="region" class="addressitem"/><br>
+             <small class="addresslabel">Postal code</small><small style="color: red"  v-visible="addressInvalid && user.address.postalcode == ''">*</small>
+            <input type="text" v-model="user.address.postalcode" placeholder="Code" class="addressitem" min="1" max="5" ><br>
            
-            <button @click="shippingQuote" class="infoblockitem">Get shipping quote</button><br>
-            <button  v-visible="gotShippingQuote" @click="goToCheckout" class="infoblockitem">Checkout</button>
+            <button @click="shippingQuote" class="addressitem">Get shipping quote</button><br>
+            <button  v-visible="gotShippingQuote" @click="goToCheckout" class="addressitem">Checkout</button><br>
+           
          </div>
      
        <ShoppingCart ></ShoppingCart>
@@ -128,5 +136,5 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/styles/styles.scss";
+  @import "~@/styles/shippingstyle.scss";
 </style>

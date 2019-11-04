@@ -7,13 +7,14 @@
             <input type="text" v-model="newUser.firstname" placeholder="First name" class="infoblockitem"><br>
             <input type="text" v-model="newUser.surname" placeholder="Surname" class="infoblockitem"><br>
             <input type="text" v-model="newUser.email" placeholder="Email" class="infoblockitem"><br>
-            <input type="password" v-model="newUser.password" placeholder="Password" class="infoblockitem"><br>
+            <input type="password" v-model="newUser.password" placeholder="Password" class="infoblockitem"><br><br>
             <vue-tel-input class="tel"  v-model="newUser.cellphone"
                           @onInput="onInput"
                           :preferredCountries="['za']">
             </vue-tel-input><br>
             <button @click="signUp" class="infoblockitem">Sign Up</button>
             <p>or go back to <span @click="goBackToLogin()" style="color:blue;cursor:pointer">login</span></p>
+            
           </div>
     </div>
   </div>

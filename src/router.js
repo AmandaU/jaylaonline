@@ -5,7 +5,6 @@
 import firebase from 'firebase';
 import Vue from 'vue';
 import Router from 'vue-router';
-//import VueFire from 'vuefire';
 import LoadScript from 'vue-plugin-load-script';
 import Home from './components/Home.vue';
 import Login from './components/Login.vue';
@@ -16,25 +15,17 @@ import Contact from './components/Contact.vue';
  import Checkout from './components/Checkout.vue';
 // import Success from './components/Success.vue';
 // import Cancel from './components/Cancel.vue';
-// import Promoter from './components/Promoter.vue';
-// import ManageEvent from './components/ManageEvent.vue';
 import Shop from './components/Shop.vue';
 import Product from './components/Product.vue';
+import { rtdbPlugin } from 'vuefire';
+import vueCountryRegionSelect from 'vue-country-region-select';
+import VueTelInput from 'vue-tel-input';
 
-import { rtdbPlugin } from 'vuefire'
-
-// const serialize = (snapshot: database.DataSnapshot) => {
-//   const value = snapshot.val()
-//   // if the value is a primitive, we create an object instead and assign the .value
-//   const doc = value == Object(value) ? value : Object.defineProperty({}, '.value', { value })
-//   // you could change `.key` by `id` if you want to be able to write
-//   Object.defineProperty(doc, '.key', { value: snapshot.key })
-
-//   return doc
-// }
 
 Vue.use(rtdbPlugin)
 Vue.use(LoadScript)
+Vue.use(vueCountryRegionSelect)
+Vue.use(VueTelInput)
 
 
 //Vue.use(LoadScript);
