@@ -30,8 +30,7 @@ name: 'Navigation',
 
 data() {
     return {
-    isLoggedin: false,
-      shoppingCartItems: 0,
+      isLoggedin: false,
       shoppingcart: {},
       user: {}
     }
@@ -43,6 +42,13 @@ firebase () {
 },
 
 mounted() {
+
+    let cartref = 'jaylashop'
+    if(localStorage.getItem(cartref))
+    {
+        this.shoppingcart = JSON.parse(localStorage.getItem(cartref));
+    }
+   
     let self = this;
     this.$eventHub.$on('loggedin', ()=> {
        self.fetchUser()
@@ -65,6 +71,10 @@ methods: {
         for(var key in users.val()){
             console.log("snapshot.val" + users.val()[key]);
           self.user = users.val()[key];
+          if(self.shoppingcart) {
+            self.shoppingcart.userid = currentUser.uid
+            self.shoppingcart.email = currentUser.email
+          }
         }
       });
     }
@@ -86,26 +96,37 @@ methods: {
             });
       }
 
-     if(window.location.hash.length > 8 && window.location.hash.substring(2,6) == "shop")
-       {
-         if(navPath == "Login")
-         {
-            this.$router.replace({ name: navPath, params: {eventid: window.location.hash.substring(9,9)}});
-        }
-         else{
-           this.$router.replace({ name: navPath});
-         }
-       }
-       else
-       if(navPath == "Logout")
-       {
-         this.$router.replace({ name: 'Login'});
-       }
-       else
-       {
-         this.$router.replace({ name: navPath});
-         }
+    if(navPath == "Checkout") {
+      if (this.shoppingcart.userid == "")
+      {
+        this.$router.replace({ name: 'Login', params: {goToCheckout: true}});
+      } 
+      else
+      {
+        this.$router.replace({ name: 'Shipping'});
+      }
+      return 
+      }
+      
+      if(navPath == "Logout"){
+          this.$router.replace({ name: 'Login'});
+      } else {
+        this.$router.replace({ name: navPath});
+      }
        
+    //  if(window.location.hash.length > 8 && window.location.hash.substring(2,6) == "shop")
+    //    {
+    //      if(navPath == "Login")
+    //      {
+    //         this.$router.replace({ name: navPath});
+    //      }
+    //      else{
+    //        this.$router.replace({ name: navPath});
+    //      }
+      //  }
+      //  else
+       
+     
     }
 },
   

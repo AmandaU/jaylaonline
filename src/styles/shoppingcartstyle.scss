@@ -1,0 +1,92 @@
+  
+.checkoutblock {
+    width: 300px;
+    position: relative;
+    height: auto;
+    display: flex;
+    flex-direction:column; /* column | row  */
+    overflow-x: hidden;
+    overflow-y: hidden;
+    vertical-align: top; 
+    align-items: right;
+    justify-content: right;
+    border: 1px solid rgb(225, 225, 226);
+    border-radius: 5px;
+    margin: 0, auto; 
+    padding:20px;
+    margin:50px;
+  
+  }
+
+  .selectimage {
+    flex: 0.1;
+    padding-right:5px;
+    align-items: left;
+    text-align: left; 
+    justify-content: left;
+  }
+  .checkoutrow{
+    //background-color:white;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin: 0, auto;
+    padding: 5px;
+   }
+  
+  .checkouttickets{
+    //background-color: rgb(198, 219, 219);
+    flex: 0.6;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    height: 100%;
+    flex-direction: flex;
+    align-items: left;
+    text-align: left; 
+    justify-content: left;
+    vertical-align: middle;
+   }
+  
+  .checkouttickettotal{
+   // background-color: rgb(11, 80, 80);
+    flex: 0.3;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+     height: 100%;
+    flex-direction: flex;
+    align-items: right;
+    text-align: right; 
+    justify-content: right;
+    vertical-align: middle;
+    padding-right: 5px;
+  }
+  
+  .thinline{
+    width: 100%;
+    margin: 0px;
+    height: 1px;
+    background-color: rgb(211, 212, 212);
+  }
+  
+.buybutton{
+    display: grid;
+    place-items: center;
+    margin: 20px;
+    cursor: pointer;
+    height: 40px;
+    color:rgb(57, 105, 138);
+    border: 1px solid rgb(57, 105, 138);
+    border-radius: 5px;
+  }
+
+
+.infoblockitem {
+    margin-top: 10px;
+    width: 100%;
+    max-width:100%;
+    cursor: pointer;
+    height:30px;
+    padding-left: 5px;
+  }

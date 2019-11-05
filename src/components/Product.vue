@@ -42,10 +42,8 @@
              </div>  
               <button  v-visible="totalItems > 0" @click="goToShipping" class="buybutton">Checkout</button>
 
-
           </div> 
-
-    </div> 
+   </div> 
   
     <div class="productblock"> 
           
@@ -53,8 +51,7 @@
                   <img v-bind:src="image.url" v-bind:alt="image.alt" >
             </div> 
     </div> 
-
-   
+ 
   </div> 
 </template>
 
@@ -62,9 +59,6 @@
 import firebase from '../firebase-config';
 import {  db } from '../firebase-config';
 let productsRef = db.ref('products');
-//let itemsRef = deb.ref('items');
-
-
 
 export default {
   name: 'product',
@@ -196,6 +190,7 @@ methods:
         }
      }
      this.$eventHub.$emit('shoppingcart', this.shoppingcart);
+     localStorage.setItem(this.shoppingcart.reference, JSON.stringify(this.shoppingcart));
    },
           
   total : function(item) {
@@ -224,24 +219,30 @@ methods:
   },
 
   initialiseShoppingCart() {
-        const currentUser = firebase.auth().currentUser;
-         if(!this.shoppingcart) {
-          this.shoppingcart = {
-            email: currentUser? currentUser.email: "",
-            name: "",
-            userid: currentUser? currentUser.uid: "",
-            reference: 'jaylashop',//'JO' + Math.random().toString(36).substr(2, 9),
-            purchasevalue: 0,
-            totalPaid: 0,
-            totalitems: 0,
-            items: [],
-            shipping: 0,
-            zapperPaymentMethod: false,
-            zapperPaymentId: 0,
-            zapperReference: ""
-          };
-        }
+      const currentUser = firebase.auth().currentUser;
+      let cartref = 'jaylashop'
+      if(localStorage.getItem(cartref))
+      {
+          this.shoppingcart = JSON.parse(localStorage.getItem(cartref));
       }
+
+      if(!this.shoppingcart) {
+        this.shoppingcart = {
+          email: currentUser? currentUser.email: "",
+          name: "",
+          userid: currentUser? currentUser.uid: "",
+          reference: 'JaylaShop' + Math.random().toString(36).substr(2, 9),
+          purchasevalue: 0,
+          totalPaid: 0,
+          totalitems: 0,
+          items: [],
+          shipping: 0,
+          zapperPaymentMethod: false,
+          zapperPaymentId: 0,
+          zapperReference: ""
+        };
+      }
+    }
   },
 
 // watch: {

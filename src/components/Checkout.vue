@@ -147,7 +147,6 @@ export default {
 
   methods: {
 
-
     totalValueForItem: function(item){
       var value = Number(item.selected * item.price);
       return value == 0? "R 0.00": String('R ' + value + '.00');
@@ -206,27 +205,25 @@ export default {
             self.shoppingcart.zapperPaymentId = paymentResult.payment.paymentId;
             self.shoppingcart.totalPaid = paymentResult.payment.amountPaid;
             self.shoppingcart.zapperReference = paymentResult.payment.zapperId;
-            self.saveTicket(self); 
-             self.$router.replace({ name: 'Success', query: {ticketref: self.shoppingcart.reference}});
+            self.saveInvoice(self); 
+            self.$router.replace({ name: 'Success'});
           }
-         
-          });
+        });
       })
       .catch(() => {
         // Failed to fetch script
       });
     },
 
-     media800Enter(mediaQueryString) {
+    media800Enter(mediaQueryString) {
       this.greaterThan800 = false
     },
+
     media800Leave(mediaQueryString) {
-      
-      this.greaterThan800 = true
+       this.greaterThan800 = true
     },
 
-     handleWindowResize(event) { 
-       
+    handleWindowResize(event) { 
       if(window.innerWidth < 600)
       {
         this.containerWidth = event.currentTarget.innerWidth;
@@ -240,7 +237,7 @@ export default {
         this.containerWidth = event.currentTarget.innerWidth/3; 
     },
    
-    saveTicket(instance) {
+    saveInvoice(instance) {
       if(!instance) instance = this;
      
      // instance.shoppingcart.zapperPaymentMethod = isZapper;

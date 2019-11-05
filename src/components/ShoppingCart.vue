@@ -3,7 +3,10 @@
   <div class="checkoutblock">
               <h2>Shopping cart:</h2>
               <div  v-for="item in shoppingcart.items" :key="item['.key'] ">
-                <div  class="checkoutrow ">
+                <div  class="checkoutrow">
+                  <div class="selectimage">
+                    <input  type="checkbox"   @click="shouldRemoveItems(item)" true-value=""  false-value="" >
+                  </div>
                   <div  class="checkouttickets ">
                     <small>{{item.productname}}, size {{item.size}}</small>
                     <small>{{item.selected}} @ R{{item.price}} each</small>
@@ -14,9 +17,13 @@
                   </div> 
                 </div>  
               </div>
+            
+              <p v-visible="canRemoveItems">Would you like to  <span @click="removeItems()" style="color:red;cursor:pointer">delete the selected items?</span></p>
+
               <br>
 
               <div  class="checkoutrow ">
+                  <div class="selectimage"> </div>
                   <div  class="checkouttickets "> </div>
                   <div  class="checkouttickettotal "> 
                     <div class="thinline"></div>  
@@ -24,6 +31,7 @@
               </div> 
 
                <div  v-visible="this.shoppingcart.shipping > 0" class="checkoutrow ">
+                  <div class="selectimage"> </div>
                   <div  class="checkouttickets ">
                      <small>Delivery fee</small>
                   </div> 
@@ -33,6 +41,7 @@
               </div> 
 
               <div  class="checkoutrow ">
+                 <div class="selectimage"> </div>
                  <div  class="checkouttickets ">
                    <small>Total: {{shoppingcart.totalitems}}</small>
                  </div>
@@ -42,6 +51,7 @@
               </div> 
 
               <div  class="checkoutrow ">
+                 <div class="selectimage"> </div>
                   <div  class="checkouttickets "> </div>
                   <div  class="checkouttickettotal "> 
                     <div class="thinline"></div>  
@@ -53,7 +63,7 @@
 </template>
 
 <script>
-
+ import firebase from '../firebase-config';
 export default {
   
     name: 'ShoppingCart',
@@ -62,6 +72,7 @@ export default {
         return {
         greaterThan800: window.innerWidth > 800,
         shoppingcart: {},
+        canRemoveItems: false
         }
     },
 
@@ -74,16 +85,25 @@ export default {
   },
 
     created() {
-        let self = this
-        let cartref = 'jaylashop'
-        if(localStorage.getItem(cartref))
-        {
-            this.shoppingcart = JSON.parse(localStorage.getItem(cartref));
-        }
+      const currentUser = firebase.auth().currentUser;
+      let cartref = 'jaylashop'
+      if(localStorage.getItem(cartref))
+      {
+          this.shoppingcart = JSON.parse(localStorage.getItem(cartref));
+          if (currentUser) {
+            this.shoppingcart.userid = currentUser.uid
+            this.shoppingcart.email = currentUser.email
+          }
+          debugger
+           this.shoppingcart.items.forEach(element => {
+             element['isSelected'] = false
+          });
+      }
     },
 
     computed: {
-    
+
+      
         isMobile: function()
         {
             return navigator.userAgent.match(/Android/i) ||
@@ -113,16 +133,42 @@ export default {
 
     methods: {
 
-        totalValueForItem: function(item){
+      shouldRemoveItems(item) {
+        item.isSelected = !item.isSelected
+        this.canRemoveItems =  this.shoppingcart.items.find(existing => {
+           
+            if (existing.isSelected) {
+                return true;
+            }
+        });
+      },
+
+      removeItems() {
+debugger
+        this.shoppingcart.items.forEach(element => {
+          if (element.isSelected)
+          {
+            this.shoppingcart.items.splice(this.shoppingcart.items.indexOf(element), 1);
+          }
+       });
+      this.$eventHub.$emit('shoppingcart', this.shoppingcart);
+       localStorage.setItem(this.shoppingcart.reference, JSON.stringify(this.shoppingcart));
+      },
+
+      totalValueForItem: function(item){
         var value = Number(item.selected * item.price);
         return value == 0? "R 0.00": String('R ' + value + '.00');
-        },
+      },
+
+      select(item) {
+
+      }
     }
-    }
+}
 
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/styles/checkoutstyles.scss";
+  @import "~@/styles/shoppingcartstyle.scss";
  </style>
 
