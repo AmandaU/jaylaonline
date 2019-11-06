@@ -120,6 +120,13 @@ methods: {
         self.insert(uid)
         alert('Your account has been created')
         self.$eventHub.$emit('loggedin', '');
+         let cartref = 'jaylashop'
+        if(localStorage.getItem(cartref))
+        {
+            this.shoppingcart = JSON.parse(localStorage.getItem(cartref));
+            this.shoppingcart.userid = user.uid
+            this.shoppingcart.email = user.email
+        }
         if(self.$props.goToCheckout)
         {
           self.$router.replace({ name: 'Shipping'});

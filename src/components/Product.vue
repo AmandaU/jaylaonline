@@ -1,15 +1,14 @@
 <template>
  <div class="pagecontainer"> 
-    <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>
+
+   
+     <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>
      <div class="pricecolumn">
        <div>
                 <h1>{{ product.name }}</h1> 
                  <h2>{{ product.description }}</h2>
                   <br><br>
-          <!-- <div  v-for="product in products" v-bind:key="product.id">
-                <h1>{{ product.name }}</h1> 
-                 <h2>{{ product.description }}</h2>
-                 <br><br> -->
+        
             <div class="priceblock">
                <div  v-for="item in items" :key="item['.key']">
                     <div class="itemrow">
@@ -42,19 +41,20 @@
              </div>  
               <button  v-visible="totalItems > 0" @click="goToShipping" class="buybutton">Checkout</button>
 
-
           </div> 
-
-    </div> 
+   </div> 
   
-    <div class="productblock"> 
-          
-           <div  class="imagebox" v-for="image in itemimages" v-bind:key="image.productd">
-                  <img v-bind:src="image.url" v-bind:alt="image.alt" >
-            </div> 
-    </div> 
-
    
+            <div class="imageblock">  
+           
+           <div  v-for="image in itemimages" v-bind:key="image.productd">
+             
+                  <img v-bind:src="image.url" v-bind:alt="image.alt" >
+              </div>  
+           
+             </div> 
+ 
+ 
   </div> 
 </template>
 
@@ -62,9 +62,6 @@
 import firebase from '../firebase-config';
 import {  db } from '../firebase-config';
 let productsRef = db.ref('products');
-//let itemsRef = deb.ref('items');
-
-
 
 export default {
   name: 'product',
@@ -83,22 +80,22 @@ export default {
       isMobile: false,
       shoppingcart: null,
       products:[]
-    }
+     }
   },
 
 firebase () {
-   let productid =  this.$props.productid;
-  //  if (productid == null) {
-  //     var index = window.location.hash.indexOf("=");
-  //     if(index >= 0)
-  //     {
-  //         productid =  window.location.hash.substring(index+1,window.location.hash.length) ;
-  //     }
-  //  }
+   let pid =  this.$props.productid;
+   if (pid == null) {
+      var index = window.location.hash.indexOf("=");
+      if(index >= 0)
+      {
+          this.productid =  window.location.hash.substring(index+1,window.location.hash.length) ;
+      }
+   }
     
     return {
-      items: db.ref('items').orderByChild("productid").equalTo(productid) ,
-      itemimages: db.ref('itemimages').orderByChild("productid").equalTo(productid),  
+      items: db.ref('items').orderByChild("productid").equalTo(this.productid) ,
+      itemimages: db.ref('itemimages').orderByChild("productid").equalTo(this.productid),  
      // products:  db.ref('products').orderByChild("id").equalTo(productid).limitToFirst(0)
     }
 },
@@ -108,17 +105,13 @@ firebase () {
   },
 
   created () {
-    const pid = this.$props.productid;
     let self = this
-    this.$rtdbBind('products', productsRef.orderByChild("id").equalTo(pid).limitToFirst(1)).then(products => {
+    this.$rtdbBind('products', productsRef.orderByChild("id").equalTo(this.productid).limitToFirst(1)).then(products => {
       for(var key in products.val()){
           console.log("snapshot.val" + products.val()[key]);
         self.product = products.val()[key];
       }
     });
-    // this.$eventHub.$on('shoppingcart', (shoppingcart)=> {
-    //     self.shoppingcart = shoppingcart
-    // });
   },
 
  computed: {
@@ -156,13 +149,14 @@ methods:
 
   itemsSelected: function( item, add) {
     if(item.number == 0 && !add)return;
-    if(item.selected > item.number)
+    debugger
+    if(add && item.selected > item.number)
     {
       alert("no more items");
       return;
     }
      var existingitem = this.shoppingcart.items.find(existing => {
-        if (existing == item) {
+        if (existing.key == item['.key']) {
             return existing;
          }
      });
@@ -172,11 +166,9 @@ methods:
        this.shoppingcart.totalitems +=1
 
         if(existingitem) {
-          existingitem.selected = item.selected
+          existingitem.number += item.selected
         } else {
-          existingitem = item
-          existingitem.productname = this.product.name
-          this.shoppingcart.items.push(existingitem)
+          this.createOrderItem(item)
         }
      }
      else {
@@ -187,15 +179,14 @@ methods:
           if (item.selected == 0) {
             this.shoppingcart.items.splice(this.shoppingcart.items.indexOf(existingitem), 1);
           } else {
-            existingitem.selected = item.selected
+            existingitem.number -= item.selected
           }
         } else {
-          existingitem = item
-          existingitem.productname = this.product.name
-          this.shoppingcart.items.add(existingitem)
+          this.createOrderItem(item)
         }
      }
      this.$eventHub.$emit('shoppingcart', this.shoppingcart);
+     localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
    },
           
   total : function(item) {
@@ -211,8 +202,21 @@ methods:
       return true;
   },
 
+  createOrderItem(item) {
+    let orderitem = {
+      key: item['.key'],
+      productid: item.productid,
+      price: item.price,
+      size: item.size,
+      number: item.selected,
+      productname: this.product.name,
+      isSelected: false
+  }
+     this.shoppingcart.items.push(orderitem)
+  },
+ 
   goToShipping: function() {
-      localStorage.setItem(this.shoppingcart.reference, JSON.stringify(this.shoppingcart));
+      localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
       if (this.shoppingcart.userid == "")
       {
         this.$router.replace({ name: 'Login', params: {goToCheckout: true}});
@@ -224,24 +228,31 @@ methods:
   },
 
   initialiseShoppingCart() {
-        const currentUser = firebase.auth().currentUser;
-         if(!this.shoppingcart) {
-          this.shoppingcart = {
-            email: currentUser? currentUser.email: "",
-            name: "",
-            userid: currentUser? currentUser.uid: "",
-            reference: 'jaylashop',//'JO' + Math.random().toString(36).substr(2, 9),
-            purchasevalue: 0,
-            totalPaid: 0,
-            totalitems: 0,
-            items: [],
-            deliveryfee: 0,
-            zapperPaymentMethod: false,
-            zapperPaymentId: 0,
-            zapperReference: ""
-          };
-        }
+    debugger
+      const currentUser = firebase.auth().currentUser;
+      let cartref = 'jaylashop'
+      if(localStorage.getItem(cartref))
+      {
+          this.shoppingcart = JSON.parse(localStorage.getItem(cartref));
       }
+
+      if(!this.shoppingcart) {
+        this.shoppingcart = {
+          email: currentUser? currentUser.email: "",
+          name: "",
+          userid: currentUser? currentUser.uid: "",
+          reference: 'JaylaShop' + Math.random().toString(36).substr(2, 9),
+          purchasevalue: 0,
+          totalPaid: 0,
+          totalitems: 0,
+          items: [],
+          deliveryfee: 0,
+          zapperPaymentMethod: false,
+          zapperPaymentId: 0,
+          zapperReference: ""
+        };
+      }
+    }
   },
 
 // watch: {

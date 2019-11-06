@@ -68,18 +68,22 @@
       }
     },
 
- created() {
-  debugger
-  
-    let cartref = 'jaylashop'
-    if(localStorage.getItem(cartref))
-    {
-        this.shoppingcart = JSON.parse(localStorage.getItem(cartref));
-    }
-    let self = this
-    const currentUser = firebase.auth().currentUser;
+  mounted() {
 
-    let us = this.user
+    this.$eventHub.$on('shoppingcart', (shoppingcart)=> {
+      self.shoppingcart = shoppingcart
+  });
+     
+ },
+
+ created() {
+     const currentUser = firebase.auth().currentUser;
+      let cartref = 'jaylashop'
+      if(localStorage.getItem(cartref))
+      {
+          this.shoppingcart = JSON.parse(localStorage.getItem(cartref));
+      }
+    let self = this
     this.$rtdbBind('users', userRef.orderByChild("uid").equalTo(currentUser.uid).limitToFirst(1)).then(users => {
       for(var key in users.val()){
          console.log("snapshot.val" + users.val()[key]);
@@ -87,15 +91,13 @@
         self.key = key
         self.address = self.user.address
       }
-     
-    });
+     });
  },
 
   methods: {
       
   shippingQuote ()
   {
-    debugger
     if(this.user.address.addressline1 == ''
     || this.user.address.suburb == ''
     || this.user.address.country == '' 
@@ -106,7 +108,7 @@
     }
     this.addressInvalid = false
     this.gotShippingQuote = true
-    this.shoppingcart.shipping = 355
+    this.shoppingcart.deliveryfee = 355
     this.$eventHub.$emit('shoppingcart', this.shoppingcart);
     let user = this.user
     db.ref('users/' + this.key).set(user);
@@ -117,17 +119,17 @@
    goToCheckout: function() {
       var theTotal = 0;
       this.shoppingcart.items.forEach(item => {
-          theTotal += item.selected * Number(item.price);
+          theTotal += item.number * Number(item.price);
       });
       this.shoppingcart.purchasevalue = String((theTotal + this.shoppingcart.shipping))
-      localStorage.setItem(this.shoppingcart.reference, JSON.stringify(this.shoppingcart));
+      localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
       if (this.shoppingcart.userid == "")
       {
-        this.$router.replace({ name: 'Login', params: {goToCheckout: true}});
+        this.$router.replace({ name: 'Checkout', params: {goToCheckout: true}});
       } 
       else
       {
-        this.$router.replace({ name: 'Checkout'});
+        this.$router.replace({ name: 'Login'});
       }
   },
 

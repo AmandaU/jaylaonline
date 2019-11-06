@@ -1,3 +1,7 @@
+-webkit-scrollbar { 
+  display: none; 
+}
+
 .pagecontainer{
   height:100%;
   width:100%;
@@ -5,6 +9,7 @@
   display: flex;
   flex-direction: row;
   margin: 0, auto;
+  align-items: center; 
  }
 
  
@@ -23,34 +28,24 @@
    top: 0%;
 }
 
-.productblock {
-  display: flex;
+.imageblock {
+  display: flex;  
+  align-items: center;   
+  height:50%;
+  max-height:50vh;
   flex:3;
-  flex-direction: row;
-  vertical-align: middle;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  //width:100%;
-  float: right;
-  flex-wrap: nowrap;
-  flex-shrink: 1;
+  overflow-x: auto;
+ 
 }
 
-.imagebox{
-
-  max-width: 90%;
-  height: auto;
-   width: 90%;
-}
-
-.imagebox img{
+.imageblock img{
  
   max-height: 50vh;
   height: 100%;
-  width: 100% ;
-  max-width: 100%;
+ // width: 100% ;
+  //max-width: 100%;
  }
+
 
 .priceblock{
     flex: 0.7;

@@ -59,6 +59,13 @@
           let uid = user.user.uid;
           alert('Successful login');
           self.$eventHub.$emit('loggedin', '');
+           let cartref = 'jaylashop'
+          if(localStorage.getItem(cartref))
+          {
+              this.shoppingcart = JSON.parse(localStorage.getItem(cartref));
+              this.shoppingcart.userid = user.uid
+              this.shoppingcart.email = user.email
+          }
           if(self.$props.goToCheckout)
           {
             self.$router.replace({ name: 'Shipping'});
@@ -73,28 +80,6 @@
             self.$router.replace({ name: 'Home'});
           }
         
-          // self.$bindAsArray(
-          //         "users",
-          //        db.ref('users').orderByChild("uid").equalTo(uid).limitToFirst(1),
-          //         null,
-          //         () => {
-          //           if(self.shoppingcart)
-          //           {
-          //             self.shoppingcart.userid = uid;
-          //             localStorage.setItem(self.shoppingcart.reference, JSON.stringify(self.shoppingcart));
-          //             self.$router.replace({ name: 'Checkout', query: {cartref: self.$props.cartref}});
-          //             self.busy = false;
-          //           }
-          //           // else if(self.$props.cartref)
-          //           // {
-          //           //   self.$router.replace({ name: 'Event', params: {cartref: self.shoppingcart}});
-          //           // }
-          //           else
-          //           {
-          //             self.$router.replace({ name: 'Home'});
-          //           }
-          //         }
-          //       );
            
         },
         (err) => {

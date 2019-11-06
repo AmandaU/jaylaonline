@@ -10,7 +10,7 @@
     </div>
     <div class="menu menuright">
       <div class="nameitem" v-show="isLoggedin">Hi {{user.firstname}}</div>
-      <div class="hoveritem" v-show="shoppingcart.totalitems > 0" v-on:click="navigate('Checkout')" >Checkout({{shoppingcart.totalitems}})</div>
+      <div class="hoveritem" v-show="totalitems > 0" v-on:click="navigate('Checkout')" >Checkout({{totalitems}})</div>
       <div class="hoveritem" v-show="!isLoggedin" v-on:click="navigate('Login')" >Login</div>
       <div class="hoveritem"  v-show="isLoggedin" v-on:click="navigate('Logout')" >Logout</div>
     </div>
@@ -30,10 +30,10 @@ name: 'Navigation',
 
 data() {
     return {
-    isLoggedin: false,
-      shoppingCartItems: 0,
+      isLoggedin: false,
       shoppingcart: {},
-      user: {}
+      user: {},
+      totalitems: 0
     }
   },
 
@@ -43,6 +43,13 @@ firebase () {
 },
 
 mounted() {
+
+    let cartref = 'jaylashop'
+    if(localStorage.getItem(cartref))
+    {
+        this.shoppingcart = JSON.parse(localStorage.getItem(cartref));
+    }
+   
     let self = this;
     this.$eventHub.$on('loggedin', ()=> {
        self.fetchUser()
@@ -50,6 +57,11 @@ mounted() {
 
      this.$eventHub.$on('shoppingcart', (shoppingcart)=> {
        self.shoppingcart = shoppingcart
+       if (!shoppingcart) {
+         self.totalitems = 0
+       }else {
+         self.totalitems = self.shoppingcart.totalitems
+       }
     });
      this.fetchUser()
  },
@@ -65,6 +77,10 @@ methods: {
         for(var key in users.val()){
             console.log("snapshot.val" + users.val()[key]);
           self.user = users.val()[key];
+          if(self.shoppingcart) {
+            self.shoppingcart.userid = currentUser.uid
+            self.shoppingcart.email = currentUser.email
+          }
         }
       });
     }
@@ -79,33 +95,44 @@ methods: {
         //console.log('Signed Out');
           alert('You have successfully logged out');
           self.isLoggedin = false;
+          localStorage.clear()
+          self.$eventHub.$emit('shoppingcart', null);
           self.$router.replace({ name: 'Home'});
-          }, 
-          function(error) {
-            alert(error);
-            });
+        }, 
+        function(error) {
+          alert(error);
+        });
       }
-
-     if(window.location.hash.length > 8 && window.location.hash.substring(2,6) == "shop")
-       {
-         if(navPath == "Login")
-         {
-            this.$router.replace({ name: navPath, params: {eventid: window.location.hash.substring(9,9)}});
-        }
-         else{
-           this.$router.replace({ name: navPath});
-         }
-       }
-       else
-       if(navPath == "Logout")
-       {
-         this.$router.replace({ name: 'Login'});
-       }
-       else
-       {
-         this.$router.replace({ name: navPath});
-         }
+debugger
+    if(navPath == "Checkout") {
+      if (this.shoppingcart.userid == "")
+      {
+        this.$router.replace({ name: 'Login', params: {goToCheckout: true}});
+      } 
+      else
+      {
+        this.$router.replace({ name: 'Shipping'});
+      }
+      return 
+      }
+      
+     
+        this.$router.replace({ name: navPath});
+      
        
+    //  if(window.location.hash.length > 8 && window.location.hash.substring(2,6) == "shop")
+    //    {
+    //      if(navPath == "Login")
+    //      {
+    //         this.$router.replace({ name: navPath});
+    //      }
+    //      else{
+    //        this.$router.replace({ name: navPath});
+    //      }
+      //  }
+      //  else
+       
+     
     }
 },
   

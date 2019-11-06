@@ -130,7 +130,7 @@ methods: {
   },
 
   navigateToItem(product) {
-      this.$router.replace({ name: 'Product', params: {productid: product.id}});
+      this.$router.replace({ name: 'Product', query: {productid: product.id}});
      
   },
 

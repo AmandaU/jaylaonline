@@ -28,6 +28,8 @@ export default {
    }
   },
 
+  
+
 beforeDestroy: function() {
     // Clean up
     // this.$eventHub.$off('eventimageurl', '');
