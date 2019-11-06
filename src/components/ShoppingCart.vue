@@ -23,7 +23,7 @@
                   </div> 
               </div> 
 
-               <div  v-visible="this.shoppingcart.shipping > 0" class="checkoutrow ">
+               <div  v-visible="this.shoppingcart.deliveryfee > 0" class="checkoutrow ">
                   <div  class="checkouttickets ">
                      <small>Delivery fee</small>
                   </div> 
@@ -66,9 +66,9 @@ export default {
     },
 
     mounted() {
-    let self = this;
-    this.$eventHub.$on('shoppingcart', (shoppingcart)=> {
-       self.shoppingcart = shoppingcart
+      let self = this;
+      this.$eventHub.$on('shoppingcart', (shoppingcart)=> {
+        self.shoppingcart = shoppingcart
     });
     
   },
@@ -101,7 +101,7 @@ export default {
           this.shoppingcart.items.forEach(item => {
               theTotal += item.selected * Number(item.price);
           });
-          theTotal += this.shoppingcart.shipping
+          theTotal += this.shoppingcart.deliveryfee
           return theTotal.toFixed(2)
         },
 

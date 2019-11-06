@@ -235,7 +235,7 @@ methods:
             totalPaid: 0,
             totalitems: 0,
             items: [],
-            shipping: 0,
+            deliveryfee: 0,
             zapperPaymentMethod: false,
             zapperPaymentId: 0,
             zapperReference: ""
