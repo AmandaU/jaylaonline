@@ -3,7 +3,10 @@
     
     <Navigation ></Navigation>
       <div class="fullpage" >
-        <router-view />
+         <router-view/>
+        <!-- <keep-alive include="Product">
+          <router-view></router-view>
+        </keep-alive> -->
         <BottomNav></BottomNav>
       </div>
       

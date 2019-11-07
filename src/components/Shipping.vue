@@ -39,7 +39,7 @@
   import ShoppingCart from '../components/ShoppingCart'
   //import CubeSpin from 'vue-loading-spinner/src/components/ScaleOut'
   const userRef = db.ref('users')
-  
+  const currentUser = firebase.auth().currentUser;
   export default {
   name: 'shipping',
 
@@ -77,12 +77,11 @@
  },
 
  created() {
-     const currentUser = firebase.auth().currentUser;
-      let cartref = 'jaylashop'
-      if(localStorage.getItem(cartref))
-      {
-          this.shoppingcart = JSON.parse(localStorage.getItem(cartref));
-      }
+    
+    if(localStorage.getItem(currentUser.uid))
+    {
+        this.shoppingcart = JSON.parse(localStorage.getItem(currentUser.uid));
+    }
     let self = this
     this.$rtdbBind('users', userRef.orderByChild("uid").equalTo(currentUser.uid).limitToFirst(1)).then(users => {
       for(var key in users.val()){
@@ -109,12 +108,9 @@
     this.addressInvalid = false
     this.gotShippingQuote = true
     this.shoppingcart.deliveryfee = 355
-    this.$eventHub.$emit('shoppingcart', this.shoppingcart);
     let user = this.user
     db.ref('users/' + this.key).set(user);
-
-  
-  },
+ },
 
    goToCheckout: function() {
       var theTotal = 0;
@@ -122,15 +118,8 @@
           theTotal += item.number * Number(item.price);
       });
       this.shoppingcart.purchasevalue = String((theTotal + this.shoppingcart.shipping))
-      localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
-      if (this.shoppingcart.userid == "")
-      {
-        this.$router.replace({ name: 'Checkout', params: {goToCheckout: true}});
-      } 
-      else
-      {
-        this.$router.replace({ name: 'Login'});
-      }
+      localStorage.setItem(currentUser.uid, JSON.stringify(this.shoppingcart));
+      this.$router.replace({ name: 'Checkout'});
   },
 
   }

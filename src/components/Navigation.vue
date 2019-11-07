@@ -43,14 +43,13 @@ firebase () {
 },
 
 mounted() {
-  let currentuser = firebase.auth().currentUser;
+    let currentuser = firebase.auth().currentUser;
      if(currentuser){
        this.isLoggedin = true
      }
-    let cartref = 'jaylashop'
-    if(localStorage.getItem(cartref))
+    if(localStorage.getItem(currentuser.uid))
     {
-        this.shoppingcart = JSON.parse(localStorage.getItem(cartref));
+        this.shoppingcart = JSON.parse(localStorage.getItem(currentuser.uid));
         this.totalitems = this.shoppingcart.totalitems
     }
    
@@ -59,15 +58,9 @@ mounted() {
         self.isLoggedin = true;
     });
 
-     this.$eventHub.$on('shoppingcart', (shoppingcart)=> {
-       debugger
-       self.shoppingcart = shoppingcart
-       if (!shoppingcart) {
-         self.totalitems = 0
-       }else {
-         self.totalitems = self.shoppingcart.totalitems
-       }
-    });
+     this.$eventHub.$on('shoppingcarttotal', (total)=> {
+        self.totalitems = total
+     });
   },
 
 methods: {
@@ -100,7 +93,7 @@ methods: {
           alert('You have successfully logged out');
           self.isLoggedin = false;
           localStorage.clear()
-          self.$eventHub.$emit('shoppingcart', null);
+          self.$eventHub.$emit('shoppingcarttotal', 0);
           self.$router.replace({ name: 'Home'});
         }, 
         function(error) {
@@ -108,9 +101,9 @@ methods: {
         });
       }
     if(navPath == "Checkout") {
-      if (this.shoppingcart.userid == "")
-      {
-        this.$router.replace({ name: 'Login', params: {goToCheckout: true}});
+      let currentuser = firebase.auth().currentUser;
+      if (!currentuser) {
+         self.$router.replace({ name: 'Login',  params: {currentPage: 'Shipping'}});
       } 
       else
       {

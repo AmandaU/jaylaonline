@@ -69,6 +69,7 @@
 </template>
 
 <script>
+import firebase from '../firebase-config';
  
 export default {
   
@@ -92,15 +93,14 @@ export default {
   },
 
     created() {
-       let cartref = 'jaylashop'
-       debugger
-      if(localStorage.getItem(cartref))
+      if(localStorage.getItem(currentUser.uid))
       {
-          this.shoppingcart = JSON.parse(localStorage.getItem(cartref));
-          if (this.shoppingcart.items.count == 0) {
+        this.shoppingcart = JSON.parse(localStorage.getItem(currentUser.uid));
+        if (this.shoppingcart.items.count == 0) {
             this.hideAll = true
-          }
-       }
+        }
+      }
+      
     },
 
     computed: {

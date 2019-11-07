@@ -37,7 +37,7 @@
   },
 
   props: {
-    goToCheckout: Boolean,
+    currentPage: String,
   },
 
   data() {
@@ -74,9 +74,9 @@ methods: {
       
   goBackToLogin ()
   {
-     if(this.$props.goToCheckout)
+     if(this.$props.currentPage)
       {
-        this.$router.replace({ name: 'Login', params: {goToCheckout: true}});
+        this.$router.replace({ name: 'Login', params: {currentPage: this.$props.currentPage}});
       } else {
         this.$router.replace({ name: 'Login'});
       }
@@ -120,17 +120,14 @@ methods: {
         self.insert(uid)
         alert('Your account has been created')
         self.$eventHub.$emit('loggedin', '');
-         let cartref = 'jaylashop'
-        if(localStorage.getItem(cartref))
+       if(localStorage.getItem(uid))
         {
-            self.shoppingcart = JSON.parse(localStorage.getItem(cartref));
-            self.shoppingcart.userid = user.user.uid
-            self.shoppingcart.email = user.user.email
-            localStorage.setItem('jaylashop', JSON.stringify(self.shoppingcart));
+            self.shoppingcart = JSON.parse(localStorage.getItem(uid));
+            self.$eventHub.$emit('shoppingcarttotal', self.shoppingcart.totalitems);
         }
-        if(self.$props.goToCheckout)
+        if(self.$props.currentPage)
         {
-          self.$router.replace({ name: 'Shipping'});
+          self.$router.replace({ name: self.$props.currentPage,  params: {currentPage: this.$props.currentPage}});
           self.busy = false;
         }
         // else if(self.$props.eventid)

@@ -31,20 +31,19 @@
         password: "",
         users: [],
         shoppingcart: {}
-      }
-    },
+    }
+  },
 
   props: {
-    goToCheckout: Boolean,
+    currentPage: String,
    },
  
   methods: {
 
     goToSignup ()
     {
-      if(this.$props.cartref)
-      {
-        this.$router.replace({ name: 'Signup', params: {goToCheckout: true}});
+      if(this.$props.currentPage) {
+        this.$router.replace({ name: 'Signup', params: {currentPage: this.$props.currentPage}});
       } else {
         this.$router.replace({ name: 'Signup'});
       }
@@ -60,17 +59,14 @@
           alert('Successful login');
           self.$eventHub.$emit('loggedin', '');
           debugger
-          let cartref = 'jaylashop'
-          if(localStorage.getItem(cartref))
+          if(localStorage.getItem(uid))
           {
-              self.shoppingcart = JSON.parse(localStorage.getItem(cartref));
-              self.shoppingcart.userid = user.user.uid
-              self.shoppingcart.email = user.user.email
-              localStorage.setItem('jaylashop', JSON.stringify(self.shoppingcart));
+              self.shoppingcart = JSON.parse(localStorage.getItem(uid));
+              self.$eventHub.$emit('shoppingcarttotal', self.shoppingcart.totalitems);
           }
-          if(self.$props.goToCheckout)
+          if(self.$props.currentPage)
           {
-            self.$router.replace({ name: 'Shipping'});
+            self.$router.replace({ name: self.$props.currentPage,  params: {currentPage: this.$props.currentPage}});
             self.busy = false;
           }
           // else if(self.$props.cartref)

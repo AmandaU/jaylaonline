@@ -53,7 +53,6 @@ export default {
       Media
     },
 
-
   data() {
       return {
         zapperConfig: zapperConfig,
@@ -65,7 +64,7 @@ export default {
         merchantKey: 'ztdbyg14s7nyd',//'49qsjtvgayqaw',//
         greaterThan800: window.innerWidth > 800,
         zapperKey: 0,
-         shoppingcart: {},
+        shoppingcart: {},
       }
     },
 
@@ -80,22 +79,18 @@ export default {
 
   created() {
     let self = this
-    let cartref = 'jaylashop'
-     if(localStorage.getItem(cartref))
-     {
-        this.shoppingcart = JSON.parse(localStorage.getItem(cartref));
-    }
-
     const currentUser = firebase.auth().currentUser;
+    if(localStorage.getItem(currentUser.uid))
+     {
+        this.shoppingcart = JSON.parse(localStorage.getItem(currentUser.uid));
+    }
     this.$rtdbBind('users', usersRef.orderByChild("uid").equalTo(currentUser.uid).limitToFirst(1)).then(users => {
       for(var key in users.val()){
           console.log("snapshot.val" + users.val()[key]);
         self.user = users.val()[key];
       }
     });
-
-  this.loadZapperScript();
-    // this.loadZapperV2();
+   this.loadZapperScript();
   },
 
   watch: {

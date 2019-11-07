@@ -56,7 +56,7 @@ const router = new Router({
     component: Product,
     props: true,
      props: route => ({
-        productid: route.query.productd,
+        productid: route.query.productid,
       }),
   },
     {
