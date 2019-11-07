@@ -43,19 +43,24 @@ firebase () {
 },
 
 mounted() {
-
+  let currentuser = firebase.auth().currentUser;
+     if(currentuser){
+       this.isLoggedin = true
+     }
     let cartref = 'jaylashop'
     if(localStorage.getItem(cartref))
     {
         this.shoppingcart = JSON.parse(localStorage.getItem(cartref));
+        this.totalitems = this.shoppingcart.totalitems
     }
    
     let self = this;
     this.$eventHub.$on('loggedin', ()=> {
-       self.fetchUser()
+        self.isLoggedin = true;
     });
 
      this.$eventHub.$on('shoppingcart', (shoppingcart)=> {
+       debugger
        self.shoppingcart = shoppingcart
        if (!shoppingcart) {
          self.totalitems = 0
@@ -63,32 +68,31 @@ mounted() {
          self.totalitems = self.shoppingcart.totalitems
        }
     });
-     this.fetchUser()
- },
+  },
 
 methods: {
 
-  fetchUser() {
-    var currentuser = firebase.auth().currentUser;
-    if(currentuser){
-      this.isLoggedin = true;
-      let self = this
-      this.$rtdbBind('users', usersRef.orderByChild("uid").equalTo(currentuser.uid).limitToFirst(1)).then(users => {
-        for(var key in users.val()){
-            console.log("snapshot.val" + users.val()[key]);
-          self.user = users.val()[key];
-          if(self.shoppingcart) {
-            self.shoppingcart.userid = currentUser.uid
-            self.shoppingcart.email = currentUser.email
-          }
-        }
-      });
-    }
-  },
+  // fetchUser() {
+  //   let currentuser = firebase.auth().currentUser;
+  //    if(currentuser){
+  //      if(self.shoppingcart) {
+  //       self.shoppingcart.userid = currentUser.uid
+  //       self.shoppingcart.email = currentUser.email
+  //       localStorage.setItem('jaylashop', JSON.stringify(self.shoppingcart));
+  //     }
+  //     this.isLoggedin = true;
+  //     // let self = this
+  //     // this.$rtdbBind('users', usersRef.orderByChild("uid").equalTo(currentuser.uid).limitToFirst(1)).then(users => {
+  //     //   for(var key in users.val()){
+  //     //       console.log("snapshot.val" + users.val()[key]);
+  //     //     self.user = users.val()[key];
+  //     //    }
+  //     // });
+  //   }
+  // },
 
   navigate (navPath) {
-  
-    if(navPath == "Logout")
+     if(navPath == "Logout")
       {
         let self = this;
         firebase.auth().signOut().then(function() { 
@@ -103,7 +107,6 @@ methods: {
           alert(error);
         });
       }
-debugger
     if(navPath == "Checkout") {
       if (this.shoppingcart.userid == "")
       {
@@ -115,10 +118,8 @@ debugger
       }
       return 
       }
-      
-     
-        this.$router.replace({ name: navPath});
-      
+      this.$router.replace({ name: navPath});
+    
        
     //  if(window.location.hash.length > 8 && window.location.hash.substring(2,6) == "shop")
     //    {

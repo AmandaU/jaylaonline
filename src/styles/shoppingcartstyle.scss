@@ -90,3 +90,27 @@
     height:30px;
     padding-left: 5px;
   }
+
+
+.addminusbox{
+  display: flex;
+ flex-direction: row;
+ cursor: pointer;
+ width:100%;
+ flex: 0.5;
+ height: 100%;
+ flex-direction: flex;
+ align-items: center;
+ text-align: right; 
+ justify-content: right;
+ vertical-align: middle;
+ }
+ 
+ .addminusimage{
+   width: 25px;
+   height: 25px;
+   margin-right: 10px;
+   border: 1px solid rgb(225, 225, 226);
+   border-radius: 5px;
+   padding: 5px;
+ }

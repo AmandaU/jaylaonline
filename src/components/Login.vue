@@ -59,12 +59,14 @@
           let uid = user.user.uid;
           alert('Successful login');
           self.$eventHub.$emit('loggedin', '');
-           let cartref = 'jaylashop'
+          debugger
+          let cartref = 'jaylashop'
           if(localStorage.getItem(cartref))
           {
-              this.shoppingcart = JSON.parse(localStorage.getItem(cartref));
-              this.shoppingcart.userid = user.uid
-              this.shoppingcart.email = user.email
+              self.shoppingcart = JSON.parse(localStorage.getItem(cartref));
+              self.shoppingcart.userid = user.user.uid
+              self.shoppingcart.email = user.user.email
+              localStorage.setItem('jaylashop', JSON.stringify(self.shoppingcart));
           }
           if(self.$props.goToCheckout)
           {

@@ -1,12 +1,18 @@
 <template>
 
-  <div class="checkoutblock">
+  <div class="checkoutblock" v-visible="!hideAll">
               <h2>Shopping cart:</h2>
               <div  v-for="item in shoppingcart.items" :key="item.key ">
                 <div  class="checkoutrow">
                   <div class="selectimage">
                     <input  type="checkbox"   @click="shouldRemoveItems(item)" true-value=""  false-value="" >
                   </div>
+
+                  <!-- <div  class="addminusbox">
+                    <img src="../assets/plus.jpg"  alt="plus"  @click="itemsSelected(item,true)" class="addminusimage"/>
+                    <img v-visible="item.number > 0"  src="../assets/minus.png"  alt="minus"  @click="itemsSelected(item, false)" class="addminusimage"/><br>
+                  </div>    -->
+
                   <div  class="checkouttickets ">
                     <small>{{item.productname}}, size {{item.size}}</small>
                     <small>{{item.number}} @ R{{item.price}} each</small>
@@ -18,7 +24,7 @@
                 </div>  
               </div>
             
-              <p v-visible="canRemoveItems">Would you like to  <span @click="removeItems()" style="color:red;cursor:pointer">delete the selected items?</span></p>
+              <p v-visible="canRemoveItems">Would you like to  <span @click="removeItems()" style="color:red;cursor:pointer">remove the selected items?</span></p>
 
               <br>
 
@@ -72,7 +78,8 @@ export default {
         return {
         greaterThan800: window.innerWidth > 800,
         shoppingcart: {},
-        canRemoveItems: false
+        canRemoveItems: false,
+        hideAll: false
         }
     },
 
@@ -85,42 +92,42 @@ export default {
   },
 
     created() {
-      debugger
        let cartref = 'jaylashop'
+       debugger
       if(localStorage.getItem(cartref))
       {
           this.shoppingcart = JSON.parse(localStorage.getItem(cartref));
+          if (this.shoppingcart.items.count == 0) {
+            this.hideAll = true
+          }
        }
     },
 
     computed: {
 
+      isMobile: function()
+      {
+          return navigator.userAgent.match(/Android/i) ||
+          navigator.userAgent.match(/webOS/i) ||
+          navigator.userAgent.match(/iPhone/i) ||
+          navigator.userAgent.match(/iPad/i) ||
+          navigator.userAgent.match(/iPod/i) ||
+          navigator.userAgent.match(/BlackBerry/i) ||
+          navigator.userAgent.match(/Windows Phone/i) ;
+      },
       
-        isMobile: function()
-        {
-            return navigator.userAgent.match(/Android/i) ||
-            navigator.userAgent.match(/webOS/i) ||
-            navigator.userAgent.match(/iPhone/i) ||
-            navigator.userAgent.match(/iPad/i) ||
-            navigator.userAgent.match(/iPod/i) ||
-            navigator.userAgent.match(/BlackBerry/i) ||
-            navigator.userAgent.match(/Windows Phone/i) ;
-        },
-        
-        total: function()
-        {
-          var theTotal = 0;
-          this.shoppingcart.items.forEach(item => {
-              theTotal += item.number * Number(item.price);
-          });
-          theTotal += this.shoppingcart.deliveryfee
-          return theTotal.toFixed(2)
-        },
+      total: function() {
+        var theTotal = 0;
+        this.shoppingcart.items.forEach(item => {
+            theTotal += item.number * Number(item.price);
+        });
+        theTotal += this.shoppingcart.deliveryfee
+        return theTotal.toFixed(2)
+      },
 
-        shippingFee: function()
-        {
-              return 'R ' + String(this.shoppingcart.deliveryfee.toFixed(2))
-        },
+      shippingFee: function() {
+          return 'R ' + String(this.shoppingcart.deliveryfee.toFixed(2))
+      },
     },
 
     methods: {
@@ -133,10 +140,13 @@ export default {
                 return true;
             }
         });
+        if (this.shoppingcart.items.count == 0) {
+          this.hideAll = true
+        }
       },
 
       removeItems() {
-        canRemoveItems = false
+        this.canRemoveItems = false
         this.shoppingcart.items.forEach(element => {
           if (element.isSelected)
           {
@@ -155,7 +165,45 @@ export default {
       select(item) {
 
       }
+    },
+
+    itemsSelected: function( item, add) {
+      debugger
+    if(item.number == 0 && !add)return;
+    if(add && item.selected > item.number)
+    {
+      alert("no more items");
+      return;
     }
+     var existingitem = this.shoppingcart.items.find(existing => {
+        if (existing.key == item['.key']) {
+            return existing;
+         }
+     });
+
+     if(add ){
+       item.selected += 1
+       this.shoppingcart.totalitems +=1
+
+        if(existingitem) {
+          existingitem.number += item.selected
+        } 
+     }
+     else {
+       item.selected -= 1
+       this.shoppingcart.totalitems -=1
+       
+        if(existingitem) {
+          if (item.selected == 0) {
+            this.shoppingcart.items.splice(this.shoppingcart.items.indexOf(existingitem), 1);
+          } else {
+            existingitem.number -= item.selected
+          }
+        } 
+     }
+     this.$eventHub.$emit('shoppingcart', this.shoppingcart);
+     localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
+   },
 }
 
 </script>

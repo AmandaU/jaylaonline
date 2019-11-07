@@ -149,7 +149,7 @@ methods:
 
   itemsSelected: function( item, add) {
     if(item.number == 0 && !add)return;
-    debugger
+    
     if(add && item.selected > item.number)
     {
       alert("no more items");
@@ -228,7 +228,6 @@ methods:
   },
 
   initialiseShoppingCart() {
-    debugger
       const currentUser = firebase.auth().currentUser;
       let cartref = 'jaylashop'
       if(localStorage.getItem(cartref))
