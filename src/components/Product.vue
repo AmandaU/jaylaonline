@@ -39,10 +39,9 @@
                      <div class="thinline"></div>  
                 </div>
              </div>  
-            
+             
+              <button   v-show="totalItems > 0" @click="goToShipping" class="buybutton">check out</button>
               <button   @click="continueShopping" class="buybutton">continue shopping</button><br/>
-              <button  v-visible="totalItems > 0" @click="addToShoppingCart" class="buybutton">add to shopping cart</button><br/>
-              <button   v-visible="totalItems > 0" @click="goToShipping" class="buybutton">check out</button>
 
           </div> 
    </div> 
@@ -61,13 +60,13 @@
 import firebase from '../firebase-config';
 import {  db } from '../firebase-config';
 let productsRef = db.ref('products');
+let itemsRef = db.ref('items');
 
 export default {
   name: 'product',
 
   props: {
      productid: String,
-     currentPage: String,
    },
 
   data() {
@@ -79,11 +78,13 @@ export default {
       product: {},
       isMobile: false,
       shoppingcart: null,
-      products:[]
+      products:[],
+      currentuser: null
      }
   },
 
 firebase () {
+  this.currentuser = firebase.auth().currentUser;
   if (this.$props.productid == null) {
       var index = window.location.hash.indexOf("=");
       if(index >= 0)
@@ -92,17 +93,32 @@ firebase () {
       }
    } 
     return {
-      items: db.ref('items').orderByChild("productid").equalTo(this.productid) ,
+     // items: db.ref('items').orderByChild("productid").equalTo(this.productid) ,
       itemimages: db.ref('itemimages').orderByChild("productid").equalTo(this.productid),  
      // products:  db.ref('products').orderByChild("id").equalTo(productid).limitToFirst(0)
     }
 },
 
-  mounted() {
-      if (this.$props.currentPage) {
-        this.addToShoppingCart()
-      }
-  },
+  // mounted() {
+  //   debugger
+      
+  //     if(localStorage.getItem('currentitemsselected')) {
+  //       debugger
+  //       let selecteditems = JSON.parse(localStorage.getItem('currentitemsselected'))
+  //       selecteditems.forEach(si => {
+  //         debugger
+  //         var existingitem = this.items.find(existing => {
+  //           debugger
+  //           if (existing.key == si['.key']) {
+  //             existing.selected = si.selected;
+  //           }
+  //         });
+  //       });
+  //      localStorage.removeItem('currentitemsselected')
+  //     }
+  //     this.addItems()
+     
+  // },
 
   created () {
     let self = this
@@ -113,10 +129,11 @@ firebase () {
       }
     });
 
-    //  this.$rtdbBind('items', itemsRef.orderByChild("productid").equalTo(this.productid).limitToFirst(1)).then(items => {
-    //    debugger
-    //   self.items = items
-    // });
+    this.$rtdbBind('items', itemsRef.orderByChild("productid").equalTo(this.productid)).then(items => {
+       if(self.currentuser) {
+        self.addSelectedItems(self.items)
+       }
+    });
   },
 
  computed: {
@@ -144,6 +161,7 @@ firebase () {
 
 methods: 
 { 
+
   media800Enter(mediaQueryString) {
     this.greaterThan800 = false
   },
@@ -156,16 +174,37 @@ methods:
     if(item.number == 0 && !add)return;
     
     if(add && item.selected > item.number) {
-      alert("no more items");
+     alert("no more items");
       return;
     }
-    
-     if(add ){
-       item.selected += 1
-      }
-     else {
-       item.selected -= 1
+   if(add ){
+      item.selected += 1
+    }
+    else {
+      item.selected -= 1
+    }
+    this.selecteditemkey = item['.key']
+    if(!this.currentuser) {
+      localStorage.setItem('selecteditemkey', this.selecteditemkey)
+      this.$router.push({ name: 'Login', params: {currentPage: 'Product'}});
+      return
      }
+      this.isLoggedin = true
+      this.addItem(item, add)
+  },
+
+   addSelectedItems(items) {
+    if(localStorage.getItem('selecteditemkey')) {
+        let selecteditemKey = localStorage.getItem('selecteditemkey')
+        var item =  items.find(item => {
+            return selecteditemKey == item['.key'] 
+           });
+          if(item) {
+            item.selected = 1;
+          }
+       localStorage.removeItem('selecteditemkey')
+       this.addItem(item, true)
+      }
   },
           
   total : function(item) {
@@ -189,7 +228,8 @@ methods:
       size: item.size,
       number: item.selected,
       productname: this.product.name,
-      isSelected: false
+      isSelected: false,
+      selecteditemkey: ''
   }
      this.shoppingcart.items.push(orderitem)
   },
@@ -199,56 +239,53 @@ methods:
   },
  
   goToShipping () {
-     let currentuser = firebase.auth().currentUser;
-      if (!currentuser){
-         this.$router.replace({ name: 'Login', params: {currentPage: 'Product'}});
+      if (!this.currentuser){
+         this.$router.push({ name: 'Login', params: {currentPage: 'Product'}});
       }  else {
         this.$router.replace({ name: 'Shipping'});
       }
   },
 
-  addToShoppingCart () {
-debugger
-     let currentuser = firebase.auth().currentUser;
-     if(!currentuser){
-        this.$router.replace({ name: 'Login', params: {currentPage: 'Product'}});
-        return
-     }
-
-     this.isLoggedin = true
-    
-    if(localStorage.getItem(currentuser.uid)) {
-        this.shoppingcart = JSON.parse(localStorage.getItem(currentuser.uid));
+  addItem(item, add) {
+   if(localStorage.getItem(this.currentuser.uid)) {
+        this.shoppingcart = JSON.parse(localStorage.getItem(this.currentuser.uid));
      } else {
        this.initialiseShoppingCart()
      }
+  debugger
+    var existingitem = this.shoppingcart.items.find(existing => {
+      if (existing.key == item['.key']) {
+        return existing.key;
+      }
+    });
 
-    var totalItems = 0
-    this.items.forEach(item => {
-        var existingitem = this.shoppingcart.items.find(existing => {
-        if (existing.key == item['.key']) {
-            return existing;
-         }
-        });
-
-         totalItems += item.selected
-        
-        if(existingitem) {
-          existingitem.number += item.selected
-        } else {
-          this.createOrderItem(item)
-        }
-     });
-      this.shoppingcart.totalitems = totalItems
-      this.$eventHub.$emit('shoppingcarttotal', totalItems);
-      localStorage.setItem(currentuser.uid, JSON.stringify(this.shoppingcart));
+    if(existingitem) {
+      if (add) {
+        existingitem.number += 1
+      } else {
+       existingitem.number -= 1
+      }
+    } else {
+      if(item.selected > 0) {
+        this.createOrderItem(item)
+      }
+    }
+   
+     debugger
+    var total = 0;
+    this.shoppingcart.items.forEach(item => {
+      total += item.number;
+    });
+    this.shoppingcart.totalitems = total 
+    this.$eventHub.$emit('shoppingcarttotal', total);
+    localStorage.setItem(this.currentuser.uid, JSON.stringify(this.shoppingcart));
   },
 
   initialiseShoppingCart() {
       this.shoppingcart = {
-          email: currentUser? currentUser.email: "",
+          email: this.currentuser.email,
           name: "",
-          userid: currentUser? currentUser.uid: "",
+          userid: this.currentuser.uid,
           reference: 'JaylaShop' + Math.random().toString(36).substr(2, 9),
           purchasevalue: 0,
           totalPaid: 0,

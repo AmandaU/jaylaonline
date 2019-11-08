@@ -1,5 +1,5 @@
 <template>
-
+ <div>
   <div class="checkoutblock" v-visible="!hideAll">
               <h2>Shopping cart:</h2>
               <div  v-for="item in shoppingcart.items" :key="item.key ">
@@ -65,7 +65,7 @@
               </div> 
             
   </div>  
-            
+ </div>         
 </template>
 
 <script>
@@ -80,22 +80,24 @@ export default {
         greaterThan800: window.innerWidth > 800,
         shoppingcart: {},
         canRemoveItems: false,
-        hideAll: false
+        hideAll: false,
+        currentuser: null
         }
     },
 
     mounted() {
-    let self = this;
-    this.$eventHub.$on('shoppingcart', (shoppingcart)=> {
-       self.shoppingcart = shoppingcart
-    });
+    // let self = this;
+    // this.$eventHub.$on('shoppingcart', (shoppingcart)=> {
+    //    self.shoppingcart = shoppingcart
+    // });
     
   },
 
     created() {
-      if(localStorage.getItem(currentUser.uid))
-      {
-        this.shoppingcart = JSON.parse(localStorage.getItem(currentUser.uid));
+    this.currentuser = firebase.auth().currentUser;
+
+      if(localStorage.getItem(this.currentuser.uid)) {
+        this.shoppingcart = JSON.parse(localStorage.getItem(this.currentuser.uid));
         if (this.shoppingcart.items.count == 0) {
             this.hideAll = true
         }
@@ -134,27 +136,30 @@ export default {
 
       shouldRemoveItems(item) {
         item.isSelected = !item.isSelected
-        this.canRemoveItems =  this.shoppingcart.items.find(existing => {
-           
+        this.shoppingcart.items.find(existing => {
             if (existing.isSelected) {
-                return true;
+               this.canRemoveItems = true;
             }
         });
-        if (this.shoppingcart.items.count == 0) {
-          this.hideAll = true
-        }
       },
 
-      removeItems() {
-        this.canRemoveItems = false
+      removeItems () {
+         this.canRemoveItems = false
         this.shoppingcart.items.forEach(element => {
           if (element.isSelected)
           {
             this.shoppingcart.items.splice(this.shoppingcart.items.indexOf(element), 1);
           }
        });
-      this.$eventHub.$emit('shoppingcart', this.shoppingcart);
-       localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
+      
+       var total = 0;
+       this.shoppingcart.items.forEach(item => {
+          total += item.number;
+       });
+       this.shoppingcart.totalitems = total 
+       this.hideAll = this.shoppingcart.totalitems == 0
+       this.$eventHub.$emit('shoppingcarttotal', this.shoppingcart.totalitems);
+       localStorage.setItem(this.currentuser.uid, JSON.stringify(this.shoppingcart));
       },
 
       totalValueForItem: function(item){
@@ -168,13 +173,12 @@ export default {
     },
 
     itemsSelected: function( item, add) {
-      debugger
-    if(item.number == 0 && !add)return;
-    if(add && item.selected > item.number)
-    {
-      alert("no more items");
-      return;
-    }
+      if(item.number == 0 && !add)return;
+      if(add && item.selected > item.number)
+      {
+        alert("no more items");
+        return;
+      }
      var existingitem = this.shoppingcart.items.find(existing => {
         if (existing.key == item['.key']) {
             return existing;
@@ -201,8 +205,8 @@ export default {
           }
         } 
      }
-     this.$eventHub.$emit('shoppingcart', this.shoppingcart);
-     localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
+     this.$eventHub.$emit('shoppingcarttotal', this.shoppingcart.totalitems);
+     localStorage.setItem(this.currentuser.uid, JSON.stringify(this.shoppingcart));
    },
 }
 

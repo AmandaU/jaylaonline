@@ -4,7 +4,7 @@
        <!-- <cube-spin v-if="busy"></cube-spin> -->
         <br>
         <div class="infoblock">
-          <h3>Sign In</h3>
+          <h3>{{signinmessage}}</h3>
           <input type="text" v-model="email" placeholder="Email"  class="infoblockitem"><br>
           <input type="password" v-model="password" placeholder="Password"  class="infoblockitem"><br>
           <button @click="login" class="infoblockitem">Login</button>
@@ -26,17 +26,24 @@
 
   data() {
       return {
-         busy: true,
+        busy: true,
         email: "",
         password: "",
         users: [],
-        shoppingcart: {}
+        shoppingcart: {},
+        signinmessage: 'Sign in:'
     }
   },
 
   props: {
     currentPage: String,
    },
+
+  created () {
+    if(this.$props.currentPage) {
+      this.signinmessage = 'Please sign in to use your shopping cart'
+    }
+  },
  
   methods: {
 
@@ -51,14 +58,13 @@
     
     login: function() {
       
-     this.busy = true;
-       let self = this;
+      this.busy = true;
+      let self = this;
       firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
         (user) => {
           let uid = user.user.uid;
           alert('Successful login');
           self.$eventHub.$emit('loggedin', '');
-          debugger
           if(localStorage.getItem(uid))
           {
               self.shoppingcart = JSON.parse(localStorage.getItem(uid));
@@ -66,7 +72,11 @@
           }
           if(self.$props.currentPage)
           {
-            self.$router.replace({ name: self.$props.currentPage,  params: {currentPage: this.$props.currentPage}});
+            if (self.$props.currentPage == 'Product') {
+             self.$router.go(-1)
+            } else {
+               self.$router.replace({ name: self.$props.currentPage,  params: {currentPage: this.$props.currentPage}});
+           }
             self.busy = false;
           }
           // else if(self.$props.cartref)

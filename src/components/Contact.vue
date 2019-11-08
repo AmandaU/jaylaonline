@@ -10,7 +10,7 @@ export default {
   name: 'contact',
 
   created() {
-   this.$eventHub.$emit('eventimageurl', '');
+  // this.$eventHub.$emit('eventimageurl', '');
    },
 
 

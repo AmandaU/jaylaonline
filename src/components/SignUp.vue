@@ -125,11 +125,15 @@ methods: {
             self.shoppingcart = JSON.parse(localStorage.getItem(uid));
             self.$eventHub.$emit('shoppingcarttotal', self.shoppingcart.totalitems);
         }
-        if(self.$props.currentPage)
-        {
-          self.$router.replace({ name: self.$props.currentPage,  params: {currentPage: this.$props.currentPage}});
-          self.busy = false;
-        }
+       if(self.$props.currentPage)
+          {
+            if (self.$props.currentPage == 'Product') {
+             self.$router.go(-1)
+            } else {
+              self.$router.replace({ name: self.$props.currentPage,  params: {currentPage: this.$props.currentPage}});
+           }
+            self.busy = false;
+          }
         // else if(self.$props.eventid)
         // {
         //   self.$router.replace({ name: 'Event', params: {eventid: self.$props.shoppingcart}});

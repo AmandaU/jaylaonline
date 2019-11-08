@@ -16,15 +16,16 @@
             <small class="addresslabel">City</small><small style="color: red"  v-visible="addressInvalid && user.address.city == ''">*</small>
             <input type="text" v-model="user.address.city" placeholder="City" class="addressitem"><br>
             <small class="addresslabel">Country</small><small style="color: red"  v-visible="addressInvalid && user.address.country == ''">*</small>
-            <country-select v-model="user.address.country" :country="country" topCountry="ZA" class="addressitem"/><br>
+            <country-select v-model="user.address.country" :country="country" topCountry="ZA" class="countryitem"/><br>
             <small class="addresslabel">Region</small><small style="color: red"  v-visible="addressInvalid && user.address.province == ''">*</small>
-            <region-select v-model="user.address.province" :country="user.address.country" :region="region" class="addressitem"/><br>
+            <region-select v-model="user.address.province" :country="user.address.country" :region="region" class="countryitem"/><br>
              <small class="addresslabel">Postal code</small><small style="color: red"  v-visible="addressInvalid && user.address.postalcode == ''">*</small>
-            <input type="text" v-model="user.address.postalcode" placeholder="Code" class="addressitem" min="1" max="5" ><br>
+            <input type="text" v-model="user.address.postalcode" placeholder="Code" class="addressitem" min="1" max="5" ><br><br>
            
-            <button @click="shippingQuote" class="addressitem">Get shipping quote</button><br>
-            <button  v-visible="gotShippingQuote" @click="goToCheckout" class="addressitem">Checkout</button><br>
-           
+            <button  v-show="canGetShippingQuote" @click="getShippingQuote" class="buttonstyle">Get shipping quote</button>
+            <button  v-show="gotShippingQuote" @click="goToCheckout" class="buttonstyle">Checkout</button>
+            <button  @click="shopMore" class="buttonstyle">shop more</button>
+     
          </div>
      
        <ShoppingCart ></ShoppingCart>
@@ -39,7 +40,7 @@
   import ShoppingCart from '../components/ShoppingCart'
   //import CubeSpin from 'vue-loading-spinner/src/components/ScaleOut'
   const userRef = db.ref('users')
-  const currentUser = firebase.auth().currentUser;
+  
   export default {
   name: 'shipping',
 
@@ -62,28 +63,34 @@
         busy: true,
         user: null,
         gotShippingQuote: false,
+        canGetShippingQuote: false,
         addressInvalid: false,
         address: null,
-        key: ''
+        key: '',
+        currentuser: null,
+        totalitems: 0
       }
     },
 
   mounted() {
-
-    this.$eventHub.$on('shoppingcart', (shoppingcart)=> {
-      self.shoppingcart = shoppingcart
-  });
-     
+    let self = this
+    this.$eventHub.$on('shoppingcarttotal', (total)=> {
+       self.totalitems = total
+       self.gotShippingQuote = self.totalitems > 0
+        self.canGetShippingQuote = this.totalitems > 0
+    });
  },
 
  created() {
-    
-    if(localStorage.getItem(currentUser.uid))
+    this.currentuser = firebase.auth().currentUser;
+    if(localStorage.getItem(this.currentuser.uid))
     {
-        this.shoppingcart = JSON.parse(localStorage.getItem(currentUser.uid));
+        this.shoppingcart = JSON.parse(localStorage.getItem(this.currentuser.uid));
+        this.totalitems = this.shoppingcart.totalitems
+        this.canGetShippingQuote = this.totalitems > 0
     }
     let self = this
-    this.$rtdbBind('users', userRef.orderByChild("uid").equalTo(currentUser.uid).limitToFirst(1)).then(users => {
+    this.$rtdbBind('users', userRef.orderByChild("uid").equalTo(this.currentuser.uid).limitToFirst(1)).then(users => {
       for(var key in users.val()){
          console.log("snapshot.val" + users.val()[key]);
         self.user = users.val()[key];
@@ -94,9 +101,12 @@
  },
 
   methods: {
+
+  shopMore () {
+    this.$router.replace({ name: 'Shop'});
+  },
       
-  shippingQuote ()
-  {
+  getShippingQuote () {
     if(this.user.address.addressline1 == ''
     || this.user.address.suburb == ''
     || this.user.address.country == '' 
@@ -118,7 +128,7 @@
           theTotal += item.number * Number(item.price);
       });
       this.shoppingcart.purchasevalue = String((theTotal + this.shoppingcart.shipping))
-      localStorage.setItem(currentUser.uid, JSON.stringify(this.shoppingcart));
+      localStorage.setItem(this.currentuser.uid, JSON.stringify(this.shoppingcart));
       this.$router.replace({ name: 'Checkout'});
   },
 

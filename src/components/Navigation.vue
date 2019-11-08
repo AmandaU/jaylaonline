@@ -33,56 +33,48 @@ data() {
       isLoggedin: false,
       shoppingcart: {},
       user: {},
-      totalitems: 0
+      totalitems: 0,
+      currentuser: null
     }
-  },
+},
 
 firebase () {
-      return {
-      }
+    this.currentuser = firebase.auth().currentUser;
+  return {
+   }
 },
 
 mounted() {
-    let currentuser = firebase.auth().currentUser;
-     if(currentuser){
-       this.isLoggedin = true
-     }
-    if(localStorage.getItem(currentuser.uid))
-    {
-        this.shoppingcart = JSON.parse(localStorage.getItem(currentuser.uid));
-        this.totalitems = this.shoppingcart.totalitems
+    if(this.currentuser){
+      this.isLoggedin = true
+      if(localStorage.getItem(this.currentuser.uid))
+      {
+          this.shoppingcart = JSON.parse(localStorage.getItem(this.currentuser.uid));
+          this.totalitems = this.shoppingcart.totalitems
+      }
+      this.fetchUser()
     }
-   
     let self = this;
     this.$eventHub.$on('loggedin', ()=> {
         self.isLoggedin = true;
     });
-
-     this.$eventHub.$on('shoppingcarttotal', (total)=> {
-        self.totalitems = total
-     });
+    this.$eventHub.$on('shoppingcarttotal', (total)=> {
+      self.totalitems = total
+    });
   },
 
 methods: {
 
-  // fetchUser() {
-  //   let currentuser = firebase.auth().currentUser;
-  //    if(currentuser){
-  //      if(self.shoppingcart) {
-  //       self.shoppingcart.userid = currentUser.uid
-  //       self.shoppingcart.email = currentUser.email
-  //       localStorage.setItem('jaylashop', JSON.stringify(self.shoppingcart));
-  //     }
-  //     this.isLoggedin = true;
-  //     // let self = this
-  //     // this.$rtdbBind('users', usersRef.orderByChild("uid").equalTo(currentuser.uid).limitToFirst(1)).then(users => {
-  //     //   for(var key in users.val()){
-  //     //       console.log("snapshot.val" + users.val()[key]);
-  //     //     self.user = users.val()[key];
-  //     //    }
-  //     // });
-  //   }
-  // },
+  fetchUser() {
+    let self = this
+      this.$rtdbBind('users', usersRef.orderByChild("uid").equalTo(this.currentuser.uid).limitToFirst(1)).then(users => {
+        for(var key in users.val()){
+            console.log("snapshot.val" + users.val()[key]);
+          self.user = users.val()[key];
+         }
+      });
+    
+  },
 
   navigate (navPath) {
      if(navPath == "Logout")
@@ -101,8 +93,7 @@ methods: {
         });
       }
     if(navPath == "Checkout") {
-      let currentuser = firebase.auth().currentUser;
-      if (!currentuser) {
+      if (!this.currentuser) {
          self.$router.replace({ name: 'Login',  params: {currentPage: 'Shipping'}});
       } 
       else
@@ -111,9 +102,8 @@ methods: {
       }
       return 
       }
-      this.$router.replace({ name: navPath});
-    
-       
+      this.$router.push({ name: navPath});
+        
     //  if(window.location.hash.length > 8 && window.location.hash.substring(2,6) == "shop")
     //    {
     //      if(navPath == "Login")
