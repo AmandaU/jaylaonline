@@ -10,9 +10,10 @@ import Home from './components/Home.vue';
 import Login from './components/Login.vue';
 import Signup from './components/SignUp.vue';
 import About from './components/About.vue';
+import Information from './components/Information.vue';
 import Shipping from './components/Shipping.vue';
 import Contact from './components/Contact.vue';
- import Checkout from './components/Checkout.vue';
+import Checkout from './components/Checkout.vue';
 // import Success from './components/Success.vue';
 // import Cancel from './components/Cancel.vue';
 import Shop from './components/Shop.vue';
@@ -84,11 +85,6 @@ const router = new Router({
       name: 'Contact',
       component: Contact,
     },
-    // {
-    //   path: '/event/:eventid',
-    //   name: 'Event',
-    //   component: Event,
-    // },
     {
       path: '/checkout',
       name: 'Checkout',
@@ -102,13 +98,22 @@ const router = new Router({
       // }),
     },
     {
+      path: '/information',
+      name: 'Information',
+      component: Information,
+      // meta: {
+      //   requiresAuth: true,
+      // },
+     // props: true,
+     },
+     {
       path: '/shipping',
       name: 'Shipping',
       component: Shipping,
-      meta: {
-        requiresAuth: true,
-      },
-     // props: true,
+      // meta: {
+      //   requiresAuth: true,
+      // },
+      props: true,
      },
     // {
     //   path: '/success',
@@ -128,33 +133,7 @@ const router = new Router({
     //     ticketref: route.query.ticketref,
     //   }),
     // },
-    // {
-    //   path: '/Promoter',
-    //   name: 'Promoter',
-    //   component: Promoter,
-    // },
-    // {
-    //   path: '/ManageEvent',
-    //   name: 'ManageEvent',
-    //   component: ManageEvent,
-    //   props: true,
-    //   // props: route => ({
-    //   //   event: route.query.event,
-    //   // }),
-    // },
-    // {
-    //   path: '/scanqr',
-    //   name: 'ScanQR',
-    //   component: ScanQR,
-    //   meta: {
-    //     requiresAuth: true, requiresAdmin: true,
-    //   },
-    // },
-    // {
-    //   path: '/merch',
-    //   name: 'Merch',
-    //   component: Merch,
-    // },
+   
   ],
 });
 

@@ -69,7 +69,6 @@
 </template>
 
 <script>
-import firebase from '../firebase-config';
  
 export default {
   
@@ -81,28 +80,23 @@ export default {
         shoppingcart: {},
         canRemoveItems: false,
         hideAll: false,
-        currentuser: null
         }
     },
 
     mounted() {
-    // let self = this;
-    // this.$eventHub.$on('shoppingcart', (shoppingcart)=> {
-    //    self.shoppingcart = shoppingcart
-    // });
-    
+      let self = this;
+      this.$eventHub.$on('fee', (fee)=> {
+        self.shoppingcart.deliveryfee = fee
+      });
   },
 
     created() {
-    this.currentuser = firebase.auth().currentUser;
-
-      if(localStorage.getItem(this.currentuser.uid)) {
-        this.shoppingcart = JSON.parse(localStorage.getItem(this.currentuser.uid));
+     if(localStorage.getItem('jaylashop')) {
+        this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
         if (this.shoppingcart.items.count == 0) {
             this.hideAll = true
         }
       }
-      
     },
 
     computed: {
@@ -159,7 +153,7 @@ export default {
        this.shoppingcart.totalitems = total 
        this.hideAll = this.shoppingcart.totalitems == 0
        this.$eventHub.$emit('shoppingcarttotal', this.shoppingcart.totalitems);
-       localStorage.setItem(this.currentuser.uid, JSON.stringify(this.shoppingcart));
+       localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
       },
 
       totalValueForItem: function(item){
@@ -206,7 +200,7 @@ export default {
         } 
      }
      this.$eventHub.$emit('shoppingcarttotal', this.shoppingcart.totalitems);
-     localStorage.setItem(this.currentuser.uid, JSON.stringify(this.shoppingcart));
+     localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
    },
 }
 

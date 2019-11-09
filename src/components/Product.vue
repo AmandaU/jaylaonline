@@ -57,10 +57,10 @@
 </template>
 
 <script>
-import firebase from '../firebase-config';
+//import firebase from '../firebase-config';
 import {  db } from '../firebase-config';
 let productsRef = db.ref('products');
-let itemsRef = db.ref('items');
+//let itemsRef = db.ref('items');
 
 export default {
   name: 'product',
@@ -84,7 +84,7 @@ export default {
   },
 
 firebase () {
-  this.currentuser = firebase.auth().currentUser;
+  //this.currentuser = firebase.auth().currentUser;
   if (this.$props.productid == null) {
       var index = window.location.hash.indexOf("=");
       if(index >= 0)
@@ -93,7 +93,7 @@ firebase () {
       }
    } 
     return {
-     // items: db.ref('items').orderByChild("productid").equalTo(this.productid) ,
+      items: db.ref('items').orderByChild("productid").equalTo(this.productid) ,
       itemimages: db.ref('itemimages').orderByChild("productid").equalTo(this.productid),  
      // products:  db.ref('products').orderByChild("id").equalTo(productid).limitToFirst(0)
     }
@@ -129,11 +129,11 @@ firebase () {
       }
     });
 
-    this.$rtdbBind('items', itemsRef.orderByChild("productid").equalTo(this.productid)).then(items => {
-       if(self.currentuser) {
-        self.addSelectedItems(self.items)
-       }
-    });
+    // this.$rtdbBind('items', itemsRef.orderByChild("productid").equalTo(this.productid)).then(items => {
+    //    if(self.currentuser) {
+    //     self.addSelectedItems(self.items)
+    //    }
+    // });
   },
 
  computed: {
@@ -184,28 +184,28 @@ methods:
       item.selected -= 1
     }
     this.selecteditemkey = item['.key']
-    if(!this.currentuser) {
-      localStorage.setItem('selecteditemkey', this.selecteditemkey)
-      this.$router.push({ name: 'Login', params: {currentPage: 'Product'}});
-      return
-     }
-      this.isLoggedin = true
+    // if(!this.currentuser) {
+    //   localStorage.setItem('selecteditemkey', this.selecteditemkey)
+    //   this.$router.push({ name: 'Login', params: {currentPage: 'Product'}});
+    //   return
+    //  }
+     // this.isLoggedin = true
       this.addItem(item, add)
   },
 
-   addSelectedItems(items) {
-    if(localStorage.getItem('selecteditemkey')) {
-        let selecteditemKey = localStorage.getItem('selecteditemkey')
-        var item =  items.find(item => {
-            return selecteditemKey == item['.key'] 
-           });
-          if(item) {
-            item.selected = 1;
-          }
-       localStorage.removeItem('selecteditemkey')
-       this.addItem(item, true)
-      }
-  },
+  //  addSelectedItems(items) {
+  //   if(localStorage.getItem('selecteditemkey')) {
+  //       let selecteditemKey = localStorage.getItem('selecteditemkey')
+  //       var item =  items.find(item => {
+  //           return selecteditemKey == item['.key'] 
+  //          });
+  //         if(item) {
+  //           item.selected = 1;
+  //         }
+  //      localStorage.removeItem('selecteditemkey')
+  //      this.addItem(item, true)
+  //     }
+  // },
           
   total : function(item) {
       if(this.isAvailable(item))
@@ -239,20 +239,19 @@ methods:
   },
  
   goToShipping () {
-      if (!this.currentuser){
-         this.$router.push({ name: 'Login', params: {currentPage: 'Product'}});
-      }  else {
-        this.$router.replace({ name: 'Shipping'});
-      }
+      // if (!this.currentuser){
+      //    this.$router.push({ name: 'Login', params: {currentPage: 'Product'}});
+      // }  else {
+        this.$router.push({ name: 'Information'});
+     // }
   },
 
   addItem(item, add) {
-   if(localStorage.getItem(this.currentuser.uid)) {
-        this.shoppingcart = JSON.parse(localStorage.getItem(this.currentuser.uid));
+   if(localStorage.getItem('jaylashop')) {
+        this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
      } else {
        this.initialiseShoppingCart()
      }
-  debugger
     var existingitem = this.shoppingcart.items.find(existing => {
       if (existing.key == item['.key']) {
         return existing.key;
@@ -271,27 +270,24 @@ methods:
       }
     }
    
-     debugger
     var total = 0;
     this.shoppingcart.items.forEach(item => {
       total += item.number;
     });
     this.shoppingcart.totalitems = total 
     this.$eventHub.$emit('shoppingcarttotal', total);
-    localStorage.setItem(this.currentuser.uid, JSON.stringify(this.shoppingcart));
+    localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
   },
 
   initialiseShoppingCart() {
       this.shoppingcart = {
-          email: this.currentuser.email,
-          name: "",
-          userid: this.currentuser.uid,
           reference: 'JaylaShop' + Math.random().toString(36).substr(2, 9),
           purchasevalue: 0,
           totalPaid: 0,
           totalitems: 0,
           items: [],
           deliveryfee: 0,
+          user,
           zapperPaymentMethod: false,
           zapperPaymentId: 0,
           zapperReference: ""

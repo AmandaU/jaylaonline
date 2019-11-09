@@ -5,25 +5,35 @@
         <br>
         <div class="addressblock">
           
-            <h2>Shipping address</h2>
-            <small v-visible="addressInvalid" style="color: red">Your address is not quite right, please check</small><br>
-            <small class="addresslabel">Address line 1</small><small style="color: red" v-visible="addressInvalid && user.address.addressline1 == ''">*</small>
-            <input type="text" v-model="user.address.addressline1" placeholder="Address line 1" class="addressitem"><br>
-            <small class="addresslabel">Address line 2</small>
-            <input type="text" v-model="user.address.addressline2" placeholder="Address line 2" class="addressitem"><br>
-            <small class="addresslabel">Suburb</small><small style="color: red"  v-visible="addressInvalid && user.address.suburb == ''">*</small>
-            <input type="text" v-model="user.address.suburb" placeholder="Suburb" class="addressitem"><br>
-            <small class="addresslabel">City</small><small style="color: red"  v-visible="addressInvalid && user.address.city == ''">*</small>
-            <input type="text" v-model="user.address.city" placeholder="City" class="addressitem"><br>
-            <small class="addresslabel">Country</small><small style="color: red"  v-visible="addressInvalid && user.address.country == ''">*</small>
-            <country-select v-model="user.address.country" :country="country" topCountry="ZA" class="countryitem"/><br>
-            <small class="addresslabel">Region</small><small style="color: red"  v-visible="addressInvalid && user.address.province == ''">*</small>
-            <region-select v-model="user.address.province" :country="user.address.country" :region="region" class="countryitem"/><br>
-             <small class="addresslabel">Postal code</small><small style="color: red"  v-visible="addressInvalid && user.address.postalcode == ''">*</small>
-            <input type="text" v-model="user.address.postalcode" placeholder="Code" class="addressitem" min="1" max="5" ><br><br>
-           
-            <button  v-show="canGetShippingQuote" @click="getShippingQuote" class="buttonstyle">Get shipping quote</button>
-            <button  v-show="gotShippingQuote" @click="goToCheckout" class="buttonstyle">Checkout</button>
+            <h2>Delivery</h2>
+            
+             <small class="addresslabel">First name</small>
+            <h5  class="infoblockitem">{{ user.firstname}} </h5><br>
+             <small class="addresslabel">Surname</small>
+            <h5  class="infoblockitem">{{ user.surname}} </h5><br>
+            <small class="addresslabel">Email</small>
+            <h5  class="infoblockitem">{{ user.email}} </h5><br><br>
+
+              <small class="addresslabel">Address line 1</small>
+            <h5  class="infoblockitem">{{ user.address.addressline1}} </h5><br>
+              <small class="addresslabel">Address line 2</small>
+            <h5  class="infoblockitem">{{ user.address.addressline2}} </h5><br>
+              <small class="addresslabel">Suburb</small>
+            <h5  class="infoblockitem">{{ user.address.suburb}} </h5><br>
+              <small class="addresslabel">City</small>
+            <h5  class="infoblockitem">{{ user.address.city}} </h5><br>
+              <small class="addresslabel">Region</small>
+            <h5  class="infoblockitem">{{ user.address.region}} </h5><br>
+              <small class="addresslabel">Country</small>
+            <h5  class="infoblockitem">{{ user.address.country}} </h5><br>
+              <small class="addresslabel">Postal code</small>
+            <h5  class="infoblockitem">{{ user.address.postalcode}} </h5><br>
+
+            
+            <h1>R{{this.shoppingcart.deliveryfee}} </h1>
+
+            <button   @click="getDeliveryFee" class="buttonstyle">calculate delivery fee</button><br>
+            <button  v-visible="gotShippingQuote" @click="goToCheckout" class="buttonstyle">continue...</button>
             <button  @click="shopMore" class="buttonstyle">shop more</button>
      
          </div>
@@ -48,24 +58,26 @@
     'ShoppingCart': ShoppingCart 
   },
 
-  //  firebase () {
-  //    debugger
-  //    const currentUser = firebase.auth().currentUser;
-  //   return {
-  //     user: db.ref('users').orderByChild('uid').equalTo(currentUser.uid).limitToFirst(1), 
-  //     address: addressRef
-  //   }
-  // },
+  props: {
+     user: Object,
+   },
+
+   firebase () {
+     debugger
+     let u = this.$props.user
+     const currentUser = firebase.auth().currentUser;
+    return {
+      user: db.ref('users').orderByChild('uid').equalTo(currentUser.uid).limitToFirst(1), 
+      address: addressRef
+    }
+  },
 
 
  data() {
       return {
         busy: true,
-        user: null,
         gotShippingQuote: false,
         canGetShippingQuote: false,
-        addressInvalid: false,
-        address: null,
         key: '',
         currentuser: null,
         totalitems: 0
@@ -77,27 +89,32 @@
     this.$eventHub.$on('shoppingcarttotal', (total)=> {
        self.totalitems = total
        self.gotShippingQuote = self.totalitems > 0
-        self.canGetShippingQuote = this.totalitems > 0
+      self.canGetShippingQuote = this.totalitems > 0
     });
  },
 
  created() {
-    this.currentuser = firebase.auth().currentUser;
-    if(localStorage.getItem(this.currentuser.uid))
+    
+    if(localStorage.getItem('jaylashop'))
     {
-        this.shoppingcart = JSON.parse(localStorage.getItem(this.currentuser.uid));
+        this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
         this.totalitems = this.shoppingcart.totalitems
         this.canGetShippingQuote = this.totalitems > 0
+        this.gotShippingQuote = false
     }
-    let self = this
-    this.$rtdbBind('users', userRef.orderByChild("uid").equalTo(this.currentuser.uid).limitToFirst(1)).then(users => {
-      for(var key in users.val()){
-         console.log("snapshot.val" + users.val()[key]);
-        self.user = users.val()[key];
-        self.key = key
-        self.address = self.user.address
-      }
-     });
+
+    this.currentuser = firebase.auth().currentUser;
+    if(this.currentuser) {
+        let self = this
+        this.$rtdbBind('users', userRef.orderByChild("uid").equalTo(this.currentuser.uid).limitToFirst(1)).then(users => {
+        for(var key in users.val()){
+            console.log("snapshot.val" + users.val()[key]);
+            self.user = users.val()[key];
+            self.key = key
+            self.address = self.user.address
+        }
+        });
+    } 
  },
 
   methods: {
@@ -106,30 +123,20 @@
     this.$router.replace({ name: 'Shop'});
   },
       
-  getShippingQuote () {
-    if(this.user.address.addressline1 == ''
-    || this.user.address.suburb == ''
-    || this.user.address.country == '' 
-    || this.user.address.postalcode == ''
-    || isNaN(this.user.address.postalcode) ) {
-        this.addressInvalid = true
-        return
-    }
-    this.addressInvalid = false
-    this.gotShippingQuote = true
+  getDeliveryFee () {
     this.shoppingcart.deliveryfee = 355
-    let user = this.user
-    db.ref('users/' + this.key).set(user);
+    this.$eventHub.$emit('fee', this.shoppingcart.deliveryfee);
  },
 
    goToCheckout: function() {
+
       var theTotal = 0;
       this.shoppingcart.items.forEach(item => {
           theTotal += item.number * Number(item.price);
       });
       this.shoppingcart.purchasevalue = String((theTotal + this.shoppingcart.shipping))
-      localStorage.setItem(this.currentuser.uid, JSON.stringify(this.shoppingcart));
-      this.$router.replace({ name: 'Checkout'});
+      localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
+      this.$router.push({ name: 'Checkout'});
   },
 
   }

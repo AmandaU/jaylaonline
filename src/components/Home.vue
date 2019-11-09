@@ -10,10 +10,7 @@
 </template>
 
 <script>
-   //import firebase from '../firebase-config';
-   //import {  db } from '../firebase-config';
-   //import CubeSpin from 'vue-loading-spinner/src/components/ScaleOut'
-
+  
 export default {
   name: 'home',
   components: {
@@ -34,8 +31,7 @@ firebase () {
       },
 
 created() {
-  //this.$eventHub.$emit('eventimageurl', '');
- },
+  },
 
 
 }

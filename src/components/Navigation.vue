@@ -10,7 +10,12 @@
     </div>
     <div class="menu menuright">
       <div class="nameitem" v-show="isLoggedin">Hi {{user.firstname}}</div>
-      <div class="hoveritem" v-show="totalitems > 0" v-on:click="navigate('Checkout')" >Checkout({{totalitems}})</div>
+      <div class="cartbox">
+        <small class="numberbox" v-visible="totalitems > 0">{{totalitems}}</small>
+       <img src="../assets/shoppingcart.png"  alt="plus"  @click="navigate('Information')" class="cartimage"/>
+       
+      </div>
+      <!-- <div class="hoveritem" v-show="totalitems > 0" v-on:click="navigate('Checkout')" >Checkout({{totalitems}})</div> -->
       <div class="hoveritem" v-show="!isLoggedin" v-on:click="navigate('Login')" >Login</div>
       <div class="hoveritem"  v-show="isLoggedin" v-on:click="navigate('Logout')" >Logout</div>
     </div>
@@ -70,6 +75,7 @@ methods: {
       this.$rtdbBind('users', usersRef.orderByChild("uid").equalTo(this.currentuser.uid).limitToFirst(1)).then(users => {
         for(var key in users.val()){
             console.log("snapshot.val" + users.val()[key]);
+            debugger
           self.user = users.val()[key];
          }
       });
@@ -77,8 +83,7 @@ methods: {
   },
 
   navigate (navPath) {
-     if(navPath == "Logout")
-      {
+     if(navPath == "Logout") {
         let self = this;
         firebase.auth().signOut().then(function() { 
         //console.log('Signed Out');
@@ -91,19 +96,19 @@ methods: {
         function(error) {
           alert(error);
         });
-      }
-    if(navPath == "Checkout") {
-      if (!this.currentuser) {
-         self.$router.replace({ name: 'Login',  params: {currentPage: 'Shipping'}});
+        return
       } 
-      else
-      {
-        this.$router.replace({ name: 'Shipping'});
+      
+      if(navPath == "Information") {
+        if (this.totalitems == 0) {
+          this.$router.push({ name: 'Shop'});
+        } else {
+            this.$router.push({ name: 'Information'});
+        } 
+        return
       }
-      return 
-      }
-      this.$router.push({ name: navPath});
-        
+        this.$router.push({ name: navPath});
+       
     //  if(window.location.hash.length > 8 && window.location.hash.substring(2,6) == "shop")
     //    {
     //      if(navPath == "Login")
@@ -115,9 +120,7 @@ methods: {
     //      }
       //  }
       //  else
-       
-     
-    }
+   }
 },
   
 }
@@ -178,6 +181,29 @@ methods: {
     padding: 5px;
     bottom:0;
   }
+
+  .cartbox {
+  position: relative;
+  text-align: center;
+}
+
+/* Bottom left text */
+.numberbox {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  color:rgb(238, 43, 157)
+}
+  .cartimage{
+   width: 25px;
+   height: 25px;
+  vertical-align: middle;
+  margin-top: 5px;
+  margin-right: 5px;
+  margin-left: 5px;
+  padding-right:3px;
+   cursor: pointer;
+ }
 
   .hoveritem{
     background-color:transparent;
