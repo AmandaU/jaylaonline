@@ -89,9 +89,9 @@ const router = new Router({
       path: '/checkout',
       name: 'Checkout',
       component: Checkout,
-      meta: {
-        requiresAuth: true,
-      },
+      // meta: {
+      //   requiresAuth: true,
+      // },
       props: true,
       // props: route => ({
       //   ticketref: route.query.ticketref,

@@ -36,7 +36,7 @@
                   </div> 
               </div> 
 
-               <div  v-visible="this.shoppingcart.shipping > 0" class="checkoutrow ">
+               <div  v-visible="this.shoppingcart.deliveryfee > 0" class="checkoutrow ">
                   <div class="selectimage"> </div>
                   <div  class="checkouttickets ">
                      <small>Delivery fee</small>

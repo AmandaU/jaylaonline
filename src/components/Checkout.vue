@@ -53,13 +53,16 @@ export default {
       Media
     },
 
+  props: {
+    user: Object,
+  },
+
   data() {
       return {
         zapperConfig: zapperConfig,
         merchantId: zapperConfig.merchantId,
         siteId: zapperConfig.siteId,
         isready: false,
-        user: {},
         merchantID: '10011455',//'12581557',
         merchantKey: 'ztdbyg14s7nyd',//'49qsjtvgayqaw',//
         greaterThan800: window.innerWidth > 800,
@@ -78,18 +81,20 @@ export default {
   },
 
   created() {
-    let self = this
-    const currentUser = firebase.auth().currentUser;
-    if(localStorage.getItem(currentUser.uid))
+    if(localStorage.getItem('jaylashop'))
      {
-        this.shoppingcart = JSON.parse(localStorage.getItem(currentUser.uid));
+        this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
     }
-    this.$rtdbBind('users', usersRef.orderByChild("uid").equalTo(currentUser.uid).limitToFirst(1)).then(users => {
-      for(var key in users.val()){
-          console.log("snapshot.val" + users.val()[key]);
-        self.user = users.val()[key];
-      }
-    });
+    let self = this
+    const currentuser = firebase.auth().currentUser;
+    if(currentuser) {
+      this.$rtdbBind('users', usersRef.orderByChild("uid").equalTo(currentUser.uid).limitToFirst(1)).then(users => {
+        for(var key in users.val()){
+            console.log("snapshot.val" + users.val()[key]);
+          self.user = users.val()[key];
+        }
+      });
+    }
    this.loadZapperScript();
   },
 
@@ -143,7 +148,7 @@ export default {
   methods: {
 
     totalValueForItem: function(item){
-      var value = Number(item.selected * item.price);
+      var value = Number(item.number * item.price);
       return value == 0? "R 0.00": String('R ' + value + '.00');
     },
 
@@ -248,9 +253,9 @@ export default {
       // let key = this.shoppingcart.pricebreak['.key'];
       // let totalreserved  = Number(this.shoppingcart.pricebreak.reserved) + Number(this.shoppingcart.pricebreak.tickets);
       // this.$firebaseRefs.pricebreaks.child(key).child('reserved').set(totalreserved);
-      localStorage.setItem(this.shoppingcart.reference, JSON.stringify(this.shoppingcart));
+      localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
       //test
-      this.$router.replace({ name: 'Success', params: {cartref: String(this.$props.cartref)}});
+      this.$router.replace({ name: 'Success'});
     },
 
   }

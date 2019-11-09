@@ -9,7 +9,8 @@
             @submit="checkForm"
             method="post" 
           >
-            <h2>Your information</h2>
+            <h1>Your information</h1>
+            <h2>Contact details</h2>
             <small v-visible="userInvalid" style="color: red">Please enter a name and surname</small><br>
              <small class="addresslabel">First name</small><small style="color: red" v-visible="userInvalid && user.firstname == ''">*</small>
             <input type="text" v-model="user.firstname" placeholder="First name" class="addressitem"><br>
@@ -20,7 +21,14 @@
              <small class="addresslabel">Email</small><small style="color: red" v-visible="userInvalid ">*</small>
             <input type="email" v-model="user.email" placeholder="Enter email" class="addressitem"><br>
 
+             <small v-visible="cellInvalid" style="color: red">Please enter a valid cell number</small><br>
+             <small class="addresslabel">Cellphone</small><small style="color: red" v-visible="cellInvalid ">*</small>
+             <vue-tel-input class="addressitem"  v-model="user.cellphone"
+                          @onInput="onInput"
+                          :preferredCountries="['za']">
+             </vue-tel-input><br>
 
+            <h2>Shipping address</h2>
             <small v-visible="addressInvalid" style="color: red">Your address is not quite right, please check</small><br>
             <small class="addresslabel">Address line 1</small><small style="color: red" v-visible="addressInvalid && user.address.addressline1 == ''">*</small>
             <input type="text" v-model="user.address.addressline1" placeholder="Address line 1" class="addressitem"><br>
@@ -37,7 +45,6 @@
              <small class="addresslabel">Postal code</small><small style="color: red"  v-visible="addressInvalid && user.address.postalcode == ''">*</small>
             <input type="number" v-model="user.address.postalcode" placeholder="Code" class="addressitem"  ><br><br>
            
-            <button class="buttonstyle" type="submit" @click.prevent="submitForm()">SUBMIT</button>
             <button   @click="goToDelivery" class="buttonstyle">continue...</button>
             <button  @click="shopMore" class="buttonstyle">shop more</button>
       </form>
@@ -93,6 +100,7 @@
         addressInvalid: false,
         userInvalid: false,
         emailInvalid: false,
+        cellInvalid: false,
         key: '',
         currentuser: null,
         totalitems: 0
@@ -136,24 +144,25 @@
         },
 
     checkForm: function (e) {
-      debugger
-       this.emailInvalid = !this.validEmail(this.user.email) 
+     this.emailInvalid = !this.validEmail(this.user.email) 
+     
+     this.cellInvalid = this.user.cellphone == ''
     
-      if(this.user.firstname == ''
+     if(this.user.firstname == ''
         || this.user.surname == '') {
           this.userInvalid = true
-    } 
+     } 
 
-      if(this.user.address.addressline1 == ''
-          || this.user.address.suburb == ''
-          || this.user.address.country == '' 
-          || this.user.address.postalcode == ''
-          || isNaN(this.user.address.postalcode) ) {
-           this.addressInvalid = true
-        } 
+     if(this.user.address.addressline1 == ''
+        || this.user.address.suburb == ''
+        || this.user.address.country == '' 
+        || this.user.address.postalcode == ''
+        || isNaN(this.user.address.postalcode) ) {
+          this.addressInvalid = true
+      } 
 
      e.preventDefault();
-     return !this.emailInvalid && !this.userInvalid && !this.addressInvalid
+     return !this.emailInvalid && !this.userInvalid && !this.addressInvalid && !this.cellInvalid
       
     },
 
