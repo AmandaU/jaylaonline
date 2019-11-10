@@ -77,17 +77,11 @@ export default {
       {
          orderid =  window.location.hash.substring(index+1,window.location.hash.length) ;
       }
-
-      if(localStorage.getItem('jaylashop'))
-     {
-       localStorage.removeItem('jaylashop')
-     }
-      
+ 
       if(localStorage.getItem(orderid))
       {
          this.order = JSON.parse(localStorage.getItem(orderid));
-         localStorage.removeItem(orderid);
-
+       
            if(this.order.zapperPaymentMethod) {
               this.$nextTick(() => {
                 this.getZapperPaymentDetails();
@@ -97,6 +91,7 @@ export default {
               this.setConfirmationInfo();
             }
       }
+      localStorage.clear()
     },
 
 methods: {
@@ -150,7 +145,6 @@ methods: {
                 if(!data)return;
                 self.order.zapperReference = data.ZapperId;
                 self.order.totalPaid = data.PaidAmount;
-                self.$firebaseRefs.ordersRef.push(self.order);
                 self.setConfirmationInfo()
               }
             },
@@ -220,7 +214,8 @@ methods: {
         //   this.message1 += ' You used your promotion code (' + this.shoppingcart.promocode + ') to the value of R' + this.shoppingcart.promotionvalue;
         // }
         this.message2 = 'The total deducted from your account is R ' + this.order.totalPaid + '.00';
-       this.message3 = 'We will email you information about your delivery'
+        this.message3 = 'We will email you information about your delivery'
+        this.$firebaseRefs.ordersRef.push(this.order);
         this.isReady = true;
     },
     

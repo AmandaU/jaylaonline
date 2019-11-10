@@ -23,7 +23,7 @@
             <img src="../assets/PaymentMethods.png"  alt="Payment Methods"   style="margin: 10px;"/>  
 
               <br> <br>
-              <a @click="saveInvoice()"  v-bind:href="payFastUrl"><img src="https://www.payfast.co.za/images/buttons/dark-large-paynow.png"  style="margin: 10px; width: 174 ; height: 59" alt="Pay" title="Pay Now with PayFast" /></a>
+              <a   v-bind:href="payFastUrl"><img src="https://www.payfast.co.za/images/buttons/dark-large-paynow.png"  style="margin: 10px; width: 174 ; height: 59" alt="Pay" title="Pay Now with PayFast" /></a>
                 
         </div>
 
@@ -97,6 +97,7 @@ export default {
       });
     }
    this.loadZapperScript();
+   this.saveInvoice()
   },
 
   watch: {
@@ -269,8 +270,7 @@ export default {
       // let totalreserved  = Number(this.shoppingcart.pricebreak.reserved) + Number(this.shoppingcart.pricebreak.tickets);
       // this.$firebaseRefs.pricebreaks.child(key).child('reserved').set(totalreserved);
       localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
-      //test
-      debugger
+     
       this.$router.replace({ name: 'Success'});
     },
 
