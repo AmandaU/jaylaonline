@@ -31,14 +31,12 @@ export default {
    }
   },
 
-  
-
-beforeDestroy: function() {
-    // Clean up
-    // this.$eventHub.$off('eventimageurl', '');
-    
-  },
-}
+  beforeDestroy: function() {
+      // Clean up
+      // this.$eventHub.$off('eventimageurl', '');
+      
+    },
+  }
 </script>
 
 <style lang="scss" scoped>

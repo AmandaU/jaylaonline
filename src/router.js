@@ -14,8 +14,8 @@ import Information from './components/Information.vue';
 import Shipping from './components/Shipping.vue';
 import Contact from './components/Contact.vue';
 import Checkout from './components/Checkout.vue';
-// import Success from './components/Success.vue';
-// import Cancel from './components/Cancel.vue';
+import Success from './components/Success.vue';
+import Cancel from './components/Cancel.vue';
 import Shop from './components/Shop.vue';
 import Product from './components/Product.vue';
 import { rtdbPlugin } from 'vuefire';
@@ -115,24 +115,24 @@ const router = new Router({
       // },
       props: true,
      },
-    // {
-    //   path: '/success',
-    //   name: 'Success',
-    //   component: Success,
-    //   props: true,
-    //   props: route => ({
-    //     ticketref: route.query.ticketref,
-    //   }),
-    // },
-    // {
-    //   path: '/Cancel',
-    //   name: 'Cancel',
-    //   component: Cancel,
-    //   props: true,
-    //   props: route => ({
-    //     ticketref: route.query.ticketref,
-    //   }),
-    // },
+    {
+      path: '/success',
+      name: 'Success',
+      component: Success,
+      props: true,
+      props: route => ({
+        ticketref: route.query.orderid,
+      }),
+    },
+    {
+      path: '/Cancel',
+      name: 'Cancel',
+      component: Cancel,
+      props: true,
+      props: route => ({
+        ticketref: route.query.orderid,
+      }),
+    },
    
   ],
 });

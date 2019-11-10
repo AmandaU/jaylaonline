@@ -282,12 +282,12 @@ methods:
   initialiseShoppingCart() {
       this.shoppingcart = {
           reference: 'JaylaShop' + Math.random().toString(36).substr(2, 9),
-          purchasevalue: 0,
+          purchasevalue: '',
           totalPaid: 0,
           totalitems: 0,
           items: [],
           deliveryfee: 0,
-          user,
+          user: Object,
           zapperPaymentMethod: false,
           zapperPaymentId: 0,
           zapperReference: ""

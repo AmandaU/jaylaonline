@@ -113,7 +113,7 @@ export default {
       },
       
       total: function() {
-        var theTotal = 0;
+         var theTotal = 0;
         this.shoppingcart.items.forEach(item => {
             theTotal += item.number * Number(item.price);
         });

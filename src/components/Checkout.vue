@@ -22,7 +22,7 @@
             <img src="../assets/PaymentMethods.png"  alt="Payment Methods"   style="margin: 10px;"/>  
 
               <br> <br>
-              <a v-show="isready" @click="saveTicket()"  v-bind:href="payFastUrl"><img src="https://www.payfast.co.za/images/buttons/dark-large-paynow.png"  style="margin: 10px; width: 174 ; height: 59" alt="Pay" title="Pay Now with PayFast" /></a>
+              <a @click="saveInvoice()"  v-bind:href="payFastUrl"><img src="https://www.payfast.co.za/images/buttons/dark-large-paynow.png"  style="margin: 10px; width: 174 ; height: 59" alt="Pay" title="Pay Now with PayFast" /></a>
                 
         </div>
 
@@ -55,7 +55,7 @@ export default {
 
   props: {
     user: Object,
-  },
+    },
 
   data() {
       return {
@@ -84,7 +84,7 @@ export default {
     if(localStorage.getItem('jaylashop'))
      {
         this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
-    }
+     }
     let self = this
     const currentuser = firebase.auth().currentUser;
     if(currentuser) {
@@ -126,12 +126,15 @@ export default {
    
     // a computed getter
     payFastUrl: function () {
-        const url =  'https://sandbox.payfast.co.za/eng/process?cmd=_paynow&receiver=10011455&item_name=' + 'JadeAyla Online Shopping'
+        const url =  'https://sandbox.payfast.co.za/eng/process?cmd=_paynow&receiver=10011455&item_name=' + 'JaylaOnline Shopping'
         + '&item_description=tickets&amount=' + this.shoppingcart.purchasevalue
-        + '&return_url=https%3A%2F%2Fjayla-tickets.firebaseapp.com%2F%23%2FSuccess%2F%3Fticketref%3D' + this.shoppingcart.reference ; 
-        + '&cancel_url=https%3A%2F%2Fjayla-tickets.firebaseapp.com%2F%23%2FCheckout%2F%3Fticketref%3D' + this.shoppingcart.reference ; 
+        + '&return_url=http%3A%2F%2F192.168.8.103%3A8080%2Fsuccess%2Forderid%3D' + this.shoppingcart.reference ; 
+        + '&cancel_url=http%3A%2F%2F192.168.8.103%3A8080%2Fcancel%2Forderid%3D' + this.shoppingcart.reference ; 
         //console.log(url);
         return url;
+
+
+            // <a href="https://www.payfast.co.za/eng/process?cmd=_paynow&amp;receiver=12581557&amp;item_name=JaylaOnline&amp;item_description=merchandise&amp;amount=55.00&amp;return_url=http%3A%2F%2F192.168.8.103%3A8080%2Fsuccess%2Forderid%3D&amp;cancel_url=http%3A%2F%2F192.168.8.103%3A8080%2Fcancel%2Forderid%3D"><img src="https://www.payfast.co.za/images/buttons/light-small-paynow.png" width="165" height="36" alt="Pay" title="Pay Now with PayFast" /></a>
     },
 
     //  zapperUrl: function () {
@@ -198,7 +201,7 @@ export default {
       let self = this;
      this.$loadScript("https://code.zapper.com/zapper.js")
       .then(() => {
-         zapper("#Zapper", self.merchantId, self.siteId, self.shoppingcart.purchasevalue, self.shoppingcart.reference, function (paymentResult) {
+        zapper("#Zapper", self.merchantId, self.siteId, self.shoppingcart.purchasevalue, self.shoppingcart.reference, function (paymentResult) {
           self.shoppingcart.zapperPaymentMethod = true;
           if(paymentResult.status == 1)
           {
@@ -240,12 +243,20 @@ export default {
     saveInvoice(instance) {
       if(!instance) instance = this;
      
-     // instance.shoppingcart.zapperPaymentMethod = isZapper;
-      // let key = instance.shoppingcart.pricebreak['.key'];
-      // let totalreserved  = Number(instance.shoppingcart.pricebreak.reserved) + Number(instance.shoppingcart.pricebreak.tickets);
-      // instance.$firebaseRefs.pricebreaks.child(key).child('reserved').set(totalreserved);
+     let order = {
+          reference: instance.shoppingcart.reference,
+          purchasevalue: instance.shoppingcart.purchasevalue,
+          items: instance.shoppingcart.items,
+          totalPaid: instance.shoppingcart.totalpaid,
+          totalitems: instance.shoppingcart.totalitems,
+          deliveryfee: instance.shoppingcart.deleiveryfee,
+          user: instance.user,
+          zapperPaymentMethod: false,
+          zapperPaymentId: 0,
+          zapperReference: ""
+        };
       
-      localStorage.setItem(instance.shoppingcart.reference, JSON.stringify(instance.shoppingcart));
+      localStorage.setItem(order.reference, JSON.stringify(order));
     },
 
     saveTicketLocal(instance) {
