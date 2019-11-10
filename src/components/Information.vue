@@ -155,7 +155,9 @@
     checkForm: function (e) {
      this.emailInvalid = !this.validEmail(this.user.email) 
      
-     this.cellInvalid = this.user.cellphone == ''
+     this.cellInvalid = this.user.cellphone == '' 
+     || this.user.cellphone.length < 9
+     || isNaN(this.user.cellphone)
     
      if(this.user.firstname == ''
         || this.user.surname == '') {

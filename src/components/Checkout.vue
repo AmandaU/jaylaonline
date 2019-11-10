@@ -18,6 +18,7 @@
       </div>
 
       <div class="payColumn">
+         <button   @click="saveTicketLocal()" class="buttonstyle">local...</button>
         <div class="payfastRow">
             <img src="../assets/PaymentMethods.png"  alt="Payment Methods"   style="margin: 10px;"/>  
 
@@ -81,6 +82,7 @@ export default {
   },
 
   created() {
+    debugger
     if(localStorage.getItem('jaylashop'))
      {
         this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
@@ -128,8 +130,8 @@ export default {
     payFastUrl: function () {
         const url =  'https://sandbox.payfast.co.za/eng/process?cmd=_paynow&receiver=10011455&item_name=' + 'JaylaOnline Shopping'
         + '&item_description=tickets&amount=' + this.shoppingcart.purchasevalue
-        + '&return_url=http%3A%2F%2F192.168.8.103%3A8080%2Fsuccess%2Forderid%3D' + this.shoppingcart.reference ; 
-        + '&cancel_url=http%3A%2F%2F192.168.8.103%3A8080%2Fcancel%2Forderid%3D' + this.shoppingcart.reference ; 
+        + '&return_url=http%3A%2F%2F192.168.8.103%3A8080%2F%23%2FSuccess%2F%3Forderid%3D' + this.shoppingcart.reference ; 
+        + '&cancel_url=http%3A%2F%2F192.168.8.103%3A8080%2F%23%Cancel%2F%3Forderid%3D' + this.shoppingcart.reference ; 
         //console.log(url);
         return url;
 
@@ -241,15 +243,16 @@ export default {
     },
    
     saveInvoice(instance) {
+      debugger
       if(!instance) instance = this;
      
      let order = {
           reference: instance.shoppingcart.reference,
           purchasevalue: instance.shoppingcart.purchasevalue,
           items: instance.shoppingcart.items,
-          totalPaid: instance.shoppingcart.totalpaid,
+          totalPaid: "",
           totalitems: instance.shoppingcart.totalitems,
-          deliveryfee: instance.shoppingcart.deleiveryfee,
+          deliveryfee: instance.shoppingcart.deliveryfee,
           user: instance.user,
           zapperPaymentMethod: false,
           zapperPaymentId: 0,
@@ -257,15 +260,17 @@ export default {
         };
       
       localStorage.setItem(order.reference, JSON.stringify(order));
+     
     },
 
-    saveTicketLocal(instance) {
-     
+    saveTicketLocal() {
+     //saveInvoice(null)
       // let key = this.shoppingcart.pricebreak['.key'];
       // let totalreserved  = Number(this.shoppingcart.pricebreak.reserved) + Number(this.shoppingcart.pricebreak.tickets);
       // this.$firebaseRefs.pricebreaks.child(key).child('reserved').set(totalreserved);
       localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
       //test
+      debugger
       this.$router.replace({ name: 'Success'});
     },
 

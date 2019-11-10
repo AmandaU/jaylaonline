@@ -122,7 +122,7 @@
       });
       this.shoppingcart.purchasevalue = String((theTotal + this.shoppingcart.deliveryfee))
       localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
-      this.$router.push({ name: 'Checkout'});
+      this.$router.push({ name: 'Checkout', params: {user: this.user}});
    },
 
   }

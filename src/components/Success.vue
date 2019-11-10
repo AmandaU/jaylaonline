@@ -4,7 +4,7 @@
         <div class="centreblock">
           <br>
           <h1>Your payment was successful</h1>
-          <cube-spin v-if="isReady"></cube-spin>
+          <!-- <cube-spin v-if="isReady"></cube-spin> -->
           <h3>{{message1}}</h3>
           <h3>{{message2}}</h3>
           <h3>{{message3}}</h3>
@@ -70,6 +70,7 @@ export default {
   },
 
   created(){
+    debugger
      var orderid = "";
       var index = window.location.hash.indexOf("=");
       if(index >= 0)

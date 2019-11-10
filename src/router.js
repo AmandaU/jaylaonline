@@ -121,7 +121,7 @@ const router = new Router({
       component: Success,
       props: true,
       props: route => ({
-        ticketref: route.query.orderid,
+        orderid: route.query.orderid,
       }),
     },
     {
@@ -130,7 +130,7 @@ const router = new Router({
       component: Cancel,
       props: true,
       props: route => ({
-        ticketref: route.query.orderid,
+        orderid: route.query.orderid,
       }),
     },
    
