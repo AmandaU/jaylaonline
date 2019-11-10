@@ -21,12 +21,15 @@ import Product from './components/Product.vue';
 import { rtdbPlugin } from 'vuefire';
 import vueCountryRegionSelect from 'vue-country-region-select';
 import VueTelInput from 'vue-tel-input';
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 
 
 Vue.use(rtdbPlugin)
 Vue.use(LoadScript)
 Vue.use(vueCountryRegionSelect)
 Vue.use(VueTelInput)
+Vue.use(VueAxios, axios)
 
 
 //Vue.use(LoadScript);

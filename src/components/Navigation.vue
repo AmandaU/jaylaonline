@@ -75,7 +75,6 @@ methods: {
       this.$rtdbBind('users', usersRef.orderByChild("uid").equalTo(this.currentuser.uid).limitToFirst(1)).then(users => {
         for(var key in users.val()){
             console.log("snapshot.val" + users.val()[key]);
-            debugger
           self.user = users.val()[key];
          }
       });

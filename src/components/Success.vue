@@ -18,6 +18,7 @@
 import {zapperConfig} from '../config';
 import firebase from '../firebase-config';
 import {  db } from '../firebase-config';
+//import { sha256, sha224 } from 'js-sha256';
 
 export default {
   name: 'success',
@@ -70,8 +71,7 @@ export default {
   },
 
   created(){
-    debugger
-     var orderid = "";
+      var orderid = "";
       var index = window.location.hash.indexOf("=");
       if(index >= 0)
       {
@@ -94,7 +94,7 @@ export default {
               });
             } else {
               this.order.totalPaid =   String(this.totalValue );
-              this.setTicket();
+              this.setConfirmationInfo();
             }
       }
     },
@@ -129,7 +129,7 @@ methods: {
     getZapperPaymentDetails()
     {
       let self = this;
-      const url = 'https://zapapi.zapzap.mobi/ecommerce/api/v2/merchants/' + this.zapperDetails.merchantId + '/sites/' + this.zapperDetails.siteId + '/payments/' + this.shoppingcart.zapperPaymentId;
+      const url = 'https://zapapi.zapzap.mobi/ecommerce/api/v2/merchants/' + this.zapperDetails.merchantId + '/sites/' + this.zapperDetails.siteId + '/payments/' + this.order.zapperPaymentId;
          this.axios.get(
           url,
           {headers: {
@@ -144,13 +144,14 @@ methods: {
           }
           )
           .then((response) => {
-              if(response.data.statusId == 1)
+             if(response.data.statusId == 1)
               {
                 var data = response.data.data[0];
                 if(!data)return;
                 self.order.zapperReference = data.ZapperId;
                 self.order.totalPaid = data.PaidAmount;
                 self.$firebaseRefs.ordersRef.push(self.order);
+                self.setConfirmationInfo()
               }
             },
             (error) => { 

@@ -18,7 +18,7 @@
       </div>
 
       <div class="payColumn">
-         <button   @click="saveTicketLocal()" class="buttonstyle">local...</button>
+       
         <div class="payfastRow">
             <img src="../assets/PaymentMethods.png"  alt="Payment Methods"   style="margin: 10px;"/>  
 
@@ -82,7 +82,6 @@ export default {
   },
 
   created() {
-    debugger
     if(localStorage.getItem('jaylashop'))
      {
         this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
@@ -211,7 +210,9 @@ export default {
             self.shoppingcart.totalPaid = paymentResult.payment.amountPaid;
             self.shoppingcart.zapperReference = paymentResult.payment.zapperId;
             self.saveInvoice(self); 
-            self.$router.replace({ name: 'Success'});
+            self.$router.replace({ name: 'Success', query: {orderid: self.shoppingcart.reference}});
+          } else {
+            self.$router.replace({ name: 'Cancel'});
           }
         });
       })
@@ -243,20 +244,19 @@ export default {
     },
    
     saveInvoice(instance) {
-      debugger
       if(!instance) instance = this;
      
      let order = {
           reference: instance.shoppingcart.reference,
           purchasevalue: instance.shoppingcart.purchasevalue,
           items: instance.shoppingcart.items,
-          totalPaid: "",
+          totalPaid: instance.shoppingcart.totalPaid,
           totalitems: instance.shoppingcart.totalitems,
           deliveryfee: instance.shoppingcart.deliveryfee,
           user: instance.user,
-          zapperPaymentMethod: false,
-          zapperPaymentId: 0,
-          zapperReference: ""
+          zapperPaymentMethod: instance.shoppingcart.zapperPaymentMethod,
+          zapperPaymentId: instance.shoppingcart.zapperPaymentId,
+          zapperReference: instance.shoppingcart.zapperReference
         };
       
       localStorage.setItem(order.reference, JSON.stringify(order));

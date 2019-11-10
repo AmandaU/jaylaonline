@@ -3,11 +3,7 @@
     <div class="centralcontainer" >
        <!-- <cube-spin v-if="busy"></cube-spin> -->
         <div class="addressblock">
-          <form
-            id="informationform"
-            @submit="checkForm"
-            method="post" 
-          >
+        
             <h1>Your information</h1>
             <h2>Contact details</h2>
             <small v-show="userInvalid" style="color: red">Please enter a name and surname</small><br>
@@ -17,11 +13,11 @@
             <input type="text" v-model="user.surname" placeholder="Surname" class="addressitem">
 
 
-             <small v-show="emailInvalid" style="color: red">Please enter a valid email</small>
+             <small v-show="emailInvalid" style="color: red">Please enter a valid email</small><br>
              <small class="addresslabel">Email</small><small style="color: red" v-visible="userInvalid ">*</small>
             <input type="email" v-model="user.email" placeholder="Enter email" class="addressitem">
 
-             <small v-show="cellInvalid" style="color: red">Please enter a valid cell number</small>
+             <small v-show="cellInvalid" style="color: red">Please enter a valid cell number</small><br>
              <small class="addresslabel">Cellphone</small><small style="color: red" v-visible="cellInvalid ">*</small>
              <vue-tel-input class="addressitem"  v-model="user.cellphone"
                          
@@ -29,7 +25,7 @@
              </vue-tel-input>
 
             <h2>Shipping address</h2>
-            <small v-show="addressInvalid" style="color: red">Your address is not quite right, please check</small>
+            <small v-show="addressInvalid" style="color: red">Your address is not quite right, please check</small><br>
             <small class="addresslabel">Address line 1</small><small style="color: red" v-visible="addressInvalid && user.address.addressline1 == ''">*</small>
             <input type="text" v-model="user.address.addressline1" placeholder="Address line 1" class="addressitem">
             <small class="addresslabel">Address line 2</small>
@@ -47,7 +43,7 @@
            
             <button   @click="goToDelivery" class="buttonstyle">continue...</button>
             <button  @click="shopMore" class="buttonstyle">shop more</button>
-      </form>
+     
          </div>
      
        <ShoppingCart ></ShoppingCart>
@@ -69,16 +65,6 @@
   components: {
     'ShoppingCart': ShoppingCart 
   },
-
-  //  firebase () {
-  //    debugger
-  //    const currentUser = firebase.auth().currentUser;
-  //   return {
-  //     user: db.ref('users').orderByChild('uid').equalTo(currentUser.uid).limitToFirst(1), 
-  //     address: addressRef
-  //   }
-  // },
-
 
  data() {
       return {
@@ -139,7 +125,6 @@
 
 
     onInput({ number, isValid, country }) {
-      debugger
       if(valid) {
        this.user.cellphone = number;
       }
@@ -152,27 +137,20 @@
             }
         },
 
-    checkForm: function (e) {
+    checkForm: function () {
      this.emailInvalid = !this.validEmail(this.user.email) 
-     
      this.cellInvalid = this.user.cellphone == '' 
      || this.user.cellphone.length < 9
-     || isNaN(this.user.cellphone)
     
-     if(this.user.firstname == ''
-        || this.user.surname == '') {
-          this.userInvalid = true
-     } 
-
-     if(this.user.address.addressline1 == ''
+     this.userInvalid = this.user.firstname == ''
+        || this.user.surname == ''
+    
+     this.addressInvalid = this.user.address.addressline1 == ''
         || this.user.address.suburb == ''
         || this.user.address.country == '' 
         || this.user.address.postalcode == ''
-        || isNaN(this.user.address.postalcode) ) {
-          this.addressInvalid = true
-      } 
+        || isNaN(this.user.address.postalcode) 
 
-     e.preventDefault();
      return !this.emailInvalid && !this.userInvalid && !this.addressInvalid && !this.cellInvalid
       
     },
@@ -185,11 +163,9 @@
   shopMore () {
     this.$router.replace({ name: 'Shop'});
   },
-      
   
-
    goToDelivery: function() {
-
+      if(!this.checkForm()) return
       var theTotal = 0;
       this.shoppingcart.items.forEach(item => {
           theTotal += item.number * Number(item.price);
@@ -203,7 +179,6 @@
      } else {
 
       this.$router.push({ name: 'Shipping',  params: { user: this.user}});
-         //this.userRef.push(this.user);
      }
      
   },
