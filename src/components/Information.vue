@@ -1,10 +1,10 @@
 <template>
-  <div class="information">
-    <div class="centralcontainer" >
+    <div class="container" >
        <!-- <cube-spin v-if="busy"></cube-spin> -->
+     <div class="mainblock">
         <div class="addressblock">
         
-            <h1>Your information</h1>
+             <h1>Your information</h1>
             <h2>Contact details</h2>
             <small v-show="userInvalid" style="color: red">Please enter a name and surname</small><br>
              <small class="addresslabel">First name</small><small style="color: red" v-visible="userInvalid && user.firstname == ''">*</small>
@@ -43,12 +43,15 @@
            
             <button   @click="goToDelivery" class="buttonstyle">continue...</button>
             <button  @click="shopMore" class="buttonstyle">shop more</button>
-     
+      
          </div>
-     
-       <ShoppingCart ></ShoppingCart>
-     
+    
+     </div> 
+
+     <div class="cartblock">
+         <ShoppingCart ></ShoppingCart>
      </div>
+
   </div>
 </template>
 
@@ -189,4 +192,5 @@
 
 <style lang="scss" scoped>
   @import "~@/styles/shippingstyle.scss";
+   @import "~@/styles/commonstyle.scss";
 </style>

@@ -1,8 +1,10 @@
 <template>
   <div class="shipping">
-    <div class="centralcontainer" >
+
+ <div class="container" >
        <!-- <cube-spin v-if="busy"></cube-spin> -->
-        <br>
+     <div class="mainblock">
+       
         <div class="addressblock">
           
             <h1>Delivery</h1>
@@ -24,9 +26,16 @@
      
          </div>
      
-       <ShoppingCart ></ShoppingCart>
-     
+    
+     </div> 
+
+     <div class="cartblock">
+         <ShoppingCart ></ShoppingCart>
      </div>
+
+  </div>
+
+
   </div>
 </template>
 
@@ -131,4 +140,5 @@
 
 <style lang="scss" scoped>
   @import "~@/styles/shippingstyle.scss";
+    @import "~@/styles/commonstyle.scss";
 </style>

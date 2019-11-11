@@ -1,0 +1,42 @@
+
+.container {
+    // background-color:rgb(147, 253, 40);
+    max-width: 100vw;
+    min-height:80vh;
+    height: 100%;
+    width:100%;
+    //flex-direction: row;
+    overflow-y: auto;
+     padding-bottom: 5rem;
+    align-self: center;
+   
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  }
+
+
+.mainblock {
+     background-color:rgb(147, 253, 40);
+    flex: 0.5;
+    display: flex;
+    align-self: flex-start;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+
+  .cartblock{
+    flex: 0.5;
+    height: 100%;
+    background-color:rgb(107, 32, 32);
+    display: flex;
+  
+    justify-content: center;
+    align-items: center;
+    align-self: flex-start;
+    
+  }
