@@ -1,21 +1,49 @@
-  
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  background-color:rgb(130, 151, 163);
+ 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: flex-start;
+  vertical-align: top;
+ 
+}
+
+  .shoppingcartblock {
+    background-color:rgb(253, 40, 75);
+    flex: 1;
+    width: 600px;
+     display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction:row;
+    align-self: center;
+ }
+
 .checkoutblock {
-    width: 300px;
-    position: relative;
-    height: auto;
+   
+    background-color:rgb(243, 245, 241);
+    flex: 0.4;
     display: flex;
-    flex-direction:column; /* column | row  */
-    overflow-x: hidden;
-    overflow-y: hidden;
-    vertical-align: top; 
-    align-items: right;
-    justify-content: right;
-    border: 1px solid rgb(225, 225, 226);
-    border-radius: 5px;
-    margin: 0, auto; 
-    padding:20px;
-    margin:50px;
-  
+    justify-content: left;
+    align-items: center;
+    flex-direction:column;
+    align-self: flex-start;
+
+  }
+
+  .totalblock {
+    background-color:rgb(180, 47, 162);
+    flex: 0.4;
+     display: flex;
+    justify-content: left;
+    align-items: center;
+    flex-direction:column;
+    align-self: flex-start;
   }
 
   .selectimage {
@@ -26,7 +54,7 @@
     justify-content: left;
   }
   .checkoutrow{
-    //background-color:white;
+    background-color:rgb(238, 235, 235);
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -36,7 +64,7 @@
   
   .checkouttickets{
     //background-color: rgb(198, 219, 219);
-    flex: 0.6;
+    flex: 0.7;
     display: flex;
     flex-direction: column;
     cursor: pointer;

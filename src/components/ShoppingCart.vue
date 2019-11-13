@@ -1,18 +1,15 @@
 <template>
- <div>
+
+ <div class="container">
+
+<!-- <div class="container"> -->
+  <h2>Shopping cart:</h2> 
+ <div class="shoppingcartblock">
+    
   <div class="checkoutblock" v-visible="!hideAll">
-              <h2>Shopping cart:</h2>
-              <div  v-for="item in shoppingcart.items" :key="item.key ">
-                <div  class="checkoutrow">
-                  <div class="selectimage">
-                    <input  type="checkbox"   @click="shouldRemoveItems(item)" true-value=""  false-value="" >
-                  </div>
-
-                  <!-- <div  class="addminusbox">
-                    <img src="../assets/plus.jpg"  alt="plus"  @click="itemsSelected(item,true)" class="addminusimage"/>
-                    <img v-visible="item.number > 0"  src="../assets/minus.png"  alt="minus"  @click="itemsSelected(item, false)" class="addminusimage"/><br>
-                  </div>    -->
-
+             
+              <div  class="checkoutrow" v-for="item in shoppingcart.items" :key="item.key ">
+                
                   <div  class="checkouttickets ">
                     <small>{{item.productname}}, size {{item.size}}</small>
                     <small>{{item.number}} @ R{{item.price}} each</small>
@@ -21,23 +18,21 @@
                   <div  class="checkouttickettotal ">
                     <small>{{totalValueForItem(item)}}</small>
                   </div> 
-                </div>  
+                
               </div>
             
-              <p v-visible="canRemoveItems">Would you like to  <span @click="removeItems()" style="color:red;cursor:pointer">remove the selected items?</span></p>
-
-              <br>
+               <br>
 
               <div  class="checkoutrow ">
-                  <div class="selectimage"> </div>
+                 
                   <div  class="checkouttickets "> </div>
                   <div  class="checkouttickettotal "> 
                     <div class="thinline"></div>  
                   </div> 
               </div> 
 
-               <div  v-visible="this.shoppingcart.deliveryfee > 0" class="checkoutrow ">
-                  <div class="selectimage"> </div>
+               <!-- <div  v-visible="this.shoppingcart.deliveryfee > 0" class="checkoutrow ">
+                 
                   <div  class="checkouttickets ">
                      <small>Delivery fee</small>
                   </div> 
@@ -47,7 +42,33 @@
               </div> 
 
               <div  class="checkoutrow ">
-                 <div class="selectimage"> </div>
+                
+                 <div  class="checkouttickets ">
+                   <small>Total: {{shoppingcart.totalitems}}</small>
+                 </div>
+                 <div  class="checkouttickettotal "> 
+                  <small>R {{total}}</small>
+                 </div>
+              </div>  -->
+           
+  </div>  
+
+  <div style=" flex: 0.1;"/>
+
+ <div class="totalblock">
+
+            <div  class="checkoutrow ">
+                 
+                  <div  class="checkouttickets ">
+                     <small>Delivery fee</small>
+                  </div> 
+                  <div  class="checkouttickettotal "> 
+                    <small>{{shippingFee}}</small>
+                  </div> 
+              </div> 
+
+              <div  class="checkoutrow ">
+                
                  <div  class="checkouttickets ">
                    <small>Total: {{shoppingcart.totalitems}}</small>
                  </div>
@@ -56,16 +77,10 @@
                  </div>
               </div> 
 
-              <div  class="checkoutrow ">
-                 <div class="selectimage"> </div>
-                  <div  class="checkouttickets "> </div>
-                  <div  class="checkouttickettotal "> 
-                    <div class="thinline"></div>  
-                  </div> 
-              </div> 
-            
-  </div>  
- </div>         
+          </div> 
+ </div>   
+  <!-- </div>    -->
+  </div>         
 </template>
 
 <script>
