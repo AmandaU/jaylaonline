@@ -1,86 +1,86 @@
 <template>
 
- <div class="container">
+  <div class="container">
 
-<!-- <div class="container"> -->
-  <h2>Shopping cart:</h2> 
- <div class="shoppingcartblock">
-    
-  <div class="checkoutblock" v-visible="!hideAll">
-             
-              <div  class="checkoutrow" v-for="item in shoppingcart.items" :key="item.key ">
-                
-                  <div  class="checkouttickets ">
-                    <small>{{item.productname}}, size {{item.size}}</small>
-                    <small>{{item.number}} @ R{{item.price}} each</small>
-                  </div>
+      <h2>Shopping cart:</h2> 
+      <div class="shoppingcartblock">
 
-                  <div  class="checkouttickettotal ">
-                    <small>{{totalValueForItem(item)}}</small>
-                  </div> 
-                
-              </div>
-            
-               <br>
+          <div class="checkoutblock" :key="componentKey">
 
-              <div  class="checkoutrow ">
-                 
-                  <div  class="checkouttickets "> </div>
-                  <div  class="checkouttickettotal "> 
-                    <div class="thinline"></div>  
-                  </div> 
-              </div> 
+            <!-- <center>Center this text!</center> -->
+              <p  v-show="showNoItemsMessage">There are no items in your cart,<span @click="goToShop" style="color:blue;cursor:pointer"> shop </span>some more ;)</p>
+                    
+                      <div  class="checkoutrow" v-for="item in shoppingcart.items" :key="item.key ">
+                        <div  @click="removeItem(item)" class="closebutton"><h1>X</h1></div>
+                        
+                          <div  class="checkouttickets ">
+                            <small>{{item.productname}}, size {{item.size}}</small>
+                            <small>{{item.number}} @ R{{item.price}} each</small>
+                          </div>
 
-               <!-- <div  v-visible="this.shoppingcart.deliveryfee > 0" class="checkoutrow ">
-                 
-                  <div  class="checkouttickets ">
-                     <small>Delivery fee</small>
-                  </div> 
-                  <div  class="checkouttickettotal "> 
-                    <small>{{shippingFee}}</small>
-                  </div> 
-              </div> 
+                          <div  class="checkouttickettotal ">
+                            <small>{{totalValueForItem(item)}}</small>
+                          </div> 
+                        
+                      </div>
+                    
 
-              <div  class="checkoutrow ">
-                
-                 <div  class="checkouttickets ">
-                   <small>Total: {{shoppingcart.totalitems}}</small>
-                 </div>
-                 <div  class="checkouttickettotal "> 
-                  <small>R {{total}}</small>
-                 </div>
-              </div>  -->
-           
-  </div>  
+                      <!-- <div  v-visible="this.shoppingcart.deliveryfee > 0" class="checkoutrow ">
+                        
+                          <div  class="checkouttickets ">
+                            <small>Delivery fee</small>
+                          </div> 
+                          <div  class="checkouttickettotal "> 
+                            <small>{{shippingFee}}</small>
+                          </div> 
+                      </div> 
 
-  <div style=" flex: 0.1;"/>
+                      <div  class="checkoutrow ">
+                        
+                        <div  class="checkouttickets ">
+                          <small>Total: {{shoppingcart.totalitems}}</small>
+                        </div>
+                        <div  class="checkouttickettotal "> 
+                          <small>R {{total}}</small>
+                        </div>
+                      </div>  -->
+                  
+          </div>  
 
- <div class="totalblock">
+          <div style=" flex: 0.05;"/>
 
-            <div  class="checkoutrow ">
-                 
-                  <div  class="checkouttickets ">
-                     <small>Delivery fee</small>
-                  </div> 
-                  <div  class="checkouttickettotal "> 
-                    <small>{{shippingFee}}</small>
-                  </div> 
-              </div> 
+          <div class="totalblock">
 
-              <div  class="checkoutrow ">
-                
-                 <div  class="checkouttickets ">
-                   <small>Total: {{shoppingcart.totalitems}}</small>
-                 </div>
-                 <div  class="checkouttickettotal "> 
-                  <small>R {{total}}</small>
-                 </div>
-              </div> 
+                <div  class="totalrow">
+                    
+                    <div  class="checkouttickets ">
+                        <h4>Delivery fee</h4>
+                    </div> 
+
+                    <div  class="checkouttickettotal "> 
+                      <h4>{{shippingFee}}</h4>
+                    </div> 
+
+                </div> 
+
+                <div  class="totalrow">
+                  
+                    <div  class="checkouttickets ">
+                      <h4>Total: </h4>
+                    </div>
+
+                    <div  class="checkouttickettotal "> 
+                      <h4>R {{total}}</h4>
+                    </div>
+
+                </div> 
 
           </div> 
- </div>   
-  <!-- </div>    -->
-  </div>         
+
+      </div>   
+  
+  </div>  
+
 </template>
 
 <script>
@@ -94,7 +94,8 @@ export default {
         greaterThan800: window.innerWidth > 800,
         shoppingcart: {},
         canRemoveItems: false,
-        hideAll: false,
+        showNoItemsMessage: false,
+         componentKey: 0,
         }
     },
 
@@ -103,7 +104,7 @@ export default {
       this.$eventHub.$on('fee', (fee)=> {
         self.shoppingcart.deliveryfee = fee
       });
-  },
+    },
 
     created() {
      if(localStorage.getItem('jaylashop')) {
@@ -152,23 +153,26 @@ export default {
         });
       },
 
-      removeItems () {
-         this.canRemoveItems = false
-        this.shoppingcart.items.forEach(element => {
-          if (element.isSelected)
-          {
-            this.shoppingcart.items.splice(this.shoppingcart.items.indexOf(element), 1);
-          }
-       });
-      
-       var total = 0;
-       this.shoppingcart.items.forEach(item => {
-          total += item.number;
-       });
-       this.shoppingcart.totalitems = total 
-       this.hideAll = this.shoppingcart.totalitems == 0
-       this.$eventHub.$emit('shoppingcarttotal', this.shoppingcart.totalitems);
-       localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
+      removeItem (item) {
+        this.componentKey += 1
+        //    this.canRemoveItems = false
+        //   this.shoppingcart.items.forEach(element => {
+        //     if (element.isSelected)
+        //     {
+        //       this.shoppingcart.items.splice(this.shoppingcart.items.indexOf(element), 1);
+        //     }
+        //  });
+        debugger
+        this.shoppingcart.items.splice(this.shoppingcart.items.indexOf(item), 1);
+        
+        var total = 0;
+        this.shoppingcart.items.forEach(item => {
+            total += item.number;
+        });
+        this.shoppingcart.totalitems = total 
+        this.showNoItemsMessage = this.shoppingcart.totalitems == 0
+        this.$eventHub.$emit('shoppingcarttotal', this.shoppingcart.totalitems);
+        localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
       },
 
       totalValueForItem: function(item){
@@ -179,6 +183,10 @@ export default {
       select(item) {
 
       }
+    },
+
+    goToShop() {
+      this.$router.replace('Shop')
     },
 
     itemsSelected: function( item, add) {
