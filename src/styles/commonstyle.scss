@@ -15,6 +15,14 @@
 
   }
 
+  .centralblock {
+    // background-color:rgb(243, 245, 241);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: flex-start;
+  }
+
   .mainblock {
     // background-color:rgb(243, 245, 241);
     flex: 0.5;

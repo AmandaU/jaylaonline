@@ -1,8 +1,10 @@
 <template>
-  <div class="centralcontainer" >
+    <div class="container" >
+        <div class="centralblock">
     <h1>Your purchase was unsuccessful :( </h1>
      <button   @click="gotoInformation" class="buttonstyle">try again...</button>
   </div>
+ </div>
 </template>
 
 <script>

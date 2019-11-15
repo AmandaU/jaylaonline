@@ -2,61 +2,58 @@
 
   <div class="container">
 
-      <h1>Shopping cart:</h1> 
-      <div class="shoppingcartblock">
+    <h1>Shopping cart:</h1> 
+    <div class="shoppingcartblock">
 
-          <div class="checkoutblock" :key="componentKey">
+        <div class="checkoutblock" :key="componentKey">
 
-            <!-- <center>Center this text!</center> -->
-                <p  v-show="showNoItemsMessage">There are no items in your cart,<span @click="goToShop" style="color:blue;cursor:pointer"> shop </span>some more ;)</p>
-                    
-                <div  class="checkoutrow" v-for="item in shoppingcart.items" :key="item.key ">
-                  <div  @click="removeItem(item)" class="closebutton"><h1>X</h1></div>
+          <!-- <center>Center this text!</center> -->
+              <p  v-show="showNoItemsMessage">There are no items in your cart,<span @click="goToShop" style="color:blue;cursor:pointer"> shop </span>some more ;)</p>
                   
-                    <div  class="rowlabel">
-                      <small>{{item.productname}}, size {{item.size}}</small>
-                      <small>{{item.number}} @ R{{item.price}} each</small>
-                    </div>
+              <div  class="checkoutrow" v-for="item in shoppingcart.items" :key="item.key ">
+                <div  @click="removeItem(item)" class="closebutton"><h1>X</h1></div>
+                
+                  <div  class="rowlabel item">
+                    <small>{{item.productname}}, size {{item.size}}</small>
+                    <small>{{item.number}} @ R{{item.price}} each</small>
+                  </div>
 
-                    <div  class="rowvalue">
-                      <small>{{totalValueForItem(item)}}</small>
-                    </div> 
-                </div>
-                    
-          </div>  
-
-          <div style=" flex: 0.025;"/>
-
-          <div class="totalblock">
-
-                <div  class="totalrow">
-                    
-                    <div  class="rowlabel">
-                        <h4>Delivery fee</h4>
-                    </div> 
-
-                    <div  class="rowvalue"> 
-                      <h4>{{shippingFee}}</h4>
-                    </div> 
-
-                </div> 
-
-                <div  class="totalrow">
+                  <div  class="rowvalue total">
+                    <small>{{totalValueForItem(item)}}</small>
+                  </div> 
+              </div>
                   
-                    <div  class="rowlabel">
-                      <h4>Total: </h4>
-                    </div>
+        </div>  
 
-                    <div  class="rowvalue"> 
-                      <h4>R {{total}}</h4>
-                    </div>
+        <div style=" flex: 0.025;"/>
 
-                </div> 
+        <div class="totalblock">
 
-          </div> 
+              <div  class="totalrow">
+                  
+                  <div  class="rowlabel total">
+                      <h4>Delivery fee</h4>
+                  </div> 
 
-      </div>   
-  
+                  <div  class="rowvalue total"> 
+                    <h4>{{shippingFee}}</h4>
+                  </div> 
+
+              </div> 
+
+              <div  class="totalrow total">
+                
+                  <div  class="rowlabel total">
+                    <h4>Total: </h4>
+                  </div>
+
+                  <div  class="rowvalue"> 
+                    <h4>R {{total}}</h4>
+                  </div>
+
+              </div> 
+        </div> 
+    </div>   
   </div>  
 
 </template>
@@ -69,11 +66,11 @@ export default {
     
     data() {
         return {
-        greaterThan800: window.innerWidth > 800,
-        shoppingcart: {},
-        canRemoveItems: false,
-        showNoItemsMessage: false,
-         componentKey: 0,
+          greaterThan800: window.innerWidth > 800,
+          shoppingcart: {},
+          canRemoveItems: false,
+          showNoItemsMessage: false,
+          componentKey: 0,
         }
     },
 
@@ -117,7 +114,6 @@ export default {
        shippingFee: function() {
           return 'R ' + String(this.shoppingcart.deliveryfee.toFixed(2))
       }
-  
     },
 
     methods: {
@@ -133,14 +129,6 @@ export default {
 
       removeItem (item) {
         this.componentKey += 1
-        //    this.canRemoveItems = false
-        //   this.shoppingcart.items.forEach(element => {
-        //     if (element.isSelected)
-        //     {
-        //       this.shoppingcart.items.splice(this.shoppingcart.items.indexOf(element), 1);
-        //     }
-        //  });
-        debugger
         this.shoppingcart.items.splice(this.shoppingcart.items.indexOf(item), 1);
         
         var total = 0;
@@ -204,5 +192,5 @@ export default {
 
 <style lang="scss" scoped>
   @import "~@/styles/shoppingcartstyle.scss";
- </style>
+</style>
 

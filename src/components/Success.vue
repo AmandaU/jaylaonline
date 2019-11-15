@@ -1,7 +1,7 @@
 <template>
   <div class="success">
-     <div class="centralcontainer" >
-        <div class="centreblock">
+     <div class="container" >
+        <div class="centralblock">
           <br>
           <h1>Your payment was successful</h1>
           <!-- <cube-spin v-if="isReady"></cube-spin> -->
@@ -224,5 +224,5 @@ methods: {
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/styles/styles.scss";
+  @import "~@/styles/commonstyle.scss";
   </style>
