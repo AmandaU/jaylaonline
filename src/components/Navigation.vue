@@ -97,7 +97,7 @@ methods: {
         });
         return
       } 
-      
+      debugger
       if(navPath == "Information") {
         if (this.totalitems == 0) {
           this.$router.push({ name: 'Shop'});
@@ -134,7 +134,7 @@ methods: {
     left: 0;
     width: 100vw;
     z-index: 10;
-    height:10vh;
+    height:8vh;
     position: relative;
     text-align: center;
 

@@ -1,38 +1,35 @@
 <template>
 
-  <div class="centralcontainer">
+ <div class="container">
     <div class="mainblock" >
-      <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media> 
-      <div class="infoblock"  >
-          <!-- <cube-spin v-if="!isready"></cube-spin> -->
-        <div class="shoppingcartblock">
-            <h1 >Check out</h1>
-            <!-- <h2>R {{shoppingcart.purchasevalue}}</h2> -->
-          
-            <strong >Thank you for buying RudeBoyz kit.</strong>
-            <br>
-
-            <ShoppingCart ></ShoppingCart>
-            <br>
-        </div>
-      </div>
-
-      <div class="payColumn">
        
-        <div class="payfastRow">
-            <img src="../assets/PaymentMethods.png"  alt="Payment Methods"   style="margin: 10px;"/>  
+        <div class="payblock">
+           <h1>Checkout</h1>
+            <h2>Payment options</h2>
+          <central >Thank you for buying RudeBoyz kit.</central>
+        
+          <div class="payfastRow">
+              <img src="../assets/PaymentMethods.png"  alt="Payment Methods"   style="margin: 10px;"/>  
 
-              <br> <br>
-              <a   v-bind:href="payFastUrl"><img src="https://www.payfast.co.za/images/buttons/dark-large-paynow.png"  style="margin: 10px; width: 174 ; height: 59" alt="Pay" title="Pay Now with PayFast" /></a>
-                
-        </div>
+                <br> <br>
+                <a   v-bind:href="payFastUrl"><img src="https://www.payfast.co.za/images/buttons/dark-large-paynow.png"  style="margin: 10px; width: 174 ; height: 59" alt="Pay" title="Pay Now with PayFast" /></a>
+                  
+          </div>
 
-         <br>
-          <div id="Zapper" ></div>
+          <br>
+            <div id="Zapper" ></div>
       </div>
+     </div>
           
-  </div>
+      <!-- <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>  -->
+      <div class="cartblock"  >
+          <ShoppingCart ></ShoppingCart>
+      </div>
+
+    
+
  </div>
+
 </template>
 
 <script>
@@ -51,7 +48,7 @@ export default {
   name: 'checkout',
   components: {
       'ShoppingCart': ShoppingCart,
-      Media
+      // Media
     },
 
   props: {
@@ -168,15 +165,6 @@ export default {
         //     reference: "JA12345" 
         // })
 
-        //  const paymentWidget = new zapper.payments.PaymentWidget(
-        // "Zapper",
-        // {
-        //     merchantId: this.zapperConfig.merchantId,
-        //     siteId: this.zapperConfig.siteId,
-        //     amount: this.purchasevalue,
-        //     reference: this.shoppingcart.reference 
-        // })
-
         // paymentWidget.on('payment', ({ status, paidAmount, zapperId, reference }) => {    
         //    self.shoppingcart.zapperPaymentMethod = true;
         //   debugger;
@@ -280,5 +268,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/styles/checkoutstyles.scss";
+  @import "~@/styles/checkoutstyle.scss";
+   @import "~@/styles/commonstyle.scss";
   </style>

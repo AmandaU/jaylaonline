@@ -1,0 +1,40 @@
+.payblock{
+      //background-color:rgb(92, 36, 82);
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      width:100%;
+      height: 100%;
+      // justify-content: center;
+      // align-items: center;
+      vertical-align: top;
+        
+  }
+
+  .payfastRow{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 0, auto;
+    padding: 5px;
+  }
+
+  .addressblock {
+    //background-color:rgb(92, 36, 82);
+    display: block;
+    text-align: left;
+    width: 400px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  @media all and (max-width: 800px) {
+
+    }
+
+    @media all and (max-width: 600px) {
+
+    
+    }

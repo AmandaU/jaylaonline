@@ -46,7 +46,7 @@ methods: {
     display:  flex;
     flex-direction:row; 
     justify-content: space-between;
-    bottom:0;
+    bottom:10;
     width:100%;
      height: 5rem;
      position: absolute;
@@ -58,7 +58,7 @@ methods: {
     align-content:center;
    display: block;
    margin: 0% auto;
-   margin-top: 20px;
+   margin-top: 10px;
 }
   
   .menuitem:hover {
