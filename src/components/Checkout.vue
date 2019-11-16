@@ -12,8 +12,8 @@
               <img src="../assets/PaymentMethods.png"  alt="Payment Methods"   style="margin: 10px;"/>  
 
                 <br> <br>
-                <a   v-bind:href="payFastUrl"><img src="https://www.payfast.co.za/images/buttons/dark-large-paynow.png"  style="margin: 10px; width: 174 ; height: 59" alt="Pay" title="Pay Now with PayFast" /></a>
-                  
+                <a  v-bind:href="payFastUrl"><img src="https://www.payfast.co.za/images/buttons/dark-large-paynow.png"  style="margin: 10px; width: 174 ; height: 59" alt="Pay" title="Pay Now with PayFast" /></a>
+                   
           </div>
 
           <br>
@@ -123,7 +123,7 @@ export default {
     },
 
    
-    // a computed getter
+    // a computed getter SameSite=None
     payFastUrl: function () {
         const url =  'https://sandbox.payfast.co.za/eng/process?cmd=_paynow&receiver=10011455&item_name=' + 'JaylaOnline Shopping'
         + '&item_description=tickets&amount=' + this.shoppingcart.purchasevalue
@@ -148,6 +148,11 @@ export default {
   },
 
   methods: {
+
+    shopMore() {
+this.saveInvoice()
+this.$router.push('Success')
+    },
 
     totalValueForItem: function(item){
       var value = Number(item.number * item.price);
@@ -233,6 +238,7 @@ export default {
     },
    
     saveInvoice(instance) {
+      debugger
       if(!instance) instance = this;
      
      let order = {
@@ -248,7 +254,7 @@ export default {
           zapperReference: instance.shoppingcart.zapperReference
         };
       
-      localStorage.setItem(order.reference, JSON.stringify(order));
+      sessionStorage.setItem(order.reference, JSON.stringify(order));
      
     },
 
@@ -260,6 +266,7 @@ export default {
       localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
      
       this.$router.replace({ name: 'Success'});
+      this.$router.replace({ name: 'Success', query: {orderref: String(this.shoppingcart.reference)}});
     },
 
   }

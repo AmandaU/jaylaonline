@@ -97,8 +97,7 @@ methods: {
         });
         return
       } 
-      debugger
-      if(navPath == "Information") {
+       if(navPath == "Information") {
         if (this.totalitems == 0) {
           this.$router.push({ name: 'Shop'});
         } else {

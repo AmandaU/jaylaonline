@@ -102,7 +102,7 @@
       shippingAddress: function()
       {
           let shipaddress = this.user.address.addressline1 + ', '
-          shipaddress += this.user.address.addressline1 == '' ? '' : this.user.address.addressline2 + ', '
+          shipaddress += this.user.address.addressline2 == '' ? '' : this.user.address.addressline2 + ', '
           shipaddress += this.user.address.suburb + ', ' 
           + this.user.address.region + ', '
           + this.user.address.country + ', '

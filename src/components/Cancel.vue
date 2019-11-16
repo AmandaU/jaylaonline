@@ -1,10 +1,13 @@
 <template>
-    <div class="container" >
+     <div class="container" >
         <div class="centralblock">
-    <h1>Your purchase was unsuccessful :( </h1>
-     <button   @click="gotoInformation" class="buttonstyle">try again...</button>
+           <div class="payblock">
+      
+                <h1>Your purchase was unsuccessful :( </h1>
+              <button   @click="gotoInformation" class="buttonstyle">try again...</button>
+          </div>
+       </div>
   </div>
- </div>
 </template>
 
 <script>
@@ -39,7 +42,8 @@ created() {
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/styles/styles.scss";
- 
-  </style>
+  @import "~@/styles/commonstyle.scss";
+  @import "~@/styles/checkoutstyle.scss";
+
+</style>
 

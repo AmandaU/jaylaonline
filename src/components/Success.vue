@@ -1,9 +1,10 @@
 <template>
-  <div class="success">
+ 
      <div class="container" >
         <div class="centralblock">
+           <div class="payblock">
           <br>
-          <h1>Your payment was successful</h1>
+          <h1>Success!!</h1>
           <!-- <cube-spin v-if="isReady"></cube-spin> -->
           <h3>{{message1}}</h3>
           <h3>{{message2}}</h3>
@@ -24,9 +25,9 @@ export default {
   name: 'success',
 
  
-   props: {
-       orderid: String,
-   },
+  //  props: {
+  //      orderid: String,
+  //  },
 
   data() {
       return {
@@ -71,16 +72,17 @@ export default {
   },
 
   created(){
-      var orderid = "";
+    debugger
+      var orderid = '';
       var index = window.location.hash.indexOf("=");
       if(index >= 0)
       {
          orderid =  window.location.hash.substring(index+1,window.location.hash.length) ;
       }
  
-      if(localStorage.getItem(orderid))
+      if(sessionStorage.getItem(orderid))
       {
-         this.order = JSON.parse(localStorage.getItem(orderid));
+         this.order = JSON.parse(sessionStorage.getItem(orderid));
        
            if(this.order.zapperPaymentMethod) {
               this.$nextTick(() => {
@@ -91,7 +93,7 @@ export default {
               this.setConfirmationInfo();
             }
       }
-      localStorage.clear()
+      //sessionStorage.clear()
     },
 
 methods: {
@@ -225,4 +227,5 @@ methods: {
 
 <style lang="scss" scoped>
   @import "~@/styles/commonstyle.scss";
+    @import "~@/styles/checkoutstyle.scss";
   </style>
