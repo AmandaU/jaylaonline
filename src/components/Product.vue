@@ -128,12 +128,6 @@ firebase () {
         self.product = products.val()[key];
       }
     });
-
-    // this.$rtdbBind('items', itemsRef.orderByChild("productid").equalTo(this.productid)).then(items => {
-    //    if(self.currentuser) {
-    //     self.addSelectedItems(self.items)
-    //    }
-    // });
   },
 
  computed: {
@@ -313,4 +307,5 @@ methods:
 
 <style lang="scss" scoped>
   @import "~@/styles/productstyles.scss";
+    @import "~@/styles/commonstyle.scss";
 </style>

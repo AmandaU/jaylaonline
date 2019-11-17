@@ -12,7 +12,7 @@
       <div class="nameitem" v-show="isLoggedin">Hi {{user.firstname}}</div>
       <div class="cartbox">
         <small class="numberbox" v-visible="totalitems > 0">{{totalitems}}</small>
-       <img src="../assets/shoppingcart.png"  alt="plus"  @click="navigate('Information')" class="cartimage"/>
+       <img src="../assets/shoppingcart.png"  alt="plus"  @click="navigate('ShoppingCart')" class="cartimage"/>
        
       </div>
       <!-- <div class="hoveritem" v-show="totalitems > 0" v-on:click="navigate('Checkout')" >Checkout({{totalitems}})</div> -->
@@ -36,7 +36,7 @@ name: 'Navigation',
 data() {
     return {
       isLoggedin: false,
-      shoppingcart: {},
+       shoppingcart: {},
       user: {},
       totalitems: 0,
       currentuser: null
@@ -50,14 +50,19 @@ firebase () {
 },
 
 mounted() {
-    if(this.currentuser){
-      this.isLoggedin = true
-      if(localStorage.getItem(this.currentuser.uid))
-      {
-          this.shoppingcart = JSON.parse(localStorage.getItem(this.currentuser.uid));
-          this.totalitems = this.shoppingcart.totalitems
-      }
-      this.fetchUser()
+    // if(this.currentuser){
+    //   this.isLoggedin = true
+    //   if(localStorage.getItem(this.currentuser.uid))
+    //   {
+    //       this.shoppingcart = JSON.parse(localStorage.getItem(this.currentuser.uid));
+    //       this.totalitems = this.shoppingcart.totalitems
+    //   }
+    //   this.fetchUser()
+    // }
+    if(localStorage.getItem('jaylashop'))
+    {
+        this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
+        this.totalitems = this.shoppingcart.totalitems
     }
     let self = this;
     this.$eventHub.$on('loggedin', ()=> {
@@ -66,6 +71,8 @@ mounted() {
     this.$eventHub.$on('shoppingcarttotal', (total)=> {
       self.totalitems = total
     });
+
+    
   },
 
 methods: {
@@ -97,11 +104,11 @@ methods: {
         });
         return
       } 
-       if(navPath == "Information") {
+       if(navPath == "ShoppingCart") {
         if (this.totalitems == 0) {
           this.$router.push({ name: 'Shop'});
         } else {
-            this.$router.push({ name: 'Information'});
+            this.$eventHub.$emit('showCheckout', '');
         } 
         return
       }
@@ -127,13 +134,13 @@ methods: {
 <style> 
 
 .nav{
-    background-color:rgb(253, 252, 252);
+    background-color:rgb(250, 250, 250);
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     z-index: 10;
-    height:8vh;
+    height:5vh;
     position: relative;
     text-align: center;
 
@@ -141,13 +148,14 @@ methods: {
 
  .menu {
   position: relative;
-  height:30px;
+  height:20px;
   width:auto;
   bottom: 0px;
   font-weight: 200;
   font-size: 20px;
   display: flex;
-  padding-bottom: 5px;
+  padding-top: 15px;
+  padding-bottom: 0px;
   flex-direction:row; 
 }
 

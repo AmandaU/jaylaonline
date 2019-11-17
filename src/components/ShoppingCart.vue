@@ -2,7 +2,7 @@
 
   <div class="container">
 
-    <h1>Shopping cart:</h1> 
+    <h2>Shopping cart:</h2> 
     <div class="shoppingcartblock">
 
         <div class="checkoutblock" :key="componentKey">
@@ -18,7 +18,7 @@
                     <small>{{item.number}} @ R{{item.price}} each</small>
                   </div>
 
-                  <div  class="rowvalue total">
+                  <div  class="rowvalue item">
                     <small>{{totalValueForItem(item)}}</small>
                   </div> 
               </div>
@@ -41,13 +41,13 @@
 
               </div> 
 
-              <div  class="totalrow total">
+              <div  class="totalrow">
                 
-                  <div  class="rowlabel total">
+                  <div  class="rowlabel item">
                     <h4>Total: </h4>
                   </div>
 
-                  <div  class="rowvalue"> 
+                  <div  class="rowvalue total"> 
                     <h4>R {{total}}</h4>
                   </div>
 
@@ -79,15 +79,14 @@ export default {
       this.$eventHub.$on('fee', (fee)=> {
          self.shoppingcart.deliveryfee = fee
       });
+
+      this.$eventHub.$on('shoppingcarttotal', (total)=> {
+        self.getShoppingCart()
+      });
     },
 
     created() {
-     if(localStorage.getItem('jaylashop')) {
-        this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
-        if (this.shoppingcart.items.count == 0) {
-            this.hideAll = true
-        }
-       }
+        this.getShoppingCart()
      },
 
     computed: {
@@ -117,6 +116,16 @@ export default {
     },
 
     methods: {
+
+      getShoppingCart() {
+        if(localStorage.getItem('jaylashop')) {
+        this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
+        if (this.shoppingcart.items.count == 0) {
+            this.hideAll = true
+        }
+        this.componentKey += 1
+       }
+      },
 
       shouldRemoveItems(item) {
         item.isSelected = !item.isSelected

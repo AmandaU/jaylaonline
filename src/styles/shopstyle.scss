@@ -3,6 +3,11 @@
   box-sizing: border-box;
 }
 
+-webkit-scrollbar { 
+  display: none; 
+}
+
+
 body {
   margin: 0;
   font-family: Arial;

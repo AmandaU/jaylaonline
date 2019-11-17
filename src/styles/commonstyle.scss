@@ -1,18 +1,126 @@
+// $theme-font:  verdana, sans-serif;
+
+// @font-face {
+
+//   font-family: Prime;
+//   src: url("~@/assets/fonts/Prime-Regular.otf") ;
+
+//   font-family: Bariol;
+//   src: url("~@/assets/fonts/Bariol.otf") ;
+
+//   font-family: BariolBold;
+//   src: url("~@/assets/fonts/BariolBold.otf") ;
+// }
+
+//   #app {
+  
+//   //
+//   margin:0;  
+//   max-height: 100vh;   /* This is used to reset any browser-default margins */
+//   height:100vh; /* This is needed to overcome a Chrome bug. */
+//   width:100vw; 
+//   font-family: 'Prime';//'Bariol', 'BariolBold';//,'Helvetica Neue', Arial, sans-serif;
+//   color: rgb(76, 74, 80);
+//   background-color:rgb(255, 255, 255);
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+//   max-width: 100%;
+//   max-height: 100%;
+//   position: absolute;
+//   top: 0;
+//   bottom: 0;
+//   left: 0;
+//   right: 0;
+//   //overflow: auto;
+//   -webkit-scrollbar { 
+//   display: none; 
+// }
+  
+-webkit-scrollbar { 
+  display: none; 
+}
+
+.fullpage {
+ 
+  position: relative;
+  //background-color:rgb(122, 231, 13);
+  width:100vw;
+ // display: flex;
+  flex-direction:column; /* column | row  */
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  min-height:calc(100%-5rem);
+  min-height:-moz-calc(100%-5rem);
+  min-height:-webkit-calc(100%-5rem);
+
+}
+
+
+
+.dropdownblock {
+  flex: 1;
+  height: 100%;
+  flex-direction: column;
+  overflow-y:scroll;
+  max-height: 25vh;
+ // background-color:rgb(227, 241, 203);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: flex-start;
+
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//  // max-height: 25vh;
+//  // bottom: 0;
+//   z-index: 500;
+//   overflow: auto;
+ 
+}
+
+.cartcontainer {
+  position: relative;
+  max-width: 100vw;
+  max-height:25vh;
+  height: 100%;
+  width:100%;
+  //flex-direction: row;
+  overflow-y: auto;
+  padding-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+}
 
 .container {
     // background-color:rgb(147, 253, 40);
     max-width: 100vw;
-    min-height:80vh;
+    max-height:85vh;
     height: 100%;
     width:100%;
     //flex-direction: row;
     overflow-y: auto;
-     padding-bottom: 5rem;
+    padding-bottom: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
     align-self: center;
 
+  }
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
   }
 
   .centralblock {
@@ -42,3 +150,36 @@
     align-self: flex-start;
     
   }
+
+  .thinline{
+    width: 100%;
+    margin: 0px;
+    height: 1px;
+    background-color: rgb(211, 212, 212);
+  }
+  
+  .hoveritem{
+    background-color:transparent;
+    color: rgb(193, 113, 219);
+    position:relative;
+    text-align: right;
+    justify-content:center;
+    align-content:center;
+    padding: 5px;
+    bottom:0;
+  }
+
+  .hoveritem:hover {
+    text-decoration:underline;
+    cursor: pointer;
+    }
+
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .5s
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+      opacity: 0
+    }
+    
+
+//}

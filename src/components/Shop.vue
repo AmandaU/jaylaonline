@@ -54,11 +54,7 @@ firebase () {
 //  },
 
  created () {
-    //   this.$rtdbBind('products', products.orderByKey()).then(products => {
-    //     this.products === products;
-    //     this.numberOfProducts = products.length
-    //  });
-    },
+      },
 
  computed: {
    isRow: function () {

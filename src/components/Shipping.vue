@@ -76,7 +76,7 @@
  },
 
  created() {
-    
+      this.$eventHub.$emit('showCheckout', '');
     if(localStorage.getItem('jaylashop'))
     {
         this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));

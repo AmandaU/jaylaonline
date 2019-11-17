@@ -3,31 +3,45 @@
     
     <Navigation ></Navigation>
       <div class="fullpage" >
-         <!-- <router-view/> -->
+        <!-- <div class="cartcontainer" > -->
+        <transition name="fade">
+          <div v-show="showCheckout" class="dropdownblock" >
+               <div class="row" >
+                  <span @click="hide" class="hoveritem">hide this</span> <br/> <br/>
+                  <span @click="gotoCheckout" class="hoveritem">checkout</span>
+               </div>
+               <ShoppingCart ></ShoppingCart>
+           
+
+            <div class="thinline"/>
+          </div>
+         </transition>
+        <!-- </div> -->
         <keep-alive include="Information,Shipping">
           <router-view></router-view>
         </keep-alive>
         <BottomNav></BottomNav>
       </div>
-      
-  </div>
+     </div>  
+ 
 </template>
 
 <script>
 import BottomNav from './components/BottomNav'
 import Navigation from './components/Navigation'
+ import ShoppingCart from './components/ShoppingCart'
 
 export default {
   name: 'app',
   components: {
     'Navigation': Navigation,
-    'BottomNav': BottomNav
+    'BottomNav': BottomNav,
+     'ShoppingCart': ShoppingCart 
   },
 
   data: function () {
   return {
-    // imageCount: 3,
-    //    imageurl: require('./assets/logo.png') ,
+    showCheckout: false
    }
   },
 
@@ -36,9 +50,37 @@ export default {
       // this.$eventHub.$off('eventimageurl', '');
       
     },
+
+  mounted() {
+    
+    let self = this;
+    this.$eventHub.$on('showCheckout', ()=> {
+       if (self.$route.name == 'Information'
+      || self.$route.name == 'Shipping'
+      || self.$route.name == 'Checkout') {
+        self.showCheckout = false
+      } else {
+        self.showCheckout = !self.showCheckout;
+      }
+    });
+   
+  },
+
+    methods: {
+
+      hide() {
+        this.showCheckout = false;
+      },
+
+      gotoCheckout () {
+        this.$router.push({ name: 'Information'});
+      }
   }
+  }
+
+ 
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/styles/styles.scss";
+  @import "~@/styles/commonstyle.scss";
   </style>
