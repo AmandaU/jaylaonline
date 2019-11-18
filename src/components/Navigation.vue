@@ -12,7 +12,7 @@
       <div class="nameitem" v-show="isLoggedin">Hi {{user.firstname}}</div>
       <div class="cartbox">
         <small class="numberbox" v-visible="totalitems > 0">{{totalitems}}</small>
-       <img src="../assets/shoppingcart.png"  alt="plus"  @click="navigate('ShoppingCart')" class="cartimage"/>
+       <img src="../assets/shoppingcart.png"  alt="cart"  @click="navigate('ShoppingCart')" class="cartimage"/>
        
       </div>
       <!-- <div class="hoveritem" v-show="totalitems > 0" v-on:click="navigate('Checkout')" >Checkout({{totalitems}})</div> -->
@@ -108,7 +108,7 @@ methods: {
         if (this.totalitems == 0) {
           this.$router.push({ name: 'Shop'});
         } else {
-            this.$eventHub.$emit('showCheckout', '');
+          this.$eventHub.$emit('showCheckout', '');
         } 
         return
       }

@@ -1,15 +1,26 @@
 <template>
-  <!-- <div class="centralcontainer"> -->
-   <div :style="getContainerStyle()">
-    <div class="banner">
-       <img  class="frontimage" v-bind:src="imageurl"  alt=""  /> 
-    </div>
+ 
+  <div class="centralcontainer">
+      <transition
+          name="expand"
+          @enter="enter"
+          @after-enter="afterEnter"
+          @leave="leave"
+        >
+       <div style="getBannerStyle()">
+          <img class="frontimage" v-bind:src="imageurl"  alt=""   /> 
+        </div>
+
+         </transition>
+
       
    </div>
+
   
 </template>
 
 <script>
+
   
 export default {
   name: 'home',
@@ -21,6 +32,7 @@ export default {
         busy: false,
         position: 'relative',
         imageurl: require('../assets/logo.png') ,
+        showCheckout: false
       }
     },
 
@@ -33,21 +45,36 @@ firebase () {
 created() {
   },
 
+mounted() {
+
+  let self = this;
+  this.$eventHub.$on('showCheckout', ()=> {
+       self.showCheckout = !self.showCheckout;
+  });
+
+},
+
 methods: {
 
-  getContainerStyle: function () { 
+//  enter(element) {
+      
+//       element.style.height = '50px';
+//  },
+
+//   leave(element) {
+//        element.style.height = 'auto';
+//  },
+
+  getBannerStyle: function () { 
         return  {
-        'max-width': '100vw',
-        'min-height':'80vh',
-        'height': '100%',
-        'width':'100%',
-        'float':'right',
-        'display': 'flex',
-        'overflow-y':'scroll',
-        'padding-bottom': '5rem',
-        'align-self': 'center',
-        'justify-content': 'center',
-        'align-items': 'center'
+             'display': 'block',
+            'text-align': 'center',
+            'margin-top': this.showCheckout ? '0px' : 'auto',
+            'margin-bottom': '0px',
+            'margin-left': 'auto',
+            'margin-right': 'auto',
+            'transition': 'margin-top 4000ms ease-in-out, box-shadow 1000ms ease-in-out'
+
       }
   },
 }
