@@ -1,38 +1,27 @@
 
-* {
-  box-sizing: border-box;
-}
 
 -webkit-scrollbar { 
   display: none; 
 }
 
-
-body {
-  margin: 0;
-  font-family: Arial;
-}
-
-.header {
-  text-align: center;
-  padding: 32px;
-}
-
 /* Create two equal columns that floats next to each other */
 
-.grid-container {
-  display: grid;
-  //grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  grid-template-columns: repeat(3, minmax(300px, 1fr));
-  grid-gap: 1em;
-}
+// .grid-container {
+//   display: grid;
+//   //grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+//   grid-template-columns: repeat(3, minmax(300px, 1fr));
+//   grid-gap: 1em;
+// }
 
 .column {
-  float: left;
-  width: 33%;
-  padding: 10px;
-   position: relative;
-  overflow: hidden;
+  background: rgba(247, 222, 3, 0.4);
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  flex-basis: 33%;
+  flex: 1;
+  position: relative;
 }
 
 .hovercolumn {
@@ -63,10 +52,11 @@ body {
 
 .product-image {
   line-height: 0;
+
 }
 
 .product-image img {
-  margin-top: 12px;
+  margin: 10px;
   line-height: 0;
   width: 100%;
   height: auto;
@@ -86,22 +76,33 @@ body {
   clear: both;
  }
 
-.centralcontainer {
-  // background-color:rgb(147, 253, 40);
-  max-width: 100vw;
-  min-height:80vh;
-  height: 100%;
-  width:100%;
-  float:right;
-  overflow-y: auto;
+ .imagecontainer {
+  background: rgba(247, 222, 3, 0.4);
+  justify-content: space-between;
   display: flex;
-   align-self: center;
-  overflow-y:scroll;
-  padding-bottom: 5rem;
-  align-self: center;
-  justify-content: center;
-  align-items: center;
-}
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 90%;
+  overflow-y: hidden
+ }
+
+// .centralcontainer {
+//   // background-color:rgb(147, 253, 40);
+//   max-width: 100vw;
+//   min-height:80vh;
+//   height: 100%;
+//   width:100%;
+//   float:right;
+//   overflow-y: auto;
+//   display: flex;
+//    align-self: center;
+//   overflow-y:scroll;
+//   padding-bottom: 5rem;
+//   align-self: center;
+//   justify-content: center;
+//   align-items: center;
+// }
+
 
 @media (max-width: 600px) {
   .column {

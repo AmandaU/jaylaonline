@@ -3,10 +3,10 @@
     
     <Navigation ></Navigation>
       <div class="fullpage" >
-        <!-- <div class="cartcontainer" > -->
+      
         <transition name="fade">
           <div v-show="showCheckout" class="dropdownblock" >
-               <div class="row" >
+               <div class="shoppingcartrow" >
                   <span @click="hide" class="hoveritem">hide this</span> <br/> <br/>
                   <span @click="gotoCheckout" class="hoveritem">checkout</span>
                </div>
@@ -16,8 +16,8 @@
             <div class="thinline"/>
           </div>
          </transition>
-        <!-- </div> -->
-        <keep-alive include="Information,Shipping">
+       
+        <keep-alive include="Information,Shipping,Checkout">
           <router-view></router-view>
         </keep-alive>
         <BottomNav></BottomNav>

@@ -42,6 +42,7 @@ methods: {
 <style> 
 
 .footer{
+     background-color:rgb(75, 84, 88);
     left: 0;
     display:  flex;
     flex-direction:row; 

@@ -1,48 +1,11 @@
-// $theme-font:  verdana, sans-serif;
 
-// @font-face {
-
-//   font-family: Prime;
-//   src: url("~@/assets/fonts/Prime-Regular.otf") ;
-
-//   font-family: Bariol;
-//   src: url("~@/assets/fonts/Bariol.otf") ;
-
-//   font-family: BariolBold;
-//   src: url("~@/assets/fonts/BariolBold.otf") ;
-// }
-
-//   #app {
-  
-//   //
-//   margin:0;  
-//   max-height: 100vh;   /* This is used to reset any browser-default margins */
-//   height:100vh; /* This is needed to overcome a Chrome bug. */
-//   width:100vw; 
-//   font-family: 'Prime';//'Bariol', 'BariolBold';//,'Helvetica Neue', Arial, sans-serif;
-//   color: rgb(76, 74, 80);
-//   background-color:rgb(255, 255, 255);
-//   -webkit-font-smoothing: antialiased;
-//   -moz-osx-font-smoothing: grayscale;
-//   max-width: 100%;
-//   max-height: 100%;
-//   position: absolute;
-//   top: 0;
-//   bottom: 0;
-//   left: 0;
-//   right: 0;
-//   //overflow: auto;
-//   -webkit-scrollbar { 
-//   display: none; 
-// }
   
 -webkit-scrollbar { 
   display: none; 
 }
 
 .fullpage {
- 
-  position: relative;
+ position: relative;
   //background-color:rgb(122, 231, 13);
   width:100vw;
  // display: flex;
@@ -59,6 +22,27 @@
 
 }
 
+.centralcontainer {
+   background-color:rgb(147, 253, 40);
+  max-width: 100vw;
+  min-height:80vh;
+ 
+  height: 100%;
+  width:100%;
+  float:right;
+   display: flex;
+   overflow-y:scroll;
+  padding-bottom: 5rem;
+  align-self: center;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.banner {
+  display: block;
+  text-align: center;
+}
 
 
 .dropdownblock {
@@ -73,15 +57,6 @@
   align-items: center;
   align-self: flex-start;
 
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   right: 0;
-//  // max-height: 25vh;
-//  // bottom: 0;
-//   z-index: 500;
-//   overflow: auto;
- 
 }
 
 .cartcontainer {
@@ -112,10 +87,9 @@
     align-items: center;
     justify-content: center;
     align-self: center;
+ }
 
-  }
-
-  .row {
+  .shoppingcartrow {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -174,12 +148,12 @@
     cursor: pointer;
     }
 
-    .fade-enter-active, .fade-leave-active {
-      transition: opacity .5s
-    }
-    .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
-      opacity: 0
-    }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+    opacity: 0
+  }
     
 
 //}

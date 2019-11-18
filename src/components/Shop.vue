@@ -1,24 +1,26 @@
 <template>
-   <div >
-    <div class="centralcontainer">
-    <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media> 
+  
+    <div :style="getContainerStyle()">
+    
+   
+    <!-- <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>  -->
       
-     <div class="row">
-        <div  v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
-           <div class="column">
+     <div class="imagecontainer">
+        <div class="column" v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
+           <!-- <div class="column"> -->
               <div class="product-image">
                <img v-bind:src="product.linkphotourl" >
               </div>
               <div class="hovercolumn">
                 <h2 >{{product.name}}</h2>
               </div>
-           </div>
+           <!-- </div> -->
         </div>
   
      </div>
                 
-    </div> 
-  </div> 
+    </div>  
+ 
    
 </template>
 
@@ -79,9 +81,24 @@ firebase () {
     }
   },
  
-  
-
 methods: {
+
+   getContainerStyle: function () { 
+         return  {
+          'max-width': '100vw',
+          'min-height' : '80vh',
+          'max-height':'80vh',
+          'height': '100%',
+          'width':'100%',
+         'float':'right',
+         'display': 'flex',
+         'overflow-y': 'auto',
+          'padding-bottom': '5rem',
+          'align-self': 'center',
+          'justify-content': 'center',
+          'align-items': 'center'
+        }
+    },
 
   addProducts ()
    {
@@ -136,5 +153,6 @@ methods: {
 </script>
 
 <style lang="scss" scoped>
-   @import "~@/styles/shopstyle.scss";
+    @import "~@/styles/shopstyle.scss";
+    @import "~@/styles/commonstyle.scss";
   </style>

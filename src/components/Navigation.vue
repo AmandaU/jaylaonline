@@ -134,7 +134,7 @@ methods: {
 <style> 
 
 .nav{
-    background-color:rgb(250, 250, 250);
+    background-color:rgb(248, 246, 246);
     position: fixed;
     top: 0;
     left: 0;

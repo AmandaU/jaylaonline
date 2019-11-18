@@ -1,6 +1,6 @@
 <template>
- <div class="pagecontainer"> 
-
+ <!-- <div class="pagecontainer">  -->
+<div :style="getContainerStyle()">
    
      <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>
      <div class="pricecolumn">
@@ -155,6 +155,24 @@ firebase () {
 
 methods: 
 { 
+
+  getContainerStyle: function () { 
+         return  {
+          'max-width': '100vw',
+          'min-height' : '80vh',
+          'max-height':'80vh',
+          'height': '100%',
+          'width':'100%',
+         'float':'right',
+         'display': 'flex',
+         'overflow-y': 'auto',
+          'padding-bottom': '5rem',
+          'align-self': 'center',
+          'justify-content': 'center',
+          'align-items': 'center'
+        }
+    },
+
 
   media800Enter(mediaQueryString) {
     this.greaterThan800 = false
