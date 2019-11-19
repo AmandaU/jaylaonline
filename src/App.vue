@@ -4,7 +4,7 @@
     <Navigation ></Navigation>
       <div class="fullpage" >
       
-        <transition name="fade">
+        <!-- <transition name="fade"> -->
           <div v-show="showCheckout" class="dropdownblock" >
                <div class="shoppingcartrow" >
                   <span @click="hide" class="hoveritem">hide this</span> <br/> <br/>
@@ -15,7 +15,7 @@
 
             <div class="thinline"/>
           </div>
-         </transition>
+         <!-- </transition> -->
        
         <keep-alive include="Information,Shipping,Checkout">
           <router-view></router-view>

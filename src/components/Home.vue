@@ -7,7 +7,7 @@
           @after-enter="afterEnter"
           @leave="leave"
         > -->
-       <div style="getBannerStyle()"> 
+       <div :style="getBannerStyle()"> 
           <img class="frontimage" v-bind:src="imageurl"  alt=""   /> 
         </div>
 
@@ -15,7 +15,6 @@
 
       
    </div>
-
   
 </template>
 
@@ -68,16 +67,18 @@ methods: {
 getContainerStyle: function () { 
          return  {
           'max-width': '100vw',
-          'min-height' : '80vh',
-          'max-height':'80vh',
+          'min-height' : this.showCheckout ? '69vh' : '87vh',
+          'max-height': this.showCheckout ? '69vh' : '87vh',
           'height': '100%',
           'width':'100%',
-         'float':'right',
+        // 'float':'right',
          'display': 'flex',
-         'overflow-y': 'auto',
-          'padding-bottom': this.showCheckout ? '6rem' : '3rem',
-          'padding-top': this.showCheckout ? '0rem' : '3rem',
-          'align-self': this.showCheckout ? 'flex-start' : 'center',
+         'overflow-y': 'hidden',
+          'overflow-x': 'hidden',
+         'flex-direction': 'row',
+          // 'padding-bottom': this.showCheckout ? '6rem' : '3rem',
+          // 'padding-top': this.showCheckout ? '0rem' : '3rem',
+          //'align-self': this.showCheckout ? 'flex-start' : 'center',
           'justify-content': 'center',
           'align-items': 'center'
         }
@@ -86,10 +87,10 @@ getContainerStyle: function () {
   getBannerStyle: function () { 
         return  {
              'display': 'flex',
-            'text-align': this.showCheckout ? 'flex-start' : 'center',
+            'align-self': this.showCheckout ? 'flex-start' : 'center',
           
-            'margin': '0 auto',
-            'transition': 'margin-top 4000ms ease-in-out, box-shadow 1000ms ease-in-out'
+            //'margin': '0 auto',
+            'transition': 'all 4000ms ease-in-out'
    }
   },
 }
