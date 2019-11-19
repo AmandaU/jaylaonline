@@ -49,7 +49,7 @@ methods: {
     justify-content: space-between;
     bottom:0;
     width:100%;
-     height: 5rem;
+     height: 5vh;
      position: absolute;
 }
 

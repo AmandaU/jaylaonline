@@ -67,8 +67,8 @@ methods: {
 getContainerStyle: function () { 
          return  {
           'max-width': '100vw',
-          'min-height' : this.showCheckout ? '69vh' : '87vh',
-          'max-height': this.showCheckout ? '69vh' : '87vh',
+          'min-height' : this.showCheckout ? '68vh' : '87vh',
+          'max-height': this.showCheckout ? '68vh' : '87vh',
           'height': '100%',
           'width':'100%',
         // 'float':'right',

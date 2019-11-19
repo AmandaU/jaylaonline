@@ -7,7 +7,7 @@
         <!-- <transition name="fade"> -->
           <div v-show="showCheckout" class="dropdownblock" >
                <div class="shoppingcartrow" >
-                  <span @click="hide" class="hoveritem">hide this</span> <br/> <br/>
+                  <span @click="hide" class="hoveritem">hide this</span> 
                   <span @click="gotoCheckout" class="hoveritem">checkout</span>
                </div>
                <ShoppingCart ></ShoppingCart>
