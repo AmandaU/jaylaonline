@@ -1,5 +1,5 @@
 <template>
-<div> 
+<!-- <div >  -->
     <div class="footer" ref="footer" v-bind:style="{ position: footerposition }">
    
         <div class=" menuitem "  @click="navigate('About')">About
@@ -10,7 +10,7 @@
         </div>
   
     </div>
-</div>  
+<!-- </div>   -->
 </template>
 
 <script>
@@ -47,7 +47,7 @@ methods: {
     display:  flex;
     flex-direction:row; 
     justify-content: space-between;
-    bottom:10;
+    bottom:0;
     width:100%;
      height: 5rem;
      position: absolute;

@@ -1,17 +1,17 @@
 <template>
- 
-  <div class="centralcontainer">
-      <transition
+ <!-- <div class="centralcontainer"> -->
+  <div :style="getContainerStyle()">
+      <!-- <transition
           name="expand"
           @enter="enter"
           @after-enter="afterEnter"
           @leave="leave"
-        >
-       <div style="getBannerStyle()">
+        > -->
+       <div style="getBannerStyle()"> 
           <img class="frontimage" v-bind:src="imageurl"  alt=""   /> 
         </div>
 
-         </transition>
+         <!-- </transition>  -->
 
       
    </div>
@@ -65,17 +65,32 @@ methods: {
 //        element.style.height = 'auto';
 //  },
 
+getContainerStyle: function () { 
+         return  {
+          'max-width': '100vw',
+          'min-height' : '80vh',
+          'max-height':'80vh',
+          'height': '100%',
+          'width':'100%',
+         'float':'right',
+         'display': 'flex',
+         'overflow-y': 'auto',
+          'padding-bottom': this.showCheckout ? '6rem' : '3rem',
+          'padding-top': this.showCheckout ? '0rem' : '3rem',
+          'align-self': this.showCheckout ? 'flex-start' : 'center',
+          'justify-content': 'center',
+          'align-items': 'center'
+        }
+    },
+
   getBannerStyle: function () { 
         return  {
-             'display': 'block',
-            'text-align': 'center',
-            'margin-top': this.showCheckout ? '0px' : 'auto',
-            'margin-bottom': '0px',
-            'margin-left': 'auto',
-            'margin-right': 'auto',
+             'display': 'flex',
+            'text-align': this.showCheckout ? 'flex-start' : 'center',
+          
+            'margin': '0 auto',
             'transition': 'margin-top 4000ms ease-in-out, box-shadow 1000ms ease-in-out'
-
-      }
+   }
   },
 }
 

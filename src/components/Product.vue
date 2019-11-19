@@ -287,8 +287,8 @@ methods:
       total += item.number;
     });
     this.shoppingcart.totalitems = total 
-    this.$eventHub.$emit('shoppingcarttotal', total);
     localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
+    this.$eventHub.$emit('shoppingcarttotal', total);
   },
 
   initialiseShoppingCart() {
