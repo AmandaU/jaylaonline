@@ -87,7 +87,7 @@ getContainerStyle: function () {
   getBannerStyle: function () { 
         return  {
              'display': 'flex',
-            'align-self': this.showCheckout ? 'flex-start' : 'center',
+             'align-self': this.showCheckout ? 'flex-start' : 'center',
           
             //'margin': '0 auto',
             'transition': 'all 4000ms ease-in-out'
