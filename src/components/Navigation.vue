@@ -134,29 +134,25 @@ methods: {
 <style> 
 
 .nav{
-    background-color:rgb(248, 246, 246);
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    z-index: 10;
-    height:5vh;
-    position: relative;
-    text-align: center;
-
+   background-color:rgb(248, 246, 246);
+   top: 0;
+   left: 0;
+   right: 0;
+   width: 100vw;
+   z-index: 10;
+   height: 5vh;
+   position: relative;
+  
 }
 
  .menu {
-  position: relative;
-  height:20px;
-  width:auto;
-  bottom: 0px;
-  font-weight: 200;
-  font-size: 20px;
-  display: flex;
-  padding-top: 15px;
-  padding-bottom: 0px;
-  flex-direction:row; 
+    display: flex;
+    margin: 0% auto;
+    position: relative;
+    flex-direction:row; 
+    font-weight: 200;
+    font-size: 20px;
+    
 }
 
 .menuleft{
@@ -174,7 +170,7 @@ methods: {
 }
 
   .spacing { 
-    Margin-right: 10px; 
+    Margin-right: 15px; 
   } 
 
   .nameitem{
@@ -184,8 +180,6 @@ methods: {
     text-align: right;
     justify-content:center;
     align-content:center;
-    padding: 5px;
-    bottom:0;
   }
 
   .cartbox {

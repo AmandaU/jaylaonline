@@ -72,15 +72,15 @@ getContainerStyle: function () {
           'height': '100%',
           'width':'100%',
         // 'float':'right',
-         'display': 'flex',
-         'overflow-y': 'hidden',
-          'overflow-x': 'hidden',
-         'flex-direction': 'row',
-          // 'padding-bottom': this.showCheckout ? '6rem' : '3rem',
-          // 'padding-top': this.showCheckout ? '0rem' : '3rem',
-          //'align-self': this.showCheckout ? 'flex-start' : 'center',
-          'justify-content': 'center',
-          'align-items': 'center'
+          'display': 'flex',
+          'overflow-y': 'hidden',
+            'overflow-x': 'hidden',
+          'flex-direction': 'row',
+            // 'padding-bottom': this.showCheckout ? '6rem' : '3rem',
+            // 'padding-top': this.showCheckout ? '0rem' : '3rem',
+            //'align-self': this.showCheckout ? 'flex-start' : 'center',
+            'justify-content': 'center',
+            'align-items': 'center'
         }
     },
 

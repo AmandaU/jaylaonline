@@ -57,9 +57,10 @@ methods: {
    text-align: center;
     justify-content:center;
     align-content:center;
-   display: block;
-   margin: 0% auto;
-   margin-top: 10px;
+    align-self: center;
+    display: flex;
+    margin: 0% auto;
+  
 }
   
   .menuitem:hover {
