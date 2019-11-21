@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <div class="centralcontainer" >
+     <div class="container" >
        <!-- <cube-spin v-if="busy"></cube-spin> -->
         <br>
         <div class="infoblock">
@@ -65,9 +65,9 @@
           let uid = user.user.uid;
           alert('Successful login');
           self.$eventHub.$emit('loggedin', '');
-          if(localStorage.getItem(uid))
+          if(localStorage.getItem('jaylashop'))
           {
-              self.shoppingcart = JSON.parse(localStorage.getItem(uid));
+              self.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
               self.$eventHub.$emit('shoppingcarttotal', self.shoppingcart.totalitems);
           }
           if(self.$props.currentPage)
@@ -101,5 +101,5 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/styles/styles.scss";
+  @import "~@/styles/loginstyle.scss";
 </style>

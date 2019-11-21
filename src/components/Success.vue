@@ -1,7 +1,6 @@
 <template>
  
      <div class="container" >
-        <div class="centralblock">
            <div class="payblock">
           <br>
           <h1>Success!!</h1>
@@ -11,7 +10,6 @@
           <h3>{{message3}}</h3>
           <br>
         </div>
-   </div>
    </div>
 </template>
 
@@ -226,6 +224,6 @@ methods: {
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/styles/commonstyle.scss";
+  // @import "~@/styles/commonstyle.scss";
     @import "~@/styles/checkoutstyle.scss";
   </style>

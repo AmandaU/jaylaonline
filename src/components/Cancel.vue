@@ -1,14 +1,12 @@
 <template>
      <div class="container" >
-        <div class="centralblock">
            <div class="payblock">
       
                 <h1>Your purchase was unsuccessful :( </h1>
               <button   @click="gotoInformation" class="buttonstyle">try again...</button>
           </div>
        </div>
-  </div>
-</template>
+ </template>
 
 <script>
     
@@ -42,7 +40,7 @@ created() {
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/styles/commonstyle.scss";
+  // @import "~@/styles/commonstyle.scss";
   @import "~@/styles/checkoutstyle.scss";
 
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="signup" >
-    <div class="centralcontainer" >
+    <div class="container" >
           <!-- <cube-spin v-if="busy"></cube-spin> -->
           <div class="infoblock">
             <p>Let's create a new account !</p>
@@ -156,5 +156,5 @@ methods: {
 </script>
 
  <style lang="scss" scoped>
-  @import "~@/styles/styles.scss";
+  @import "~@/styles/loginstyle.scss";
 </style>

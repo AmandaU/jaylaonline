@@ -5,14 +5,14 @@
       <div class="fullpage" >
       
         <!-- <transition name="fade"> -->
-          <div v-show="showCheckout" class="dropdownblock" >
+          <div  class="dropdownblock" v-bind:class="[showCheckout ? 'open' : 'closed']">
+             
                <div class="shoppingcartrow" >
                   <span @click="hide" class="hoveritem">hide this</span> 
                   <span @click="gotoCheckout" class="hoveritem">checkout</span>
                </div>
                <ShoppingCart ></ShoppingCart>
            
-
             <div class="thinline"/>
           </div>
          <!-- </transition> -->
@@ -29,7 +29,7 @@
 <script>
 import BottomNav from './components/BottomNav'
 import Navigation from './components/Navigation'
- import ShoppingCart from './components/ShoppingCart'
+import ShoppingCart from './components/ShoppingCart'
 
 export default {
   name: 'app',
@@ -69,7 +69,7 @@ export default {
     methods: {
 
       hide() {
-        this.showCheckout = false;
+        this.$eventHub.$emit('showCheckout', '');
       },
 
       gotoCheckout () {

@@ -1,14 +1,13 @@
 <template>
   
     <div :style="getContainerStyle()">
-    
    
     <!-- <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>  -->
       
      <div class="imagecontainer">
         <div class="column" v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
            <!-- <div class="column"> -->
-              <div class="product-image">
+              <div class="productimage">
                <img v-bind:src="product.linkphotourl" >
               </div>
               <div class="hovercolumn">
@@ -40,6 +39,7 @@ export default {
          numberOfProducts: 0,
         greaterThan800: window.innerWidth > 800,
         containerWidth: window.innerWidth > 800? window.innerWidth/3: window.innerWidth > 600? window.innerWidth/ 2: window.innerWidth,
+        showCheckout: false
      }
     },
 
@@ -51,9 +51,13 @@ firebase () {
          }
       },
 
-//  created: function () {
-//   this.addProducts();
-//  },
+mounted() {
+
+  let self = this;
+  this.$eventHub.$on('showCheckout', ()=> {
+       self.showCheckout = !self.showCheckout;
+  });
+},
 
  created () {
       },
@@ -86,17 +90,20 @@ methods: {
    getContainerStyle: function () { 
          return  {
           'max-width': '100vw',
-          'min-height' : '80vh',
-          'max-height':'80vh',
-          'height': '100%',
+          'min-height' : '70vh',
+          //'max-height': '80vh',
           'width':'100%',
-         'float':'right',
-         'display': 'flex',
-         'overflow-y': 'auto',
-          'padding-bottom': '5rem',
-          'align-self': 'center',
+          'float':'right',
+          'display': 'flex',
+          'overflow-y': 'auto',
+          //'padding-bottom': '5rem',
+          //'align-self': 'center',
           'justify-content': 'center',
-          'align-items': 'center'
+          //'align-items': 'center',
+           'padding-top': this.showCheckout ? '2px' : '7%',
+            'padding-bottom': '3%',
+             'transition': 'padding-top 500ms ease-in-out',
+  
         }
     },
 

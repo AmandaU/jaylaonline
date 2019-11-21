@@ -8,7 +8,7 @@
           @leave="leave"
         > -->
        <div :style="getBannerStyle()"> 
-          <img class="frontimage" v-bind:src="imageurl"  alt=""   /> 
+          <img  class="frontimage" v-bind:src="imageurl"  alt=""   /> 
         </div>
 
          <!-- </transition>  -->
@@ -50,7 +50,6 @@ mounted() {
   this.$eventHub.$on('showCheckout', ()=> {
        self.showCheckout = !self.showCheckout;
   });
-
 },
 
 methods: {
@@ -67,30 +66,30 @@ methods: {
 getContainerStyle: function () { 
          return  {
           'max-width': '100vw',
-          'min-height' : this.showCheckout ? '68vh' : '87vh',
-          'max-height': this.showCheckout ? '68vh' : '87vh',
+          'min-height' : '89vh',
+          'max-height': '89vh',
           'height': '100%',
           'width':'100%',
-        // 'float':'right',
           'display': 'flex',
           'overflow-y': 'hidden',
-            'overflow-x': 'hidden',
+          'overflow-x': 'hidden',
           'flex-direction': 'row',
-            // 'padding-bottom': this.showCheckout ? '6rem' : '3rem',
-            // 'padding-top': this.showCheckout ? '0rem' : '3rem',
-            //'align-self': this.showCheckout ? 'flex-start' : 'center',
-            'justify-content': 'center',
-            'align-items': 'center'
-        }
+          'justify-content': 'center',
+          'padding-top' : '0px',
+       }
     },
 
   getBannerStyle: function () { 
-        return  {
-             'display': 'flex',
-             'align-self': this.showCheckout ? 'flex-start' : 'center',
-          
-            //'margin': '0 auto',
-            'transition': 'all 4000ms ease-in-out'
+      return  {
+              'margin-top': this.showCheckout ? '2px' : '5%',
+              'margin-bottom': this.showCheckout ? '2px' : '5%',
+              'margin-left': 'auto',
+              'margin-right': 'auto',
+              'display': 'flex',
+              'height': 'auto',
+              'width': 'auto',
+              'transition': 'all 500ms ease-in-out',
+              // 'transition-delay': '250ms'
    }
   },
 }

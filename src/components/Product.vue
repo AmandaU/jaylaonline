@@ -79,7 +79,8 @@ export default {
       isMobile: false,
       shoppingcart: null,
       products:[],
-      currentuser: null
+      currentuser: null,
+      showCheckout: false
      }
   },
 
@@ -99,36 +100,22 @@ firebase () {
     }
 },
 
-  // mounted() {
-  //   debugger
-      
-  //     if(localStorage.getItem('currentitemsselected')) {
-  //       debugger
-  //       let selecteditems = JSON.parse(localStorage.getItem('currentitemsselected'))
-  //       selecteditems.forEach(si => {
-  //         debugger
-  //         var existingitem = this.items.find(existing => {
-  //           debugger
-  //           if (existing.key == si['.key']) {
-  //             existing.selected = si.selected;
-  //           }
-  //         });
-  //       });
-  //      localStorage.removeItem('currentitemsselected')
-  //     }
-  //     this.addItems()
-     
-  // },
+mounted() {
+  let self = this;
+  this.$eventHub.$on('showCheckout', ()=> {
+       self.showCheckout = !self.showCheckout;
+  });
+},
 
-  created () {
-    let self = this
-    this.$rtdbBind('products', productsRef.orderByChild("id").equalTo(this.productid).limitToFirst(1)).then(products => {
-      for(var key in products.val()){
-          console.log("snapshot.val" + products.val()[key]);
-        self.product = products.val()[key];
-      }
-    });
-  },
+created () {
+  let self = this
+  this.$rtdbBind('products', productsRef.orderByChild("id").equalTo(this.productid).limitToFirst(1)).then(products => {
+    for(var key in products.val()){
+        console.log("snapshot.val" + products.val()[key]);
+      self.product = products.val()[key];
+    }
+  });
+},
 
  computed: {
  
@@ -156,20 +143,37 @@ firebase () {
 methods: 
 { 
 
-  getContainerStyle: function () { 
+  // getContainerStyle: function () { 
+  //        return  {
+  //         'max-width': '100vw',
+  //         'min-height' : '80vh',
+  //         'max-height':'80vh',
+  //         'height': '100%',
+  //         'width':'100%',
+  //        'float':'right',
+  //        'display': 'flex',
+  //        'overflow-y': 'auto',
+  //         'padding-bottom': '5rem',
+  //         'align-self': 'center',
+  //         'justify-content': 'center',
+  //         'align-items': 'center'
+  //       }
+  //   },
+
+   getContainerStyle: function () { 
          return  {
           'max-width': '100vw',
-          'min-height' : '80vh',
-          'max-height':'80vh',
-          'height': '100%',
+          'min-height' : '70vh',
+          //'max-height': '80vh',
           'width':'100%',
-         'float':'right',
-         'display': 'flex',
-         'overflow-y': 'auto',
-          'padding-bottom': '5rem',
-          'align-self': 'center',
-          'justify-content': 'center',
-          'align-items': 'center'
+          'float':'right',
+          'display': 'flex',
+          'overflow-y': 'auto',
+         'justify-content': 'center',
+          'padding-top': this.showCheckout ? '2px' : '7%',
+          'padding-bottom': '3%',
+          'transition': 'padding-top 500ms ease-in-out',
+  
         }
     },
 
@@ -289,6 +293,7 @@ methods:
     this.shoppingcart.totalitems = total 
     localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
     this.$eventHub.$emit('shoppingcarttotal', total);
+     this.$eventHub.$emit('refreshshoppingcart', '');
   },
 
   initialiseShoppingCart() {

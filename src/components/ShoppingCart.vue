@@ -1,11 +1,11 @@
 <template>
 
-  <div class="container">
+  <div class="container" :key="componentKey">
 
     <h2>Shopping cart:</h2> 
     <div class="shoppingcartblock">
 
-        <div class="checkoutblock" :key="componentKey">
+        <div class="checkoutblock" >
 
           <!-- <center>Center this text!</center> -->
               <p  v-show="showNoItemsMessage">There are no items in your cart,<span @click="goToShop" style="color:blue;cursor:pointer"> shop </span>some more ;)</p>
@@ -80,13 +80,14 @@ export default {
          self.shoppingcart.deliveryfee = fee
       });
 
-      this.$eventHub.$on('shoppingcarttotal', (total)=> {
+      this.$eventHub.$on('refreshshoppingcart', ()=> {
         self.getShoppingCart()
+        this.componentKey += 1
       });
     },
 
     created() {
-        this.getShoppingCart()
+       this.getShoppingCart()
      },
 
     computed: {
@@ -123,7 +124,6 @@ export default {
         if (this.shoppingcart.items.count == 0) {
             this.hideAll = true
         }
-        this.componentKey += 1
        }
       },
 
@@ -137,7 +137,6 @@ export default {
       },
 
       removeItem (item) {
-        this.componentKey += 1
         this.shoppingcart.items.splice(this.shoppingcart.items.indexOf(item), 1);
         
         var total = 0;
@@ -148,6 +147,8 @@ export default {
         this.showNoItemsMessage = this.shoppingcart.totalitems == 0
         this.$eventHub.$emit('shoppingcarttotal', this.shoppingcart.totalitems);
         localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
+        this.componentKey += 1
+        
       },
 
       totalValueForItem: function(item){

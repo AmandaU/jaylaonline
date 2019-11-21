@@ -67,12 +67,9 @@ p {
    
     flex: 0.55;
     display: flex;
-    flex-flow: column wrap;
-     // justify-content: center;
-    // align-items: center;
-    flex-direction:column;
+   flex-direction:column;
     align-self: flex-start;
-    vertical-align: top;
+    overflow: auto;
 
  }
 

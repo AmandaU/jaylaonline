@@ -142,8 +142,7 @@ methods: {
    z-index: 10;
    height: 5vh;
    position: relative;
-  
-}
+ }
 
  .menu {
     display: flex;
@@ -152,8 +151,7 @@ methods: {
     flex-direction:row; 
     font-weight: 200;
     font-size: 20px;
-    
-}
+ }
 
 .menuleft{
  left:30;
