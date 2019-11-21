@@ -42,10 +42,11 @@ firebase () {
       },
 
 created() {
+  this.showCheckout = false
   },
 
 mounted() {
-
+  
   let self = this;
   this.$eventHub.$on('showCheckout', ()=> {
        self.showCheckout = !self.showCheckout;

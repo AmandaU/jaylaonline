@@ -40,6 +40,7 @@
    },
 
   created () {
+    
     if(this.$props.currentPage) {
       this.signinmessage = 'Please sign in to use your shopping cart'
     }

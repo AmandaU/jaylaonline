@@ -108,6 +108,7 @@ mounted() {
 },
 
 created () {
+   this.showCheckout = false
   let self = this
   this.$rtdbBind('products', productsRef.orderByChild("id").equalTo(this.productid).limitToFirst(1)).then(products => {
     for(var key in products.val()){

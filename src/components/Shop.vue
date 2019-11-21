@@ -60,7 +60,8 @@ mounted() {
 },
 
  created () {
-      },
+    this.showCheckout = false
+    },
 
  computed: {
    isRow: function () {
