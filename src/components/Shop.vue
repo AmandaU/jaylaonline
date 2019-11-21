@@ -88,23 +88,19 @@ mounted() {
 methods: {
 
    getContainerStyle: function () { 
+     let h = String(window.innerHeight - 140) + 'px'
          return  {
           'max-width': '100vw',
-          'min-height' : '70vh',
-          //'max-height': '80vh',
+          'height' : '100%',
+          'min-height' : h,
           'width':'100%',
           'float':'right',
           'display': 'flex',
           'overflow-y': 'auto',
-          //'padding-bottom': '5rem',
-          //'align-self': 'center',
+          'align-self': 'center',
           'justify-content': 'center',
-          //'align-items': 'center',
-           'padding-top': this.showCheckout ? '2px' : '7%',
-            'padding-bottom': '3%',
-             'transition': 'padding-top 500ms ease-in-out',
-  
-        }
+          'align-items': 'center',
+      }
     },
 
   addProducts ()

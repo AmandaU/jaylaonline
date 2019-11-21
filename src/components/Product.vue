@@ -161,11 +161,11 @@ methods:
   //   },
 
    getContainerStyle: function () { 
+     let h = String(window.innerHeight - 140) + 'px'
          return  {
           'max-width': '100vw',
-          'min-height' : '70vh',
-          //'max-height': '80vh',
-          'width':'100%',
+          'min-height' : h,
+           'width':'100%',
           'float':'right',
           'display': 'flex',
           'overflow-y': 'auto',

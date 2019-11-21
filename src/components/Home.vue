@@ -64,32 +64,34 @@ methods: {
 //  },
 
 getContainerStyle: function () { 
+ let h = String(window.innerHeight - 140) + 'px'
          return  {
           'max-width': '100vw',
-          'min-height' : '89vh',
-          'max-height': '89vh',
+          'min-height' : h,
+          //'max-height': h,
           'height': '100%',
           'width':'100%',
           'display': 'flex',
-          'overflow-y': 'hidden',
+          'overflow-y': 'auto',
           'overflow-x': 'hidden',
           'flex-direction': 'row',
           'justify-content': 'center',
-          'padding-top' : '0px',
+         //'padding-top' : '0px',
+          
        }
     },
 
   getBannerStyle: function () { 
       return  {
-              'margin-top': this.showCheckout ? '2px' : '5%',
-              'margin-bottom': this.showCheckout ? '2px' : '5%',
+              'margin-top': this.showCheckout ? '2px' : 'auto',
+                'margin-bottom':  'auto',
               'margin-left': 'auto',
               'margin-right': 'auto',
               'display': 'flex',
-              'height': 'auto',
+              'height': '100%',
               'width': 'auto',
-              'transition': 'all 500ms ease-in-out',
-              // 'transition-delay': '250ms'
+              'transition': 'all 3000ms ',
+              'transition-delay': '3000ms'
    }
   },
 }

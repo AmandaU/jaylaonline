@@ -83,7 +83,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   width: 90%;
-  overflow-y: hidden
+  overflow-y: auto;
  }
 
 @media (max-width: 600px) {
