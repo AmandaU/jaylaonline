@@ -84,7 +84,8 @@ getContainerStyle: function () {
 
   getBannerStyle: function () { 
       return  {
-              'margin-top': this.showCheckout ? '2px' : 'auto',
+              // 'margin-top': this.showCheckout ? '2px' : 'auto',
+               'margin-top': 'auto',
                 'margin-bottom':  'auto',
               'margin-left': 'auto',
               'margin-right': 'auto',

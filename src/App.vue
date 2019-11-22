@@ -3,14 +3,8 @@
     
     <Navigation ></Navigation>
       <div class="fullpage" >
-      
-                  <transition
-                    v-on:before-enter="beforeEnter"
-                    v-on:enter="enter"
-                    v-on:leave="leave"
-                    v-on:before-leave="beforeLeave" >
-
-          <!-- <div  class="dropdownblock" v-bind:class="[showCheckout ? 'open' : 'closed']"> -->
+    
+            <transition-expand>
              <div  class="dropdownblocktransition" v-if="showCheckout">
              
                <div class="shoppingcartrow" >
@@ -21,7 +15,7 @@
            
             <div class="thinline"/>
           </div>
-         </transition>
+           </transition-expand>
        
         <keep-alive include="Information,Shipping,Checkout">
           <router-view></router-view>
@@ -36,14 +30,15 @@
 import BottomNav from './components/BottomNav'
 import Navigation from './components/Navigation'
 import ShoppingCart from './components/ShoppingCart'
-import Velocity from 'velocity-animate'
+import TransitionExpand from './components/TransitionExpand'
 
 export default {
   name: 'app',
   components: {
     'Navigation': Navigation,
     'BottomNav': BottomNav,
-     'ShoppingCart': ShoppingCart 
+     'ShoppingCart': ShoppingCart ,
+     'TransitionExpand': TransitionExpand
   },
 
   data: function () {
@@ -83,44 +78,55 @@ export default {
         this.$router.push({ name: 'Information'});
       },
 
-      beforeEnter: function (el) {
-        el.style.opacity =  '0'
-        el.style.height = '0%'
-        el.style.transform = 'translateY(-100%)'
-      },
+ enter(element) {
+      const width = getComputedStyle(element).width;
 
-      enter: function (el, done) {
-          Velocity(el, { translateY: '0%', height: '100%' ,  opacity: '1'}, { duration: 3000, complete: done})
-        // Velocity(el, {  height: '100%' ,  opacity: '1'}, { duration: 2000 })
-      },
-  
-      beforeLeave: function (el) {
-          el.style.opacity =  '1'
-          el.style.height = '100%'
-          el.style.transform = 'translateY(0%)'
-      },
+      element.style.width = width;
+      element.style.position = 'absolute';
+      element.style.visibility = 'hidden';
+      element.style.height = 'auto';
 
-      leave: function (el, done) {
-    // Velocity(el, {  height: '0px' , opacity: 0}, { duration: 600 })
-        Velocity(el, { translateY: '-100%', height: '0%' , opacity: 0}, { duration: 600, complete: done})
-        // Velocity(el, {
-        //   translateY: '0%',
-        //   height: '100%',
-        //   opacity:  1
-        // }, { complete: done })
+      const height = getComputedStyle(element).height;
 
-        // Velocity(el, { translateX: '15px', rotateZ: '50deg' }, { duration: 600 })
-        // Velocity(el, { rotateZ: '100deg' }, { loop: 2 })
-        // Velocity(el, {
-        //   rotateZ: '45deg',
-        //   translateY: '30px',
-        //   translateX: '30px',
-        //   opacity:  1
-        // }, { complete: done })
-      },
+      element.style.width = null;
+      element.style.position = null;
+      element.style.visibility = null;
+      element.style.height = 0;
 
+      // Force repaint to make sure the
+      // animation is triggered correctly.
+      getComputedStyle(element).height;
+
+      // Trigger the animation.
+      // We use `setTimeout` because we need
+      // to make sure the browser has finished
+      // painting after setting the `height`
+      // to `0` in the line above.
+      setTimeout(() => {
+        element.style.height = height;
+      });
+    },
+
+     afterEnter(element) {
+      element.style.height = 'auto';
+    },
+
+    leave(element) {
+      const height = getComputedStyle(element).height;
+      
+      element.style.height = height;
+
+      // Force repaint to make sure the
+      // animation is triggered correctly.
+      getComputedStyle(element).height;
+
+      setTimeout(() => {
+        element.style.height = 0;
+      });
+    },
+  },
     
-  }
+  
 }
 
  

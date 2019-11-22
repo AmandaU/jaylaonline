@@ -1,4 +1,9 @@
-
+* {
+  will-change: height;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
   
 -webkit-scrollbar { 
   display: none; 
@@ -57,7 +62,6 @@
   -webkit-box-shadow:inset 0px 0px 6px 6px rgba(255,255,255,1);
   box-shadow:inset 0px 0px 6px 6px rgba(255,255,255,1);
 }
-
 
 .dropdownblocktransition{
   height: 0%;
