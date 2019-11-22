@@ -70,7 +70,6 @@ export default {
   },
 
   created(){
-    debugger
       var orderid = '';
       var index = window.location.hash.indexOf("=");
       if(index >= 0)

@@ -239,7 +239,6 @@ this.$router.push('Success')
     },
    
     saveInvoice(instance) {
-      debugger
       if(!instance) instance = this;
      
      let order = {
