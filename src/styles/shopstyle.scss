@@ -87,6 +87,11 @@
  }
 
 @media (max-width: 600px) {
+
+  .imagecontainer {
+        flex-direction: column;
+   }
+   
   .column {
     width: 100%;
   }
