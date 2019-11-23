@@ -140,7 +140,7 @@ methods: {
    right: 0;
    width: 100vw;
    z-index: 10;
-   height: 5vh;
+   height: 50px;
    position: relative;
  }
 

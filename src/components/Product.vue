@@ -1,7 +1,7 @@
 <template>
  <!-- <div class="pagecontainer">  -->
 <div :style="getContainerStyle()">
-   
+   <div class="productcontainer">
      <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>
      <div class="pricecolumn">
        <div>
@@ -52,8 +52,8 @@
       </div>  
     </div> 
  
- 
-  </div> 
+    </div>
+   </div>
 </template>
 
 <script>
@@ -144,35 +144,20 @@ created () {
 methods: 
 { 
 
-  // getContainerStyle: function () { 
-  //        return  {
-  //         'max-width': '100vw',
-  //         'min-height' : '80vh',
-  //         'max-height':'80vh',
-  //         'height': '100%',
-  //         'width':'100%',
-  //        'float':'right',
-  //        'display': 'flex',
-  //        'overflow-y': 'auto',
-  //         'padding-bottom': '5rem',
-  //         'align-self': 'center',
-  //         'justify-content': 'center',
-  //         'align-items': 'center'
-  //       }
-  //   },
-
    getContainerStyle: function () { 
-     let h = String(window.innerHeight - 140) + 'px'
+     let h = String(window.innerHeight - 120) + 'px'
          return  {
           'max-width': '100vw',
           'min-height' : h,
            'width':'100%',
           'float':'right',
           'display': 'flex',
-          'overflow-y': 'auto',
+          'overflow-x': 'auto',
+           'align-self': 'center',
          'justify-content': 'center',
-          'padding-top': this.showCheckout ? '2px' : '7%',
-          'padding-bottom': '3%',
+         'align-items': 'center',
+          'padding-top': 'auto',//this.showCheckout ? '2px' : '7%',
+          'padding-bottom': 'auto',
           'transition': 'padding-top 500ms ease-in-out',
   
         }

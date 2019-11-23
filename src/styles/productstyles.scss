@@ -2,17 +2,11 @@
   display: none; 
 }
 
-// .pagecontainer{
-//   height:100%;
-//   width:100%;
-//   min-height: 80vh;
-//   display: flex;
-//   flex-direction: row;
-//   margin: 0, auto;
-//   align-items: center; 
-//  }
+.productcontainer {
+  display: flex;
+  flex-direction: row;
+}
 
- 
 .pricecolumn {
    display: flex;
    flex:1;
@@ -30,19 +24,22 @@
 
 .imageblock {
   display: flex;  
+  flex-direction: row;
   align-items: center;   
-  height:50%;
-  max-height:50vh;
+  height: auto;
+ // max-height:50vh;
   flex:3;
   overflow-x: hidden;
+  overflow-y: hidden;
+  flex-wrap: nowrap;
  
 }
 
 .imageblock img{
  
-  max-height: 50vh;
-  height: 100%;
- // width: 100% ;
+  //max-height: 50vh;
+  height: auto;
+  width: 100% ;
   //max-width: 100%;
  }
 
@@ -189,19 +186,45 @@
   padding-left: 5px;
 }
 
-  // .buybutton{
-  //   display: grid;
-  //   place-items: center;
-  //   margin: 20px;
-  //   cursor: pointer;
-  //   height: 40px;
-  //   color:rgb(57, 105, 138);
-  //   border: 1px solid rgb(57, 105, 138);
-  //   border-radius: 5px;
-  // }
-
 
 @media all and (max-width: 800px) {
+
+  .productcontainer {
+    flex-direction: column;
+  }
+  
+  .pricecolumn {
+    flex:1;
+     padding-left: 2px;
+    padding-right: 2px;
+    //float:left;
+    vertical-align: middle;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  
+ }
+ 
+ .imageblock {
+  flex:1;
+  flex-direction: row;
+   align-items: center;   
+   height: auto;
+   width: 100%;
+  
+   overflow-x: hidden;
+   overflow-y: hidden;
+  flex-wrap: wrap;
+ }
+ 
+ .imageblock img{
+  
+   //max-height: 50vh;
+   height: auto;
+   width: 90%;
+   //max-width: 100%;
+  }
+ 
 
   .itemrow {
       //width: 600px;
@@ -244,27 +267,7 @@
 
 @media all and (max-width:600px) {
 
-  .pagecontainer{
-    height:100%;
-    width:100%;
-    min-height: 80vh;
-  
-    display: flex;
-    flex-direction: column;
-    margin: 0, auto;
-   }
-
-  .productblock {
-    display: flex;
-    flex-direction: column;
-    vertical-align: middle;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    width:100%;
-    float: right;
-  }
-  
+ 
   .priceblock{
       flex: 1;
     }
