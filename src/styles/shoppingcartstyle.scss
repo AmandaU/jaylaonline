@@ -88,6 +88,20 @@ p {
     -webkit-box-shadow: 1px 1px 1px #ccc;
     box-shadow: 1px 1px 1px #ccc;
    }
+
+   .itemthumbnailimage {
+    max-width: 4rem;
+    overflow: hidden;
+    
+    //  height: 100%;
+    //  width: auto;
+     padding: 4px;
+    
+     img {
+      width: 100%;
+      object-fit: contain;
+     }
+   }
   
   .rowlabel{
     //flex: 0.6;

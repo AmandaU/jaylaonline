@@ -11,7 +11,11 @@
               <p  v-show="showNoItemsMessage">There are no items in your cart,<span @click="goToShop" style="color:blue;cursor:pointer"> shop </span>some more ;)</p>
                   
               <div  class="checkoutrow" v-for="item in shoppingcart.items" :key="item.key ">
-                <div  @click="removeItem(item)" class="closebutton"><h1>X</h1></div>
+                  <div  @click="removeItem(item)" class="closebutton"><h1>X</h1></div>
+
+                  <div  class="itemthumbnailimage">
+                     <img v-bind:src="item.thumburl" v-bind:alt="item.productname" >
+                     </div>
                 
                   <div  class="rowlabel item">
                     <small>{{item.productname}}, size {{item.size}}</small>

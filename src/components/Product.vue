@@ -108,7 +108,7 @@ mounted() {
 },
 
 created () {
-   this.showCheckout = false
+  this.showCheckout = false
   let self = this
   this.$rtdbBind('products', productsRef.orderByChild("id").equalTo(this.productid).limitToFirst(1)).then(products => {
     for(var key in products.val()){
@@ -231,6 +231,7 @@ methods:
       number: item.selected,
       productname: this.product.name,
       isSelected: false,
+      thumburl: this.product.thumburl,
       selecteditemkey: ''
   }
      this.shoppingcart.items.push(orderitem)
