@@ -179,7 +179,8 @@ export default {
           'align-items': 'center',
           'justify-content': 'center',
           'flex-direction': this.isMobile() ? 'column' : 'row',
-          'align-self': 'center'
+          'align-self': 'center',
+          'margin-bottom': '5px'
         }
      },
 
