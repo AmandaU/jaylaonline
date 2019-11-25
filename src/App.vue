@@ -11,7 +11,7 @@
                   <span @click="hide" class="hoveritem">hide this</span> 
                   <span @click="gotoCheckout" class="hoveritem">checkout</span>
                </div>
-               <ShoppingCart ></ShoppingCart>
+               <ShoppingCart  :showCheckout="showCheckout"></ShoppingCart>
            
             <div class="thinline"/>
           </div>
@@ -56,22 +56,32 @@ export default {
   mounted() {
     
     let self = this;
-    this.$eventHub.$on('showCheckout', ()=> {
-       if (self.$route.name == 'Information'
+    this.$eventHub.$on('showCheckout', (show)=> {
+      if (self.$route.name == 'Information'
       || self.$route.name == 'Shipping'
       || self.$route.name == 'Checkout') {
-        self.showCheckout = false
+       self.showCheckout =  self.isMobile() ? show : false
       } else {
-        self.showCheckout = !self.showCheckout;
-      }
+           self.showCheckout = show ;
+        }
     });
-   
-  },
+   },
 
     methods: {
 
+       isMobile: function() {
+          return window.innerWidth < 800 ||
+          navigator.userAgent.match(/Android/i) ||
+          navigator.userAgent.match(/webOS/i) ||
+          navigator.userAgent.match(/iPhone/i) ||
+          navigator.userAgent.match(/iPad/i) ||
+          navigator.userAgent.match(/iPod/i) ||
+          navigator.userAgent.match(/BlackBerry/i) ||
+          navigator.userAgent.match(/Windows Phone/i) ;
+      },
+
       hide() {
-        this.$eventHub.$emit('showCheckout', '');
+        this.$eventHub.$emit('showCheckout', false);
       },
 
       gotoCheckout () {

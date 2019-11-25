@@ -4,8 +4,8 @@
     <div class="mainblock" >
        
         <div class="payblock">
-           <h1>Checkout</h1>
-            <h2>Payment options</h2>
+          <h1>Checkout</h1>
+          <h2>Payment options</h2>
           <central >Thank you for buying RudeBoyz kit.</central>
         
           <div class="payfastRow">
@@ -13,20 +13,19 @@
 
                 <br> <br>
                 <a  v-bind:href="payFastUrl"><img src="https://www.payfast.co.za/images/buttons/dark-large-paynow.png"  style="margin: 10px; width: 174 ; height: 59" alt="Pay" title="Pay Now with PayFast" /></a>
-                   
           </div>
 
           <br>
-            <div id="Zapper" ></div>
-      </div>
-     </div>
-          
-      <!-- <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>  -->
-      <div class="cartblock"  >
-          <ShoppingCart ></ShoppingCart>
+          <div id="Zapper" ></div>
+
       </div>
 
-    
+    </div>
+          
+      <!-- <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>  -->
+    <div class="cartblock"  >
+        <ShoppingCart :showCheckout="false"></ShoppingCart>
+    </div>
 
  </div>
 
@@ -66,20 +65,20 @@ export default {
         greaterThan800: window.innerWidth > 800,
         zapperKey: 0,
         shoppingcart: {},
+        componentKey: 0,
+        showCheckout: false,
       }
     },
 
   beforeDestroy: function () {
     window.removeEventListener('resize', this.handleWindowResize)
   },
-
-  mounted() {
-    window.addEventListener('resize', this.handleWindowResize);
-    console.log('App mounted!');
-  },
-
+ 
   created() {
-    this.$eventHub.$emit('showCheckout', '');
+    window.addEventListener("resize", this.redrawComponent);
+    this.$eventHub.$emit('showCheckout', this.isMobile());
+    this.showCheckout = this.isMobile()
+
     if(localStorage.getItem('jaylashop'))
      {
         this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
@@ -103,17 +102,6 @@ export default {
 
   computed: {
  
-    isMobile: function()
-    {
-        return navigator.userAgent.match(/Android/i) ||
-          navigator.userAgent.match(/webOS/i) ||
-          navigator.userAgent.match(/iPhone/i) ||
-          navigator.userAgent.match(/iPad/i) ||
-          navigator.userAgent.match(/iPod/i) ||
-          navigator.userAgent.match(/BlackBerry/i) ||
-          navigator.userAgent.match(/Windows Phone/i) ;
-    },
-    
     total: function()
     {
       var theTotal = 0;
@@ -150,9 +138,34 @@ export default {
 
   methods: {
 
+    isMobile: function() {
+        return window.innerWidth < 800 ||
+        navigator.userAgent.match(/Android/i) ||
+        navigator.userAgent.match(/webOS/i) ||
+        navigator.userAgent.match(/iPhone/i) ||
+        navigator.userAgent.match(/iPad/i) ||
+        navigator.userAgent.match(/iPod/i) ||
+        navigator.userAgent.match(/BlackBerry/i) ||
+        navigator.userAgent.match(/Windows Phone/i) ;
+    },
+
+    redrawComponent() {
+
+      if (window.innerWidth < 800 && !this.showCheckout) {
+         this.$eventHub.$emit('showCheckout', '');
+         this.showCheckout = true
+      } 
+      if (window.innerWidth > 800 && this.showCheckout) {
+          this.$eventHub.$emit('showCheckout', false);
+         this.showCheckout = false
+      }
+       this.componentKey += 1
+    },
+
+
     shopMore() {
-this.saveInvoice()
-this.$router.push('Success')
+      this.saveInvoice()
+      this.$router.push('Success')
     },
 
     totalValueForItem: function(item){

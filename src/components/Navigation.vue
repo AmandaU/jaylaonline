@@ -36,10 +36,11 @@ name: 'Navigation',
 data() {
     return {
       isLoggedin: false,
-       shoppingcart: {},
+      shoppingcart: {},
       user: {},
       totalitems: 0,
-      currentuser: null
+      currentuser: null,
+      showCart: false
     }
 },
 
@@ -108,7 +109,8 @@ methods: {
         if (this.totalitems == 0) {
           this.$router.push({ name: 'Shop'});
         } else {
-          this.$eventHub.$emit('showCheckout', '');
+          this.showCart = !this.showCart
+          this.$eventHub.$emit('showCheckout', this.showCart);
         } 
         return
       }

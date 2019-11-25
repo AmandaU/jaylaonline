@@ -34,9 +34,9 @@ export default {
     },
   data() {
       return {
-         busy: false,
-         products: [],
-         numberOfProducts: 0,
+        busy: false,
+        products: [],
+        numberOfProducts: 0,
         greaterThan800: window.innerWidth > 800,
         containerWidth: window.innerWidth > 800? window.innerWidth/3: window.innerWidth > 600? window.innerWidth/ 2: window.innerWidth,
         showCheckout: false

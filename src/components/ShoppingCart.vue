@@ -1,9 +1,11 @@
 <template>
 
-  <div class="container" :key="componentKey">
+  <div class="cartcontainer" :key="componentKey">
+    <!-- <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media> -->
 
     <h2>Shopping cart:</h2> 
-    <div class="shoppingcartblock">
+     <div :style="getCartStyle()" :key="cartKey">
+    <!-- <div class="shoppingcartblock"> -->
 
         <div class="checkoutblock" >
 
@@ -29,7 +31,7 @@
                   
         </div>  
 
-        <div style=" flex: 0.025;"/>
+        <div class="space"/>
 
         <div class="totalblock">
 
@@ -63,23 +65,44 @@
 </template>
 
 <script>
+
+import Media from 'vue-media'
  
 export default {
-  
+
     name: 'ShoppingCart',
+
+    // components: {
+    //  Media
+    // },
+
+    props: {
+     showCheckout: Boolean,
+    },
     
     data() {
         return {
-          greaterThan800: window.innerWidth > 800,
           shoppingcart: {},
           canRemoveItems: false,
           showNoItemsMessage: false,
           componentKey: 0,
+          cartKey: 0,
         }
     },
 
     mounted() {
       let self = this;
+
+       this.$eventHub.$on('showCheckout', (show)=> {
+      if (self.$route.name == 'Information'
+        || self.$route.name == 'Shipping'
+        || self.$route.name == 'Checkout') {
+       self.showCheckout =  self.isMobile() ? show : false
+       } else {
+           self.showCheckout = show ;
+        }
+      });
+
       this.$eventHub.$on('fee', (fee)=> {
          self.shoppingcart.deliveryfee = fee
       });
@@ -91,21 +114,16 @@ export default {
     },
 
     created() {
+      window.addEventListener("resize", this.redrawComponent);
        this.getShoppingCart()
+     },
+
+     destroyed() {
+      window.removeEventListener("resize", this.redrawComponent);
      },
 
     computed: {
 
-      isMobile: function() {
-          return navigator.userAgent.match(/Android/i) ||
-          navigator.userAgent.match(/webOS/i) ||
-          navigator.userAgent.match(/iPhone/i) ||
-          navigator.userAgent.match(/iPad/i) ||
-          navigator.userAgent.match(/iPod/i) ||
-          navigator.userAgent.match(/BlackBerry/i) ||
-          navigator.userAgent.match(/Windows Phone/i) ;
-      },
-      
       total: function() {
          var theTotal = 0;
         this.shoppingcart.items.forEach(item => {
@@ -121,6 +139,49 @@ export default {
     },
 
     methods: {
+
+       goWide: function () {
+          if (this.isMobile()) return true
+          return !this.showCheckout
+      },
+ 
+
+      isMobile: function() {
+          return window.innerWidth < 800 ||
+          navigator.userAgent.match(/Android/i) ||
+          navigator.userAgent.match(/webOS/i) ||
+          navigator.userAgent.match(/iPhone/i) ||
+          navigator.userAgent.match(/iPad/i) ||
+          navigator.userAgent.match(/iPod/i) ||
+          navigator.userAgent.match(/BlackBerry/i) ||
+          navigator.userAgent.match(/Windows Phone/i) ;
+      },
+
+      // media800Enter(mediaQueryString) {
+      //   this.greaterThan800 = false
+      // },
+      
+      // media800Leave(mediaQueryString) {
+      //   this.greaterThan800 = true
+      // },
+
+      redrawComponent() {
+        this.cartKey += 1
+      },
+
+      getCartStyle: function () {
+          return  {
+         //'background-color':'rgb(147, 253, 40)',
+          'flex': '1',
+          'min-width':   this.goWide() ? '90%' : this.showCheckout ? '700px' : '90%' ,
+          'max-width': this.goWide() ? '90%' :this.showCheckout ? '700px' : '90%' ,
+          'display': 'flex',
+          'align-items': 'center',
+          'justify-content': 'center',
+          'flex-direction': this.isMobile() ? 'column' : 'row',
+          'align-self': 'center'
+        }
+     },
 
       getShoppingCart() {
         if(localStorage.getItem('jaylashop')) {

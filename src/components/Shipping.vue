@@ -1,7 +1,7 @@
 <template>
   <div class="shipping">
 
- <div class="container" >
+ <div class="container" :key="componentKey" >
        <!-- <cube-spin v-if="busy"></cube-spin> -->
      <div class="mainblock">
        
@@ -30,7 +30,7 @@
      </div> 
 
      <div class="cartblock">
-         <ShoppingCart ></ShoppingCart>
+         <ShoppingCart :showCheckout="false"></ShoppingCart>
      </div>
 
   </div>
@@ -63,7 +63,8 @@
         gotShippingQuote: false,
         key: '',
         currentuser: null,
-        totalitems: 0
+        totalitems: 0,
+        componentKey: 0
       }
     },
 
@@ -75,8 +76,14 @@
    });
  },
 
+  destroyed() {
+      window.removeEventListener("resize", this.redrawComponent);
+     },
+
  created() {
-      this.$eventHub.$emit('showCheckout', '');
+     window.addEventListener("resize", this.redrawComponent);
+    this.$eventHub.$emit('showCheckout', this.isMobile());
+    this.showCheckout = this.isMobile()
     if(localStorage.getItem('jaylashop'))
     {
         this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
@@ -112,6 +119,30 @@
    },
 
   methods: {
+
+      isMobile: function() {
+          return window.innerWidth < 800 ||
+          navigator.userAgent.match(/Android/i) ||
+          navigator.userAgent.match(/webOS/i) ||
+          navigator.userAgent.match(/iPhone/i) ||
+          navigator.userAgent.match(/iPad/i) ||
+          navigator.userAgent.match(/iPod/i) ||
+          navigator.userAgent.match(/BlackBerry/i) ||
+          navigator.userAgent.match(/Windows Phone/i) ;
+      },
+
+    redrawComponent() {
+
+      if (window.innerWidth < 800 && !this.showCheckout) {
+         this.$eventHub.$emit('showCheckout', '');
+         this.showCheckout = true
+      } 
+      if (window.innerWidth > 800 && this.showCheckout) {
+          this.$eventHub.$emit('showCheckout', false);
+         this.showCheckout = false
+      }
+       this.componentKey += 1
+    },
 
     shopMore () {
       this.$router.replace({ name: 'Shop'});
