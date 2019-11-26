@@ -35,9 +35,9 @@
             <small class="addresslabel">City</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.city == ''">*</small>
             <input type="text" v-model="shoppingcart.user.address.city" placeholder="City" class="addressitem">
             <small class="addresslabel">Country</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.country == ''">*</small>
-            <country-select v-model="shoppingcart.user.address.country" :country="country" topCountry="ZA" class="countryitem"/>
+            <country-select v-model="shoppingcart.user.address.country" :country="shoppingcart.user.address.country" topCountry="ZA" class="countryitem"/>
             <small class="addresslabel">Region</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.region == ''">*</small>
-            <region-select v-model="shoppingcart.user.address.region" :country="shoppingcart.user.address.country" :region="region" class="countryitem"/>
+            <region-select v-model="shoppingcart.user.address.region" :country="shoppingcart.user.address.country" :region="shoppingcart.user.address.region" class="countryitem"/>
              <small class="addresslabel">Postal code</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.postalcode == ''">*</small>
             <input type="number" v-model="shoppingcart.user.address.postalcode" placeholder="Code" class="addressitem"  ><br>
            <div style=" text-align: center;">
@@ -126,7 +126,6 @@
     if(localStorage.getItem('jaylashop'))
     {
       this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
-      this.user = this.shoppincart.user
       this.totalitems = this.shoppingcart.totalitems
     }
     this.currentuser = firebase.auth().currentUser;
@@ -174,10 +173,10 @@
     },
 
     submitForm () {
-            if (this.checkForm()) {
-                console.log('formValidated');
-                 this.goToDelivery()
-            }
+      if (this.checkForm()) {
+          console.log('formValidated');
+            this.goToDelivery()
+      }
     },
 
     checkForm: function () {
@@ -216,9 +215,9 @@
       });
       this.shoppingcart.purchasevalue = String((theTotal + this.shoppingcart.shipping))
       localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
-
+debugger
      if(this.currentuser){
-       db.ref('users/' + this.key).set(this.user);
+       db.ref('users/' + this.key).set(this.shoppingcart.user);
       } 
       this.$router.push({ name: 'Shipping'});
      },

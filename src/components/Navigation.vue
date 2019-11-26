@@ -166,15 +166,6 @@ methods: {
     Margin-right: 15px; 
   } 
 
-  .nameitem{
-    background-color:transparent;
-    color: rgb(65, 63, 63);
-    position:relative;
-    text-align: right;
-    justify-content:center;
-    align-content:center;
-  }
-
   .cartbox {
   position: relative;
   text-align: center;
@@ -196,6 +187,17 @@ methods: {
   margin-left: 5px;
   padding-right:3px;
    cursor: pointer;
+ }
+
+ .nameitem{
+    background-color:transparent;
+    color: rgb(65, 63, 63);
+    position:relative;
+    text-align: right;
+    justify-content:center;
+    align-content:center;
+    bottom:0;
+     padding: 5px;
  }
 
   .hoveritem{

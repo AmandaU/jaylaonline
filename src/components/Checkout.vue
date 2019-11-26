@@ -1,6 +1,7 @@
 <template>
 
  <div class="container">
+ 
     <div class="mainblock" >
        
         <div class="payblock">
@@ -47,7 +48,7 @@ export default {
   name: 'checkout',
   components: {
       'ShoppingCart': ShoppingCart,
-      // Media
+      
     },
 
   data() {

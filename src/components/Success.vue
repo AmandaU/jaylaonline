@@ -1,8 +1,14 @@
 <template>
  
      <div class="container" >
+          <loading :active.sync="isLoading" 
+        :can-cancel="true" 
+        :on-cancel="onCancel"
+        :loader="dots"
+        :color="c45adb"
+        :is-full-page="fullPage"></loading>
            <div class="payblock">
-          <br>
+        
           <h1>Success!!</h1>
           <!-- <cube-spin v-if="isReady"></cube-spin> -->
           <h3>{{message1}}</h3>
@@ -14,6 +20,8 @@
 </template>
 
 <script>
+import Loading from 'vue-loading-overlay';
+ import 'vue-loading-overlay/dist/vue-loading.css';
 import {zapperConfig} from '../config';
 import firebase from '../firebase-config';
 import {  db } from '../firebase-config';
@@ -22,10 +30,10 @@ let itemsRef = db.ref('items');
 export default {
   name: 'success',
 
- 
-  //  props: {
-  //      orderid: String,
-  //  },
+   components: {
+     Loading
+      
+    },
 
   data() {
       return {
@@ -37,6 +45,8 @@ export default {
         message1:"",
         message2:"",
         message3:"",
+        isLoading: false,
+        fullPage: true
       }
     },
 
@@ -71,12 +81,13 @@ export default {
   },
  
   created(){
+     this.isLoading = true
       var orderid = '';
       var index = window.location.hash.indexOf("=");
       if(index >= 0)
       {
          orderid =  window.location.hash.substring(index+1,window.location.hash.length) ;
-  }
+      }
  
       if(sessionStorage.getItem(orderid))
       {
@@ -180,6 +191,8 @@ methods: {
         this.$firebaseRefs.ordersRef.push(this.order);
         this.updateItems()
         this.isReady = true;
+        this.isLoading = false
+        localStorage.clear()
     },
     
   },
