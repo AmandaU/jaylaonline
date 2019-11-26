@@ -20,9 +20,10 @@
             <br>
             <h1  v-show="shoppingcart.deliveryfee > 0">R {{this.shoppingcart.deliveryfee}} </h1><br>
             <!-- <div style=" text-align: center;"> -->
-              <button   @click="getDeliveryFee" class="buttonstyle">calculate delivery fee</button><br>
-              <button  v-show="shoppingcart.deliveryfee > 0" @click="goToCheckout" class="buttonstyle">continue...</button>
               <button  @click="shopMore" class="buttonstyle">shop more</button>
+              <button  :disabled="shoppingcart.totalitems == 0" @click="getDeliveryFee" class="buttonstyle">calculate delivery fee</button><br>
+              <button  :disabled="shoppingcart.deliveryfee == 0"  @click="goToCheckout" class="buttonstyle">continue...</button>
+              
             <!-- </div> -->
          </div>
      

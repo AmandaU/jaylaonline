@@ -51,15 +51,10 @@ firebase () {
 },
 
 mounted() {
-    // if(this.currentuser){
-    //   this.isLoggedin = true
-    //   if(localStorage.getItem(this.currentuser.uid))
-    //   {
-    //       this.shoppingcart = JSON.parse(localStorage.getItem(this.currentuser.uid));
-    //       this.totalitems = this.shoppingcart.totalitems
-    //   }
-    //   this.fetchUser()
-    // }
+    if(this.currentuser){
+      this.isLoggedin = true
+      this.fetchUser()
+    }
     if(localStorage.getItem('jaylashop'))
     {
         this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
@@ -72,8 +67,6 @@ mounted() {
     this.$eventHub.$on('shoppingcarttotal', (total)=> {
       self.totalitems = total
     });
-
-    
   },
 
 methods: {

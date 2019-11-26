@@ -13,7 +13,7 @@
               <p  v-show="this.shoppingcart.totalitems == 0">There are no items in your cart,<span @click="goToShop" style="color:blue;cursor:pointer"> shop </span>some more ;)</p>
                   
               <div  class="checkoutrow" v-for="item in shoppingcart.items" :key="item.key ">
-                  <div  @click="removeItem(item)" class="closebutton"><h1>X</h1></div>
+                  <div  v-visible="canRemoveItem" @click="removeItem(item)" class="closebutton"><h1>X</h1></div>
 
                   <div  class="itemthumbnailimage">
                      <img v-bind:src="item.thumburl" v-bind:alt="item.productname" >
@@ -122,6 +122,10 @@ export default {
      },
 
     computed: {
+
+      canRemoveItem: function () {
+        return this.$route.name != 'Checkout'
+      },
 
       total: function() {
          var theTotal = 0;

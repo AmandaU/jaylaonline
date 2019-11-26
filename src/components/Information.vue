@@ -42,7 +42,7 @@
             <input type="number" v-model="shoppingcart.user.address.postalcode" placeholder="Code" class="addressitem"  ><br>
            <div style=" text-align: center;">
             <button  @click="shopMore" class="buttonstyle">shop more</button>
-            <button  v-visible="shoppingcart.totalitems > 0" @click="goToDelivery" class="buttonstyle">continue...</button>
+            <button :disabled="shoppingcart.totalitems == 0"  @click="goToDelivery" class="buttonstyle">continue...</button>
             
             </div>
       
@@ -108,6 +108,10 @@
     let self = this
     this.$eventHub.$on('shoppingcarttotal', (total)=> {
        self.totalitems = total
+        if(localStorage.getItem('jaylashop'))
+        {
+          self.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
+        }
       });
   },
 
