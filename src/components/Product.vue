@@ -4,7 +4,7 @@
    <div class="productcontainer">
      <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>
      <div class="pricecolumn">
-       <div>
+       <!-- <div> -->
                 <h1>{{ product.name }}</h1> 
                  <h2>{{ product.description }}</h2>
                   <br><br>
@@ -28,9 +28,9 @@
                                 <br>
 
                                 <div  class="addminusbox">
-                                  <img :disabled="item.number <= item.selected" v-bind:class="[item.number > item.selected ? 'enabled' : 'disabled']"  src="../assets/plus.jpg"  alt="plus"  @click="itemsSelected(item,true)" class="addminusimage"/>
-                                  <img :disabled="item.selected == 0" v-bind:class="[item.selected > 0 ? 'enabled' : 'disabled']"   src="../assets/minus.png"  alt="minus"  @click="itemsSelected(item, false)" class="addminusimage"/><br>
-                                </div>   
+                                   <img :disabled="item.selected == 0" v-bind:class="[item.selected > 0 ? 'enabled' : 'disabled']"   src="../assets/minus.png"  alt="minus"  @click="itemsSelected(item, false)" class="addminusimage"/><br>
+                                   <img :disabled="item.number <= item.selected" v-bind:class="[item.number > item.selected ? 'enabled' : 'disabled']"  src="../assets/plus.jpg"  alt="plus"  @click="itemsSelected(item,true)" class="addminusimage"/>
+                                  </div>   
                           
                             </div> 
                         </div> 
@@ -44,15 +44,15 @@
               <button   v-visible="showCheckoutButton" @click="goToShipping" class="buttonstyle">check out</button>
              
 
-          </div> 
-   </div> 
+          <!-- </div>  -->
+     </div> 
   
-  <div class="imageblock">  
-     <div  v-for="image in itemimages" v-bind:key="image.productd">
-          <img v-bind:src="image.url" v-bind:alt="image.alt" >
-      </div>  
+    <div class="imageblock">  
+        <div  v-for="image in itemimages" v-bind:key="image.productd">
+            <img v-bind:src="image.url" v-bind:alt="image.alt" >
+        </div>  
     </div> 
- 
+  
     </div>
    </div>
 </template>
@@ -158,9 +158,9 @@ methods:
           'max-width': '100vw',
           'min-height' : h,
            'width':'100%',
-          'float':'right',
+          'float':'left',
           'display': 'flex',
-          'overflow-x': 'auto',
+          'overflow-x': 'hidden',
            'align-self': 'center',
          'justify-content': 'center',
          'align-items': 'center',
@@ -181,7 +181,8 @@ methods:
   },
 
   itemsSelected( item, add) {
-  if(item.number == 0 && !add)return;
+  if(item.selected <= 0 && !add)return;
+  if(item.number <= item.selected && add) return;
   
    if(add ){
       item.selected += 1

@@ -155,6 +155,7 @@
       },
 
     redrawComponent() {
+      debugger
       if (window.innerWidth < 800 && !this.showCheckout) {
          this.$eventHub.$emit('showCheckout', true);
          this.showCheckout = true

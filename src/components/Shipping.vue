@@ -30,7 +30,7 @@
     
      </div> 
 
-     <div class="cartblock">
+     <div class="cartblock" v-show="!showCheckout">
          <ShoppingCart :showCheckout="false"></ShoppingCart>
      </div>
 
@@ -56,6 +56,7 @@
  
  data() {
       return {
+        showCheckout: false,
         busy: true,
         key: '',
         currentuser: null,

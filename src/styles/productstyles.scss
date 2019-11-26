@@ -3,53 +3,56 @@
 }
 
 .productcontainer {
+  position: relative;
   display: flex;
   flex-direction: row;
+  //background-color:rgb(121, 197, 21);
+ align-items: center;
+  height: 100%;
+  margin-left: 2%;
+  margin-right: 2%;
 }
 
 .pricecolumn {
+ 
    display: flex;
-   flex:1;
+   width:25%;
+   float: left;
    flex-direction: column;
-   background-color:rgb(250, 250, 250);
+   //background-color:rgb(199, 197, 197);
    padding-left: 30px;
    padding-right: 30px;
-   //float:left;
-   vertical-align: middle;
+  margin: 2%;
+    vertical-align: middle;
    justify-content: center;
    align-items: center;
    text-align: center;
    top: 0%;
+   z-index: 10;
 }
 
 .imageblock {
-  display: flex;  
-  flex-direction: row;
-  align-items: center;   
-  height: auto;
- // max-height:50vh;
-  flex:3;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  flex-wrap: nowrap;
+  width: auto;
+flex-wrap: nowrap;
+display: flex;
+overflow-x: auto;
+z-index:1;
  
 }
 
 .imageblock img{
- 
-  //max-height: 50vh;
-  height: auto;
-  width: 100% ;
-  //max-width: 100%;
- }
+    width: auto;
+    height: 40vh;
+  }
 
 
 .priceblock{
     flex: 0.7;
-    background-color:rgb(253, 253, 253);
+   // background-color:rgb(50, 14, 109);
     display: flex;
     flex-direction: column;
     margin: 0, auto;
+    width: 80%;
   }
 
 .itemrow {
@@ -160,8 +163,8 @@
   }
   
   .addminusimage{
-    width: 25px;
-    height: 25px;
+    width: 15px;
+    height: 15px;
     margin-right: 10px;
     border: 1px solid rgb(225, 225, 226);
     border-radius: 5px;
@@ -189,40 +192,45 @@
 
   .productcontainer {
     flex-direction: column;
+    margin: 2%;
+     vertical-align: middle;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   }
   
-  .pricecolumn {
-    flex:1;
-     padding-left: 2px;
-    padding-right: 2px;
-    //float:left;
-    vertical-align: middle;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
   
+.pricecolumn {
+ 
+  width:90%;
+  
+  flex-direction: column;
+ // background-color:rgb(233, 163, 163);
+  padding-left: 10px;
+  padding-right: 10px;
+ margin: 5%;
+  //  vertical-align: middle;
+  // justify-content: center;
+  // align-items: center;
+  // text-align: center;
+  // top: 0%;
+  // z-index: 10;
+}
+
+.imageblock {
+  flex-direction: column;
+ width: auto;
+flex-wrap: nowrap;
+display: flex;
+overflow-y: auto;
+z-index:1;
+
+}
+
+.imageblock img{
+   width: auto;
+   height: 40vh;
  }
- 
- .imageblock {
-  flex:1;
-  flex-direction: row;
-   align-items: center;   
-   height: auto;
-   width: 100%;
-  
-   overflow-x: hidden;
-   overflow-y: hidden;
-  flex-wrap: wrap;
- }
- 
- .imageblock img{
-  
-   //max-height: 50vh;
-   height: auto;
-   width: 90%;
-   //max-width: 100%;
-  }
- 
 
   .itemrow {
       //width: 600px;
@@ -268,6 +276,7 @@
  
   .priceblock{
       flex: 1;
+      width: 300px;
     }
 
     .itemrow {
