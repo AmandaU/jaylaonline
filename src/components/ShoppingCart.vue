@@ -10,7 +10,7 @@
         <div class="checkoutblock" >
 
           <!-- <center>Center this text!</center> -->
-              <p  v-show="showNoItemsMessage">There are no items in your cart,<span @click="goToShop" style="color:blue;cursor:pointer"> shop </span>some more ;)</p>
+              <p  v-show="this.shoppingcart.totalitems == 0">There are no items in your cart,<span @click="goToShop" style="color:blue;cursor:pointer"> shop </span>some more ;)</p>
                   
               <div  class="checkoutrow" v-for="item in shoppingcart.items" :key="item.key ">
                   <div  @click="removeItem(item)" class="closebutton"><h1>X</h1></div>
@@ -38,7 +38,7 @@
               <div  class="totalrow">
                   
                   <div  class="rowlabel total">
-                      <h4>Delivery fee</h4>
+                      <h4>Delivery</h4>
                   </div> 
 
                   <div  class="rowvalue total"> 
@@ -84,7 +84,6 @@ export default {
         return {
           shoppingcart: {},
           canRemoveItems: false,
-          showNoItemsMessage: false,
           componentKey: 0,
           cartKey: 0,
         }
@@ -127,7 +126,7 @@ export default {
       total: function() {
          var theTotal = 0;
         this.shoppingcart.items.forEach(item => {
-            theTotal += item.number * Number(item.price);
+            theTotal += item.number * item.price;
         });
         theTotal += this.shoppingcart.deliveryfee
         return theTotal.toFixed(2)
@@ -210,15 +209,14 @@ export default {
             total += item.number;
         });
         this.shoppingcart.totalitems = total 
-        this.showNoItemsMessage = this.shoppingcart.totalitems == 0
-        this.$eventHub.$emit('shoppingcarttotal', this.shoppingcart.totalitems);
+        this.shoppingcart.deliveryfee = 0
         localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
+        this.$eventHub.$emit('shoppingcarttotal', this.shoppingcart.totalitems);
         this.componentKey += 1
-        
       },
 
       totalValueForItem: function(item){
-        var value = Number(item.number * item.price);
+        var value = item.number * item.price;
         return value == 0? "R 0.00": String('R ' + value + '.00');
       },
   

@@ -50,10 +50,6 @@ export default {
       // Media
     },
 
-  props: {
-    user: Object,
-    },
-
   data() {
       return {
         zapperConfig: zapperConfig,
@@ -85,14 +81,14 @@ export default {
      }
     let self = this
     const currentuser = firebase.auth().currentUser;
-    if(currentuser) {
-      this.$rtdbBind('users', usersRef.orderByChild("uid").equalTo(currentUser.uid).limitToFirst(1)).then(users => {
-        for(var key in users.val()){
-            console.log("snapshot.val" + users.val()[key]);
-          self.user = users.val()[key];
-        }
-      });
-    }
+    // if(currentuser) {
+    //   this.$rtdbBind('users', usersRef.orderByChild("uid").equalTo(currentUser.uid).limitToFirst(1)).then(users => {
+    //     for(var key in users.val()){
+    //         console.log("snapshot.val" + users.val()[key]);
+    //       self.user = users.val()[key];
+    //     }
+    //   });
+    // }
    this.loadZapperScript();
    this.saveInvoice()
   },
@@ -106,7 +102,7 @@ export default {
     {
       var theTotal = 0;
       this.shoppingcart.items.forEach(item => {
-          theTotal += item.number * Number(item.price);
+          theTotal += item.number * item.price;
       });
      return theTotal.toFixed(2)
     },
@@ -169,7 +165,7 @@ export default {
     },
 
     totalValueForItem: function(item){
-      var value = Number(item.number * item.price);
+      var value = item.number * item.price;
       return value == 0? "R 0.00": String('R ' + value + '.00');
     },
 
@@ -253,11 +249,19 @@ export default {
    
     saveInvoice(instance) {
       if(!instance) instance = this;
-     
-     let order = {
+      let order = {
           reference: instance.shoppingcart.reference,
           purchasevalue: instance.shoppingcart.purchasevalue,
-          items: instance.shoppingcart.items,
+          items: instance.shoppingcart.items.map(item => {
+            return {
+              key: item.key,
+              productid: item.productid,
+              productname: item.productname,
+              size: item.size,
+              price: item.price,
+              number: item.number
+            }
+          }),
           totalPaid: instance.shoppingcart.totalPaid,
           totalitems: instance.shoppingcart.totalitems,
           deliveryfee: instance.shoppingcart.deliveryfee,
@@ -268,7 +272,6 @@ export default {
         };
       
       sessionStorage.setItem(order.reference, JSON.stringify(order));
-     
     },
 
     saveTicketLocal() {
@@ -278,7 +281,7 @@ export default {
       // this.$firebaseRefs.pricebreaks.child(key).child('reserved').set(totalreserved);
       localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
      
-      this.$router.replace({ name: 'Success'});
+     // this.$router.replace({ name: 'Success'});
       this.$router.replace({ name: 'Success', query: {orderref: String(this.shoppingcart.reference)}});
     },
 

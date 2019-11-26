@@ -12,7 +12,7 @@
                           @onInput="onInput"
                           :preferredCountries="['za']">
             </vue-tel-input><br>
-            <button @click="signUp" class="infoblockitem">Sign Up</button>
+            <button @click="signUp" class="buttonstyle">Sign Up</button>
             <p>or go back to <span @click="goBackToLogin()" style="color:blue;cursor:pointer">login</span></p>
             
           </div>
@@ -157,4 +157,5 @@ methods: {
 
  <style lang="scss" scoped>
   @import "~@/styles/loginstyle.scss";
+  @import "~@/styles/commonstyle.scss";
 </style>

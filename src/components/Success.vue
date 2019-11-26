@@ -17,7 +17,7 @@
 import {zapperConfig} from '../config';
 import firebase from '../firebase-config';
 import {  db } from '../firebase-config';
-//import { sha256, sha224 } from 'js-sha256';
+let itemsRef = db.ref('items');
 
 export default {
   name: 'success',
@@ -43,6 +43,7 @@ export default {
  firebase() {
       return {
            ordersRef: db.ref('orders'),
+          
          }
       },
 
@@ -63,19 +64,19 @@ export default {
   totalValue: function () {
       var value = 0;
       this.order.items.forEach(element => {
-        value += Number(element.number * element.price);
+        value += element.number * element.price;
       });
       return value ;
     },
   },
-
+ 
   created(){
       var orderid = '';
       var index = window.location.hash.indexOf("=");
       if(index >= 0)
       {
          orderid =  window.location.hash.substring(index+1,window.location.hash.length) ;
-      }
+  }
  
       if(sessionStorage.getItem(orderid))
       {
@@ -93,7 +94,23 @@ export default {
       //sessionStorage.clear()
     },
 
+
+
 methods: {
+
+  updateItems() {
+    this.order.items.forEach(item => {
+
+         this.$rtdbBind('items', itemsRef.orderByKey().equalTo(item.key)).then(items => {
+           for(var key in items.val()){
+               let fetchedItem = items.val()[key];
+                let number = fetchedItem.number - item.number
+                itemsRef.child(item.key).child('number').set(number);
+            }
+          });
+
+      });
+   },
 
     // processPromoCode(promocode)
     // {
@@ -109,16 +126,7 @@ methods: {
     //             );
     // },
 
-    createInvoice()
-    {
-     // this.processPromoCode(this.shoppingcart.promocode);
-      // var initials = this.order.user.firstname.substring(0,1).toUpperCase() + this.order.user.surname.substring(0,1).toUpperCase();
-      // var ref = initials + Math.random().toString(36).substr(2, 9);
-      
-     
-        this.$firebaseRefs.invoicesRef.push(invoice);
-       
-    },
+   
 
     getZapperPaymentDetails()
     {
@@ -161,60 +169,16 @@ methods: {
       return hash;
     },
 
-
-    // setTicket ()
-    // {
-    //    this.shoppingcart.pricebreaks.forEach(pricebreak => {
- 
-    //      let key = pricebreak['.key'];
-    //      const sold = Number(pricebreak.sold) + Number(pricebreak.tickets);
-    //      this.$firebaseRefs.pricebreaksRef.child(key).child('sold').set(sold);
-    //       for(var holderkey in  pricebreak.ticketHolders )
-    //       {
-    //         var holder = pricebreak.ticketHolders[holderkey];
-           
-    //         let ref = this.shoppingcart.event.name.substring(0, 4).toUpperCase() +  Math.random().toString(36).substr(2, 9)
-    //         let qrcode = ref + '|' + this.userName + '|' + this.user.email + '|' + holder.name + '|' + holder.email;
-            
-    //         let ticket = {
-    //             ccemail: holder.email ==  ""? "" : this.user.email,
-    //             email:  holder.email == ""? this.user.email: holder.email,
-    //             holdername:  holder.name == ""? this.userName: holder.name,
-    //             buyername:  this.userName,
-    //             userid: this.shoppingcart.userid,
-    //             eventid: this.shoppingcart.event.id,
-    //             eventname: this.shoppingcart.event.name,
-    //             from: this.shoppingcart.event.from,
-    //             to: this.shoppingcart.event.to,
-    //             price: pricebreak.price ,
-    //             reference: ref,
-    //             qrcode: qrcode,
-    //             venuename: this.shoppingcart.event.venuename,
-    //             venueaddress: this.shoppingcart.event.venueaddress,
-    //             venuelatlong: this.shoppingcart.event.venuelatlong,
-    //             used: false
-    //           }
-    //             this.$firebaseRefs.ticketsRef.push(ticket);
-    //         }
-    //  });
-     
-    //     this.setConfirmationInfo();
-    //     this.createInvoice();
-    //  },
-
     setConfirmationInfo(){
          const reference = 'Purchase reference number: ' + this.order.reference;
         var total = String(this.totalValue );
         var numberOfTickets = this.totalItems > 1? ' tickets': ' ticket';
         var each = this.totalTickets > 1? ' each': '';
         this.message1 = 'Your purchase from JaylaOnline was successful' ;
-        // if(this.shoppingcart.promocode)
-        // {
-        //   this.message1 += ' You used your promotion code (' + this.shoppingcart.promocode + ') to the value of R' + this.shoppingcart.promotionvalue;
-        // }
-        this.message2 = 'The total deducted from your account is R ' + this.order.totalPaid + '.00';
+         this.message2 = 'The total deducted from your account is R ' + this.order.totalPaid + '.00';
         this.message3 = 'We will email you information about your delivery'
         this.$firebaseRefs.ordersRef.push(this.order);
+        this.updateItems()
         this.isReady = true;
     },
     

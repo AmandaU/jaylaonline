@@ -7,42 +7,44 @@
              <!-- <h1>Your information</h1> -->
             <h2>Contact details</h2>
             <small v-show="userInvalid" style="color: red">Please enter a name and surname</small><br>
-             <small class="addresslabel">First name</small><small style="color: red" v-visible="userInvalid && user.firstname == ''">*</small>
-            <input type="text" v-model="user.firstname" placeholder="First name" class="addressitem">
-             <small class="addresslabel">Surname</small><small style="color: red" v-visible="userInvalid && user.surname == ''">*</small>
-            <input type="text" v-model="user.surname" placeholder="Surname" class="addressitem">
+             <small class="addresslabel">First name</small><small style="color: red" v-visible="userInvalid && shoppingcart.user.firstname == ''">*</small>
+            <input type="text" v-model="shoppingcart.user.firstname" placeholder="First name" class="addressitem">
+             <small class="addresslabel">Surname</small><small style="color: red" v-visible="userInvalid && shoppingcart.user.surname == ''">*</small>
+            <input type="text" v-model="shoppingcart.user.surname" placeholder="Surname" class="addressitem">
 
 
              <small v-show="emailInvalid" style="color: red">Please enter a valid email</small><br>
              <small class="addresslabel">Email</small><small style="color: red" v-visible="userInvalid ">*</small>
-            <input type="email" v-model="user.email" placeholder="Enter email" class="addressitem">
+            <input type="email" v-model="shoppingcart.user.email" placeholder="Enter email" class="addressitem">
 
              <small v-show="cellInvalid" style="color: red">Please enter a valid cell number</small><br>
              <small class="addresslabel">Cellphone</small><small style="color: red" v-visible="cellInvalid ">*</small>
-             <vue-tel-input class="addressitem"  v-model="user.cellphone"
-                         
+             <vue-tel-input class="addressitem"  v-model="shoppingcart.user.cellphone"
                           :preferredCountries="['za']">
              </vue-tel-input>
 
             <h2>Shipping address</h2>
             <small v-show="addressInvalid" style="color: red">Your address is not quite right, please check</small><br>
-            <small class="addresslabel">Address line 1</small><small style="color: red" v-visible="addressInvalid && user.address.addressline1 == ''">*</small>
-            <input type="text" v-model="user.address.addressline1" placeholder="Address line 1" class="addressitem">
+            <small class="addresslabel">Address line 1</small><small style="color: red" v-visible="addressInvalid && shoppingcart.user.address.addressline1 == ''">*</small>
+            <input type="text" v-model="shoppingcart.user.address.addressline1" placeholder="Address line 1" class="addressitem">
             <small class="addresslabel">Address line 2</small>
-            <input type="text" v-model="user.address.addressline2" placeholder="Address line 2" class="addressitem">
-            <small class="addresslabel">Suburb</small><small style="color: red"  v-visible="addressInvalid && user.address.suburb == ''">*</small>
-            <input type="text" v-model="user.address.suburb" placeholder="Suburb" class="addressitem">
-            <small class="addresslabel">City</small><small style="color: red"  v-visible="addressInvalid && user.address.city == ''">*</small>
-            <input type="text" v-model="user.address.city" placeholder="City" class="addressitem">
-            <small class="addresslabel">Country</small><small style="color: red"  v-visible="addressInvalid && user.address.country == ''">*</small>
-            <country-select v-model="user.address.country" :country="country" topCountry="ZA" class="countryitem"/>
-            <small class="addresslabel">Region</small><small style="color: red"  v-visible="addressInvalid && user.address.region == ''">*</small>
-            <region-select v-model="user.address.region" :country="user.address.country" :region="region" class="countryitem"/>
-             <small class="addresslabel">Postal code</small><small style="color: red"  v-visible="addressInvalid && user.address.postalcode == ''">*</small>
-            <input type="number" v-model="user.address.postalcode" placeholder="Code" class="addressitem"  ><br>
-           
-            <button   @click="goToDelivery" class="buttonstyle">continue...</button>
+            <input type="text" v-model="shoppingcart.user.address.addressline2" placeholder="Address line 2" class="addressitem">
+            <small class="addresslabel">Address line 1</small><small style="color: red" v-visible="addressInvalid && shoppingcart.user.address.addressline1 == ''">*</small>
+            <small class="addresslabel">Suburb</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.suburb == ''">*</small>
+            <input type="text" v-model="shoppingcart.user.address.suburb" placeholder="Suburb" class="addressitem">
+            <small class="addresslabel">City</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.city == ''">*</small>
+            <input type="text" v-model="shoppingcart.user.address.city" placeholder="City" class="addressitem">
+            <small class="addresslabel">Country</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.country == ''">*</small>
+            <country-select v-model="shoppingcart.user.address.country" :country="country" topCountry="ZA" class="countryitem"/>
+            <small class="addresslabel">Region</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.region == ''">*</small>
+            <region-select v-model="shoppingcart.user.address.region" :country="shoppingcart.user.address.country" :region="region" class="countryitem"/>
+             <small class="addresslabel">Postal code</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.postalcode == ''">*</small>
+            <input type="number" v-model="shoppingcart.user.address.postalcode" placeholder="Code" class="addressitem"  ><br>
+           <div style=" text-align: center;">
             <button  @click="shopMore" class="buttonstyle">shop more</button>
+            <button  v-visible="shoppingcart.totalitems > 0" @click="goToDelivery" class="buttonstyle">continue...</button>
+            
+            </div>
       
          </div>
     
@@ -74,28 +76,31 @@
         showCheckout: false,
         componentKey: 0,
         busy: true,
-        user: {
-          firstname: '',
-          surname: '',
-          email: '',
-          cellphone: '',
-          address: {
-            addressline1: '',
-            addressline2: '',
-            suburb: '',
-            city: '',
-            region: '',
-            country: '',
-            postalcode: ''
-         }
-        },
         addressInvalid: false,
         userInvalid: false,
         emailInvalid: false,
         cellInvalid: false,
         key: '',
         currentuser: null,
-        totalitems: 0
+        totalitems: 0,
+        shoppingcart : {
+          items: [],
+          user: {
+            firstname: '',
+            surname: '',
+            email: '',
+            cellphone: '',
+            address: {
+              addressline1: '',
+              addressline2: '',
+              suburb: '',
+              city: '',
+              region: '',
+              country: '',
+              postalcode: ''
+              }
+            }
+       }
       }
     },
 
@@ -103,9 +108,8 @@
     let self = this
     this.$eventHub.$on('shoppingcarttotal', (total)=> {
        self.totalitems = total
-    });
-     
- },
+      });
+  },
 
   destroyed() {
       window.removeEventListener("resize", this.redrawComponent);
@@ -115,10 +119,10 @@
     window.addEventListener("resize", this.redrawComponent);
     this.$eventHub.$emit('showCheckout', this.isMobile());
     this.showCheckout = this.isMobile()
-    
     if(localStorage.getItem('jaylashop'))
     {
       this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
+      this.user = this.shoppincart.user
       this.totalitems = this.shoppingcart.totalitems
     }
     this.currentuser = firebase.auth().currentUser;
@@ -126,10 +130,9 @@
       let self = this
       this.$rtdbBind('users', userRef.orderByChild("uid").equalTo(this.currentuser.uid).limitToFirst(1)).then(users => {
         for(var key in users.val()) {
-            console.log("snapshot.val" + users.val()[key]);
-          self.user = users.val()[key];
+          console.log("snapshot.val" + users.val()[key]);
+          self.shoppingcart.user = users.val()[key];
           self.key = key
-          self.address = self.user.address
         }
       });
     }
@@ -149,7 +152,6 @@
       },
 
     redrawComponent() {
-
       if (window.innerWidth < 800 && !this.showCheckout) {
          this.$eventHub.$emit('showCheckout', true);
          this.showCheckout = true
@@ -163,7 +165,7 @@
 
     onInput({ number, isValid, country }) {
       if(valid) {
-       this.user.cellphone = number;
+       this.shoppingcart.user.cellphone = number;
       }
     },
 
@@ -172,21 +174,21 @@
                 console.log('formValidated');
                  this.goToDelivery()
             }
-        },
+    },
 
     checkForm: function () {
-     this.emailInvalid = !this.validEmail(this.user.email) 
-     this.cellInvalid = this.user.cellphone == '' 
-     || this.user.cellphone.length < 9
+     this.emailInvalid = !this.validEmail(this.shoppingcart.user.email) 
+     this.cellInvalid = this.shoppingcart.user.cellphone == '' 
+     || this.shoppingcart.user.cellphone.length < 9
     
-     this.userInvalid = this.user.firstname == ''
-        || this.user.surname == ''
+     this.userInvalid = this.shoppingcart.user.firstname == ''
+        || this.shoppingcart.user.surname == ''
     
-     this.addressInvalid = this.user.address.addressline1 == ''
-        || this.user.address.suburb == ''
-        || this.user.address.country == '' 
-        || this.user.address.postalcode == ''
-        || isNaN(this.user.address.postalcode) 
+     this.addressInvalid = this.shoppingcart.user.address.addressline1 == ''
+        || this.shoppingcart.user.address.suburb == ''
+        || this.shoppingcart.user.address.country == '' 
+        || this.shoppingcart.user.address.postalcode == ''
+        || isNaN(this.shoppingcart.user.address.postalcode) 
 
      return !this.emailInvalid && !this.userInvalid && !this.addressInvalid && !this.cellInvalid
       
@@ -198,6 +200,7 @@
     },
 
   shopMore () {
+    localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
     this.$router.replace({ name: 'Shop'});
   },
   
@@ -205,20 +208,16 @@
       if(!this.checkForm()) return
       var theTotal = 0;
       this.shoppingcart.items.forEach(item => {
-          theTotal += item.number * Number(item.price);
+          theTotal += item.number * item.price;
       });
       this.shoppingcart.purchasevalue = String((theTotal + this.shoppingcart.shipping))
       localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
 
      if(this.currentuser){
        db.ref('users/' + this.key).set(this.user);
-       this.$router.push({ name: 'Shipping'});
-     } else {
-
-      this.$router.push({ name: 'Shipping',  params: { user: this.user}});
-     }
-     
-  },
+      } 
+      this.$router.push({ name: 'Shipping'});
+     },
 
   }
 }

@@ -84,16 +84,15 @@ getContainerStyle: function () {
 
   getBannerStyle: function () { 
       return  {
-              // 'margin-top': this.showCheckout ? '2px' : 'auto',
-               'margin-top': 'auto',
+                'margin-top': 'auto',
                 'margin-bottom':  'auto',
-              'margin-left': 'auto',
-              'margin-right': 'auto',
-              'display': 'flex',
-              'height': '100%',
-              'width': 'auto',
-              'transition': 'all 3000ms ',
-              'transition-delay': '3000ms'
+                'margin-left': 'auto',
+                'margin-right': 'auto',
+                'display': 'flex',
+                'height': '100%',
+                'width': 'auto',
+                'transition': 'all 3000ms ',
+                'transition-delay': '3000ms'
    }
   },
 }

@@ -26,7 +26,7 @@ export default {
   },
 
 created() {
-   localStorage.clear()
+   //localStorage.clear()
  },
 
   methods: {
@@ -42,6 +42,7 @@ created() {
 <style lang="scss" scoped>
   // @import "~@/styles/commonstyle.scss";
   @import "~@/styles/checkoutstyle.scss";
+  @import "~@/styles/commonstyle.scss";
 
 </style>
 

@@ -10,20 +10,20 @@
             <h1>Delivery</h1>
             
             <h2>Contact details</h2>
-            <p>{{ user.firstname}} {{ user.surname}}</p>
-            <p >{{ user.email}} </p>
-            <p >{{ user.cellphone}} </p><br>
+            <p>{{ shoppingcart.user.firstname}} {{ shoppingcart.user.surname}}</p>
+            <p >{{ shoppingcart.user.email}} </p>
+            <p >{{ shoppingcart.user.cellphone}} </p><br>
 
             <h2>Shipping address</h2>
             <p >{{shippingAddress}}</p>
             
             <br>
-            <h1  v-show="gotShippingQuote">R {{this.shoppingcart.deliveryfee}} </h1><br>
-
-            <button   @click="getDeliveryFee" class="buttonstyle">calculate delivery fee</button><br>
-            <button  v-show="gotShippingQuote" @click="goToCheckout" class="buttonstyle">continue...</button>
-            <button  @click="shopMore" class="buttonstyle">shop more</button>
-     
+            <h1  v-show="shoppingcart.deliveryfee > 0">R {{this.shoppingcart.deliveryfee}} </h1><br>
+            <!-- <div style=" text-align: center;"> -->
+              <button   @click="getDeliveryFee" class="buttonstyle">calculate delivery fee</button><br>
+              <button  v-show="shoppingcart.deliveryfee > 0" @click="goToCheckout" class="buttonstyle">continue...</button>
+              <button  @click="shopMore" class="buttonstyle">shop more</button>
+            <!-- </div> -->
          </div>
      
     
@@ -52,19 +52,34 @@
     'ShoppingCart': ShoppingCart 
   },
 
-  props: {
-     user: Object,
-   },
-
-
+ 
  data() {
       return {
         busy: true,
-        gotShippingQuote: false,
         key: '',
         currentuser: null,
         totalitems: 0,
-        componentKey: 0
+        componentKey: 0,
+        shoppingcart : {
+          items: [],
+          deliveryfee: 0,
+          user: {
+            firstname: '',
+            surname: '',
+            email: '',
+            cellphone: '',
+            address: {
+              addressline1: '',
+              addressline2: '',
+              suburb: '',
+              city: '',
+              region: '',
+              country: '',
+              postalcode: ''
+              }
+            }
+         }
+      
       }
     },
 
@@ -72,7 +87,10 @@
     let self = this
     this.$eventHub.$on('shoppingcarttotal', (total)=> {
        self.totalitems = total
-       self.gotShippingQuote = self.shoppingcart.deliveryfee > 0
+        if(localStorage.getItem('jaylashop'))
+        {
+          self.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
+        }
    });
  },
 
@@ -88,7 +106,6 @@
     {
         this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
         this.totalitems = this.shoppingcart.totalitems
-        this.gotShippingQuote = false
     }
 
     this.currentuser = firebase.auth().currentUser;
@@ -97,7 +114,7 @@
         this.$rtdbBind('users', userRef.orderByChild("uid").equalTo(this.currentuser.uid).limitToFirst(1)).then(users => {
         for(var key in users.val()){
             console.log("snapshot.val" + users.val()[key]);
-            self.user = users.val()[key];
+            self.shoppingcart.user = users.val()[key];
             self.key = key
          }
         });
@@ -108,12 +125,12 @@
 
       shippingAddress: function()
       {
-          let shipaddress = this.user.address.addressline1 + ', '
-          shipaddress += this.user.address.addressline2 == '' ? '' : this.user.address.addressline2 + ', '
-          shipaddress += this.user.address.suburb + ', ' 
-          + this.user.address.region + ', '
-          + this.user.address.country + ', '
-          + this.user.address.postalcode
+          let shipaddress = this.shoppingcart.user.address.addressline1 + ', '
+          shipaddress += this.shoppingcart.user.address.addressline2 == '' ? '' : this.shoppingcart.user.address.addressline2 + ', '
+          shipaddress += this.shoppingcart.user.address.suburb + ', ' 
+          + this.shoppingcart.user.address.region + ', '
+          + this.shoppingcart.user.address.country + ', '
+          + this.shoppingcart.user.address.postalcode
           return shipaddress
       },
    },
@@ -151,17 +168,16 @@
     getDeliveryFee () {
       this.shoppingcart.deliveryfee = 100 + (this.totalitems * 50) 
       this.$eventHub.$emit('fee', this.shoppingcart.deliveryfee);
-      this.gotShippingQuote = true
     },
 
    goToCheckout: function() {
       var theTotal = 0;
       this.shoppingcart.items.forEach(item => {
-          theTotal += item.number * Number(item.price);
+          theTotal += item.number * item.price;
       });
       this.shoppingcart.purchasevalue = String((theTotal + this.shoppingcart.deliveryfee))
       localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
-      this.$router.push({ name: 'Checkout', params: {user: this.user}});
+      this.$router.push({ name: 'Checkout'});
    },
 
   }

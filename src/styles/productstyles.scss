@@ -168,6 +168,15 @@
     padding: 5px;
   }
 
+  .disabled{
+    opacity: 0.5;
+  }
+
+  .enabled{
+    opacity: 1;
+  }
+
+
   .thinline{
     width: 100%;
      margin-bottom: 0px;
@@ -175,17 +184,6 @@
     height: 1px;
     background-color: rgb(211, 212, 212);
   }
-
- 
-.buybutton {
-  margin-top: 20px;
-  width: 100%;
-  max-width:100%;
-  cursor: pointer;
-  height:40px;
-  padding-left: 5px;
-}
-
 
 @media all and (max-width: 800px) {
 

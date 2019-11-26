@@ -23,13 +23,13 @@
                             <div v-show="isAvailable(item)" class="numberrow" >
                                 
                                 <div  class="itemselection ">
-                                  <div  v-show="item.number> 0" class="itemdetail"> {{item.selected}}</div>
+                                  <div  v-show="item.number > 0" class="itemdetail"> {{item.selected}}</div>
                                 </div>  
                                 <br>
 
                                 <div  class="addminusbox">
-                                  <img src="../assets/plus.jpg"  alt="plus"  @click="itemsSelected(item,true)" class="addminusimage"/>
-                                  <img v-visible="item.selected > 0"  src="../assets/minus.png"  alt="minus"  @click="itemsSelected(item, false)" class="addminusimage"/><br>
+                                  <img  v-bind:class="[item.number > item.selected ? 'enabled' : 'disabled']"  src="../assets/plus.jpg"  alt="plus"  @click="itemsSelected(item,true)" class="addminusimage"/>
+                                  <img v-bind:class="[item.selected > 0 ? 'enabled' : 'disabled']"   src="../assets/minus.png"  alt="minus"  @click="itemsSelected(item, false)" class="addminusimage"/><br>
                                 </div>   
                           
                             </div> 
@@ -40,8 +40,9 @@
                 </div>
              </div>  
              
-              <button   v-show="totalItems > 0" @click="goToShipping" class="buybutton">check out</button>
-              <button   @click="continueShopping" class="buybutton">continue shopping</button><br/>
+              <button   @click="continueShopping" class="buttonstyle">more shopping</button>
+              <button   v-visible="showCheckoutButton" @click="goToShipping" class="buttonstyle">check out</button>
+             
 
           </div> 
    </div> 
@@ -77,7 +78,7 @@ export default {
       itemimages: [],
       product: {},
       isMobile: false,
-      shoppingcart: null,
+      shoppingcart: {},
       products:[],
       currentuser: null,
       showCheckout: false
@@ -105,10 +106,20 @@ mounted() {
   this.$eventHub.$on('showCheckout', ()=> {
        self.showCheckout = !self.showCheckout;
   });
+    this.$eventHub.$on('shoppingcarttotal', (total)=> {
+       if(localStorage.getItem('jaylashop'))
+      {
+        self.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
+      }
+   });
 },
 
 created () {
   this.showCheckout = false
+   if(localStorage.getItem('jaylashop'))
+    {
+      this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
+    }
   let self = this
   this.$rtdbBind('products', productsRef.orderByChild("id").equalTo(this.productid).limitToFirst(1)).then(products => {
     for(var key in products.val()){
@@ -119,6 +130,12 @@ created () {
 },
 
  computed: {
+
+   showCheckoutButton: function () {
+     if (this.shoppingcart) {
+       return this.shoppingcart.totalitems > 0
+     } else return false
+   },
  
     isMobileDevice: function()
     {
@@ -131,20 +148,11 @@ created () {
           navigator.userAgent.match(/Windows Phone/i);
     },
 
-    totalItems: function()
-    {
-      var total = 0;
-      this.items.forEach(element => {
-          total += element.selected;
-       });
-      return total ; 
-   },
   },
 
 methods: 
 { 
-
-   getContainerStyle: function () { 
+  getContainerStyle: function () { 
      let h = String(window.innerHeight - 120) + 'px'
          return  {
           'max-width': '100vw',
@@ -173,12 +181,8 @@ methods:
   },
 
   itemsSelected( item, add) {
-    if(item.number == 0 && !add)return;
-    
-    if(add && item.selected > item.number) {
-     alert("no more items");
-      return;
-    }
+  if(item.number == 0 && !add)return;
+  
    if(add ){
       item.selected += 1
     }
@@ -195,32 +199,19 @@ methods:
       this.addItem(item, add)
   },
 
-  //  addSelectedItems(items) {
-  //   if(localStorage.getItem('selecteditemkey')) {
-  //       let selecteditemKey = localStorage.getItem('selecteditemkey')
-  //       var item =  items.find(item => {
-  //           return selecteditemKey == item['.key'] 
-  //          });
-  //         if(item) {
-  //           item.selected = 1;
-  //         }
-  //      localStorage.removeItem('selecteditemkey')
-  //      this.addItem(item, true)
-  //     }
-  // },
           
   total : function(item) {
       if(this.isAvailable(item))
       {
          if( item.selected == 0) return  "";
-          let total = Number(item.selected) * Number(item.price);
+          let total = item.selected * item.price;
           return 'You will purchase  ' +  item.selected + ' at R' + item.price + ' each. The total is ' + String('R ' + total + '.00');
       }
     },
 
   isAvailable : function(item) {
-      return true;
-  },
+     return item.number > 0
+   },
 
   createOrderItem (item) {
     let orderitem = {
@@ -260,7 +251,6 @@ methods:
         return existing.key;
       }
     });
-
     if(existingitem) {
       if (add) {
         existingitem.number += 1
@@ -291,11 +281,25 @@ methods:
           totalitems: 0,
           items: [],
           deliveryfee: 0,
-          user: Object,
           zapperPaymentMethod: false,
           zapperPaymentId: 0,
-          zapperReference: ""
-        };
+          zapperReference: "",
+           user: {
+            firstname: '',
+            surname: '',
+            email: '',
+            cellphone: '',
+            address: {
+              addressline1: '',
+              addressline2: '',
+              suburb: '',
+              city: '',
+              region: '',
+              country: '',
+              postalcode: ''
+              }
+             },
+          };
    },
 
 // watch: {
