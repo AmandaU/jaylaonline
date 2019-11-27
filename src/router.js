@@ -62,7 +62,7 @@ const router = new Router({
      props: route => ({
         productid: route.query.productid,
       }),
-  },
+    },
     {
       path: '/login',
       name: 'Login',
@@ -104,10 +104,10 @@ const router = new Router({
       path: '/information',
       name: 'Information',
       component: Information,
-      // meta: {
-      //   requiresAuth: true,
-      // },
-     // props: true,
+      meta: {
+        requiresAuth: true,
+      },
+      props: true,
      },
      {
       path: '/shipping',

@@ -58,7 +58,7 @@
 </template>
 
 <script>
-//import firebase from '../firebase-config';
+import firebase from '../firebase-config';
 import {  db } from '../firebase-config';
 let productsRef = db.ref('products');
 //let itemsRef = db.ref('items');
@@ -154,23 +154,21 @@ methods:
 { 
   getContainerStyle: function () { 
      let h = String(window.innerHeight - 120) + 'px'
-         return  {
-          'max-width': '100vw',
-          'min-height' : h,
-           'width':'100%',
-          'float':'left',
-          'display': 'flex',
-          'overflow-x': 'hidden',
-           'align-self': 'center',
-         'justify-content': 'center',
-         'align-items': 'center',
-          'padding-top': 'auto',//this.showCheckout ? '2px' : '7%',
-          'padding-bottom': 'auto',
-          'transition': 'padding-top 500ms ease-in-out',
-  
-        }
-    },
-
+        return  {
+        'max-width': '100vw',
+        'min-height' : h,
+        'width':'100%',
+        'float':'left',
+        'display': 'flex',
+        'overflow-x': 'hidden',
+        'align-self': 'center',
+        'justify-content': 'center',
+        'align-items': 'center',
+        'padding-top': 'auto',//this.showCheckout ? '2px' : '7%',
+        'padding-bottom': 'auto',
+        'transition': 'padding-top 500ms ease-in-out',
+      }
+  },
 
   media800Enter(mediaQueryString) {
     this.greaterThan800 = false
@@ -181,23 +179,17 @@ methods:
   },
 
   itemsSelected( item, add) {
-  if(item.selected <= 0 && !add)return;
-  if(item.number <= item.selected && add) return;
+    if(item.selected <= 0 && !add)return;
+    if(item.number <= item.selected && add) return;
   
-   if(add ){
+    if(add ){
       item.selected += 1
-    }
-    else {
+    } else {
       item.selected -= 1
     }
     this.selecteditemkey = item['.key']
-    // if(!this.currentuser) {
-    //   localStorage.setItem('selecteditemkey', this.selecteditemkey)
-    //   this.$router.push({ name: 'Login', params: {currentPage: 'Product'}});
-    //   return
-    //  }
-     // this.isLoggedin = true
-      this.addItem(item, add)
+    
+    this.addItem(item, add)
   },
 
           
@@ -234,11 +226,12 @@ methods:
   },
  
   goToShipping () {
-      // if (!this.currentuser){
-      //    this.$router.push({ name: 'Login', params: {currentPage: 'Product'}});
-      // }  else {
-        this.$router.push({ name: 'Information'});
-     // }
+    let currentuser = firebase.auth().currentUser;
+      if (!currentuser){
+         this.$router.push({ name: 'Login', params: {goto: 'Information'}});
+      } else{
+         this.$router.push({ name: 'Information'});
+      }
   },
 
   addItem(item, add) {
@@ -321,6 +314,6 @@ methods:
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/styles/productstyles.scss";
+  @import "~@/styles/productstyle.scss";
     @import "~@/styles/commonstyle.scss";
 </style>

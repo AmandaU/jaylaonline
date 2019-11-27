@@ -1,17 +1,16 @@
 <template>
-  <div class="login">
+  <div>
      <div class="container" >
        <!-- <cube-spin v-if="busy"></cube-spin> -->
-        <br>
         <div class="infoblock">
-          <h3>{{signinmessage}}</h3>
+          <h2>{{signinmessage}}</h2>
           <input type="text" v-model="email" placeholder="Email"  class="infoblockitem"><br>
           <input type="password" v-model="password" placeholder="Password"  class="infoblockitem"><br>
-          <button @click="login" class="buttonstyle">Login</button>
+          <button @click="login" class="loginbutton">Login</button>
           <p>You don't have an account ? You can 
             <span @click="goToSignup()" style="color:blue;cursor:pointer">create one</span>
           </p>
-         </div>
+        </div>
      </div>
   </div>
 </template>
@@ -36,12 +35,11 @@
   },
 
   props: {
-    currentPage: String,
+    goto: String,
    },
 
   created () {
-    
-    if(this.$props.currentPage) {
+    if(this.$props.goto) {
       this.signinmessage = 'Please sign in to use your shopping cart'
     }
   },
@@ -50,8 +48,8 @@
 
     goToSignup ()
     {
-      if(this.$props.currentPage) {
-        this.$router.replace({ name: 'Signup', params: {currentPage: this.$props.currentPage}});
+      if(this.$props.goto) {
+        this.$router.replace({ name: 'Signup', params: {goto: this.$props.goto}});
       } else {
         this.$router.replace({ name: 'Signup'});
       }
@@ -71,12 +69,12 @@
               self.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
               self.$eventHub.$emit('shoppingcarttotal', self.shoppingcart.totalitems);
           }
-          if(self.$props.currentPage)
+          if(self.$props.goto)
           {
-            if (self.$props.currentPage == 'Product') {
+            if (self.$props.goto == 'Product') {
              self.$router.go(-1)
             } else {
-               self.$router.replace({ name: self.$props.currentPage,  params: {currentPage: this.$props.currentPage}});
+               self.$router.replace({ name: self.$props.goto});
            }
             self.busy = false;
           }

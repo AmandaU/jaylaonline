@@ -60,7 +60,6 @@ created() {
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/styles/styles.scss";
- 
-  </style>
+   @import "~@/styles/commonstyle.scss";
+</style>
 

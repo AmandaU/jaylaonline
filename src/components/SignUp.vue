@@ -1,9 +1,9 @@
 <template>
-  <div class="signup" >
+  <div>
     <div class="container" >
           <!-- <cube-spin v-if="busy"></cube-spin> -->
           <div class="infoblock">
-            <p>Let's create a new account !</p>
+            <h2>Let's create a new account !</h2>
             <input type="text" v-model="newUser.firstname" placeholder="First name" class="infoblockitem"><br>
             <input type="text" v-model="newUser.surname" placeholder="Surname" class="infoblockitem"><br>
             <input type="text" v-model="newUser.email" placeholder="Email" class="infoblockitem"><br>
@@ -12,8 +12,9 @@
                           @onInput="onInput"
                           :preferredCountries="['za']">
             </vue-tel-input><br>
-            <button @click="signUp" class="buttonstyle">Sign Up</button>
+            <button @click="signUp" class="loginbutton">Sign Up</button>
             <p>or go back to <span @click="goBackToLogin()" style="color:blue;cursor:pointer">login</span></p>
+
             
           </div>
     </div>
@@ -37,7 +38,7 @@
   },
 
   props: {
-    currentPage: String,
+    goto: String,
   },
 
   data() {
@@ -74,9 +75,9 @@ methods: {
       
   goBackToLogin ()
   {
-     if(this.$props.currentPage)
+     if(this.$props.goto)
       {
-        this.$router.replace({ name: 'Login', params: {currentPage: this.$props.currentPage}});
+        this.$router.replace({ name: 'Login', params: {goto: this.$props.goto}});
       } else {
         this.$router.replace({ name: 'Login'});
       }
@@ -125,12 +126,12 @@ methods: {
             self.shoppingcart = JSON.parse(localStorage.getItem(uid));
             self.$eventHub.$emit('shoppingcarttotal', self.shoppingcart.totalitems);
         }
-       if(self.$props.currentPage)
+       if(self.$props.goto)
           {
-            if (self.$props.currentPage == 'Product') {
+            if (self.$props.goto == 'Product') {
              self.$router.go(-1)
             } else {
-              self.$router.replace({ name: self.$props.currentPage,  params: {currentPage: this.$props.currentPage}});
+              self.$router.replace({ name: self.$props.goto});
            }
             self.busy = false;
           }

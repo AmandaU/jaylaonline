@@ -95,7 +95,9 @@ export default {
        this.$eventHub.$on('showCheckout', (show)=> {
       if (self.$route.name == 'Information'
         || self.$route.name == 'Shipping'
-        || self.$route.name == 'Checkout') {
+        || self.$route.name == 'Checkout'
+        || self.$route.name == 'Login'
+        || self.$route.name == 'SignUp') {
        self.showCheckout =  self.isMobile() ? show : false
        } else {
            self.showCheckout = show ;
@@ -270,5 +272,6 @@ export default {
 
 <style lang="scss" scoped>
   @import "~@/styles/shoppingcartstyle.scss";
+   @import "~@/styles/commonstyle.scss";
 </style>
 

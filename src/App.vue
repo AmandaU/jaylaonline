@@ -31,6 +31,7 @@ import BottomNav from './components/BottomNav'
 import Navigation from './components/Navigation'
 import ShoppingCart from './components/ShoppingCart'
 import TransitionExpand from './components/TransitionExpand'
+ import firebase from './firebase-config';
 
 export default {
   name: 'app',
@@ -65,6 +66,7 @@ export default {
            self.showCheckout = show ;
         }
     });
+
    },
 
     methods: {
@@ -85,10 +87,16 @@ export default {
       },
 
       gotoCheckout () {
-        this.$router.push({ name: 'Information'});
+
+        let currentuser = firebase.auth().currentUser;
+        if (!currentuser){
+        this.$router.push({ name: 'Login', params: {goto: 'Information'}});
+        } else{
+          this.$router.push({ name: 'Information'});
+        }
       },
 
- enter(element) {
+     enter(element) {
       const width = getComputedStyle(element).width;
 
       element.style.width = width;
