@@ -1,16 +1,23 @@
 <template>
  <!-- <div class="pagecontainer">  -->
 <div :style="getContainerStyle()">
-   <div class="productcontainer">
-     <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>
-       <!-- <div> -->
    <h1>{{artist.name}}</h1>
+   <div class="imagecontainer">
+     
+       <!-- <div> -->
   
-    <div class="imageblock">  
-        <div  v-for="image in artist.images" v-bind:key="image.url">
-            <img v-bind:src="image.url" v-bind:alt="Image" >
-        </div>  
-    </div> 
+  
+   <div class="column" v-for="image in artist.images" v-bind:key="image.url">
+           <!-- <div class="column"> -->
+              <div class="productimage">
+                <img v-bind:src="image.url" v-bind:alt="Image" >
+              </div>
+              <div class="hovercolumn">
+                <h2 >booo</h2>
+              </div>
+           <!-- </div> -->
+        </div>
+   
   
     </div>
    </div>
@@ -67,21 +74,33 @@ created () {
 
 methods: 
 { 
-  getContainerStyle: function () { 
+   getContainerStyle: function () { 
      let h = String(window.innerHeight - 120) + 'px'
+         return  {
+          'max-width': '100vw',
+          'height' : '100%',
+          'min-height' : h,
+          'width':'100%',
+          'float':'right',
+          'display': 'flex',
+          'flex-direction': 'column',
+          'overflow-y': 'auto',
+          'align-self': 'center',
+          'justify-content': 'center',
+          'align-items': 'center',
+      }
+    },
+
+    getImageStyle: function (product) { 
+      // var t = 1.34 * this.containerWidth;
+      var t = product.ratio * this.containerWidth;
         return  {
-        'max-width': '100vw',
-        'min-height' : h,
-        'width':'100%',
-        'float':'left',
-        'display': 'flex',
-        'overflow-x': 'hidden',
-        'align-self': 'center',
-        'justify-content': 'center',
-        'align-items': 'center',
-        'padding-top': 'auto',//this.showCheckout ? '2px' : '7%',
-        'padding-bottom': 'auto',
-        'transition': 'padding-top 500ms ease-in-out',
+          'background-color':'rgb(255, 255, 255)',
+          'max-width': '100%',
+          'width': this.containerWidth + 'px',
+          'height': t + 'px',
+          'position': 'relative'
+        
       }
   },
 
@@ -119,6 +138,6 @@ methods:
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/styles/productstyle.scss";
     @import "~@/styles/commonstyle.scss";
+     @import "~@/styles/shopstyle.scss";
 </style>

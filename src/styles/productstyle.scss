@@ -18,6 +18,17 @@
   cursor: pointer;
   }
 
+  .artistcontainer {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    //background-color:rgb(121, 197, 21);
+    align-items: center;
+    height: 100%;
+    margin-left: 2%;
+    margin-right: 2%;
+  }
+
 .productcontainer {
   position: relative;
   display: flex;
