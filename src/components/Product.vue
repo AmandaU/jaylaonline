@@ -1,13 +1,16 @@
 <template>
  <!-- <div class="pagecontainer">  -->
-<div :style="getContainerStyle()">
+<div :style="getContainerStyle()" :key="componentKey">
    <div class="productcontainer">
      <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>
-     <div class="pricecolumn">
+     <div class="pricecolumn" >
        <!-- <div> -->
+               <h1>{{ artist.name }}</h1> 
+               <img v-bind:src="artist.photourl" v-bind:alt="artist.name" @click="gotoArtist()" >
+
                 <h1>{{ product.name }}</h1> 
-                 <h2>{{ product.description }}</h2>
-                  <br><br>
+                <h2>{{ product.description }}</h2>
+                <br>
         
             <div class="priceblock">
                <div  v-for="item in items" :key="item['.key']">
@@ -41,7 +44,7 @@
              </div>  
              
               <button   @click="continueShopping" class="buttonstyle">more shopping</button>
-              <button   v-visible="showCheckoutButton" @click="goToShipping" class="buttonstyle">check out</button>
+              <button   v-visible="showCheckoutButton" @click="gotoShipping" class="buttonstyle">check out</button>
              
 
           <!-- </div>  -->
@@ -61,7 +64,7 @@
 import firebase from '../firebase-config';
 import {  db } from '../firebase-config';
 let productsRef = db.ref('products');
-//let itemsRef = db.ref('items');
+let artistsRef = db.ref('artists');
 
 export default {
   name: 'product',
@@ -73,10 +76,12 @@ export default {
   data() {
     return {
       greaterThan600: window.innerWidth > 600,
+      componentKey: 0,
       busy: false,
       items: [],
       itemimages: [],
       product: {},
+      artist: {},
       isMobile: false,
       shoppingcart: {},
       products:[],
@@ -120,13 +125,14 @@ created () {
     {
       this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
     }
-  let self = this
-  this.$rtdbBind('products', productsRef.orderByChild("id").equalTo(this.productid).limitToFirst(1)).then(products => {
-    for(var key in products.val()){
-        console.log("snapshot.val" + products.val()[key]);
-      self.product = products.val()[key];
-    }
-  });
+    let self = this
+    this.$rtdbBind('products', productsRef.orderByChild("id").equalTo(this.productid).limitToFirst(1)).then(products => {
+      for(var key in products.val()){
+          console.log("snapshot.val" + products.val()[key]);
+          self.product = products.val()[key];
+          self.getArtist(self.product.artistid)
+      }
+    });
 },
 
  computed: {
@@ -168,6 +174,21 @@ methods:
         'padding-bottom': 'auto',
         'transition': 'padding-top 500ms ease-in-out',
       }
+  },
+
+  getArtist(artistid) {
+    debugger
+      this.$rtdbBind('artists', artistsRef.orderByChild("id").equalTo(artistid).limitToFirst(1)).then(artists => {
+          for(var key in artists.val()){
+              //console.log("snapshot.val" + products.val()[key]);
+              self.artist = artists.val()[key];
+              self.componentKey += 1;
+           }
+        });
+  },
+
+  gotoArtist() {
+    this.$router.push({ name: 'Artist', params: {artist: this.artist}});
   },
 
   media800Enter(mediaQueryString) {
@@ -225,7 +246,7 @@ methods:
       this.$router.replace({ name: 'Shop'});
   },
  
-  goToShipping () {
+  gotoShipping () {
     let currentuser = firebase.auth().currentUser;
       if (!currentuser){
          this.$router.push({ name: 'Login', params: {goto: 'Information'}});

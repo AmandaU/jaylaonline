@@ -18,6 +18,7 @@ import Success from './components/Success.vue';
 import Cancel from './components/Cancel.vue';
 import Shop from './components/Shop.vue';
 import Product from './components/Product.vue';
+import Artist from './components/Artist.vue';
 import { rtdbPlugin } from 'vuefire';
 import vueCountryRegionSelect from 'vue-country-region-select';
 import VueTelInput from 'vue-tel-input';
@@ -136,6 +137,12 @@ const router = new Router({
         orderid: route.query.orderid,
       }),
     },
+    {
+      path: '/Artist',
+      name: 'Artist',
+      component: Artist,
+      props: true,
+    }
    
   ],
 });

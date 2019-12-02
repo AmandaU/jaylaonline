@@ -45,7 +45,7 @@ export default {
 
 firebase () {
         return {
-         // items: db.ref('items'),
+          //artists: db.ref('artists'),
           itemimages: db.ref('itemimages'),
           products: db.ref('products'),
          }
@@ -61,6 +61,7 @@ mounted() {
 
  created () {
     this.showCheckout = false
+    this.addProducts()
     },
 
  computed: {
@@ -106,12 +107,10 @@ methods: {
 
   addProducts ()
    {
-    //  this.$firebaseRefs.products.push({
-    //                     id: "product3",
-    //                     name: "TShirt",
-    //                     descriptipon: "RudeBoyz t-shirt special",
-    //                     linkphotourl: "12345",
-    //                     ratio: "1"
+    //  this.$firebaseRefs.artists.push({
+    //                     id: "artist1",
+    //                     name: "Lady Gaga",
+    //                     photourl: "12345"
     //     });
     //     this.$firebaseRefs.items.push({
     //                     productid: "product2",
