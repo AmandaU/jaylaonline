@@ -4,15 +4,19 @@
    <div class="productcontainer">
      <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>
      <div class="pricecolumn" >
-       <!-- <div> -->
-               <h1>{{ artist.name }}</h1> 
-               <img v-bind:src="artist.photourl" v-bind:alt="artist.name" @click="gotoArtist()" >
+       <div  v-for="artist in artists" v-bind:key="artist.artistid">
+         <h1>{{ artist.name }}</h1> 
+            <img v-bind:src="artist.photourl" v-bind:alt="artist.name" style="height: 100px; width: auto">
+        </div> 
+
+                <!-- <h1>{{ artist.name }}</h1>  
+               <img v-bind:src="artist.photourl" v-bind:alt="artist.name" @click="gotoArtist()" style="height: 100px; width: auto"> -->
 
                 <h1>{{ product.name }}</h1> 
                 <h2>{{ product.description }}</h2>
                 <br>
         
-            <div class="priceblock">
+            <!-- <div class="priceblock">
                <div  v-for="item in items" :key="item['.key']">
                     <div class="itemrow">
                   
@@ -41,20 +45,17 @@
                     </div> 
                      <div class="thinline"></div>  
                 </div>
-             </div>  
+             </div>   -->
              
               <button   @click="continueShopping" class="buttonstyle">more shopping</button>
               <button   v-visible="showCheckoutButton" @click="gotoShipping" class="buttonstyle">check out</button>
-             
+            </div> 
 
-          <!-- </div>  -->
-     </div> 
-  
-    <div class="imageblock">  
-        <div  v-for="image in itemimages" v-bind:key="image.productd">
+    <!-- <div class="imageblock">  
+        <div  v-for="image in itemimages" v-bind:key="image.productid">
             <img v-bind:src="image.url" v-bind:alt="image.alt" >
         </div>  
-    </div> 
+    </div>  -->
   
     </div>
    </div>
@@ -81,6 +82,7 @@ export default {
       items: [],
       itemimages: [],
       product: {},
+      artists: [],
       artist: {},
       isMobile: false,
       shoppingcart: {},
@@ -101,12 +103,13 @@ firebase () {
    } 
     return {
       items: db.ref('items').orderByChild("productid").equalTo(this.productid) ,
-      itemimages: db.ref('itemimages').orderByChild("productid").equalTo(this.productid),  
-     // products:  db.ref('products').orderByChild("id").equalTo(productid).limitToFirst(0)
+      itemimages: db.ref('itemimages').orderByChild("productid").equalTo(this.productid), 
+      artists:  db.ref('artists')
     }
 },
 
 mounted() {
+   this.getArtist('artist1')
   let self = this;
   this.$eventHub.$on('showCheckout', ()=> {
        self.showCheckout = !self.showCheckout;
@@ -120,6 +123,8 @@ mounted() {
 },
 
 created () {
+
+ 
   this.showCheckout = false
    if(localStorage.getItem('jaylashop'))
     {
@@ -130,12 +135,14 @@ created () {
       for(var key in products.val()){
           console.log("snapshot.val" + products.val()[key]);
           self.product = products.val()[key];
-          self.getArtist(self.product.artistid)
-      }
+          self.artistid = self.product.artistid
+       }
     });
 },
 
  computed: {
+
+  
 
    showCheckoutButton: function () {
      if (this.shoppingcart) {
@@ -154,6 +161,18 @@ created () {
           navigator.userAgent.match(/Windows Phone/i);
     },
 
+  },
+
+
+watch: {
+    'product.artistid': {
+      // call it upon creation too
+      deep: true,
+      handler(artistid) {
+        debugger
+        //this.getArtist(artistid)
+      },
+    },
   },
 
 methods: 
@@ -176,17 +195,25 @@ methods:
       }
   },
 
-  getArtist(artistid) {
-    debugger
+ getArtist(artistid) {
+     debugger
+    // if (this.artistid == '') return null
+    //    return this.artists.filter(artist => {
+    //       if (artist.artistid == this.artistid)
+    //       return artist
+    //   })
+   
       this.$rtdbBind('artists', artistsRef.orderByChild("id").equalTo(artistid).limitToFirst(1)).then(artists => {
           for(var key in artists.val()){
+            debugger
               //console.log("snapshot.val" + products.val()[key]);
               self.artist = artists.val()[key];
-              self.componentKey += 1;
+              //self.componentKey += 1;
            }
         });
   },
 
+  
   gotoArtist() {
     this.$router.push({ name: 'Artist', params: {artist: this.artist}});
   },
@@ -316,19 +343,6 @@ methods:
              },
           };
    },
-
-// watch: {
-//     productid: {
-//       // call it upon creation too
-//       immediate: true,
-//       handler(productid) {
-//         this.$rtdbBind('products', this.products.where('id', '==', this.productid)).then(products => {
-//          debugger
-//             this.product === products
-//         })
-//       },
-//     },
-//   },
 
   }
 }
