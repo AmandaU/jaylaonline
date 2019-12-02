@@ -2,12 +2,28 @@
   display: none; 
 }
 
+.artistblock {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  // background-color:rgb(121, 197, 21);
+  align-items: center;
+  height: 100%;
+  width: auto;
+  flex-wrap: nowrap;
+ 
+}
+
+.artistblock:hover {
+  cursor: pointer;
+  }
+
 .productcontainer {
   position: relative;
   display: flex;
   flex-direction: row;
   //background-color:rgb(121, 197, 21);
- align-items: center;
+  align-items: center;
   height: 100%;
   margin-left: 2%;
   margin-right: 2%;

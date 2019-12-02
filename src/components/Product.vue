@@ -1,64 +1,71 @@
 <template>
- <!-- <div class="pagecontainer">  -->
+
 <div :style="getContainerStyle()" :key="componentKey">
+   
    <div class="productcontainer">
      <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>
-     <div class="pricecolumn" >
-       <div  v-for="artist in artists" v-bind:key="artist.artistid">
-         <h1>{{ artist.name }}</h1> 
-            <img v-bind:src="artist.photourl" v-bind:alt="artist.name" style="height: 100px; width: auto">
+   
+         <div class="pricecolumn" >
+        
+            <div  class="artistblock" v-for="artist in artists" v-bind:key="artist.id"  @click="gotoArtist(artist)" >
+              <h1> {{ artist.name }} </h1> 
+                  <img v-bind:src="artist.photourl" v-bind:alt="artist.name" style="height: 100px; width: auto; padding-left:20px;">
+            </div> 
+              <br>
+            
+                    <!-- <div  class="artistblock"   @click="gotoArtist(artist)" >
+                      <h1>{{ artist.name }}</h1>  
+                    <img v-bind:src="artist.photourl" v-bind:alt="artist.name" style="height: 100px; width: auto; padding-left:20px;">
+                      </div>  -->
+
+            <h1>{{ product.name }}</h1> 
+            <h2>{{ product.description }}</h2>
+            <br>
+              
+            <div class="priceblock">
+              <div  v-for="item in items" :key="item['.key']">
+                  <div class="itemrow">
+                
+                      <div class="itemcolumn1">
+                        <strong>Size {{item.size}},  R{{item.price}} each </strong>
+                      </div>  
+
+                      <div  class="itemcolumn2">
+                          <div v-show="!isAvailable(item)" class="itemdetail">SOLD OUT !! </div>
+                      
+                          <div v-show="isAvailable(item)" class="numberrow" >
+                              
+                              <div  class="itemselection ">
+                                <div  v-show="item.number > 0" class="itemdetail"> {{item.selected}}</div>
+                              </div>  
+                              <br>
+
+                              <div  class="addminusbox">
+                                  <img :disabled="item.selected == 0" v-bind:class="[item.selected > 0 ? 'enabled' : 'disabled']"   src="../assets/minus.png"  alt="minus"  @click="itemsSelected(item, false)" class="addminusimage"/><br>
+                                  <img :disabled="item.number <= item.selected" v-bind:class="[item.number > item.selected ? 'enabled' : 'disabled']"  src="../assets/plus.jpg"  alt="plus"  @click="itemsSelected(item,true)" class="addminusimage"/>
+                                </div>   
+                        
+                          </div> 
+                      </div> 
+                
+                  </div> 
+                    <div class="thinline"></div>  
+              </div>
+            </div>   
+            
+            <button   @click="continueShopping" class="buttonstyle">more shopping</button>
+            <button   v-visible="showCheckoutButton" @click="gotoShipping" class="buttonstyle">check out</button>
         </div> 
 
-                <!-- <h1>{{ artist.name }}</h1>  
-               <img v-bind:src="artist.photourl" v-bind:alt="artist.name" @click="gotoArtist()" style="height: 100px; width: auto"> -->
-
-                <h1>{{ product.name }}</h1> 
-                <h2>{{ product.description }}</h2>
-                <br>
-        
-            <!-- <div class="priceblock">
-               <div  v-for="item in items" :key="item['.key']">
-                    <div class="itemrow">
-                  
-                        <div class="itemcolumn1">
-                          <strong>Size {{item.size}},  R{{item.price}} each </strong>
-                        </div>  
-    
-                        <div  class="itemcolumn2">
-                            <div v-show="!isAvailable(item)" class="itemdetail">SOLD OUT !! </div>
-                        
-                            <div v-show="isAvailable(item)" class="numberrow" >
-                                
-                                <div  class="itemselection ">
-                                  <div  v-show="item.number > 0" class="itemdetail"> {{item.selected}}</div>
-                                </div>  
-                                <br>
-
-                                <div  class="addminusbox">
-                                   <img :disabled="item.selected == 0" v-bind:class="[item.selected > 0 ? 'enabled' : 'disabled']"   src="../assets/minus.png"  alt="minus"  @click="itemsSelected(item, false)" class="addminusimage"/><br>
-                                   <img :disabled="item.number <= item.selected" v-bind:class="[item.number > item.selected ? 'enabled' : 'disabled']"  src="../assets/plus.jpg"  alt="plus"  @click="itemsSelected(item,true)" class="addminusimage"/>
-                                  </div>   
-                          
-                            </div> 
-                        </div> 
-                  
-                    </div> 
-                     <div class="thinline"></div>  
-                </div>
-             </div>   -->
-             
-              <button   @click="continueShopping" class="buttonstyle">more shopping</button>
-              <button   v-visible="showCheckoutButton" @click="gotoShipping" class="buttonstyle">check out</button>
-            </div> 
-
-    <!-- <div class="imageblock">  
-        <div  v-for="image in itemimages" v-bind:key="image.productid">
-            <img v-bind:src="image.url" v-bind:alt="image.alt" >
-        </div>  
-    </div>  -->
+        <div class="imageblock">  
+            <div  v-for="image in itemimages" v-bind:key="image.productid">
+                <img v-bind:src="image.url" v-bind:alt="image.alt" >
+            </div>  
+        </div> 
   
     </div>
    </div>
+  
 </template>
 
 <script>
@@ -109,7 +116,7 @@ firebase () {
 },
 
 mounted() {
-   this.getArtist('artist1')
+   //this.getArtist('artist1')
   let self = this;
   this.$eventHub.$on('showCheckout', ()=> {
        self.showCheckout = !self.showCheckout;
@@ -123,8 +130,6 @@ mounted() {
 },
 
 created () {
-
- 
   this.showCheckout = false
    if(localStorage.getItem('jaylashop'))
     {
@@ -135,14 +140,11 @@ created () {
       for(var key in products.val()){
           console.log("snapshot.val" + products.val()[key]);
           self.product = products.val()[key];
-          self.artistid = self.product.artistid
        }
     });
 },
 
  computed: {
-
-  
 
    showCheckoutButton: function () {
      if (this.shoppingcart) {
@@ -169,8 +171,7 @@ watch: {
       // call it upon creation too
       deep: true,
       handler(artistid) {
-        debugger
-        //this.getArtist(artistid)
+        this.getArtist(artistid)
       },
     },
   },
@@ -185,6 +186,7 @@ methods:
         'width':'100%',
         'float':'left',
         'display': 'flex',
+        'flex-direction': 'column',
         'overflow-x': 'hidden',
         'align-self': 'center',
         'justify-content': 'center',
@@ -196,26 +198,17 @@ methods:
   },
 
  getArtist(artistid) {
-     debugger
-    // if (this.artistid == '') return null
-    //    return this.artists.filter(artist => {
-    //       if (artist.artistid == this.artistid)
-    //       return artist
-    //   })
-   
       this.$rtdbBind('artists', artistsRef.orderByChild("id").equalTo(artistid).limitToFirst(1)).then(artists => {
-          for(var key in artists.val()){
-            debugger
-              //console.log("snapshot.val" + products.val()[key]);
-              self.artist = artists.val()[key];
-              //self.componentKey += 1;
-           }
-        });
+      for(var key in artists.val()){
+           console.log("snapshot.val" + artists.val()[key]);
+          self.artist = artists.val()[key];
+          self.componentKey += 1;
+        }
+    });
   },
-
   
-  gotoArtist() {
-    this.$router.push({ name: 'Artist', params: {artist: this.artist}});
+  gotoArtist(artist) {
+    this.$router.push({ name: 'Artist', params: {artist: artist}});
   },
 
   media800Enter(mediaQueryString) {
