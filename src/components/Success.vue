@@ -193,6 +193,8 @@ methods: {
         this.isReady = true;
         this.isLoading = false
         localStorage.clear()
+        this.$eventHub.$emit('shoppingcarttotal', 0);
+        this.$eventHub.$emit('refreshshoppingcart', '');
     },
     
   },

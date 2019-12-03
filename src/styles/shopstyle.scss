@@ -4,6 +4,56 @@
   display: none; 
 }
 
+* {
+  box-sizing: border-box;
+}
+
+/* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+.flip-card {
+  background-color: transparent;
+  // width: 300px;
+  // height: 200px;
+  border: 1px solid #f1f1f1;
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+.flip-card-front {
+  background-color: #bbb;
+  color: black;
+}
+
+/* Style the back side */
+.flip-card-back {
+  background-color: dodgerblue;
+  color: white;
+  transform: rotateY(180deg);
+}
+
+
 /* Create two equal columns that floats next to each other */
 
 // .grid-container {
@@ -13,87 +63,155 @@
 //   grid-gap: 1em;
 // }
 
-.column {
-  //background: rgba(247, 222, 3, 0.4);
-  display: flex;
-  flex-direction: column;
-  overflow-y: hidden;
-  overflow-x: hidden;
-  flex-basis: 33%;
-  flex: 1;
-  position: relative;
-}
+// .column {
+//   //background: rgba(247, 222, 3, 0.4);
+//   display: flex;
+//   flex-direction: column;
+//   overflow-y: hidden;
+//   overflow-x: hidden;
+//   flex-basis: 33%;
+//   flex: 1;
+//   position: relative;
+// }
 
-.hovercolumn {
- position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background: rgba(88, 61, 64, 0.4);
+// .hovercolumn {
+//  position: absolute;
+//   top: 0;
+//   left: 0;
+//   height: 100%;
+//   width: 100%;
+//   background: rgba(88, 61, 64, 0.4);
    
-  /* typographic styles */
-  color: white;
-  font-size: 1.5em;
-  font-weight: bold;
-  text-decoration: none;
+//   /* typographic styles */
+//   color: white;
+//   font-size: 1.5em;
+//   font-weight: bold;
+//   text-decoration: none;
    
-  /* position the text centrally*/
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity .5s;
-}
+//   /* position the text centrally*/
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   opacity: 0;
+//   transition: opacity .5s;
+// }
 
-.column:hover .hovercolumn{
-  opacity: 1;
-}
+// .column:hover .hovercolumn{
+//   opacity: 1;
+// }
 
-.productimage {
-  line-height: 0;
+// .productimage {
+//   line-height: 0;
 
-}
+// }
 
-.productimage img {
-  margin: 10px;
-  line-height: 0;
-  width: 100%;
-  height: auto;
-  filter: blur(0px);
-  transition: filter 0.3s ease-in;
-  transform: scale(1.1);
-}
+// .productimage img {
+//   margin: 10px;
+//   line-height: 0;
+//   width: 100%;
+//   height: auto;
+//   object-fit: scale-down;
+//   filter: blur(0px);
+//   transition: filter 0.3s ease-in;
+//   transform: scale(1.1);
+// }
 
-.column:hover .productimage img {
-  filter: blur(2px);
-}
+// .column:hover .productimage img {
+//   filter: blur(2px);
+// }
 
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
- }
+// /* Clear floats after the columns */
+// .row:after {
+//   content: "";
+//   display: table;
+//   clear: both;
+//  }
 
- .imagecontainer {
- // background: rgba(247, 222, 3, 0.4);
-  justify-content: space-between;
+//  .imagecontainer {
+//  // background: rgba(247, 222, 3, 0.4);
+//   justify-content: space-between;
+//   display: flex;
+//   flex-direction: row;
+//   flex-wrap: wrap;
+//   width: 90%;
+//   overflow-y: auto;
+//  }
+
+
+.rowstyle{
   display: flex;
   flex-direction: row;
+  float: left;
+  width: 100%;
   flex-wrap: wrap;
-  width: 90%;
-  overflow-y: auto;
- }
+  padding-bottom: 15%;
+}
+
+//Main body Image gallery
+.cols{
+  max-width:100%;
+  min-width:100%;
+  -moz-column-count:3;
+  -moz-column-gap: 0px;
+  -webkit-column-count:3;
+  -webkit-column-gap: 0px;
+  column-count: 3;
+  column-gap: 0px;
+  padding-bottom: 10%;
+}
+
+.hoverLayer{
+  position: absolute;
+  text-align:center;
+   top:0;
+  left:0;
+  bottom:0;
+  right:0;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.6);
+	color:rgba(243, 241, 241, 0.6);
+  padding: 15px;
+  -moz-transition: all 0.4s ease-in-out 0s;
+	-webkit-transition: all 0.4s ease-in-out 0s;
+	-ms-transition: all 0.4s ease-in-out 0s;
+  transition: all 0.4s ease-in-out 0s;
+  opacity:0;
+
+}
+
+.hoverLayer:hover  { opacity: 1; }
+
+.centerInHover {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  color:rgb(179, 176, 176);
+}
 
 @media (max-width: 600px) {
 
-  .imagecontainer {
-        flex-direction: column;
-   }
+  .cols{
+    -moz-column-count:1;
+    -webkit-column-count:1;
+    column-count: 1;
+  }
+
+  // .imagecontainer {
+  //       flex-direction: column;
+  //  }
    
-  .column {
-    width: 100%;
+  // .column {
+  //   width: 100%;
+  // }
+}
+
+@media (max-width: 800px) {
+
+  .cols{
+    -moz-column-count:2;
+    -webkit-column-count:2;
+    column-count: 2;
   }
 }
 

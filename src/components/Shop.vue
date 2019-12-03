@@ -4,19 +4,54 @@
    
     <!-- <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>  -->
       
-     <div class="imagecontainer">
-        <div class="column" v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
-           <!-- <div class="column"> -->
+
+
+     <!-- <div class="imagecontainer"> -->
+
+       <!-- <div  v-bind:class="[isRow ? 'rowstyle' : 'cols']">  
+            <div v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
+              <div  v-on:mouseover="hover = !hover" :style="getImageStyle(product)"  > 
+                  <img  :style="getImageStyle(product)" 
+                  v-bind:src="product.linkphotourl" 
+                  v-bind:alt="product.name" />
+                 
+                  <div  class="hoverLayer" >
+                     <img v-if="hover" :style="getImageStyle(product)"  :src="getHoverImage(product.id)"  v-bind:alt="product.name" /> 
+                  </div>
+              </div>  
+           </div>
+        </div>  -->
+
+        <div  v-bind:class="[isRow ? 'rowstyle' : 'cols']">  
+            <div v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
+
+              <div class="flip-card" :style="getImageStyle(product)">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                    <img  v-bind:src="product.linkphotourl" alt="Avatar" :style="getImageStyle(product)">
+                  </div>
+                  <div class="flip-card-back">
+                    <img  v-bind:src="getHoverImage(product.id)" alt="Avatar" :style="getImageStyle(product)">
+                  </div>
+                </div>
+              </div>
+
+            </div>  
+        </div> 
+
+       
+
+
+        <!-- <div class="column" v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
               <div class="productimage">
                <img v-bind:src="product.linkphotourl" >
               </div>
               <div class="hovercolumn">
                 <h2 >{{product.name}}</h2>
               </div>
-           <!-- </div> -->
-        </div>
+          </div> -->
   
-     </div>
+     <!-- </div> -->
                 
     </div>  
  
@@ -39,8 +74,10 @@ export default {
         numberOfProducts: 0,
         greaterThan800: window.innerWidth > 800,
         containerWidth: window.innerWidth > 800? window.innerWidth/3: window.innerWidth > 600? window.innerWidth/ 2: window.innerWidth,
-        showCheckout: false
-     }
+        showCheckout: false,
+        hover: false,
+        itemimages: []
+       }
     },
 
 firebase () {
@@ -51,8 +88,13 @@ firebase () {
          }
       },
 
-mounted() {
+ beforeDestroy: function () {
+  window.removeEventListener('resize', this.handleWindowResize)
+},
 
+mounted() {
+  window.addEventListener('resize', this.handleWindowResize);
+ 
   let self = this;
   this.$eventHub.$on('showCheckout', ()=> {
        self.showCheckout = !self.showCheckout;
@@ -65,6 +107,8 @@ mounted() {
     },
 
  computed: {
+
+  
    isRow: function () {
       if (this.isMobile) {
         return false
@@ -89,6 +133,44 @@ mounted() {
  
 methods: {
 
+  
+ getHoverImage: function (id) {
+   let images = this.itemimages.filter(image=> {
+     if (image.productid == id) return image
+   })
+   const idx = Math.floor(Math.random() * images.length);
+   
+    return this.itemimages[idx].url
+
+   },
+
+   handleWindowResize(event) { 
+        if(window.innerWidth < 600)
+        {
+          this.containerWidth = event.currentTarget.innerWidth;
+        }
+        else
+        if(window.innerWidth < 800)
+        {
+          this.containerWidth = event.currentTarget.innerWidth/2;
+        }
+        else
+          this.containerWidth = event.currentTarget.innerWidth/3; 
+    },
+
+      getImageStyle: function (product) { 
+       var t = product.ratio * this.containerWidth;
+          return  {
+         // 'background-color':'rgb(255, 255, 255)',
+          // 'max-width': '100%',
+           'width': this.containerWidth + 'px',
+           'height': t + 'px',
+          //'align-self': 'center',
+          // 'position': 'relative',
+          
+        }
+    },
+
    getContainerStyle: function () { 
      let h = String(window.innerHeight - 120) + 'px'
          return  {
@@ -98,11 +180,16 @@ methods: {
           'width':'100%',
           'float':'right',
           'display': 'flex',
-          'overflow-y': 'auto',
+          'overflow': 'auto',
           'align-self': 'center',
           'justify-content': 'center',
           'align-items': 'center',
-      }
+          'vertical-align': 'center',
+          ':hover .flip-card-inner' : {
+              'transform': 'rotateY(180deg)'
+          }
+         }
+            
     },
 
   addProducts ()
@@ -130,19 +217,6 @@ methods: {
 
   media800Leave(mediaQueryString) {
       this.greaterThan800 = true
-  },
-
-  getImageStyle: function (product) { 
-      // var t = 1.34 * this.containerWidth;
-      var t = product.ratio * this.containerWidth;
-        return  {
-          'background-color':'rgb(255, 255, 255)',
-          'max-width': '100%',
-          'width': this.containerWidth + 'px',
-          'height': t + 'px',
-          'position': 'relative'
-        
-      }
   },
 
   navigateToItem(product) {

@@ -62,6 +62,8 @@
                 <img v-bind:src="image.url" v-bind:alt="image.alt" >
             </div>  
         </div> 
+
+        
   
     </div>
    </div>
@@ -84,7 +86,7 @@ export default {
   data() {
     return {
       greaterThan600: window.innerWidth > 600,
-      componentKey: 0,
+       componentKey: 0,
       busy: false,
       items: [],
       itemimages: [],
@@ -117,7 +119,7 @@ firebase () {
 
 mounted() {
    //this.getArtist('artist1')
-  let self = this;
+   let self = this;
   this.$eventHub.$on('showCheckout', ()=> {
        self.showCheckout = !self.showCheckout;
   });
@@ -176,8 +178,8 @@ watch: {
     },
   },
 
-methods: 
-{ 
+methods: {
+  
   getContainerStyle: function () { 
      let h = String(window.innerHeight - 120) + 'px'
         return  {

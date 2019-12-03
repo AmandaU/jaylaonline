@@ -59,6 +59,7 @@
    z-index: 1;
 }
 
+
 .imageblock {
   width: auto;
   flex-wrap: nowrap;
@@ -291,11 +292,10 @@
 }
 
 @media all and (max-width:600px) {
-
- 
-  .priceblock{
-      flex: 1;
-      width: 300px;
+  
+    .priceblock{
+        flex: 1;
+        width: 300px;
     }
 
     .itemrow {
