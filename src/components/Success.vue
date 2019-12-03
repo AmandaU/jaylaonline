@@ -2,11 +2,11 @@
  
      <div class="container" >
           <loading :active.sync="isLoading" 
-        :can-cancel="true" 
-        :on-cancel="onCancel"
-        :loader="dots"
-        :color="c45adb"
-        :is-full-page="fullPage"></loading>
+            :can-cancel="true" 
+            :on-cancel="onCancel"
+            :loader="dots"
+            :color="c45adb"
+            :is-full-page="fullPage"></loading>
            <div class="payblock">
         
           <h1>Success!!</h1>
@@ -32,8 +32,7 @@ export default {
 
    components: {
      Loading
-      
-    },
+   },
 
   data() {
       return {

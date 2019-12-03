@@ -1,6 +1,7 @@
 <template>
  <!-- <div class="pagecontainer">  -->
 <div :style="getContainerStyle()">
+   <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media> 
    <h1>{{artist.name}}</h1>
    <div class="imagecontainer">
      

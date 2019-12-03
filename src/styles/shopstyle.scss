@@ -11,9 +11,7 @@
 /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
 .flip-card {
   background-color: transparent;
-  // width: 300px;
-  // height: 200px;
-  border: 1px solid #f1f1f1;
+  // border: 1px solid #f1f1f1;
   perspective: 1000px; /* Remove this if you don't want the 3D effect */
 }
 
@@ -31,6 +29,7 @@
 .flip-card:hover .flip-card-inner {
   transform: rotateY(180deg);
 }
+
 
 /* Position the front and back side */
 .flip-card-front, .flip-card-back {
@@ -51,6 +50,7 @@
   background-color: dodgerblue;
   color: white;
   transform: rotateY(180deg);
+  
 }
 
 
@@ -127,15 +127,15 @@
 //   clear: both;
 //  }
 
-//  .imagecontainer {
-//  // background: rgba(247, 222, 3, 0.4);
-//   justify-content: space-between;
-//   display: flex;
-//   flex-direction: row;
-//   flex-wrap: wrap;
-//   width: 90%;
-//   overflow-y: auto;
-//  }
+ .imagecontainer {
+ // background: rgba(247, 222, 3, 0.4);
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 90%;
+  overflow-y: auto;
+ }
 
 
 .rowstyle{
@@ -144,11 +144,13 @@
   float: left;
   width: 100%;
   flex-wrap: wrap;
-  padding-bottom: 15%;
+  //padding: 10%;
+  margin: 0 auto;
 }
 
 //Main body Image gallery
 .cols{
+ 
   max-width:100%;
   min-width:100%;
   -moz-column-count:3;
@@ -157,7 +159,7 @@
   -webkit-column-gap: 0px;
   column-count: 3;
   column-gap: 0px;
-  padding-bottom: 10%;
+  padding: 10%;
 }
 
 .hoverLayer{
@@ -192,9 +194,14 @@
 @media (max-width: 600px) {
 
   .cols{
+    max-width:100%;
+    min-width:100%;
     -moz-column-count:1;
     -webkit-column-count:1;
     column-count: 1;
+    -moz-column-gap: 0px;
+    -webkit-column-gap: 0px;
+    column-gap: 0px;
   }
 
   // .imagecontainer {
@@ -209,9 +216,14 @@
 @media (max-width: 800px) {
 
   .cols{
+    max-width:100%;
+    min-width:100%;
     -moz-column-count:2;
     -webkit-column-count:2;
     column-count: 2;
+    -moz-column-gap: 0px;
+    -webkit-column-gap: 0px;
+    column-gap: 0px;
   }
 }
 

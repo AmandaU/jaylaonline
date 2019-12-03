@@ -24,13 +24,15 @@ import vueCountryRegionSelect from 'vue-country-region-select';
 import VueTelInput from 'vue-tel-input';
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-
+import Loading from 'vue-loading-overlay';
 
 Vue.use(rtdbPlugin)
 Vue.use(LoadScript)
 Vue.use(vueCountryRegionSelect)
 Vue.use(VueTelInput)
 Vue.use(VueAxios, axios)
+Vue.use(Loading);
+
 
 
 //Vue.use(LoadScript);

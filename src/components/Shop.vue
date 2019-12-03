@@ -1,8 +1,14 @@
 <template>
   
     <div :style="getContainerStyle()">
+       <!-- <loading :active.sync="isLoading" 
+        :can-cancel="true" 
+        :on-cancel="onCancel"
+        :loader="dots"
+        :color="blue"
+        :is-full-page="fullPage"></loading> -->
    
-    <!-- <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>  -->
+    <media :query="{maxWidth: 600}" @media-enter="media600Enter" @media-leave="media600Leave"> </Media> 
       
 
 
@@ -22,6 +28,8 @@
            </div>
         </div>  -->
 
+
+<!-- <div class="imagecontainer"> -->
         <div  v-bind:class="[isRow ? 'rowstyle' : 'cols']">  
             <div v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
 
@@ -39,7 +47,7 @@
             </div>  
         </div> 
 
-       
+       <!-- </div>   -->
 
 
         <!-- <div class="column" v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
@@ -59,24 +67,30 @@
 </template>
 
 <script>
+import Media from 'vue-media'
  import firebase from '../firebase-config';
 import { db } from '../firebase-config';
- //const products = db.ref('products')
+  const productsRef = db.ref('products')
+
 export default {
   name: 'shop',
+
   components: {
-     // CubeSpin
-    },
+     Media
+   },
+
   data() {
       return {
         busy: false,
         products: [],
         numberOfProducts: 0,
-        greaterThan800: window.innerWidth > 800,
+        greaterThan600: window.innerWidth > 600,
         containerWidth: window.innerWidth > 800? window.innerWidth/3: window.innerWidth > 600? window.innerWidth/ 2: window.innerWidth,
         showCheckout: false,
         hover: false,
-        itemimages: []
+        itemimages: [],
+         isLoading: true,
+         loader: {}
        }
     },
 
@@ -84,7 +98,7 @@ firebase () {
         return {
           //artists: db.ref('artists'),
           itemimages: db.ref('itemimages'),
-          products: db.ref('products'),
+          //products: db.ref('products'),
          }
       },
 
@@ -104,19 +118,26 @@ mounted() {
  created () {
     this.showCheckout = false
     this.addProducts()
+    let self = this
+    this.$rtdbBind('products', productsRef).then(products => {
+       self.products === products
+       self.loader.hide()
+    });
+
+      this.loader = this.$loading.show({
+                loader: 'dots'
+            });
+       
     },
 
  computed: {
 
-  
    isRow: function () {
-      if (this.isMobile) {
-        return false
-      } 
-      if (this.products.length <= 4 ) {
+       if (this.isMobile || !this.greaterThan600) {
         return true
-      }
-      return !this.greaterThan800 ;
+      } 
+      return this.products.length <= 4 
+     
     },
 
     isMobile: function()
@@ -133,7 +154,6 @@ mounted() {
  
 methods: {
 
-  
  getHoverImage: function (id) {
    let images = this.itemimages.filter(image=> {
      if (image.productid == id) return image
@@ -152,10 +172,10 @@ methods: {
         else
         if(window.innerWidth < 800)
         {
-          this.containerWidth = event.currentTarget.innerWidth/2;
+          this.containerWidth = event.currentTarget.innerWidth/2 - 20;
         }
         else
-          this.containerWidth = event.currentTarget.innerWidth/3; 
+          this.containerWidth = event.currentTarget.innerWidth/3 - 40; 
     },
 
       getImageStyle: function (product) { 
@@ -174,6 +194,7 @@ methods: {
    getContainerStyle: function () { 
      let h = String(window.innerHeight - 120) + 'px'
          return  {
+          
           'max-width': '100vw',
           'height' : '100%',
           'min-height' : h,
@@ -211,12 +232,12 @@ methods: {
         // });
    },
 
-  media800Enter(mediaQueryString) {
-      this.greaterThan800 = false
+  media600Enter(mediaQueryString) {
+      this.greaterThan600 = false
   },
 
-  media800Leave(mediaQueryString) {
-      this.greaterThan800 = true
+  media600Leave(mediaQueryString) {
+      this.greaterThan600 = true
   },
 
   navigateToItem(product) {
