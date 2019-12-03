@@ -4,20 +4,20 @@
   <nav class="nav" > 
 
     <div class="menu menuleft">
-      <div class="hoveritem"  @click="navigate('Home')">Home</div>
-      <div class="hoveritem"  @click="navigate('Shop')">Shop</div>
+      <div class="hoveritem right"  @click="navigate('Home')">Home</div>
+      <div class="hoveritem right"  @click="navigate('Shop')">Shop</div>
      
     </div>
     <div class="menu menuright">
-      <div class="nameitem" v-show="isLoggedin">Hi {{user.firstname}}</div>
-      <div class="cartbox">
+      <div class="nameitem left" v-show="isLoggedin">Hi {{user.firstname}}</div>
+      <div class="cartbox left">
         <small class="numberbox" v-visible="totalitems > 0">{{totalitems}}</small>
        <img src="../assets/shoppingcart.png"  alt="cart"  @click="navigate('ShoppingCart')" class="cartimage"/>
        
       </div>
       <!-- <div class="hoveritem" v-show="totalitems > 0" v-on:click="navigate('Checkout')" >Checkout({{totalitems}})</div> -->
-      <div class="hoveritem" v-show="!isLoggedin" v-on:click="navigate('Login')" >Login</div>
-      <div class="hoveritem"  v-show="isLoggedin" v-on:click="navigate('Logout')" >Logout</div>
+      <div class="hoveritem left" v-show="!isLoggedin" v-on:click="navigate('Login')" >Login</div>
+      <div class="hoveritem left"  v-show="isLoggedin" v-on:click="navigate('Logout')" >Logout</div>
     </div>
 
   </nav> 
@@ -129,7 +129,7 @@ methods: {
 <style> 
 
 .nav{
-   background-color:rgb(248, 246, 246);
+   background-color:rgb(255, 255, 255);
    top: 0;
    left: 0;
    right: 0;
@@ -137,26 +137,29 @@ methods: {
    z-index: 10;
    height: 50px;
    position: relative;
+   border-bottom: 1px solid rgb(129, 127, 127);
  }
 
  .menu {
+   height: 100%;
     display: flex;
     margin: 0% auto;
     position: relative;
     flex-direction:row; 
-    font-weight: 200;
+    font-weight: 10;
     font-size: 20px;
+   width: auto;
  }
 
 .menuleft{
- left:30;
+
  text-align: left;
  float: left;
  padding-left: 40px;
 }
 
 .menuright{
- right:30;
+
  text-align: right;
  float: right;
  padding-right: 40px;
@@ -169,6 +172,8 @@ methods: {
   .cartbox {
   position: relative;
   text-align: center;
+   width: 200px;
+  
 }
 
 /* Bottom left text */
@@ -193,22 +198,33 @@ methods: {
     background-color:transparent;
     color: rgb(65, 63, 63);
     position:relative;
-    text-align: right;
+    text-align: center;
     justify-content:center;
     align-content:center;
     bottom:0;
      padding: 5px;
+     width: 200px;
+    
+ }
+ .left {
+   border-left: 1px solid rgb(129, 127, 127);
+ }
+
+ .right {
+   border-right: 1px solid rgb(129, 127, 127);
  }
 
   .hoveritem{
     background-color:transparent;
     color: rgb(65, 63, 63);
     position:relative;
-    text-align: right;
+    text-align: center;
     justify-content:center;
     align-content:center;
     padding: 5px;
     bottom:0;
+     width: 200px;
+   
   }
 
   .hoveritem:hover {

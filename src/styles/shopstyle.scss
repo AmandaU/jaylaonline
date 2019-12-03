@@ -53,80 +53,6 @@
   
 }
 
-
-/* Create two equal columns that floats next to each other */
-
-// .grid-container {
-//   display: grid;
-//   //grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-//   grid-template-columns: repeat(3, minmax(300px, 1fr));
-//   grid-gap: 1em;
-// }
-
-// .column {
-//   //background: rgba(247, 222, 3, 0.4);
-//   display: flex;
-//   flex-direction: column;
-//   overflow-y: hidden;
-//   overflow-x: hidden;
-//   flex-basis: 33%;
-//   flex: 1;
-//   position: relative;
-// }
-
-// .hovercolumn {
-//  position: absolute;
-//   top: 0;
-//   left: 0;
-//   height: 100%;
-//   width: 100%;
-//   background: rgba(88, 61, 64, 0.4);
-   
-//   /* typographic styles */
-//   color: white;
-//   font-size: 1.5em;
-//   font-weight: bold;
-//   text-decoration: none;
-   
-//   /* position the text centrally*/
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   opacity: 0;
-//   transition: opacity .5s;
-// }
-
-// .column:hover .hovercolumn{
-//   opacity: 1;
-// }
-
-// .productimage {
-//   line-height: 0;
-
-// }
-
-// .productimage img {
-//   margin: 10px;
-//   line-height: 0;
-//   width: 100%;
-//   height: auto;
-//   object-fit: scale-down;
-//   filter: blur(0px);
-//   transition: filter 0.3s ease-in;
-//   transform: scale(1.1);
-// }
-
-// .column:hover .productimage img {
-//   filter: blur(2px);
-// }
-
-// /* Clear floats after the columns */
-// .row:after {
-//   content: "";
-//   display: table;
-//   clear: both;
-//  }
-
  .imagecontainer {
  // background: rgba(247, 222, 3, 0.4);
   justify-content: space-between;
@@ -204,13 +130,6 @@
     column-gap: 0px;
   }
 
-  // .imagecontainer {
-  //       flex-direction: column;
-  //  }
-   
-  // .column {
-  //   width: 100%;
-  // }
 }
 
 @media (max-width: 800px) {
