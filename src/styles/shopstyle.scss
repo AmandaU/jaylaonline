@@ -88,34 +88,6 @@
   padding: 10%;
 }
 
-.hoverLayer{
-  position: absolute;
-  text-align:center;
-   top:0;
-  left:0;
-  bottom:0;
-  right:0;
-  overflow: hidden;
-  background: rgba(0, 0, 0, 0.6);
-	color:rgba(243, 241, 241, 0.6);
-  padding: 15px;
-  -moz-transition: all 0.4s ease-in-out 0s;
-	-webkit-transition: all 0.4s ease-in-out 0s;
-	-ms-transition: all 0.4s ease-in-out 0s;
-  transition: all 0.4s ease-in-out 0s;
-  opacity:0;
-
-}
-
-.hoverLayer:hover  { opacity: 1; }
-
-.centerInHover {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  color:rgb(179, 176, 176);
-}
 
 @media (max-width: 600px) {
 

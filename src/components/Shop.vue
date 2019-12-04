@@ -10,26 +10,6 @@
    
     <media :query="{maxWidth: 600}" @media-enter="media600Enter" @media-leave="media600Leave"> </Media> 
       
-
-
-     <!-- <div class="imagecontainer"> -->
-
-       <!-- <div  v-bind:class="[isRow ? 'rowstyle' : 'cols']">  
-            <div v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
-              <div  v-on:mouseover="hover = !hover" :style="getImageStyle(product)"  > 
-                  <img  :style="getImageStyle(product)" 
-                  v-bind:src="product.linkphotourl" 
-                  v-bind:alt="product.name" />
-                 
-                  <div  class="hoverLayer" >
-                     <img v-if="hover" :style="getImageStyle(product)"  :src="getHoverImage(product.id)"  v-bind:alt="product.name" /> 
-                  </div>
-              </div>  
-           </div>
-        </div>  -->
-
-
-<!-- <div class="imagecontainer"> -->
         <div  v-bind:class="[isRow ? 'rowstyle' : 'cols']">  
             <div v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
 
@@ -47,22 +27,7 @@
             </div>  
         </div> 
 
-       <!-- </div>   -->
-
-
-        <!-- <div class="column" v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
-              <div class="productimage">
-               <img v-bind:src="product.linkphotourl" >
-              </div>
-              <div class="hovercolumn">
-                <h2 >{{product.name}}</h2>
-              </div>
-          </div> -->
-  
-     <!-- </div> -->
-                
     </div>  
- 
    
 </template>
 

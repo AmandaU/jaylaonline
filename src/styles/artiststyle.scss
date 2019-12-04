@@ -1,0 +1,141 @@
+-webkit-scrollbar { 
+    display: none; 
+  }
+  
+//   * {
+//     box-sizing: border-box;
+//   }
+
+  .artistcontainer {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    //background-color:rgb(121, 197, 21);
+    align-items: center;
+    height: 100%;
+    // margin-left: 2%;
+    // margin-right: 2%;
+  }
+
+  .biocolumn {
+ 
+    display: flex;
+    flex: 0.25;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    //background-color:rgb(134, 62, 62);
+    margin:0 auto;
+    display: flex;
+    vertical-align: top;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    align-content: center;
+    top: 0%;
+    z-index: 1;
+ }
+
+   .imagecontainer {
+   // background: rgba(247, 222, 3, 0.4);
+   flex: 0.75;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 90%;
+    overflow-y: auto;
+   }
+  
+  
+  .rowstyle{
+    display: flex;
+    flex-direction: row;
+    float: left;
+    width: 100%;
+    flex-wrap: wrap;
+    //padding: 10%;
+    margin: 0 auto;
+  }
+  
+  //Main body Image gallery
+  .cols{
+   
+    max-width:100%;
+    min-width:100%;
+    -moz-column-count:3;
+    -moz-column-gap: 0px;
+    -webkit-column-count:3;
+    -webkit-column-gap: 0px;
+    column-count: 3;
+    column-gap: 0px;
+    padding: 10%;
+  }
+  
+  .hoverLayer{
+    position: absolute;
+    text-align:center;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.6);
+    color:rgba(243, 241, 241, 0.6);
+    padding: 15px;
+    -moz-transition: all 0.4s ease-in-out 0s;
+    -webkit-transition: all 0.4s ease-in-out 0s;
+    -ms-transition: all 0.4s ease-in-out 0s;
+    transition: all 0.4s ease-in-out 0s;
+    opacity:0;
+  
+  }
+  
+  .hoverLayer:hover  { opacity: 1; }
+  
+  .centerInHover {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    color:rgb(179, 176, 176);
+  }
+  
+  @media (max-width: 600px) {
+  
+    .cols{
+      max-width:100%;
+      min-width:100%;
+      -moz-column-count:1;
+      -webkit-column-count:1;
+      column-count: 1;
+      -moz-column-gap: 0px;
+      -webkit-column-gap: 0px;
+      column-gap: 0px;
+    }
+  
+  }
+  
+  @media (max-width: 800px) {
+  
+    .cols{
+      max-width:100%;
+      min-width:100%;
+      -moz-column-count:2;
+      -webkit-column-count:2;
+      column-count: 2;
+      -moz-column-gap: 0px;
+      -webkit-column-gap: 0px;
+      column-gap: 0px;
+    }
+  }
+  
+  @media (hover: none) { 
+    .hovercolumn {
+      opacity: 1;
+    }
+    .productimage img {
+      filter: blur(2px);
+    }
+  }
+    

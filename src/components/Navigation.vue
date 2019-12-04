@@ -4,20 +4,25 @@
   <nav class="nav" > 
 
     <div class="menu menuleft">
-      <div class="hoveritem right"  @click="navigate('Home')">Home</div>
-      <div class="hoveritem right"  @click="navigate('Shop')">Shop</div>
+      <div class="hoveritem"  @click="navigate('Home')">Home</div>
+      <div class="verticalBorder" />
+      <div class="hoveritem"  @click="navigate('Shop')">Shop</div>
+      <div class="verticalBorder" />
      
     </div>
+    <div class="menu menucenter">
+      <div class="nameitem" v-show="isLoggedin">Hi {{user.firstname}}</div>
+       </div>
     <div class="menu menuright">
-      <div class="nameitem left" v-show="isLoggedin">Hi {{user.firstname}}</div>
+       <div class="verticalBorder" />
       <div class="cartbox left">
         <small class="numberbox" v-visible="totalitems > 0">{{totalitems}}</small>
        <img src="../assets/shoppingcart.png"  alt="cart"  @click="navigate('ShoppingCart')" class="cartimage"/>
        
       </div>
-      <!-- <div class="hoveritem" v-show="totalitems > 0" v-on:click="navigate('Checkout')" >Checkout({{totalitems}})</div> -->
-      <div class="hoveritem left" v-show="!isLoggedin" v-on:click="navigate('Login')" >Login</div>
-      <div class="hoveritem left"  v-show="isLoggedin" v-on:click="navigate('Logout')" >Logout</div>
+        <div class="verticalBorder" />
+      <div class="hoveritem" v-show="!isLoggedin" v-on:click="navigate('Login')" >Login</div>
+      <div class="hoveritem"  v-show="isLoggedin" v-on:click="navigate('Logout')" >Logout</div>
     </div>
 
   </nav> 
@@ -63,6 +68,7 @@ mounted() {
     let self = this;
     this.$eventHub.$on('loggedin', ()=> {
         self.isLoggedin = true;
+        self.fetchUser()
     });
     this.$eventHub.$on('shoppingcarttotal', (total)=> {
       self.totalitems = total
@@ -137,43 +143,51 @@ methods: {
    z-index: 10;
    height: 50px;
    position: relative;
+   width: 100%;
+    display: flex;
+    flex-direction:row; 
    border-bottom: 1px solid rgb(129, 127, 127);
  }
 
  .menu {
    height: 100%;
-    display: flex;
-    margin: 0% auto;
-    position: relative;
-    flex-direction:row; 
-    font-weight: 10;
-    font-size: 20px;
-   width: auto;
+   display: flex;
+   margin: 0% auto;
+   position: relative;
+   flex-direction:row; 
+   align-items: center;
+   justify-content: space-between;
+   font-weight: 10;
+   font-size: 20px;
+   width: 100%;
  }
 
 .menuleft{
-
- text-align: left;
- float: left;
- padding-left: 40px;
+   text-align: center;
+   justify-content: flex-start;
+   float: left;
 }
 
 .menuright{
-
- text-align: right;
- float: right;
- padding-right: 40px;
+  text-align: center;
+  float: right;
+  justify-content: flex-end;
+  right:0;
 }
 
-  .spacing { 
-    Margin-right: 15px; 
-  } 
+.menucenter{
+  text-align: center;
+  justify-content:center;
+}
 
-  .cartbox {
+.spacing { 
+  Margin-right: 15px; 
+} 
+
+.cartbox {
   position: relative;
   text-align: center;
-   width: 200px;
-  
+  width:200px;
 }
 
 /* Bottom left text */
@@ -202,16 +216,12 @@ methods: {
     justify-content:center;
     align-content:center;
     bottom:0;
-     padding: 5px;
-     width: 200px;
-    
- }
- .left {
-   border-left: 1px solid rgb(129, 127, 127);
- }
+    width:200px;  
+   }
 
- .right {
-   border-right: 1px solid rgb(129, 127, 127);
+ .verticalBorder {
+   height: 100%;
+   border-left: 1px solid rgb(129, 127, 127);
  }
 
   .hoveritem{
@@ -221,11 +231,8 @@ methods: {
     text-align: center;
     justify-content:center;
     align-content:center;
-    padding: 5px;
-    bottom:0;
-     width: 200px;
-   
-  }
+    width:200px;
+    }
 
   .hoveritem:hover {
     text-decoration:underline;
