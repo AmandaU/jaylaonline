@@ -144,9 +144,9 @@ methods: {
    height: 50px;
    position: relative;
    width: 100%;
-    display: flex;
-    flex-direction:row; 
-   border-bottom: 1px solid rgb(129, 127, 127);
+   display: flex;
+   flex-direction:row; 
+   border-bottom: 1px solid rgb(160, 159, 159);
  }
 
  .menu {
@@ -221,7 +221,7 @@ methods: {
 
  .verticalBorder {
    height: 100%;
-   border-left: 1px solid rgb(129, 127, 127);
+   border-left: 1px solid rgb(160, 159, 159);
  }
 
   .hoveritem{

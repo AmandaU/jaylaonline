@@ -1,10 +1,11 @@
 <template>
 
 <div :style="getContainerStyle()" >
-   
-   <div class="artistcontainer">
-     <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>
-   
+   <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>
+      
+   <div v-for="artist in artists" v-bind:key="artist.id">
+    <div class="artistcontainer">
+    
          <div class="biocolumn" >
            
                <img v-bind:src="artist.logo" v-bind:alt="artist.name" style="height: 50px; width: auto;">
@@ -14,24 +15,25 @@
                  <br>
          </div> 
        
-  
         <div class="imagecontainer" ref="imageRef"> 
-           <div  v-bind:class="[isRow ? 'rowstyle' : 'cols']"> 
-            <div v-for="image in artist.images" v-bind:key="image.url">
-              <div  :style="getImageStyle(image)"  > 
-                  <img v-bind:src="image.url" :style="getImageStyle(image)"  > 
-                    <div  class="hoverLayer" >
-                       <div class="centerInHover" >  
-                        <h5 style="color: white">{{artist.name}}</h5>
-                        <h5 style="color: white">{{image.description}}</h5>
-                      </div>
-                    </div>  
-              </div> 
-     
+          <center>
+            <div  v-bind:class="[isRow ? 'rowstyle' : 'cols']"> 
+              <div v-for="image in artist.images" v-bind:key="image.url">
+                <div  :style="getImageStyle(image)"  > 
+                    <img v-bind:src="image.url" :style="getImageStyle(image)"  > 
+                      <div  class="hoverLayer" >
+                        <div class="centerInHover" >  
+                          <h5 style="color: white">{{artist.name}}</h5>
+                          <h5 style="color: white">{{image.description}}</h5>
+                        </div>
+                      </div>  
+                </div> 
+      
+              </div>  
             </div>  
-          </div>   
+          </center> 
         </div> 
-
+       </div> 
   
     </div>
    </div>
@@ -41,21 +43,21 @@
 import Media from 'vue-media'
 import firebase from '../firebase-config';
 import {  db } from '../firebase-config';
-//let artistsRef = db.ref('artists');
+let artistsRef = db.ref('artists');
 
 export default {
   name: 'product',
 
   props: {
-     artist: Object,
+     artistid: String,
      Media
    },
 
   data() {
     return {
       lessThan600: window.innerWidth < 600,
-      containerWidth: window.innerWidth > 800? window.innerWidth/3: window.innerWidth > 600? window.innerWidth/ 2: window.innerWidth,
-       
+      containerWidth: window.innerWidth > 800? window.innerWidth/2: window.innerWidth ,
+       artists: [],
       busy: false,
       
      }
@@ -69,9 +71,11 @@ firebase () {
   window.removeEventListener('resize', this.handleWindowResize)
 },
 
-
 mounted() {
-  window.addEventListener('resize', this.handleWindowResize);
+    window.addEventListener('resize', this.handleWindowResize);
+    this.$rtdbBind('artists', artistsRef.orderByChild("id").equalTo(this.$props.artistid).limitToFirst(1)).then(artists => {
+     self.artists = artists
+    });
 },
 
 created () {
@@ -80,12 +84,12 @@ created () {
 
  computed: {
 
-
    isRow: function () {
+    // return false
        if (this.isMobile || !this.greaterThan600) {
         return true
       } 
-      return this.products.length <= 4 
+      return this.products.length < 4
     },
 
     isMobile: function()
@@ -123,16 +127,38 @@ methods:
     },
 
      getImageStyle: function (image) { 
-       let w = this.containerWidth * 3/4
-        var h = image.ratio * w;
-            return  {
-          // 'background-color':'rgb(255, 255, 255)',
-            'max-width': '100%',
-            'width': w+ 'px',
-            'height': h + 'px',
-            'position': 'relative',
-            }
+          
+        
+        
+          var h = image.ratio * this.containerWidth;
+              return  {
+                
+            // 'background-color':'rgb(255, 255, 255)',
+              'max-width': '100%',
+              'width': this.containerWidth + 'px',
+              'height': h + 'px',
+              'position': 'relative',
+              }
+      
     },
+
+
+  //   getColStyle: function (image) { 
+  //      let w = this.containerWidth * 3/4
+  //       var h = image.ratio * w;
+  //           return  {
+  //           'min-width':'100%',
+  //           '-moz-column-count':'3',
+  //           '-moz-column-gap': '0px',
+  //           '-webkit-column-count':'3',
+  //           '-webkit-column-gap': '0px',
+  //           'column-count': '3',
+  //           'column-gap': '0px',
+  //           'padding-top': '10%',
+  //           'padding-bottom': '10%'
+  //         }
+  // },
+
 
 
   media800Enter(mediaQueryString) {

@@ -211,7 +211,7 @@ methods: {
   },
   
   gotoArtist(artist) {
-    this.$router.push({ name: 'Artist', params: {artist: artist}});
+    this.$router.push({ name: 'Artist', params: {artistid: artist.id}});
   },
 
   media800Enter(mediaQueryString) {
