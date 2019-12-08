@@ -39,16 +39,16 @@
 
 /* Style the front side (fallback if image is missing) */
 .flip-card-front {
-  background-color: #bbb;
+  background-color: rgba(204, 203, 203, 0.01);
   color: black;
-}
+ }
 
 /* Style the back side */
 .flip-card-back {
-  background-color: rgb(155, 154, 154);
+  background-color: rgba(155, 154, 154, 0.01);
   color: white;
   transform: rotateY(180deg);
- }
+}
 
  .imagecontainer {
  // background: rgba(247, 222, 3, 0.4);

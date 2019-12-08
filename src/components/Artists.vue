@@ -81,13 +81,10 @@ mounted() {
 
  created () {
     this.showCheckout = false
-    this.addProducts()
     let self = this
     this.$rtdbBind('artists', artistsRef).then(artists => {
        self.artists === artists
-debugger
-      self.artists.forEach(artist => {
-
+       self.artists.forEach(artist => {
           const arrayResult = Object.keys(artist.images).map(imagekey => {
               return artist.images[imagekey]
           });
@@ -128,13 +125,11 @@ debugger
  
 methods: {
 
- getHoverImage: function (artist) {
-   debugger
-   let images = artist.images
-   const idx = Math.floor(Math.random() * images.length);
+  getHoverImage: function (artist) {
+    let images = artist.images
+    const idx = Math.floor(Math.random() * images.length);
        
-   return  images[idx].url
- 
+    return  images[idx].url
    },
 
    handleWindowResize(event) { 
@@ -186,24 +181,6 @@ methods: {
             
     },
 
-  addProducts ()
-   {
-    //  this.$firebaseRefs.artists.push({
-    //                     id: "artist1",
-    //                     name: "Lady Gaga",
-    //                     photourl: "12345"
-    //     });
-    //     this.$firebaseRefs.items.push({
-    //                     productid: "product2",
-    //                     number: "10",
-    //                     size: "S"
-    //     });
-         
-        // this.$firebaseRefs.itemimages.push({
-        //                 productid: "product2",
-        //                 url: "jhjkhkj"
-        // });
-   },
 
   media600Enter(mediaQueryString) {
       this.greaterThan600 = false

@@ -18,8 +18,8 @@
                   <div class="flip-card-front">
                     <img  v-bind:src="product.linkphotourl" alt="Avatar" :style="getImageStyle(product)">
                   </div>
-                  <div class="flip-card-back">
-                    <img  v-bind:src="getHoverImage(product.id)" alt="Avatar" :style="getImageStyle(product)">
+                   <div class="flip-card-back">
+                    <img  v-bind:src="getHoverImage(product)" alt="Avatar" :style="getImageStyle(product)">
                   </div>
                 </div>
               </div>
@@ -61,9 +61,7 @@ export default {
 
 firebase () {
         return {
-          //artists: db.ref('artists'),
-          itemimages: db.ref('itemimages'),
-          //products: db.ref('products'),
+         
          }
       },
 
@@ -86,6 +84,12 @@ mounted() {
     let self = this
     this.$rtdbBind('products', productsRef).then(products => {
        self.products === products
+       self.products.forEach(product => {
+          const arrayResult = Object.keys(product.images).map(imagekey => {
+              return product.images[imagekey]
+          });
+          product.images = arrayResult
+       });
        self.loader.hide()
     });
 
@@ -120,13 +124,11 @@ mounted() {
  
 methods: {
 
- getHoverImage: function (id) {
-   let images = this.itemimages.filter(image=> {
-     if (image.productid == id) return image
-   })
+ getHoverImage: function (product) {
+    let images = product.images
    const idx = Math.floor(Math.random() * images.length);
-   
-    return this.itemimages[idx].url
+       
+   return  images[idx].url
 
    },
 
@@ -144,17 +146,19 @@ methods: {
           this.containerWidth = event.currentTarget.innerWidth/3 - 40; 
     },
 
-      getImageStyle: function (product) { 
-       var t = product.ratio * this.containerWidth;
-          return  {
-         // 'background-color':'rgb(255, 255, 255)',
-          // 'max-width': '100%',
-           'width': this.containerWidth + 'px',
-           'height': t + 'px',
-          //'align-self': 'center',
-          // 'position': 'relative',
-          
-        }
+    getImageStyle: function (product) { 
+      let w = this.containerWidth
+     
+      var t = product.ratio * w;
+        return  {
+        // 'background-color':'rgb(255, 255, 255)',
+        // 'max-width': '100%',
+          'width': w + 'px',
+          'height': t + 'px',
+        //'align-self': 'center',
+        // 'position': 'relative',
+        
+      }
     },
 
    getContainerStyle: function () { 
