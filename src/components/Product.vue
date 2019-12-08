@@ -201,6 +201,7 @@ methods: {
   },
 
  getArtist(artistid) {
+   let self = this
       this.$rtdbBind('artists', artistsRef.orderByChild("id").equalTo(artistid).limitToFirst(1)).then(artists => {
       for(var key in artists.val()){
            console.log("snapshot.val" + artists.val()[key]);

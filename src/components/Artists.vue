@@ -10,16 +10,16 @@
    
     <media :query="{maxWidth: 600}" @media-enter="media600Enter" @media-leave="media600Leave"> </Media> 
       
-        <div  v-bind:class="[isRow ? 'rowstyle' : 'cols']">  
-            <div v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
+        <div  v-if="!isLoading" v-bind:class="[isRow ? 'rowstyle' : 'cols']">  
+            <div v-for="artist in artists"  v-bind:key="artist['.key']" v-on:click="navigateToItem(artist)">
 
-              <div class="flip-card" :style="getImageStyle(product)">
+              <div class="flip-card" :style="getImageStyle(artist)">
                 <div class="flip-card-inner">
                   <div class="flip-card-front">
-                    <img  v-bind:src="product.linkphotourl" alt="Avatar" :style="getImageStyle(product)">
+                    <img  v-bind:src="artist.photourl" alt="Avatar" :style="getImageStyle(artist)">
                   </div>
                   <div class="flip-card-back">
-                    <img  v-bind:src="getHoverImage(product.id)" alt="Avatar" :style="getImageStyle(product)">
+                    <img  v-bind:src="getHoverImage(artist)" alt="Avatar" :style="getImageStyle(artist)">
                   </div>
                 </div>
               </div>
@@ -35,10 +35,10 @@
 import Media from 'vue-media'
  import firebase from '../firebase-config';
 import { db } from '../firebase-config';
-  const productsRef = db.ref('products')
+  const artistsRef = db.ref('artists')
 
 export default {
-  name: 'shop',
+  name: 'artists',
 
   components: {
      Media
@@ -46,14 +46,13 @@ export default {
 
   data() {
       return {
-        busy: false,
-        products: [],
-        numberOfProducts: 0,
+        artists: [],
+        numberOfArtists: 0,
         greaterThan600: window.innerWidth > 600,
         containerWidth: window.innerWidth > 800? window.innerWidth/3: window.innerWidth > 600? window.innerWidth/ 2: window.innerWidth,
         showCheckout: false,
         hover: false,
-        itemimages: [],
+       // itemimages: [],
          isLoading: true,
          loader: {}
        }
@@ -62,7 +61,7 @@ export default {
 firebase () {
         return {
           //artists: db.ref('artists'),
-          itemimages: db.ref('itemimages'),
+          //itemimages: db.ref('itemimages'),
           //products: db.ref('products'),
          }
       },
@@ -84,9 +83,18 @@ mounted() {
     this.showCheckout = false
     this.addProducts()
     let self = this
-    this.$rtdbBind('products', productsRef).then(products => {
-       self.products === products
+    this.$rtdbBind('artists', artistsRef).then(artists => {
+       self.artists === artists
+debugger
+      self.artists.forEach(artist => {
+
+          const arrayResult = Object.keys(artist.images).map(imagekey => {
+              return artist.images[imagekey]
+          });
+          artist.images = arrayResult
+       });
        self.loader.hide()
+       self.isLoading = false
     });
 
       this.loader = this.$loading.show({
@@ -102,7 +110,7 @@ mounted() {
        if (this.isMobile || !this.greaterThan600) {
         return true
       } 
-      return this.products.length <= 4 
+      return this.artists.length <= 4 
      
     },
 
@@ -120,14 +128,13 @@ mounted() {
  
 methods: {
 
- getHoverImage: function (id) {
-   let images = this.itemimages.filter(image=> {
-     if (image.productid == id) return image
-   })
+ getHoverImage: function (artist) {
+   debugger
+   let images = artist.images
    const idx = Math.floor(Math.random() * images.length);
-   
-    return this.itemimages[idx].url
-
+       
+   return  images[idx].url
+ 
    },
 
    handleWindowResize(event) { 
@@ -144,8 +151,8 @@ methods: {
           this.containerWidth = event.currentTarget.innerWidth/3 - 40; 
     },
 
-      getImageStyle: function (product) { 
-       var t = product.ratio * this.containerWidth;
+      getImageStyle: function (artist) { 
+       var t = artist.ratio * this.containerWidth;
           return  {
          // 'background-color':'rgb(255, 255, 255)',
           // 'max-width': '100%',
@@ -206,8 +213,8 @@ methods: {
       this.greaterThan600 = true
   },
 
-  navigateToItem(product) {
-      this.$router.replace({ name: 'Product', query: {productid: product.id}});
+  navigateToItem(artist) {
+      this.$router.replace({ name: 'artist', query: {artistid: artist.id}});
      
   },
 

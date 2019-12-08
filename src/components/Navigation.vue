@@ -8,6 +8,8 @@
       <div class="verticalBorder" />
       <div class="hoveritem"  @click="navigate('Shop')">Shop</div>
       <div class="verticalBorder" />
+      <div class="hoveritem"  @click="navigate('Artists')">Artists</div>
+      <div class="verticalBorder" />
      
     </div>
     <div class="menu menucenter">
@@ -184,10 +186,21 @@ methods: {
   Margin-right: 15px; 
 } 
 
-.cartbox {
-  position: relative;
+
+ .verticalBorder {
+   height: 100%;
+   border-left: 1px solid rgb(160, 159, 159);
+ }
+
+.menuitem, .cartbox, .nameitem, .hoveritem {
+   position: relative;
   text-align: center;
   width:200px;
+}
+
+ .cartbox {
+  
+ margin: 0 auto;
 }
 
 /* Bottom left text */
@@ -208,31 +221,20 @@ methods: {
    cursor: pointer;
  }
 
- .nameitem{
+.nameitem{
     background-color:transparent;
     color: rgb(65, 63, 63);
-    position:relative;
-    text-align: center;
     justify-content:center;
     align-content:center;
     bottom:0;
-    width:200px;  
    }
 
- .verticalBorder {
-   height: 100%;
-   border-left: 1px solid rgb(160, 159, 159);
- }
-
-  .hoveritem{
+.hoveritem{
     background-color:transparent;
     color: rgb(65, 63, 63);
-    position:relative;
-    text-align: center;
     justify-content:center;
     align-content:center;
-    width:200px;
-    }
+     }
 
   .hoveritem:hover {
     text-decoration:underline;

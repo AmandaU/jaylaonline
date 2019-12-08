@@ -1,23 +1,30 @@
 <template>
 
 <div :style="getContainerStyle()" >
-   <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>
+  <!-- <loading :active.sync="isLoading" 
+            :can-cancel="true" 
+            :on-cancel="onCancel"
+            :loader="dots"
+            :color="c45adb"
+            :is-full-page="fullPage"></loading> -->
+   <!-- <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media> -->
       
-   <div v-for="artist in artists" v-bind:key="artist.id">
+   <!-- <div v-for="artist in artists" v-bind:key="artist.id"> -->
     <div class="artistcontainer">
     
-         <div class="biocolumn" >
-           
+         <div v-if="!isLoading" class="biocolumn" >
+           <center>
                <img v-bind:src="artist.logo" v-bind:alt="artist.name" style="height: 50px; width: auto;">
                 <h1 align="center"> {{ artist.name }} </h1> 
                <img v-bind:src="artist.photourl" v-bind:alt="artist.name" style="height: 100px; width: auto;">
                 <h5 align="center"> {{ artist.bio }} </h5> 
                  <br>
+                 </center>
          </div> 
        
-        <div class="imagecontainer" ref="imageRef"> 
-          <center>
-            <div  v-bind:class="[isRow ? 'rowstyle' : 'cols']"> 
+        <div  class="imagecontainer" ref="imageRef"> 
+          <!-- <center> -->
+            <div  v-if="!isLoading" v-bind:class="[isRow ? 'rowstyle' : 'cols']"> 
               <div v-for="image in artist.images" v-bind:key="image.url">
                 <div  :style="getImageStyle(image)"  > 
                     <img v-bind:src="image.url" :style="getImageStyle(image)"  > 
@@ -31,15 +38,16 @@
       
               </div>  
             </div>  
-          </center> 
+          <!-- </center>  -->
         </div> 
        </div> 
   
     </div>
-   </div>
+   <!-- </div> -->
 </template>
 
 <script>
+import Loading from 'vue-loading-overlay';
 import Media from 'vue-media'
 import firebase from '../firebase-config';
 import {  db } from '../firebase-config';
@@ -50,15 +58,24 @@ export default {
 
   props: {
      artistid: String,
-     Media
+     //Media,
+     //Loading
    },
 
   data() {
     return {
-      lessThan600: window.innerWidth < 600,
-      containerWidth: window.innerWidth > 800? window.innerWidth/2: window.innerWidth ,
+      //greaterThan800: window.innerWidth > 800,
+      containerWidth: window.innerWidth > 800? window.innerWidth/4: window.innerWidth > 600 ? window.innerWidth/2 : window.innerWidth,
        artists: [],
-      busy: false,
+       artist: {
+         logo: "",
+         photourl: "",
+         name: "",
+         description: "",
+         images: []
+       },
+      isLoading: true,
+      loader: {}
       
      }
   },
@@ -73,23 +90,35 @@ firebase () {
 
 mounted() {
     window.addEventListener('resize', this.handleWindowResize);
-    this.$rtdbBind('artists', artistsRef.orderByChild("id").equalTo(this.$props.artistid).limitToFirst(1)).then(artists => {
-     self.artists = artists
-    });
+   
+      
 },
 
 created () {
- 
+
+   let self = this
+    this.$rtdbBind('artists', artistsRef.orderByChild("id").equalTo(this.$props.artistid).limitToFirst(1)).then(artists => {
+     for(var key in artists.val()){
+            console.log("snapshot.val" + artists.val()[key]);
+          self.artist = artists.val()[key];
+        }
+        //self.artists = artists
+        self.loader.hide() 
+        self.isLoading = false
+     });
+    this.loader = this.$loading.show({
+            loader: 'dots',
+            color: 'blue'
+    });
 },
 
  computed: {
 
    isRow: function () {
-    // return false
-       if (this.isMobile || !this.greaterThan600) {
-        return true
-      } 
-      return this.products.length < 4
+       if (this.isMobile || this.lessThan600) {
+        return false
+      }
+       return this.artist.images < 4
     },
 
     isMobile: function()
@@ -105,8 +134,7 @@ created () {
   },
 methods: 
 { 
-
-   getContainerStyle: function () { 
+     getContainerStyle: function () { 
   
      let h = String(window.innerHeight - 120) + 'px'
          return  {
@@ -127,17 +155,17 @@ methods:
     },
 
      getImageStyle: function (image) { 
-          
-        
-        
-          var h = image.ratio * this.containerWidth;
+         let randomTransitionTime =  Math.floor(Math.random() * (3000 - 1000 + 1)) + 1000;
+         let w = this.containerWidth //* 0.8
+         let h = image.ratio * w;
               return  {
-                
-            // 'background-color':'rgb(255, 255, 255)',
               'max-width': '100%',
-              'width': this.containerWidth + 'px',
-              'height': h + 'px',
+              'width': h + 'px',
+              'height': w + 'px',
               'position': 'relative',
+              'padding-top': '2px',
+              'transition': 'all ' + randomTransitionTime + 'ms',
+                //'transition-delay': randomTransitionTime + 'ms'
               }
       
     },
@@ -161,13 +189,13 @@ methods:
 
 
 
-  media800Enter(mediaQueryString) {
-    this.greaterThan800 = false
-  },
+  // media800Enter(mediaQueryString) {
+  //   this.greaterThan800 = false
+  // },
    
-  media800Leave(mediaQueryString) {
-    this.greaterThan800 = true
-  },
+  // media600Leave(mediaQueryString) {
+  //   this.greaterThan800 = true
+  // },
 
    handleWindowResize(event) { 
       if(window.innerWidth < 600)
@@ -177,10 +205,10 @@ methods:
       else
       if(window.innerWidth < 800)
       {
-        this.containerWidth = event.currentTarget.innerWidth/2 - 20;
+        this.containerWidth = event.currentTarget.innerWidth/2 ;
       }
       else
-        this.containerWidth = event.currentTarget.innerWidth/3 - 40; 
+        this.containerWidth = event.currentTarget.innerWidth/4; 
     },
 
  

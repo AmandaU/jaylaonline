@@ -19,6 +19,7 @@ import Cancel from './components/Cancel.vue';
 import Shop from './components/Shop.vue';
 import Product from './components/Product.vue';
 import Artist from './components/Artist.vue';
+import Artists from './components/Artists.vue';
 import { rtdbPlugin } from 'vuefire';
 import vueCountryRegionSelect from 'vue-country-region-select';
 import VueTelInput from 'vue-tel-input';
@@ -144,7 +145,12 @@ const router = new Router({
       name: 'Artist',
       component: Artist,
       props: true,
-    }
+    },
+    {
+      path: '/Artists',
+      name: 'Artists',
+      component: Artists,
+      }
    
   ],
 });
