@@ -101,10 +101,10 @@ mounted() {
        self.isLoading = false
     });
 
-      this.loader = this.$loading.show({
-                loader: 'dots',
-                 color: 'blue'
-            });
+    this.loader = this.$loading.show({
+              loader: 'dots',
+                color: 'blue'
+          });
        
     },
 

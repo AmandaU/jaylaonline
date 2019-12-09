@@ -5,20 +5,15 @@
    <div class="productcontainer">
      <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>
    
-         <div class="pricecolumn" >
+         <div v-if="!isLoading" class="pricecolumn" >
         
-            <div  class="artistblock" v-for="artist in artists" v-bind:key="artist.id"  @click="gotoArtist(artist)" >
+            <div  v-if="haveArtist" class="artistblock"  @click="gotoArtist(artist)" >
               <h1> {{ artist.name }} </h1> 
                <img v-bind:src="artist.logo" v-bind:alt="artist.name" style="height: 50px; width: auto; padding-left:20px;vertical-align:center;">
-                  <img v-bind:src="artist.photourl" v-bind:alt="artist.name" style="height: 100px; width: auto; padding-left:20px;">
+                <img v-bind:src="artist.photourl" v-bind:alt="artist.name" style="height: 100px; width: auto; padding-left:20px;">
             </div> 
-              <br>
+             <br>
             
-                    <!-- <div  class="artistblock"   @click="gotoArtist(artist)" >
-                      <h1>{{ artist.name }}</h1>  
-                    <img v-bind:src="artist.photourl" v-bind:alt="artist.name" style="height: 100px; width: auto; padding-left:20px;">
-                      </div>  -->
-
             <h1>{{ product.name }}</h1> 
             <h2>{{ product.description }}</h2>
             <br>
@@ -58,8 +53,8 @@
             <button   v-visible="showCheckoutButton" @click="gotoShipping" class="buttonstyle">check out</button>
         </div> 
 
-        <div class="imageblock">  
-            <div  v-for="image in itemimages" v-bind:key="image.productid">
+        <div v-if="!isLoading" class="imageblock">  
+            <div  v-for="image in product.images" v-bind:key="image.productid">
                 <img v-bind:src="image.url" v-bind:alt="image.alt" >
             </div>  
         </div> 
@@ -87,8 +82,9 @@ export default {
   data() {
     return {
       greaterThan600: window.innerWidth > 600,
-       componentKey: 0,
-      busy: false,
+      componentKey: 0,
+      isLoading: true,
+      haveArtist: false,
       items: [],
       itemimages: [],
       product: {},
@@ -113,7 +109,6 @@ firebase () {
    } 
     return {
       items: db.ref('items').orderByChild("productid").equalTo(this.productid) ,
-      itemimages: db.ref('itemimages').orderByChild("productid").equalTo(this.productid), 
       artists:  db.ref('artists')
     }
 },
@@ -144,7 +139,19 @@ created () {
           console.log("snapshot.val" + products.val()[key]);
           self.product = products.val()[key];
        }
+      
+      const arrayResult = Object.keys(self.product.images).map(imagekey => {
+          return self.product.images[imagekey]
+      });
+       self.product.images = arrayResult
+       self.loader.hide()
+       self.isLoading = false
     });
+
+    this.loader = this.$loading.show({
+              loader: 'dots',
+              color: 'blue'
+      });
 },
 
  computed: {
@@ -206,6 +213,7 @@ methods: {
       for(var key in artists.val()){
            console.log("snapshot.val" + artists.val()[key]);
           self.artist = artists.val()[key];
+          self.haveArtist = true
           self.componentKey += 1;
         }
     });

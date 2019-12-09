@@ -14,7 +14,7 @@
     </div>
     <div class="menu menucenter">
       <div class="nameitem" v-show="isLoggedin">Hi {{user.firstname}}</div>
-       </div>
+      </div>
     <div class="menu menuright">
        <div class="verticalBorder" />
       <div class="cartbox left">
@@ -137,7 +137,6 @@ methods: {
 <style> 
 
 .nav{
-   background-color:rgb(255, 255, 255);
    top: 0;
    left: 0;
    right: 0;
@@ -149,6 +148,7 @@ methods: {
    display: flex;
    flex-direction:row; 
    border-bottom: 1px solid rgb(160, 159, 159);
+    border-top: 1px solid rgb(160, 159, 159);
  }
 
  .menu {
@@ -168,6 +168,8 @@ methods: {
    text-align: center;
    justify-content: flex-start;
    float: left;
+       border-bottom: 1px solid rgb(160, 159, 159);
+    border-left: 1px solid rgb(160, 159, 159);
 }
 
 .menuright{
@@ -175,11 +177,13 @@ methods: {
   float: right;
   justify-content: flex-end;
   right:0;
+  border-right: 1px solid rgb(160, 159, 159);
 }
 
 .menucenter{
   text-align: center;
   justify-content:center;
+  display: flex;
 }
 
 .spacing { 
@@ -194,13 +198,12 @@ methods: {
 .menuitem, .cartbox, .nameitem, .hoveritem {
    position: relative;
   text-align: center;
-  width:200px;
-}
+   width:200px;
+ }
 
  .cartbox {
-  
- margin: 0 auto;
-}
+  color:transparent;
+ }
 
 /* Bottom left text */
 .numberbox {
@@ -233,10 +236,67 @@ methods: {
     color: rgb(65, 63, 63);
     justify-content:center;
     align-content:center;
-     }
+ }
 
   .hoveritem:hover {
     text-decoration:underline;
     cursor: pointer;
     }
+
+  @media (max-width: 800px) {
+  .nav{
+    background-color:rgb(255, 255, 255);
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    z-index: 10;
+    height: 100px;
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction:column; 
+    border-bottom: 1px solid rgb(160, 159, 159);
+    }
+
+  .menucenter{
+    display: none;
+  }
+
+  .menuright{
+    text-align: center;
+    justify-content: flex-start;
+    border-right: 1px solid rgb(160, 159, 159);
+  }
+    
+}
+
+@media (max-width: 600px) {
+.nav{
+    background-color:rgb(255, 255, 255);
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    z-index: 10;
+    height: 100px;
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction:column; 
+    border-bottom: 1px solid rgb(160, 159, 159);
+  }
+
+  .menucenter{
+    display: none;
+  }
+
+   .menuright{
+    text-align: center;
+    justify-content: flex-start;
+    border-right: 1px solid rgb(160, 159, 159);
+  }
+
+}
+
 </style>
