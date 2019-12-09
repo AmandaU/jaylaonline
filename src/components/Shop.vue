@@ -10,10 +10,10 @@
    
     <media :query="{maxWidth: 600}" @media-enter="media600Enter" @media-leave="media600Leave"> </Media> 
       
-        <div  v-bind:class="[isRow ? 'rowstyle' : 'cols']">  
+        <div v-if="!isLoading" v-bind:class="[isRow ? 'rowstyle' : 'cols']">  
             <div v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
 
-              <div class="flip-card" :style="getImageStyle(product)">
+              <!-- <div class="flip-card" :style="getImageStyle(product)">
                 <div class="flip-card-inner">
                   <div class="flip-card-front">
                     <img  v-bind:src="product.linkphotourl" alt="Avatar" :style="getImageStyle(product)">
@@ -22,9 +22,16 @@
                     <img  v-bind:src="getHoverImage(product)" alt="Avatar" :style="getImageStyle(product)">
                   </div>
                 </div>
-              </div>
+              </div> -->
 
-            </div>  
+               <div :style="getImageStyle(product)" 
+                  v-on:mouseleave="getHoverImage(product)">
+                    <img  v-bind:src="product.linkphotourl" alt="Avatar" class="baseImage" >
+                    <!-- <img  v-bind:src="getHoverImage(product)" alt="Avatar"  v-bind:class="isHovering ? hoverImageHovering : hoverImage"> -->
+                     <img v-if="product.hoverurl != ''" :src="product.hoverurl" alt="Avatar"  class="hoverImage">
+               </div>
+
+            </div>
         </div> 
 
     </div>  
@@ -46,15 +53,15 @@ export default {
 
   data() {
       return {
+        isLoading: true,
         busy: false,
         products: [],
         numberOfProducts: 0,
         greaterThan600: window.innerWidth > 600,
         containerWidth: window.innerWidth > 800? window.innerWidth/3: window.innerWidth > 600? window.innerWidth/ 2: window.innerWidth,
         showCheckout: false,
-        hover: false,
+        hovering: false,
         itemimages: [],
-         isLoading: true,
          loader: {}
        }
     },
@@ -89,8 +96,10 @@ mounted() {
               return product.images[imagekey]
           });
           product.images = arrayResult
+          self.getHoverImage(product)
        });
        self.loader.hide()
+       self.isLoading = false
     });
 
       this.loader = this.$loading.show({
@@ -124,13 +133,11 @@ mounted() {
  
 methods: {
 
- getHoverImage: function (product) {
-    let images = product.images
-   const idx = Math.floor(Math.random() * images.length);
-       
-   return  images[idx].url
-
-   },
+  getHoverImage(product) {
+     let images = product.images
+    const idx = Math.floor(Math.random() * images.length);
+    product.hoverurl =  images[idx].url 
+  },
 
    handleWindowResize(event) { 
         if(window.innerWidth < 600)
@@ -156,8 +163,7 @@ methods: {
           'width': w + 'px',
           'height': t + 'px',
         //'align-self': 'center',
-        // 'position': 'relative',
-        
+         'position': 'relative',
       }
     },
 

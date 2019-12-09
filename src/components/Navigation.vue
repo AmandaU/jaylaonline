@@ -157,7 +157,7 @@ methods: {
    margin: 0% auto;
    position: relative;
    flex-direction:row; 
-   align-items: center;
+    align-items: center;
    justify-content: space-between;
    font-weight: 10;
    font-size: 20px;
