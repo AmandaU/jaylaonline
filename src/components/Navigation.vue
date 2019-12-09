@@ -186,7 +186,6 @@ methods: {
   Margin-right: 15px; 
 } 
 
-
  .verticalBorder {
    height: 100%;
    border-left: 1px solid rgb(160, 159, 159);

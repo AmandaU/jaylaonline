@@ -25,10 +25,9 @@
               </div> -->
 
                <div :style="getImageStyle(product)" 
-                  v-on:mouseleave="getHoverImage(product)">
+                  v-on:mouseenter="getHoverImage(product)">
                     <img  v-bind:src="product.linkphotourl" alt="Avatar" class="baseImage" >
-                    <!-- <img  v-bind:src="getHoverImage(product)" alt="Avatar"  v-bind:class="isHovering ? hoverImageHovering : hoverImage"> -->
-                     <img v-if="product.hoverurl != ''" :src="product.hoverurl" alt="Avatar"  class="hoverImage">
+                    <img v-if="product.hoverurl != ''" :src="product.hoverurl" alt="Avatar"  class="hoverImage">
                </div>
 
             </div>
