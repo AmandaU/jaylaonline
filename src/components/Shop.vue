@@ -11,24 +11,25 @@
     <media :query="{maxWidth: 600}" @media-enter="media600Enter" @media-leave="media600Leave"> </Media> 
       
         <div v-if="!isLoading" v-bind:class="[isRow ? 'rowstyle' : 'cols']">  
-            <div v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
-
-              <!-- <div class="flip-card" :style="getImageStyle(product)">
-                <div class="flip-card-inner">
-                  <div class="flip-card-front">
-                    <img  v-bind:src="product.linkphotourl" alt="Avatar" :style="getImageStyle(product)">
+            <div   v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
+              
+                    
+                  <div class="flip-card" :style="getImageStyle(product)" 
+                      v-on:mouseleave="getHoverImage(product)" 
+                        v-on:mouseover="resetFlip(product)">
+                  
+                      <div class="flip-card-inner" ref="flipInner"  v-bind:class="[product.mustFlip ? 'flipCard' : '']">
+                          <div class="flip-card-front">
+                            <img  v-bind:src="frontImage(product)" alt="Avatar" class="baseImage">
+                          </div>
+                        
+                          <div class="flip-card-back">
+                            <img  v-bind:src="backImage(product)" alt="Avatar" class="baseImage" >
+                          </div>
+                      </div>
+        
                   </div>
-                   <div class="flip-card-back">
-                    <img  v-bind:src="getHoverImage(product)" alt="Avatar" :style="getImageStyle(product)">
-                  </div>
-                </div>
-              </div> -->
 
-               <div :style="getImageStyle(product)" 
-                  v-on:mouseenter="getHoverImage(product)">
-                    <img  v-bind:src="product.linkphotourl" alt="Avatar" class="baseImage" >
-                    <img v-if="product.hoverurl != ''" :src="product.hoverurl" alt="Avatar"  class="hoverImage">
-               </div>
 
             </div>
         </div> 
@@ -52,6 +53,7 @@ export default {
 
   data() {
       return {
+        mustFlip: false,
         isLoading: true,
         busy: false,
         products: [],
@@ -95,7 +97,8 @@ mounted() {
               return product.images[imagekey]
           });
           product.images = arrayResult
-          self.getHoverImage(product)
+          product.mustFlip = false
+       self.getHoverImage(product)
        });
        self.loader.hide()
        self.isLoading = false
@@ -132,10 +135,42 @@ mounted() {
  
 methods: {
 
-  getHoverImage(product) {
+  frontImage: function(product) {
      let images = product.images
     const idx = Math.floor(Math.random() * images.length);
-    product.hoverurl =  images[idx].url 
+    //product.hoverurl =  images[0].url 
+    return images[0].url 
+  },
+
+   backImage: function(product) {
+    return product.images[product.images.length - 1].url 
+  },
+
+  getHoverImage (product) {
+      this.products.forEach( prod => {
+            prod.mustFlip = false
+        })
+     product.mustFlip = true
+      product.images.push(product.images.shift()); 
+    // if (!this.$refs.flipInner) return
+      this.$nextTick(() => {
+     
+       
+      });
+      let self = this
+      setTimeout(function(){ 
+        self.products.forEach( prod => {
+            prod.mustFlip = false
+        })
+        
+       }, 1000);
+     
+    //   this.$refs.flipInner.style.WebkitTransform = "translateY(180deg)"; 
+      
+    //     this.$refs.flipInner.style.msTransform = "translateY(180deg)"; 
+    //     this.$refs.flipInner.style.transform = "translateY(180deg)"; 
+    //});
+     
   },
 
    handleWindowResize(event) { 
@@ -153,16 +188,14 @@ methods: {
     },
 
     getImageStyle: function (product) { 
-      let w = this.containerWidth
-     
+      let w = this.containerWidth 
       var t = product.ratio * w;
         return  {
-        // 'background-color':'rgb(255, 255, 255)',
-        // 'max-width': '100%',
           'width': w + 'px',
           'height': t + 'px',
-        //'align-self': 'center',
          'position': 'relative',
+        //  'margin-right': '2px',
+         
       }
     },
 
@@ -181,9 +214,9 @@ methods: {
           'justify-content': 'center',
           'align-items': 'center',
           'vertical-align': 'center',
-          ':hover .flip-card-inner' : {
-              'transform': 'rotateY(180deg)'
-          }
+          // ':hover .flip-card-inner' : {
+          //     'transform': 'rotateY(180deg)'
+         // }
          }
             
     },
