@@ -13,22 +13,45 @@
         <div v-if="!isLoading" v-bind:class="[isRow ? 'rowstyle' : 'cols']">  
             <div   v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
               
-                    
+<!--                     
                   <div class="flip-card" :style="getImageStyle(product)" 
-                      v-on:mouseleave="getHoverImage(product)" 
-                        v-on:mouseover="resetFlip(product)">
+                   ref="flipcard"
+                   v-on:mouseleave="flip(product)"
+                      v-on:mouseover="setImage(product)"
+                      >
                   
-                      <div class="flip-card-inner" ref="flipInner"  v-bind:class="[product.mustFlip ? 'flipCard' : '']">
+                      <div class="flip-card-inner" ref="flipInner"  >
                           <div class="flip-card-front">
-                            <img  v-bind:src="frontImage(product)" alt="Avatar" class="baseImage">
+                            <img  v-bind:src=" product.fronturl" alt="Avatar" class="baseImage" >
                           </div>
                         
                           <div class="flip-card-back">
-                            <img  v-bind:src="backImage(product)" alt="Avatar" class="baseImage" >
+                            <img  v-bind:src=" product.backurl" alt="Avatar" class="baseImage" >
                           </div>
                       </div>
         
+                  </div> -->
+
+                     
+                  <div class="flip-card" :style="getImageStyle(product)" 
+                   ref="flipcard"
+                      v-on:mouseleave="flip(product)"
+                      v-on:mouseover="setImage(product)"
+                      >
+                  
+                      <div class="flip-card-inner" ref="flipInner"  :style="'background-color: pink'">Front
+                          <div class="flip-card-front">
+                            <div   class="baseImage" >
+                           </div>
+                          </div>
+                          <div class="flip-card-back"  :style="'background-color: blue'">Back
+                            <div   class="baseImage" >
+                           </div>
+                             </div>
+                      </div>
+        
                   </div>
+
 
 
             </div>
@@ -92,13 +115,17 @@ mounted() {
     let self = this
     this.$rtdbBind('products', productsRef).then(products => {
        self.products === products
+       let idx = 0
        self.products.forEach(product => {
           const arrayResult = Object.keys(product.images).map(imagekey => {
               return product.images[imagekey]
           });
           product.images = arrayResult
-          product.mustFlip = false
-       self.getHoverImage(product)
+          product.fronturl = product.images[0].url
+          product.backurl = product.images[product.images.length -1].url
+          product.isFlipped = false
+          product.index = idx
+          idx += 1
        });
        self.loader.hide()
        self.isLoading = false
@@ -135,23 +162,48 @@ mounted() {
  
 methods: {
 
-  frontImage: function(product) {
-     let images = product.images
-    const idx = Math.floor(Math.random() * images.length);
-    //product.hoverurl =  images[0].url 
-    return images[0].url 
+
+  setImage(product) {
+     product.images.push(product.images.shift()); 
+    if(product.isFlipped) {
+      product.fronturl = product.images[0]
+    } else {
+      product.backurl = product.images[product.images.length - 1].url
+    }
+
   },
 
-   backImage: function(product) {
-    return product.images[product.images.length - 1].url 
+  flip(product) {
+    let self = this
+       setTimeout(function(){ 
+        product.isFlipped =  !product.isFlipped
+        // self.$refs.flipInner[product.index].style.WebkitTransform = "rotateY(180deg)"; 
+        // self.$refs.flipInner[product.index].style.msTransform = "rotateY(180deg)"; 
+        // self.$refs.flipInner[product.index].style.transform = "rotateY(180deg)"; 
+        //  self.$refs.flipcard[product.index].style.WebkitTransform = "rotateY(180deg)"; 
+        // self.$refs.flipcard[product.index].style.msTransform = "rotateY(180deg)"; 
+        // self.$refs.flipcard[product.index].style.transform = "rotateY(180deg)"; 
+      });
   },
+
+  // frontImage: function(product) {
+  //    let images = product.images
+  //   const idx = Math.floor(Math.random() * images.length);
+  //   //product.hoverurl =  images[0].url 
+  //   return images[0].url 
+  // },
+
+  //  backImage: function(product) {
+  //   return product.images[product.images.length - 1].url 
+  // },
 
   getHoverImage (product) {
       this.products.forEach( prod => {
             prod.mustFlip = false
         })
+     product.images.push(product.images.shift()); 
      product.mustFlip = true
-      product.images.push(product.images.shift()); 
+     
     // if (!this.$refs.flipInner) return
       this.$nextTick(() => {
      
@@ -163,7 +215,7 @@ methods: {
             prod.mustFlip = false
         })
         
-       }, 1000);
+       }, 200);
      
     //   this.$refs.flipInner.style.WebkitTransform = "translateY(180deg)"; 
       
