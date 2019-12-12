@@ -201,6 +201,6 @@ methods: {
 </script>
 
 <style lang="scss" scoped>
-    @import "~@/styles/shopstyle.scss";
+    @import "~@/styles/artistsstyle.scss";
     @import "~@/styles/commonstyle.scss";
   </style>

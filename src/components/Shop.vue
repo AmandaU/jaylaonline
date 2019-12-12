@@ -13,11 +13,11 @@
         <div v-if="!isLoading" v-bind:class="[isRow ? 'rowstyle' : 'cols']">  
             <div   v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
               
-<!--                     
+              <!-- <transition :name="currentTransition" mode="out-in"> -->
                   <div class="flip-card" :style="getImageStyle(product)" 
-                   ref="flipcard"
-                   v-on:mouseleave="flip(product)"
-                      v-on:mouseover="setImage(product)"
+                      ref="flipcard"
+                      v-on:mouseleave="onUnHover(product)"
+                      v-on:mouseover="onHover(product)"
                       >
                   
                       <div class="flip-card-inner" ref="flipInner"  >
@@ -30,14 +30,14 @@
                           </div>
                       </div>
         
-                  </div> -->
+                  </div>
+               <!-- </transition> -->
 
                      
-                  <div class="flip-card" :style="getImageStyle(product)" 
+                  <!-- <div class="flip-card" :style="getImageStyle(product)" 
                    ref="flipcard"
                       v-on:mouseleave="flip(product)"
-                      v-on:mouseover="setImage(product)"
-                      >
+                      v-on:mouseover="setImage(product)" >
                   
                       <div class="flip-card-inner" ref="flipInner"  :style="'background-color: pink'">Front
                           <div class="flip-card-front">
@@ -50,7 +50,7 @@
                              </div>
                       </div>
         
-                  </div>
+                  </div> -->
 
 
 
@@ -86,7 +86,8 @@ export default {
         showCheckout: false,
         hovering: false,
         itemimages: [],
-         loader: {}
+        loader: {},
+        currentTransition :  'positive' 
        }
     },
 
@@ -115,7 +116,6 @@ mounted() {
     let self = this
     this.$rtdbBind('products', productsRef).then(products => {
        self.products === products
-       let idx = 0
        self.products.forEach(product => {
           const arrayResult = Object.keys(product.images).map(imagekey => {
               return product.images[imagekey]
@@ -124,8 +124,6 @@ mounted() {
           product.fronturl = product.images[0].url
           product.backurl = product.images[product.images.length -1].url
           product.isFlipped = false
-          product.index = idx
-          idx += 1
        });
        self.loader.hide()
        self.isLoading = false
@@ -162,28 +160,66 @@ mounted() {
  
 methods: {
 
-
-  setImage(product) {
-     product.images.push(product.images.shift()); 
-    if(product.isFlipped) {
-      product.fronturl = product.images[0]
-    } else {
-      product.backurl = product.images[product.images.length - 1].url
-    }
-
+  onHover(product) {
+    //: 'negative';
+        if(product.isFlipped) {
+             product.fronturl = product.images[0]
+            } else {
+               product.backurl = product.images[product.images.length - 1].url
+          }
+            product.images.push(product.images.shift()); 
+             product.isFlipped =  !product.isFlipped
+             this.currentTransition =  'positive' 
+     let self = this
+     setTimeout(function(){ 
+        self.$refs.flipInner[product.index].style.transformStyle = "flat"
+        self.$refs.flipcard[product.index].style.transformStyle = "flat";
+        self.$refs.flipcard[product.index].style.cursor = "pointer";
+        self.$refs.flipcard[product.index].style.transition = "transform 0.5s ease-in-out";
+        self.$refs.flipcard[product.index].style.transform = "scale(1.25)";
+        self.$refs.flipcard[product.index].style.msTransform = "scale(1.25)"; 
+        self.$refs.flipcard[product.index].style.WebkitTransform = "scale(1.25)";
+         });
+       
   },
 
-  flip(product) {
+  onUnHover(product) {
     let self = this
        setTimeout(function(){ 
-        product.isFlipped =  !product.isFlipped
-        // self.$refs.flipInner[product.index].style.WebkitTransform = "rotateY(180deg)"; 
-        // self.$refs.flipInner[product.index].style.msTransform = "rotateY(180deg)"; 
-        // self.$refs.flipInner[product.index].style.transform = "rotateY(180deg)"; 
-        //  self.$refs.flipcard[product.index].style.WebkitTransform = "rotateY(180deg)"; 
-        // self.$refs.flipcard[product.index].style.msTransform = "rotateY(180deg)"; 
-        // self.$refs.flipcard[product.index].style.transform = "rotateY(180deg)"; 
-      });
+
+          self.$refs.flipInner[product.index].style.transformStyle = "flat"
+        self.$refs.flipcard[product.index].style.transformStyle = "flat";
+       self.$refs.flipcard[product.index].style.cursor = "auto";
+         self.$refs.flipcard[product.index].style.transition = "transform 0.5s ease-in-out";
+       self.$refs.flipcard[product.index].style.transform = "scale(1)";
+        self.$refs.flipcard[product.index].style.msTransform = "scale(1)"; 
+        self.$refs.flipcard[product.index].style.WebkitTransform = "scale(1)";
+          
+     });
+setTimeout(function(){ 
+  this.currentTransition =  'negative' 
+          if (!product.isFlipped) {
+          
+            self.$refs.flipInner[product.index].style.transition = "transform 0.5s ease-in-out";
+            self.$refs.flipInner[product.index].style.transformStyle = "preserve-3d";
+            self.$refs.flipcard[product.index].style.transformStyle = "preserve-3d";
+            self.$refs.flipInner[product.index].style.WebkitTransform = "rotateY(0deg)"; 
+            self.$refs.flipInner[product.index].style.msTransform = "rotateY(0deg)"; 
+            self.$refs.flipInner[product.index].style.transform = "rotateY(0deg)"; 
+
+         } else {
+          
+          self.$refs.flipInner[product.index].style.transition = "transform 0.5s ease-in-out";
+          self.$refs.flipInner[product.index].style.transformStyle = "preserve-3d";
+          self.$refs.flipcard[product.index].style.transformStyle = "preserve-3d";
+          self.$refs.flipInner[product.index].style.WebkitTransform = "rotateY(180deg)"; 
+          self.$refs.flipInner[product.index].style.msTransform = "rotateY(180deg)"; 
+          self.$refs.flipInner[product.index].style.transform = "rotateY(180deg)"; 
+         }
+     
+     });
+ 
+       
   },
 
   // frontImage: function(product) {

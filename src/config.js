@@ -1,12 +1,20 @@
 export const config = {
-    apiKey: "AIzaSyCBlSGnpU0-rA8NqzawaZKu1VdYhisXsvQ",
-    authDomain: "jaylaonline-6a3b7.firebaseapp.com",
-    databaseURL: "https://jaylaonline-6a3b7.firebaseio.com",
-    projectId: "jaylaonline-6a3b7",
-    storageBucket: "jaylaonline-6a3b7.appspot.com",
-    messagingSenderId: "394133153257",
-    appId: "1:394133153257:web:1a94b62bed9ff4d219d778",
-    measurementId: "G-G5P95JPJQ8"
+    // apiKey: "AIzaSyCBlSGnpU0-rA8NqzawaZKu1VdYhisXsvQ",
+    // authDomain: "jaylaonline-6a3b7.firebaseapp.com",
+    // databaseURL: "https://jaylaonline-6a3b7.firebaseio.com",
+    // projectId: "jaylaonline-6a3b7",
+    // storageBucket: "jaylaonline-6a3b7.appspot.com",
+    // messagingSenderId: "394133153257",
+    // appId: "1:394133153257:web:1a94b62bed9ff4d219d778",
+    // measurementId: "G-G5P95JPJQ8"
+    apiKey: "AIzaSyByAUiGIpdmPKsiOPbYP_MNXQ2bvY9bnPI",
+    authDomain: "jaylashop.firebaseapp.com",
+    databaseURL: "https://jaylashop.firebaseio.com",
+    projectId: "jaylashop",
+    storageBucket: "jaylashop.appspot.com",
+    messagingSenderId: "731923348764",
+    appId: "1:731923348764:web:88e97234ac534588a84ed9",
+    measurementId: "G-KCQWYMTFB7"
 };
 
 export const zapperConfig = {
