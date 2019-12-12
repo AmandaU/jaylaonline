@@ -22,11 +22,11 @@
                   
                       <div class="flip-card-inner" ref="flipInner"  >
                           <div class="flip-card-front">
-                            <img  v-bind:src=" product.fronturl" alt="Avatar" class="baseImage" >
+                            <img  :src="product.fronturl" alt="Avatar" class="baseImage" > 
                           </div>
                         
-                          <div class="flip-card-back">
-                            <img  v-bind:src=" product.backurl" alt="Avatar" class="baseImage" >
+                          <div class="flip-card-back" :key="product.componentKey">
+                            <img  :src="product.backurl" alt="Avatar" class="baseImage" > 
                           </div>
                       </div>
         
@@ -76,13 +76,12 @@ export default {
 
   data() {
       return {
-        mustFlip: false,
-        isLoading: true,
+         isLoading: true,
         busy: false,
         products: [],
         numberOfProducts: 0,
         greaterThan600: window.innerWidth > 600,
-        containerWidth: window.innerWidth > 800? window.innerWidth/3: window.innerWidth > 600? window.innerWidth/ 2: window.innerWidth,
+        containerWidth: window.innerWidth > 800? (window.innerWidth * .8) * .33: window.innerWidth > 600? (window.innerWidth * .8) * .5: window.innerWidth * .8,
         showCheckout: false,
         hovering: false,
         itemimages: [],
@@ -116,6 +115,7 @@ mounted() {
     let self = this
     this.$rtdbBind('products', productsRef).then(products => {
        self.products === products
+       let index = 0
        self.products.forEach(product => {
           const arrayResult = Object.keys(product.images).map(imagekey => {
               return product.images[imagekey]
@@ -124,6 +124,9 @@ mounted() {
           product.fronturl = product.images[0].url
           product.backurl = product.images[product.images.length -1].url
           product.isFlipped = false
+          product.index = index
+          product.componentKey = 0
+          index += 1
        });
        self.loader.hide()
        self.isLoading = false
@@ -142,7 +145,7 @@ mounted() {
        if (this.isMobile || !this.greaterThan600) {
         return true
       } 
-      return this.products.length <= 4 
+      return true//this.products.length <= 4 
      
     },
 
@@ -161,46 +164,43 @@ mounted() {
 methods: {
 
   onHover(product) {
-    //: 'negative';
-        if(product.isFlipped) {
-             product.fronturl = product.images[0]
-            } else {
-               product.backurl = product.images[product.images.length - 1].url
-          }
-            product.images.push(product.images.shift()); 
-             product.isFlipped =  !product.isFlipped
-             this.currentTransition =  'positive' 
+     product.images.push(product.images.shift())
+
+     if (product.isFlipped) {
+       product.fronturl = product.images[0].url
+       
+     } else {
+       product.backurl = product.images[product.images.length - 1].url
+     }
+         product.componentKey += 1   
+      product.isFlipped =  !product.isFlipped
+
+
+     
      let self = this
      setTimeout(function(){ 
-        self.$refs.flipInner[product.index].style.transformStyle = "flat"
-        self.$refs.flipcard[product.index].style.transformStyle = "flat";
         self.$refs.flipcard[product.index].style.cursor = "pointer";
         self.$refs.flipcard[product.index].style.transition = "transform 0.5s ease-in-out";
         self.$refs.flipcard[product.index].style.transform = "scale(1.25)";
         self.$refs.flipcard[product.index].style.msTransform = "scale(1.25)"; 
         self.$refs.flipcard[product.index].style.WebkitTransform = "scale(1.25)";
-         });
+      });
        
   },
 
   onUnHover(product) {
     let self = this
        setTimeout(function(){ 
+           self.$refs.flipcard[product.index].style.cursor = "auto";
+          self.$refs.flipcard[product.index].style.transition = "transform 0.5s ease-in-out";
+          self.$refs.flipcard[product.index].style.transform = "scale(1)";
+          self.$refs.flipcard[product.index].style.msTransform = "scale(1)"; 
+          self.$refs.flipcard[product.index].style.WebkitTransform = "scale(1)";
+      });
 
-          self.$refs.flipInner[product.index].style.transformStyle = "flat"
-        self.$refs.flipcard[product.index].style.transformStyle = "flat";
-       self.$refs.flipcard[product.index].style.cursor = "auto";
-         self.$refs.flipcard[product.index].style.transition = "transform 0.5s ease-in-out";
-       self.$refs.flipcard[product.index].style.transform = "scale(1)";
-        self.$refs.flipcard[product.index].style.msTransform = "scale(1)"; 
-        self.$refs.flipcard[product.index].style.WebkitTransform = "scale(1)";
-          
-     });
-setTimeout(function(){ 
-  this.currentTransition =  'negative' 
+      setTimeout(function(){ 
           if (!product.isFlipped) {
-          
-            self.$refs.flipInner[product.index].style.transition = "transform 0.5s ease-in-out";
+             self.$refs.flipInner[product.index].style.transition = "transform 0.5s ease-in-out";
             self.$refs.flipInner[product.index].style.transformStyle = "preserve-3d";
             self.$refs.flipcard[product.index].style.transformStyle = "preserve-3d";
             self.$refs.flipInner[product.index].style.WebkitTransform = "rotateY(0deg)"; 
@@ -208,71 +208,40 @@ setTimeout(function(){
             self.$refs.flipInner[product.index].style.transform = "rotateY(0deg)"; 
 
          } else {
-          
-          self.$refs.flipInner[product.index].style.transition = "transform 0.5s ease-in-out";
-          self.$refs.flipInner[product.index].style.transformStyle = "preserve-3d";
-          self.$refs.flipcard[product.index].style.transformStyle = "preserve-3d";
-          self.$refs.flipInner[product.index].style.WebkitTransform = "rotateY(180deg)"; 
-          self.$refs.flipInner[product.index].style.msTransform = "rotateY(180deg)"; 
-          self.$refs.flipInner[product.index].style.transform = "rotateY(180deg)"; 
+            self.$refs.flipInner[product.index].style.transition = "transform 0.5s ease-in-out";
+            self.$refs.flipInner[product.index].style.transformStyle = "preserve-3d";
+            self.$refs.flipcard[product.index].style.transformStyle = "preserve-3d";
+            self.$refs.flipInner[product.index].style.WebkitTransform = "rotateY(180deg)"; 
+            self.$refs.flipInner[product.index].style.msTransform = "rotateY(180deg)"; 
+            self.$refs.flipInner[product.index].style.transform = "rotateY(180deg)"; 
          }
      
-     });
+     },510);
  
        
   },
 
-  // frontImage: function(product) {
-  //    let images = product.images
-  //   const idx = Math.floor(Math.random() * images.length);
-  //   //product.hoverurl =  images[0].url 
-  //   return images[0].url 
-  // },
+  frontImage: function(product) {
+      return product.images[0].url 
+  },
 
-  //  backImage: function(product) {
-  //   return product.images[product.images.length - 1].url 
-  // },
-
-  getHoverImage (product) {
-      this.products.forEach( prod => {
-            prod.mustFlip = false
-        })
-     product.images.push(product.images.shift()); 
-     product.mustFlip = true
-     
-    // if (!this.$refs.flipInner) return
-      this.$nextTick(() => {
-     
-       
-      });
-      let self = this
-      setTimeout(function(){ 
-        self.products.forEach( prod => {
-            prod.mustFlip = false
-        })
-        
-       }, 200);
-     
-    //   this.$refs.flipInner.style.WebkitTransform = "translateY(180deg)"; 
-      
-    //     this.$refs.flipInner.style.msTransform = "translateY(180deg)"; 
-    //     this.$refs.flipInner.style.transform = "translateY(180deg)"; 
-    //});
-     
+   backImage: function(product) {
+    return product.images[product.images.length - 1].url 
   },
 
    handleWindowResize(event) { 
+     let w = event.currentTarget.innerWidth * .8
         if(window.innerWidth < 600)
         {
-          this.containerWidth = event.currentTarget.innerWidth;
+          this.containerWidth = w;
         }
         else
         if(window.innerWidth < 800)
         {
-          this.containerWidth = event.currentTarget.innerWidth/2 - 20;
+          this.containerWidth = w * .5;
         }
         else
-          this.containerWidth = event.currentTarget.innerWidth/3 - 40; 
+          this.containerWidth = w * .33; 
     },
 
     getImageStyle: function (product) { 
@@ -288,9 +257,8 @@ setTimeout(function(){
     },
 
    getContainerStyle: function () { 
-     let h = String(window.innerHeight - 120) + 'px'
+     let h = String(window.innerHeight - 20) + 'px'
          return  {
-          
           'max-width': '100vw',
           'height' : '100%',
           'min-height' : h,
@@ -302,7 +270,7 @@ setTimeout(function(){
           'justify-content': 'center',
           'align-items': 'center',
           'vertical-align': 'center',
-          // ':hover .flip-card-inner' : {
+           // ':hover .flip-card-inner' : {
           //     'transform': 'rotateY(180deg)'
          // }
          }
