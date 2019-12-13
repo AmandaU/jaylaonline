@@ -107,7 +107,7 @@ mounted() {
        if (this.isMobile || !this.greaterThan600) {
         return true
       } 
-      return this.artists.length <= 4 
+      return true//this.artists.length <= 4 
      
     },
 

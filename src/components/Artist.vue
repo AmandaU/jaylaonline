@@ -138,18 +138,30 @@ methods:
   
      let h = String(window.innerHeight - 120) + 'px'
          return  {
-           'position': 'relative',
-          'max-width': '100vw',
+          //  'position': 'relative',
+          // 'max-width': '100vw',
+          // 'height' : '100%',
+          // 'min-height' : h,
+          // 'width':'100%',
+          // //'float':'right',
+          // 'display': 'flex',
+          // 'flex-direction': 'row',
+          // 'overflow-x': 'hidden',
+          // 'align-self': 'center',
+          // 'justify-content': 'center',
+          // 'align-items': 'center',
+
+           'max-width': '100vw',
           'height' : '100%',
           'min-height' : h,
           'width':'100%',
-          //'float':'right',
+          'float':'right',
           'display': 'flex',
-          'flex-direction': 'row',
-          'overflow-x': 'hidden',
+          'overflow': 'auto',
           'align-self': 'center',
           'justify-content': 'center',
           'align-items': 'center',
+          'vertical-align': 'center',
       }
        
     },
