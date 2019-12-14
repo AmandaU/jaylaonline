@@ -6,73 +6,6 @@
   box-sizing: border-box;
 }
 
-.baseImage {
-  //background-color: rgba(204, 203, 203, 0.01);
-  position: absolute;
-  width: 80%;
-  height: 80%;
-  margin-top: 10%;
-  margin-left: 10%;
-  }
-
-// .baseImage:hover {
-//   transform: scale(1.1);
-//   cursor : pointer;
-//   }
-
-/* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
-.flip-card {
-  background-color: transparent;
-   perspective: 1000px; /* Remove this if you don't want the 3D effect */
-}
-
-/* This container is needed to position the front and back side */
-.flip-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  transform-style: preserve-3d;
-  transition: transform
-  }
-
-/* Do an horizontal flip when you move the mouse over the flip box container */
- .flip-card:hover .flip-card-inner {
-   transform: rotateY(180deg);//scale(1.5);
-   cursor : pointer;
-  }
-
-/* Position the front and back side */
-.flip-card-front, .flip-card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-   backface-visibility: hidden;
-}
-
-/* Style the front side (fallback if image is missing) */
-.flip-card-front {
-  background-color: rgba(204, 203, 203, 0.01);
-  color: black;
-   }
-
-/* Style the back side */
-.flip-card-back {
-  background-color: rgba(155, 154, 154, 0.01);
-  color: rgb(113, 134, 160);
-  transform: rotateY(180deg);
-}
-
- .imagecontainer {
- // background: rgba(247, 222, 3, 0.4);
-  justify-content: space-between;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 90%;
-  overflow-y: auto;
- }
-
 .rowstyle{
   display: flex;
   flex-direction: row;
@@ -136,33 +69,50 @@
   }
 }
 
-.tile {
-  border-radius: 4px;
+  .tile {
+    position: absolute;
+    z-index: 1000;
+    display: block;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+      transition: 0.3s transform ease-in;
+  
+  }
+    
+
+.tile:hover  {
+   transform: scale(1.25);
+    transition: 0.3s transform ease-out;
+
 }
 
-.card {
-  backface-visibility: hidden;
-  height: 100%;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
+img {
+  //background-color: rgba(204, 203, 203, 0.01);
+ position: absolute;
+  width: 80%;
+  height: 80%;
+  margin-top: 10%;
+  margin-left: 10%;
+ transform-origin: 50% 50%;
+ cursor: pointer;
+//transform: scaleY(1) translateZ(0);
+transform: rotateY(0deg)
+   }
+  
+
+
+
+.flip-enter-active {
+  transition: all .2s cubic-bezier(0.55, 0.085, 0.68, 0.53); //ease-in-quad
+}
+
+.flip-leave-active {
+  transition: all .25s cubic-bezier(0.25, 0.46, 0.45, 0.94); //ease-out-quad
+}
+
+.flip-enter, .flip-leave-to {
+  // transform: scaleY(0) translateZ(0);
+  // opacity: 0;
+  transform:  rotateY(180deg);
  }
-
-.front {
-  z-index: 0;
-}
-
-.back {
-  transform: rotateY( 180deg );
-  z-index: 10;
-}
-
-.fade-enter, .fade-leave-to {
-  cursor: pointer;
-  transform: scale(1.2);
-}
-
-.fade-enter-active, .fade-leave-active {
-  transition: 0.2s opacity ease-out;
-}

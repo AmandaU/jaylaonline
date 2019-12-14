@@ -9,44 +9,46 @@
         :is-full-page="fullPage"></loading> -->
    
     <media :query="{maxWidth: 600}" @media-enter="media600Enter" @media-leave="media600Leave"> </Media> 
-      
+
+
         <div v-if="!isLoading" v-bind:class="[isRow ? 'rowstyle' : 'cols']">  
             <div   v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
             
-                 <div class="tile" :style="getImageStyle(product)" 
+               <!-- <div class="tile" :style="getImageStyle(product)" 
                       ref="hovercard"
                       v-on:mouseleave="onUnHover(product)"
                       v-on:mouseover="onHover(product)"
                       >
-                          
-                              <div   v-for="(image, index) in product.images"  v-bind:key="image.productid" :ref="'flip' + product.id" > 
+                            <transition name="flip" mode="out-in">
+                         <div   v-for="(image, index) in product.images"  v-bind:key="image.productid" :ref="'flip' + product.id" > 
                               <div v-if="index == 0" class="card front" >
                                  <img  :src="image.url" alt="Avatar" class="baseImage" > 
                               </div>
                               <div v-if="index > 0" class="card back" >
                                 <img  :src="image.url" alt="Avatar" class="baseImage" v-visible="product.flipIndex == index" > 
                               </div>
-                            </div>
+                         </div> -
+                          </transition> -->
+
+                     <div class="tile" :style="getImageStyle(product)" 
+                       v-on:mouseleave="onUnHover(product)"
+                       v-on:mouseover="onHover(product)"
+                      >
                   
-                  </div> 
+                  <!-- <div class="overlay">
+                      <p class="overlay-text">I don't like this one</p>
+                
+                  </div> -->
 
-<!--               
-                  <div class="tile" :style="getImageStyle(product)" :class="classes" 
-                      ref="hovercard"
-                      v-on:mouseleave="hoverOut(product)"
-                      v-on:mouseover="hoverOver(product)" >
-                      
-                            <div   v-for="(image, index) in product.images"  v-bind:key="image.productid" > 
-                              <div v-if="index == 0" class="card front" >
-                                 <img  :src="image.url" alt="Avatar" class="baseImage" > 
-                              </div>
-                              <div v-if="index > 0" class="card back" v-visible="product.flipIndex == index" >
-                                <img  :src="image.url" alt="Avatar" class="baseImage" > 
-                              </div>
-                            </div>
+                        <transition name="flip">
+                              
+                                      <img  v-if="!product.isFlipped" :src="product.images[0].url" alt="Avatar"   key="front" > 
                             
-                     </div> -->
+                                      <img  v-else :src="product.images[product.images.length - 1].url" alt="Avatar" key="back" > 
+                            
+                            </transition>
 
+                   </div>  
 
             </div>
         </div> 
@@ -70,7 +72,7 @@ export default {
 
   data() {
       return {
-        classes: [],
+        isFlipped: false,
          isLoading: true,
         busy: false,
         products: [],
@@ -116,9 +118,7 @@ mounted() {
               return product.images[imagekey]
           });
           product.images = arrayResult
-          product.isFlipped = false
-          product.index = index
-          product.flipIndex = 1
+           product.index = index
           index += 1
 
        });
@@ -157,13 +157,18 @@ mounted() {
  
 methods: {
 
+
  
   onHover(product) {
-    if(!product.isFlipped) {
-      product.flipIndex = product.flipIndex == product.images.length - 1 ? 1 : product.flipIndex += 1
-    }
+   
+    //  product.isFlipped =  !product.isFlipped
+
+
+    // if(!product.isFlipped) {
+    //   product.flipIndex = product.flipIndex == product.images.length - 1 ? 1 : product.flipIndex += 1
+    // }
     
-    //  product.images.push(product.images.shift())
+     // product.images.push(product.images.shift())
 
     //  if (product.isFlipped) {
     //    product.fronturl = product.images[0].url
@@ -172,32 +177,36 @@ methods: {
     //    product.backurl = product.images[product.images.length - 1].url
     //  }
     //      product.componentKey += 1  
-    let self = this
-     setTimeout(function(){  
-        self.$refs.hovercard[product.index].style.transition = ""
-         self.$refs.hovercard[product.index].style.WebkitTransform = ""; 
-          self.$refs.hovercard[product.index].style.msTransform = ""; 
-          self.$refs.hovercard[product.index].style.transform = ""; 
+    // let self = this
+    //  setTimeout(function(){  
+    //     self.$refs.hovercard[product.index].style.transition = ""
+    //      self.$refs.hovercard[product.index].style.WebkitTransform = ""; 
+    //       self.$refs.hovercard[product.index].style.msTransform = ""; 
+    //       self.$refs.hovercard[product.index].style.transform = ""; 
 
-        self.$refs.hovercard[product.index].style.cursor = "pointer";
-        self.$refs.hovercard[product.index].style.transition = "transform 0.3s ease-in-out";
-        self.$refs.hovercard[product.index].style.transform = "scale(1.25)";
-        self.$refs.hovercard[product.index].style.msTransform = "scale(1.25)"; 
-        self.$refs.hovercard[product.index].style.WebkitTransform = "scale(1.25)";
-      });
+    //     self.$refs.hovercard[product.index].style.cursor = "pointer";
+    //     self.$refs.hovercard[product.index].style.transition = "transform 0.3s ease-in-out";
+    //     self.$refs.hovercard[product.index].style.transform = "scale(1.25)";
+    //     self.$refs.hovercard[product.index].style.msTransform = "scale(1.25)"; 
+    //     self.$refs.hovercard[product.index].style.WebkitTransform = "scale(1.25)";
+    //   });
   },
 
   onUnHover(product) {
-    let self = this
-       setTimeout(function(){ 
-           self.$refs.hovercard[product.index].style.cursor = "auto";
-          //self.$refs.hovercard[product.index].style.transition = "transform 0.5s ease-in-out";
-          self.$refs.hovercard[product.index].style.transform = "scale(1)";
-          self.$refs.hovercard[product.index].style.msTransform = "scale(1)"; 
-          self.$refs.hovercard[product.index].style.WebkitTransform = "scale(1)";
-      });
-       self.$refs.hovercard[product.index].style.transformStyle = "preserve-3d";
-      setTimeout(function(){ 
+
+      product.isFlipped =  !product.isFlipped
+    
+
+    // let self = this
+    //    setTimeout(function(){ 
+    //        self.$refs.hovercard[product.index].style.cursor = "auto";
+    //       //self.$refs.hovercard[product.index].style.transition = "transform 0.5s ease-in-out";
+    //       self.$refs.hovercard[product.index].style.transform = "scale(1)";
+    //       self.$refs.hovercard[product.index].style.msTransform = "scale(1)"; 
+    //       self.$refs.hovercard[product.index].style.WebkitTransform = "scale(1)";
+    //   });
+    //    self.$refs.hovercard[product.index].style.transformStyle = "preserve-3d";
+    //   setTimeout(function(){ 
       
         // self.$refs.hovercard[product.index].style.transition = "transform 0.5s ease-in-out";
         // if (product.isFlipped) {
@@ -206,13 +215,13 @@ methods: {
         //   self.$refs.hovercard[product.index].style.transform = "rotateY(0deg)"; 
            
         // } else {
-              self.$refs.hovercard[product.index].style.WebkitTransform = "rotateY(180deg)"; 
-              self.$refs.hovercard[product.index].style.msTransform = "rotateY(180deg)"; 
-              self.$refs.hovercard[product.index].style.transform = "rotateY(180deg)"; 
+              // self.$refs.hovercard[product.index].style.WebkitTransform = "rotateY(180deg)"; 
+              // self.$refs.hovercard[product.index].style.msTransform = "rotateY(180deg)"; 
+              // self.$refs.hovercard[product.index].style.transform = "rotateY(180deg)"; 
         // }
-         product.isFlipped =  !product.isFlipped
+        
  
-     },310);
+    // },310);
        
   },
 
@@ -240,7 +249,7 @@ methods: {
           'width': w + 'px',
           'height': t + 'px',
           'position': 'relative',
-          'transform-style' : 'preserve-3d',
+         // 'transform-style' : 'preserve-3d',
          // 'transform' : '0.5s ease-in-out'
           
       }
