@@ -285,7 +285,7 @@ methods: {
       number: item.selected,
       productname: this.product.name,
       isSelected: false,
-      thumburl: this.product.thumburl,
+      thumburl: this.product.images.images[0].thumburl,
       selecteditemkey: ''
   }
      this.shoppingcart.items.push(orderitem)
