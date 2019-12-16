@@ -113,8 +113,8 @@ export default {
     payFastUrl: function () {
         const url =  'https://sandbox.payfast.co.za/eng/process?cmd=_paynow&receiver=10011455&item_name=' + 'JaylaOnline Shopping'
         + '&item_description=tickets&amount=' + this.shoppingcart.purchasevalue
-        + '&return_url=http%3A%2F%2F192.168.8.104%3A8080%2F%23%2FSuccess%2F%3Forderid%3D' + this.shoppingcart.reference ; 
-        + '&cancel_url=http%3A%2F%2F192.168.8.104%3A8080%2F%23%Cancel%2F%3Forderid%3D' + this.shoppingcart.reference ; 
+        + '&return_url=http%3A%2F%2F192.168.8.103%3A8080%2F%23%2FSuccess%2F%3Forderid%3D' + this.shoppingcart.reference ; 
+        + '&cancel_url=http%3A%2F%2F192.168.8.103%3A8080%2F%23%Cancel%2F%3Forderid%3D' + this.shoppingcart.reference ; 
         //console.log(url);
         return url;
 

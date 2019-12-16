@@ -30,8 +30,8 @@
                       
                         <div class="flip-card-back">
                           <div :style="getImageStyle(product, false)">
-                            <img v-bind:key="product.flipIndex"  v-bind:src="product.images[product.flipIndex].thumbUrl" alt="Avatar" rel="preload" class="flip-thumb-image" >   >
-                            <img v-bind:key="product.flipIndex"  v-bind:src="product.images[product.flipIndex].url" alt="Avatar" rel="preload" class="flip-image" >
+                            <img v-bind:key="product.id + product.flipIndex"  v-bind:src="product.images[product.flipIndex].thumbUrl" alt="Avatar" rel="preload" class="flip-thumb-image" >   >
+                            <img v-bind:key="product.id + product.flipIndex"  v-bind:src="product.images[product.flipIndex].url" alt="Avatar" rel="preload" class="flip-image" >
                           </div>
                         </div>
                         </div>
@@ -187,85 +187,18 @@ methods: {
 
     if(!product.isFlipped) {
        product.flipIndex = product.flipIndex == product.images.length - 1 ? 1 : product.flipIndex += 1
-
   }
-
-//     var myImage = new Image(100, 200);
-// myImage.src = 'picture.jpg';
-// document.body.appendChild(myImage);
-
-    //document.createElement('img').setAttribute('src', '/static/myimage')
-   
-    //  product.isFlipped =  !product.isFlipped
-
-
-    // if(!product.isFlipped) {
-    //  let move = product.images.splice(1,1)[0]
-    //   product.images.push(move)
-    //  // product.flipIndex = product.flipIndex == product.images.length - 1 ? 1 : product.flipIndex += 1
-    // }
-    
-     // product.images.push(product.images.shift())
-
-    //  if (product.isFlipped) {
-    //    product.fronturl = product.images[0].url
-       
-    //  } else {
-    //    product.backurl = product.images[product.images.length - 1].url
-    //  }
-    //      product.componentKey += 1  
-    // let self = this
-    //  setTimeout(function(){  
-    //     self.$refs.hovercard[product.index].style.transition = ""
-    //      self.$refs.hovercard[product.index].style.WebkitTransform = ""; 
-    //       self.$refs.hovercard[product.index].style.msTransform = ""; 
-    //       self.$refs.hovercard[product.index].style.transform = ""; 
-
-    //     self.$refs.hovercard[product.index].style.cursor = "pointer";
-    //     self.$refs.hovercard[product.index].style.transition = "transform 0.3s ease-in-out";
-    //     self.$refs.hovercard[product.index].style.transform = "scale(1.25)";
-    //     self.$refs.hovercard[product.index].style.msTransform = "scale(1.25)"; 
-    //     self.$refs.hovercard[product.index].style.WebkitTransform = "scale(1.25)";
-    //   });
-  },
+ },
 
   onUnHover(product) {
-
-     
-    product.isFlipped =  !product.isFlipped
-    
-
-    // let self = this
-    //    setTimeout(function(){ 
-    //      product.isFlipped = true
-    //   }, 800);
-    //    self.$refs.hovercard[product.index].style.transformStyle = "preserve-3d";
-    //   setTimeout(function(){ 
-      
-        // self.$refs.hovercard[product.index].style.transition = "transform 0.5s ease-in-out";
-        // if (product.isFlipped) {
-        //   self.$refs.hovercard[product.index].style.WebkitTransform = "rotateY(0deg)"; 
-        //   self.$refs.hovercard[product.index].style.msTransform = "rotateY(0deg)"; 
-        //   self.$refs.hovercard[product.index].style.transform = "rotateY(0deg)"; 
-           
-        // } else {
-              // self.$refs.hovercard[product.index].style.WebkitTransform = "rotateY(180deg)"; 
-              // self.$refs.hovercard[product.index].style.msTransform = "rotateY(180deg)"; 
-              // self.$refs.hovercard[product.index].style.transform = "rotateY(180deg)"; 
-        // }
-        
- 
-    // },310);
-       
-  },
-
- 
+       product.isFlipped =  !product.isFlipped
+    },
 
    handleWindowResize(event) { 
      let w = event.currentTarget.innerWidth * .8
         if(window.innerWidth < 600)
         {
-          this.containerWidth = w;
+          this.containerWidth = w ;
         }
         else
         if(window.innerWidth < 800)
@@ -283,7 +216,7 @@ methods: {
           'width': w + 'px',
           'height': t + 'px',
           'position': 'relative',
-          'margin': withMargin ? '1%' : '0'
+          'margin': withMargin ? this.isMobile ? '15%' : '2%' : '0'
       }
     },
 

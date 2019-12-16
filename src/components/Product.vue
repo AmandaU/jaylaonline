@@ -53,11 +53,22 @@
             <button   v-visible="showCheckoutButton" @click="gotoShipping" class="buttonstyle">check out</button>
         </div> 
 
-        <div v-if="!isLoading" class="imageblock">  
-            <div  v-for="image in product.images" v-bind:key="image.productid">
-                <img v-bind:src="image.url" v-bind:alt="image.alt" >
+        <!-- <div v-if="!isLoading" class="imageblock">  
+            <div class="imagecontainer" v-for="image in product.images" v-bind:key="image.productid">
+              <img v-bind:src="image.thumbUrl" v-bind:alt="image.alt"  class="thumbimage">
+                <img v-bind:src="image.url" v-bind:alt="image.alt"  class="mainimage">
+                
             </div>  
-        </div> 
+        </div>  -->
+
+        <div v-if="!isLoading" class="imageblock">  
+            <div class="imagecontainer" v-for="image in product.images" v-bind:key="image.productid">
+              
+              <img v-bind:src="image.thumbUrl" v-bind:alt="image.alt"  class="thumbimage">
+                <img v-bind:src="image.url" v-bind:alt="image.alt"  class="mainimage">
+               
+            </div>  
+        </div>
 
         
   
@@ -67,6 +78,7 @@
 </template>
 
 <script>
+import Media from 'vue-media'
 import firebase from '../firebase-config';
 import {  db } from '../firebase-config';
 let productsRef = db.ref('products');
@@ -74,6 +86,11 @@ let artistsRef = db.ref('artists');
 
 export default {
   name: 'product',
+
+   components: {
+     Media
+   },
+
 
   props: {
      productid: String,

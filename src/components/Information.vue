@@ -155,8 +155,7 @@
       },
 
     redrawComponent() {
-      debugger
-      if (window.innerWidth < 800 && !this.showCheckout) {
+       if (window.innerWidth < 800 && !this.showCheckout) {
          this.$eventHub.$emit('showCheckout', true);
          this.showCheckout = true
       } 
@@ -216,7 +215,7 @@
       });
       this.shoppingcart.purchasevalue = String((theTotal + this.shoppingcart.shipping))
       localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
-debugger
+
      if(this.currentuser){
        db.ref('users/' + this.key).set(this.shoppingcart.user);
       } 
