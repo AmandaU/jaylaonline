@@ -62,10 +62,10 @@
         </div>  -->
 
         <div v-if="!isLoading" class="imageblock">  
-            <div class="imagecontainer" v-for="image in product.images" v-bind:key="image.productid">
+            <div  :style="getImageStyle(image)"  v-for="image in product.images" v-bind:key="image.productid"  >
               
-              <img v-bind:src="image.thumbUrl" v-bind:alt="image.alt"  class="thumbimage">
-                <img v-bind:src="image.url" v-bind:alt="image.alt"  class="mainimage">
+              <img v-bind:src="image.thumbUrl" v-bind:alt="image.alt"  class="thumbimage" >
+                <img v-bind:src="image.url" v-bind:alt="image.alt"  class="mainimage"  >
                
             </div>  
         </div>
@@ -204,6 +204,21 @@ watch: {
   },
 
 methods: {
+
+   getImageStyle: function (image) { 
+         let randomTransitionTime =  Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000;
+         let w = 400
+         let h = image.ratio * w;
+              return  {
+              'width': h + 'px',
+              'height': w + 'px',
+              'position': 'relative',
+               'margin': '20px',
+              'transition': 'all ' + randomTransitionTime + 'ms',
+                //'transition-delay': randomTransitionTime + 'ms'
+              }
+      
+    },
   
   getContainerStyle: function () { 
      let h = String(window.innerHeight - 120) + 'px'
