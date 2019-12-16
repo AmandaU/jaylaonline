@@ -12,43 +12,69 @@
 
 
         <div v-if="!isLoading" v-bind:class="[isRow ? 'rowstyle' : 'cols']">  
-            <div   v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
-            
-               <!-- <div class="tile" :style="getImageStyle(product)" 
-                      ref="hovercard"
-                      v-on:mouseleave="onUnHover(product)"
-                      v-on:mouseover="onHover(product)"
-                      >
-                            <transition name="flip" mode="out-in">
-                         <div   v-for="(image, index) in product.images"  v-bind:key="image.productid" :ref="'flip' + product.id" > 
-                              <div v-if="index == 0" class="card front" >
-                                 <img  :src="image.url" alt="Avatar" class="baseImage" > 
-                              </div>
-                              <div v-if="index > 0" class="card back" >
-                                <img  :src="image.url" alt="Avatar" class="baseImage" v-visible="product.flipIndex == index" > 
-                              </div>
-                         </div> -
-                          </transition> -->
+            <div :style="getImageStyle(product,true)"  v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
 
+
+             
+                      <div class="flip-card">
+
+                          <div  v-bind:class="[product.isFlipped ? 'doFlip' : 'doUnFlip']"
+                              v-on:mouseleave="onUnHover(product)"
+                              v-on:mouseover="onHover(product)">
+                      
+                        <div class="flip-card-front">
+                         
+                          <img  v-bind:src="product.images[0].url" alt="Avatar" :style="getImageStyle(product, false)" >
+                          
+                        </div>
+                      
+                        <div class="flip-card-back">
+                          <div :style="getImageStyle(product, false)">
+                            <img v-bind:key="product.flipIndex"  v-bind:src="product.images[product.flipIndex].thumbUrl" alt="Avatar" rel="preload" class="flip-thumb-image" >   >
+                            <img v-bind:key="product.flipIndex"  v-bind:src="product.images[product.flipIndex].url" alt="Avatar" rel="preload" class="flip-image" >
+                          </div>
+                        </div>
+                        </div>
+                      
+                  
+            </div>  
+
+
+
+            <!-- <div class="flip-card" :style="getImageStyle(product)">
+                      <div class="flip-card-inner">
+
+                          <div  v-bind:class="[product.isFlipped ? 'doFlip' : 'doUnFlip']"
+                              v-on:mouseleave="onUnHover(product)"
+                              v-on:mouseover="onHover(product)">
+                      
+                        <div class="flip-card-front">
+                          <img  v-bind:src="product.images[0].url" alt="Avatar"  >
+                        </div>
+                      
+                        <div class="flip-card-back">
+                          <img v-bind:key="product.flipIndex"  v-bind:src="product.images[product.flipIndex].url" alt="Avatar" rel="preload" >
+                        </div>
+                        </div>
+                      
+                    </div> 
+            </div>  
+ -->
+
+
+<!-- 
                      <div class="tile" :style="getImageStyle(product)" 
                        v-on:mouseleave="onUnHover(product)"
                        v-on:mouseover="onHover(product)"
                       >
-                  
-                  <!-- <div class="overlay">
-                      <p class="overlay-text">I don't like this one</p>
-                
-                  </div> -->
-
-                        <transition name="flip">
+                 
+                        <transition name="flip" mode="out-in">
                               
-                                      <img  v-if="!product.isFlipped" :src="product.images[0].url" alt="Avatar"   key="front" > 
-                            
-                                      <img  v-else :src="product.images[product.images.length - 1].url" alt="Avatar" key="back" > 
-                            
+                               <img   v-bind:key="product.flipIndex"  :src="product.images[product.flipIndex].thumbUrl" alt="Avatar"   rel="preload" > 
+
                             </transition>
 
-                   </div>  
+                   </div>   -->
 
             </div>
         </div> 
@@ -72,7 +98,6 @@ export default {
 
   data() {
       return {
-        isFlipped: false,
          isLoading: true,
         busy: false,
         products: [],
@@ -83,8 +108,7 @@ export default {
         hovering: false,
         itemimages: [],
         loader: {},
-        currentTransition :  'positive' 
-       }
+        }
     },
 
 firebase () {
@@ -104,6 +128,7 @@ mounted() {
   this.$eventHub.$on('showCheckout', ()=> {
        self.showCheckout = !self.showCheckout;
   });
+
 },
 
  created () {
@@ -117,8 +142,9 @@ mounted() {
           const arrayResult = Object.keys(product.images).map(imagekey => {
               return product.images[imagekey]
           });
-          product.images = arrayResult
+            product.images = arrayResult
            product.index = index
+            product.isFlipped = false
           index += 1
 
        });
@@ -157,15 +183,26 @@ mounted() {
  
 methods: {
 
-
- 
   onHover(product) {
+
+    if(!product.isFlipped) {
+       product.flipIndex = product.flipIndex == product.images.length - 1 ? 1 : product.flipIndex += 1
+
+  }
+
+//     var myImage = new Image(100, 200);
+// myImage.src = 'picture.jpg';
+// document.body.appendChild(myImage);
+
+    //document.createElement('img').setAttribute('src', '/static/myimage')
    
     //  product.isFlipped =  !product.isFlipped
 
 
     // if(!product.isFlipped) {
-    //   product.flipIndex = product.flipIndex == product.images.length - 1 ? 1 : product.flipIndex += 1
+    //  let move = product.images.splice(1,1)[0]
+    //   product.images.push(move)
+    //  // product.flipIndex = product.flipIndex == product.images.length - 1 ? 1 : product.flipIndex += 1
     // }
     
      // product.images.push(product.images.shift())
@@ -194,17 +231,14 @@ methods: {
 
   onUnHover(product) {
 
-      product.isFlipped =  !product.isFlipped
+     
+    product.isFlipped =  !product.isFlipped
     
 
     // let self = this
     //    setTimeout(function(){ 
-    //        self.$refs.hovercard[product.index].style.cursor = "auto";
-    //       //self.$refs.hovercard[product.index].style.transition = "transform 0.5s ease-in-out";
-    //       self.$refs.hovercard[product.index].style.transform = "scale(1)";
-    //       self.$refs.hovercard[product.index].style.msTransform = "scale(1)"; 
-    //       self.$refs.hovercard[product.index].style.WebkitTransform = "scale(1)";
-    //   });
+    //      product.isFlipped = true
+    //   }, 800);
     //    self.$refs.hovercard[product.index].style.transformStyle = "preserve-3d";
     //   setTimeout(function(){ 
       
@@ -242,16 +276,14 @@ methods: {
           this.containerWidth = w * .33; 
     },
 
-    getImageStyle: function (product) { 
+    getImageStyle: function (product, withMargin) { 
       let w = this.containerWidth 
       var t = product.ratio * w;
         return  {
           'width': w + 'px',
           'height': t + 'px',
           'position': 'relative',
-         // 'transform-style' : 'preserve-3d',
-         // 'transform' : '0.5s ease-in-out'
-          
+          'margin': withMargin ? '1%' : '0'
       }
     },
 

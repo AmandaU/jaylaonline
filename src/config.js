@@ -7,6 +7,8 @@ export const config = {
     // messagingSenderId: "394133153257",
     // appId: "1:394133153257:web:1a94b62bed9ff4d219d778",
     // measurementId: "G-G5P95JPJQ8"
+
+
     apiKey: "AIzaSyByAUiGIpdmPKsiOPbYP_MNXQ2bvY9bnPI",
     authDomain: "jaylashop.firebaseapp.com",
     databaseURL: "https://jaylashop.firebaseio.com",
