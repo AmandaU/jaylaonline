@@ -8,8 +8,8 @@
          <div v-if="!isLoading" class="pricecolumn" >
         
             <div  v-if="haveArtist" class="artistblock"  @click="gotoArtist(artist)" >
-              <h1> {{ artist.name }} </h1> 
-               <img v-bind:src="artist.logo" v-bind:alt="artist.name" style="height: 50px; width: auto; padding-left:20px;vertical-align:center;">
+              <!-- <h1> {{ artist.name }} </h1>  -->
+               <img v-bind:src="artist.logo" v-bind:alt="artist.name" style="height: 100px; width: auto; padding-left:20px;vertical-align:center;">
                 <img v-bind:src="artist.photourl" v-bind:alt="artist.name" style="height: 100px; width: auto; padding-left:20px;">
             </div> 
              <br>

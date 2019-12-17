@@ -21,23 +21,23 @@
                           <div  v-bind:class="[product.isFlipped ? 'doFlip' : 'doUnFlip']"
                               v-on:mouseleave="onUnHover(product)"
                               v-on:mouseover="onHover(product)">
+                           
+                            <div class="flip-card-front">
+                              <img  v-bind:src="product.images[0].url" alt="Avatar" :style="getImageStyle(product, false)" >
+                            </div> 
                       
-                        <div class="flip-card-front">
-                         
-                          <img  v-bind:src="product.images[0].url" alt="Avatar" :style="getImageStyle(product, false)" >
-                          
-                        </div>
-                      
-                        <div class="flip-card-back">
-                          <div :style="getImageStyle(product, false)">
-                            <img v-bind:key="product.id + product.flipIndex"  v-bind:src="product.images[product.flipIndex].thumbUrl" alt="Avatar" rel="preload" class="flip-thumb-image" >   >
-                            <img v-bind:key="product.id + product.flipIndex"  v-bind:src="product.images[product.flipIndex].url" alt="Avatar" rel="preload" class="flip-image" >
+                            <div class="flip-card-back">
+                                <div :style="getImageStyle(product, false)"  >
+                                   <div v-for="(image, index) in product.images" v-bind:key="index" v-bind:class="[index == product.flipIndex ? 'isVisible' : 'isInvisible']">
+                                    <img   v-bind:src="product.images[index].thumbUrl" alt="Avatar" rel="preload" class="flip-thumb-image" >
+                                    <img   v-bind:src="product.images[index].url" alt="Avatar" rel="preload" class="flip-image" >
+                                   </div>
+                                </div>
+                            </div>
+
                           </div>
-                        </div>
-                        </div>
-                      
-                  
-            </div>  
+
+                     </div>  
 
 
 
@@ -187,7 +187,7 @@ methods: {
 
     if(!product.isFlipped) {
        product.flipIndex = product.flipIndex == product.images.length - 1 ? 1 : product.flipIndex += 1
-  }
+    }
  },
 
   onUnHover(product) {
@@ -211,10 +211,9 @@ methods: {
 
     getImageStyle: function (product, withMargin) { 
       let w = this.containerWidth 
-      var t = product.ratio * w;
-        return  {
+       return  {
           'width': w + 'px',
-          'height': t + 'px',
+          'height': w + 'px',
           'position': 'relative',
           'margin': withMargin ? this.isMobile ? '15%' : '2%' : '0'
       }

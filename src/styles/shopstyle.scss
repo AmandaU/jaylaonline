@@ -109,12 +109,12 @@
   height: 100%;
   text-align: center;
   transition: transform 0.8s;
-  transform-style: preserve-3d;
+  
 }
 
 /* Do an horizontal flip when you move the mouse over the flip box container */
 .flip-card:hover  {
-  z-index: 100;
+  z-index: 10;
   transform: scale(1.15) 
  }
 
@@ -124,6 +124,7 @@
   width: 100%;
   height: 100%;  
   backface-visibility: hidden;
+  transform-style: preserve-3d;
 }
 
 /* Style the front side (fallback if image is missing) */
@@ -143,6 +144,13 @@
   transform:  rotateY(180deg);
 }
 
+.isVisible {
+ opacity: 1
+}
+
+.isInvisible {
+ opacity: 0;
+}
 .doUnFlip {
   transition: transform 0.8s;
   transform-style: preserve-3d;
