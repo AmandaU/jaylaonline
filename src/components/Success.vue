@@ -1,17 +1,16 @@
 <template>
  
      <div class="container" >
-          <loading :active.sync="isLoading" 
+          <!-- <loading :active.sync="isLoading" 
             :can-cancel="true" 
             :on-cancel="onCancel"
             :loader="dots"
             :color="c45adb"
-            :is-full-page="fullPage"></loading>
+            :is-full-page="fullPage"></loading> -->
            <div class="payblock">
         
           <h1>Success!!</h1>
-          <!-- <cube-spin v-if="isReady"></cube-spin> -->
-          <h3>{{message1}}</h3>
+           <h3>{{message1}}</h3>
           <h3>{{message2}}</h3>
           <h3>{{message3}}</h3>
           <br>
@@ -20,7 +19,6 @@
 </template>
 
 <script>
-import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import {zapperConfig} from '../config';
 import firebase from '../firebase-config';
@@ -30,21 +28,17 @@ let itemsRef = db.ref('items');
 export default {
   name: 'success',
 
-   components: {
-     Loading
-   },
-
   data() {
       return {
         zapperDetails: zapperConfig,
         payFastRef: "",
         promotion: [],
         order: {},
-        isReady: false,
         message1:"",
         message2:"",
         message3:"",
-        isLoading: false,
+        isLoading: true,
+        loader: {},
         fullPage: true
       }
     },
@@ -80,7 +74,10 @@ export default {
   },
  
   created(){
-     this.isLoading = true
+      this.loader = this.$loading.show({
+              loader: 'dots',
+                color: 'blue'
+          });
       var orderid = '';
       var index = window.location.hash.indexOf("=");
       if(index >= 0)
@@ -97,7 +94,7 @@ export default {
                 this.getZapperPaymentDetails();
               });
             } else {
-              this.order.totalPaid =   String(this.totalValue );
+              this.order.totalpaid =   String(this.totalValue );
               this.setConfirmationInfo();
             }
       }
@@ -161,7 +158,7 @@ methods: {
                 var data = response.data.data[0];
                 if(!data)return;
                 self.order.zapperReference = data.ZapperId;
-                self.order.totalPaid = data.PaidAmount;
+                self.order.totalpaid = data.PaidAmount;
                 self.setConfirmationInfo()
               }
             },
@@ -185,12 +182,12 @@ methods: {
         var numberOfTickets = this.totalItems > 1? ' tickets': ' ticket';
         var each = this.totalTickets > 1? ' each': '';
         this.message1 = 'Your purchase from JaylaOnline was successful' ;
-         this.message2 = 'The total deducted from your account is R ' + this.order.totalPaid + '.00';
+         this.message2 = 'The total deducted from your account is R ' + this.order.totalpaid + '.00';
         this.message3 = 'We will email you information about your delivery'
         this.$firebaseRefs.ordersRef.push(this.order);
         this.updateItems()
-        this.isReady = true;
         this.isLoading = false
+         this.loader.hide()
         localStorage.clear()
         this.$eventHub.$emit('shoppingcarttotal', 0);
         this.$eventHub.$emit('refreshshoppingcart', '');

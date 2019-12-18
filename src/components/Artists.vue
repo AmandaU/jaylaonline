@@ -191,7 +191,7 @@ methods: {
   },
 
   navigateToItem(artist) {
-      this.$router.replace({ name: 'artist', query: {artistid: artist.id}});
+     this.$router.push({ name: 'Artist', params: {artistid: artist.id}});
      
   },
 

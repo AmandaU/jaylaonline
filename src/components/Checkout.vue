@@ -64,6 +64,7 @@ export default {
         shoppingcart: {},
         componentKey: 0,
         showCheckout: false,
+        user: {}
       }
     },
 
@@ -82,14 +83,14 @@ export default {
      }
     let self = this
     const currentuser = firebase.auth().currentUser;
-    // if(currentuser) {
-    //   this.$rtdbBind('users', usersRef.orderByChild("uid").equalTo(currentUser.uid).limitToFirst(1)).then(users => {
-    //     for(var key in users.val()){
-    //         console.log("snapshot.val" + users.val()[key]);
-    //       self.user = users.val()[key];
-    //     }
-    //   });
-    // }
+    if(currentuser) {
+      this.$rtdbBind('users', usersRef.orderByChild("uid").equalTo(currentuser.uid).limitToFirst(1)).then(users => {
+        for(var key in users.val()){
+            console.log("snapshot.val" + users.val()[key]);
+          self.user = users.val()[key];
+        }
+      });
+    }
    this.loadZapperScript();
    this.saveInvoice()
   },
@@ -134,6 +135,14 @@ export default {
   },
 
   methods: {
+
+     getNow: function() {
+                    const today = new Date();
+                    const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                    const time = today.getHours() + ":" + today.getMinutes() ;
+                    const dateTime = date +' '+ time;
+                   return dateTime;
+      },
 
     isMobile: function() {
         return window.innerWidth < 800 ||
@@ -212,7 +221,7 @@ export default {
           if(paymentResult.status == 1)
           {
             self.shoppingcart.zapperPaymentId = paymentResult.payment.paymentId;
-            self.shoppingcart.totalPaid = paymentResult.payment.amountPaid;
+            self.shoppingcart.totalpaid = paymentResult.payment.amountPaid;
             self.shoppingcart.zapperReference = paymentResult.payment.zapperId;
             self.saveInvoice(self); 
             self.$router.replace({ name: 'Success', query: {orderid: self.shoppingcart.reference}});
@@ -251,6 +260,7 @@ export default {
     saveInvoice(instance) {
       if(!instance) instance = this;
       let order = {
+         date: instance.getNow(),
           reference: instance.shoppingcart.reference,
           purchasevalue: instance.shoppingcart.purchasevalue,
           items: instance.shoppingcart.items.map(item => {
@@ -260,13 +270,22 @@ export default {
               productname: item.productname,
               size: item.size,
               price: item.price,
-              number: item.number
+              number: item.number,
+              sku: item.sku,
+              dimensions: item.dimensions,
+              weight: item.weight
             }
           }),
-          totalPaid: instance.shoppingcart.totalPaid,
+          totalpaid: instance.shoppingcart.totalpaid,
           totalitems: instance.shoppingcart.totalitems,
           deliveryfee: instance.shoppingcart.deliveryfee,
-          user: instance.user,
+          user: {
+            uid: instance.user.uid,
+            firstname: instance.user.firstname,
+            surname: instance.user.surname,
+            email: instance.user.email,
+            address: instance.user.address
+           },
           zapperPaymentMethod: instance.shoppingcart.zapperPaymentMethod,
           zapperPaymentId: instance.shoppingcart.zapperPaymentId,
           zapperReference: instance.shoppingcart.zapperReference

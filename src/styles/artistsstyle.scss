@@ -29,36 +29,27 @@
   
   /* Style the front side (fallback if image is missing) */
   .flip-card-front {
-    background-color: #bbb;
+    background-color: rgb(241, 240, 240);
     color: black;
   }
   
   /* Style the back side */
   .flip-card-back {
-    background-color: dodgerblue;
+    background-color: rgb(245, 249, 253);
     color: white;
     transform: rotateY(180deg);
   }
   
-  
   .rowstyle{
-    // display: flex;
-    // flex-direction: row;
-    // float: left;
-    // width: 100%;
-    // flex-wrap: wrap;
-    // //padding: 10%;
-    // margin: 0 auto;
-
-    display: flex;
-   flex-direction: row;
+   
+  display: flex;
+  flex-direction: row;
   width: 100%;
   flex-wrap: wrap;
-  //padding: 10%;
-  margin: 0 auto;
+    margin: 0 auto;
   justify-content: center;
   align-items: center;
- justify-content: center;
+  justify-content: center;
   }
   
   //Main body Image gallery
