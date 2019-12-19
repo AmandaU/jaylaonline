@@ -292,15 +292,18 @@ methods: {
    },
 
   createOrderItem (item) {
-    let orderitem = {
+     let orderitem = {
       key: item['.key'],
       productid: item.productid,
       price: item.price,
       size: item.size,
       number: item.selected,
       productname: this.product.name,
+      sku: item.sku,
+      dimensions: item.dimensions,
+      weight: item.weight,
       isSelected: false,
-      thumburl: this.product.images.images[0].thumburl,
+      thumburl: this.product.images[0].thumbUrl,
       selecteditemkey: ''
   }
      this.shoppingcart.items.push(orderitem)
@@ -320,7 +323,7 @@ methods: {
   },
 
   addItem(item, add) {
-   if(localStorage.getItem('jaylashop')) {
+    if(localStorage.getItem('jaylashop')) {
         this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
      } else {
        this.initialiseShoppingCart()
@@ -356,7 +359,7 @@ methods: {
       this.shoppingcart = {
           reference: 'JaylaShop' + Math.random().toString(36).substr(2, 9),
           purchasevalue: '',
-          totalPaid: 0,
+          totalpaid: 0,
           totalitems: 0,
           items: [],
           deliveryfee: 0,

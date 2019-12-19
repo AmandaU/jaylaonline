@@ -1,15 +1,8 @@
 <template>
 
 <div :style="getContainerStyle()" >
-  <!-- <loading :active.sync="isLoading" 
-            :can-cancel="true" 
-            :on-cancel="onCancel"
-            :loader="dots"
-            :color="c45adb"
-            :is-full-page="fullPage"></loading> -->
-   <!-- <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media> -->
+     <!-- <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media> -->
       
-   <!-- <div v-for="artist in artists" v-bind:key="artist.id"> -->
     <div class="artistcontainer">
     
          <div v-if="!isLoading" class="biocolumn" >
@@ -23,7 +16,6 @@
          </div> 
        
         <div  class="imagecontainer" ref="imageRef"> 
-          <!-- <center> -->
             <div  v-if="!isLoading" v-bind:class="[isRow ? 'rowstyle' : 'cols']"> 
               <div v-for="image in artist.images" v-bind:key="image.url">
                 <div  :style="getImageStyle(image)"  > 
@@ -38,16 +30,13 @@
       
               </div>  
             </div>  
-          <!-- </center>  -->
         </div> 
        </div> 
   
     </div>
-   <!-- </div> -->
 </template>
 
 <script>
-import Loading from 'vue-loading-overlay';
 import Media from 'vue-media'
 import firebase from '../firebase-config';
 import {  db } from '../firebase-config';
@@ -58,9 +47,7 @@ export default {
 
   props: {
      artistid: String,
-     //Media,
-     //Loading
-   },
+    },
 
   data() {
     return {
@@ -75,8 +62,7 @@ export default {
          images: []
        },
       isLoading: true,
-      loader: {}
-      
+      loader: {}   
      }
   },
 
@@ -89,20 +75,16 @@ firebase () {
 },
 
 mounted() {
-    window.addEventListener('resize', this.handleWindowResize);
-   
-      
+    window.addEventListener('resize', this.handleWindowResize);      
 },
 
 created () {
-
    let self = this
     this.$rtdbBind('artists', artistsRef.orderByChild("id").equalTo(this.$props.artistid).limitToFirst(1)).then(artists => {
      for(var key in artists.val()){
             console.log("snapshot.val" + artists.val()[key]);
           self.artist = artists.val()[key];
         }
-        //self.artists = artists
         self.loader.hide() 
         self.isLoading = false
      });
@@ -138,19 +120,6 @@ methods:
   
      let h = String(window.innerHeight - 120) + 'px'
          return  {
-          //  'position': 'relative',
-          // 'max-width': '100vw',
-          // 'height' : '100%',
-          // 'min-height' : h,
-          // 'width':'100%',
-          // //'float':'right',
-          // 'display': 'flex',
-          // 'flex-direction': 'row',
-          // 'overflow-x': 'hidden',
-          // 'align-self': 'center',
-          // 'justify-content': 'center',
-          // 'align-items': 'center',
-
            'max-width': '100vw',
           'height' : '100%',
           'min-height' : h,
@@ -177,29 +146,8 @@ methods:
               'position': 'relative',
               'padding-top': '2px',
               'transition': 'all ' + randomTransitionTime + 'ms',
-                //'transition-delay': randomTransitionTime + 'ms'
               }
-      
     },
-
-
-  //   getColStyle: function (image) { 
-  //      let w = this.containerWidth * 3/4
-  //       var h = image.ratio * w;
-  //           return  {
-  //           'min-width':'100%',
-  //           '-moz-column-count':'3',
-  //           '-moz-column-gap': '0px',
-  //           '-webkit-column-count':'3',
-  //           '-webkit-column-gap': '0px',
-  //           'column-count': '3',
-  //           'column-gap': '0px',
-  //           'padding-top': '10%',
-  //           'padding-bottom': '10%'
-  //         }
-  // },
-
-
 
   // media800Enter(mediaQueryString) {
   //   this.greaterThan800 = false

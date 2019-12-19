@@ -56,7 +56,7 @@
           addressline2: '',
           suburb: '',
           city: '',
-          province: '',
+          region: '',
           country: '',
           postalcode: ''
         },
