@@ -1,37 +1,112 @@
+/* Dropdown Button */
 .dropbtn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-  }
-  
-  .dropdown {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  //background-color: #b969b3;
+}
+
+.right {
+  right: 0;
+}
+
+.left {
+  left: 0;
+}
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: block;
+  position: absolute;
+   top: -300%;
+  opacity: 0;
+  background-color: #ffffff;
+  min-width: 160px;
+  //box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-top: 1px solid rgb(160, 159, 159);
+  transition: top 1000ms ease-in , opacity 1000ms ease-in;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+    border-left: 1px solid rgb(160, 159, 159);
+   border-right: 1px solid rgb(160, 159, 159);
+   border-bottom: 1px solid rgb(160, 159, 159);
+  transition: top 1000ms ease-in, opacity 1000ms ease-in;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+ top: 100%;
+  display: block;
+  opacity: 1;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+  .hoveritem{
     position: relative;
-    display: inline-block;
+    //background-color: rgb(218, 202, 61);
+    color: rgb(65, 63, 63);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+ }
+
+  .hoveritem:hover {
+    text-decoration:underline;
+    cursor: pointer;
+    }
+
+  .right {
+      margin-left: auto;
   }
-  
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 200px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
+
+  .center {
+    margin-left: auto;
+    margin-right:auto;
   }
-  
-  .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
+
+  .logo {
+    height: 100%;
+    width: auto;
   }
-  
-  .dropdown-content a:hover {background-color: #ddd;}
-  
-  .dropdown:hover .dropdown-content {display: block;}
-  
-  .dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+   .numberbox {
+   margin-top: 2px;
+   color:rgb(238, 43, 157)
+ }
+
+   .menuicon{
+    width: 50px;
+    vertical-align: middle;
+    margin-right:5px;
+    margin-left:5px;
+   }
+
+   .cartimage {
+     width: 30px;
+     height: 30px;
+    vertical-align: middle;
+   }
+
 
   //@debug
 
@@ -42,202 +117,199 @@
     width: 100vw;
     z-index: 10;
     height: 70px;
-    position: absolute;
+   // position: relative;
     width: 100%;
     display: flex;
-    flex-direction:row; 
-   
+    //flex-direction:row; 
+    justify-content: space-between;
+   // align-items: center;
+    font-weight: 10;
+    font-size: 20px;
+    background-color: transparent;
+  }
+
+  .nav:hover {
+    background-color: #f1f1f1;
   }
  
   
-  .menu {
-    height: 100%;
-    display: flex;
-    margin: 0% auto;
-    position: relative;
-    flex-direction:row; 
-     align-items: center;
-    justify-content: space-between;
-    font-weight: 10;
-    font-size: 20px;
-    width: 100%;
-    
-  }
+//   .menu {
+//     height: 100%;
+//     display: flex;
+//     margin: 0% auto;
+//     position: relative;
+//     flex-direction:row; 
+//      align-items: center;
+//     justify-content: space-between;
+//     font-weight: 10;
+//     font-size: 20px;
+//     width: 100%;
+      
+//   }
  
- .menuleft{
-   display: flex;
-    text-align: center;
-    justify-content: flex-start;
-    float: left;
-      border-left: 1px solid rgb(160, 159, 159);
-        border-top: 1px solid rgb(160, 159, 159);
-    border-bottom: 1px solid rgb(160, 159, 159);
- }
+//  .menuleft{
+//    display: flex;
+//     text-align: center;
+//     justify-content: flex-start;
+//     float: left;
+//       border-left: 1px solid rgb(160, 159, 159);
+//         border-top: 1px solid rgb(160, 159, 159);
+//     border-bottom: 1px solid rgb(160, 159, 159);
+//  }
  
- .menuright{
-   text-align: center;
-   float: right;
-   justify-content: flex-end;
-   right:0;
-   border-right: 1px solid rgb(160, 159, 159);
-     border-top: 1px solid rgb(160, 159, 159);
-    border-bottom: 1px solid rgb(160, 159, 159);
- }
+//  .menuright{
+//    text-align: center;
+//    float: right;
+//    justify-content: flex-end;
+//    //right:0;
+//    border-right: 1px solid rgb(160, 159, 159);
+//      border-top: 1px solid rgb(160, 159, 159);
+//     border-bottom: 1px solid rgb(160, 159, 159);
+//  }
  
- .menucenter{
-    text-align: center;
-   justify-content:center;
-   display: flex;
- }
+//  .menucenter{
+//     text-align: center;
+//    justify-content:center;
+//    display: flex;
+//  }
  
- .menuleft img {
-    height: 100%;
-   width: auto;
- }
+//  .menucenter img {
+//     height: 100%;
+//    width: auto;
+//  }
  
- .spacing { 
-   Margin-right: 15px; 
- } 
+//  .spacing { 
+//    Margin-right: 15px; 
+//  } 
  
-  .verticalBorder {
-    height: 100%;
-    border-left: 1px solid rgb(160, 159, 159);
-  }
+//   .verticalBorder {
+//     height: 100%;
+//     border-left: 1px solid rgb(160, 159, 159);
+//   }
  
- .menuitem, .cartbox, .nameitem, .hoveritem {
-    position: relative;
-   text-align: center;
-    width:200px;
-  }
+//  .menuitem, .cartbox, .nameitem, .hoveritem {
+//     position: relative;
+//    text-align: center;
+//     width:200px;
+//   }
  
-  .cartbox {
-   color:transparent;
-  }
+//   .cartbox {
+//    color:transparent;
+//   }
  
- /* Bottom left text */
- .numberbox {
-   position: relative;
-   margin-top: 0px;
-  color:rgb(238, 43, 157)
- }
-   .cartimage{
-    width: 25px;
-    height: 25px;
-   vertical-align: middle;
-   margin-top: 5px;
-   margin-right: 5px;
-   margin-left: 5px;
-   padding-right:3px;
-    cursor: pointer;
-  }
+//  /* Bottom left text */
+//  .numberbox {
+//    position: relative;
+//    margin-top: 0px;
+//   color:rgb(238, 43, 157)
+//  }
+//    .cartimage{
+//     width: 25px;
+//     height: 25px;
+//    vertical-align: middle;
+//    margin-top: 5px;
+//    margin-right: 5px;
+//    margin-left: 5px;
+//    padding-right:3px;
+//     cursor: pointer;
+//   }
  
- .nameitem{
-     background-color:transparent;
-     color: rgb(65, 63, 63);
-     justify-content:center;
-     align-content:center;
-     bottom:0;
-    }
+//  .nameitem{
+//      background-color:transparent;
+//      color: rgb(65, 63, 63);
+//      justify-content:center;
+//      align-content:center;
+//      bottom:0;
+//     }
  
- .hoveritem{
-     background-color:transparent;
-     color: rgb(65, 63, 63);
-     justify-content:center;
-     align-content:center;
-  }
  
-   .hoveritem:hover {
-     text-decoration:underline;
-     cursor: pointer;
-     }
+//    @media (max-width: 800px) {
+//    .nav{
+//      background-color:rgb(255, 255, 255);
+//      top: 0;
+//      left: 0;
+//      right: 0;
+//      width: 100vw;
+//      z-index: 10;
+//      height: 100px;
+//      position: relative;
+//      width: 100%;
+//      display: flex;
+//      flex-direction:column; 
+//       }
  
-   @media (max-width: 800px) {
-   .nav{
-     background-color:rgb(255, 255, 255);
-     top: 0;
-     left: 0;
-     right: 0;
-     width: 100vw;
-     z-index: 10;
-     height: 100px;
-     position: relative;
-     width: 100%;
-     display: flex;
-     flex-direction:column; 
-      }
+//      .menuitem, .cartbox, .nameitem, .hoveritem {
+//     position: relative;
+//    text-align: center;
+//     width:50%;
+//   }
  
-     .menuitem, .cartbox, .nameitem, .hoveritem {
-    position: relative;
-   text-align: center;
-    width:50%;
-  }
+//    .menucenter{
+//     display: none
+//    }
  
-   .menucenter{
-    display: none
-   }
+//    .menuleft {
+//      float: bottom;
+//      text-align: center;
+//      justify-content: flex-start;
+//      border-right: 1px solid rgb(160, 159, 159);
+//        border-top: 1px solid rgb(160, 159, 159);
+//     border-bottom: 1px solid rgb(160, 159, 159);
+//    }
  
-   .menuleft {
-     float: bottom;
-     text-align: center;
-     justify-content: flex-start;
-     border-right: 1px solid rgb(160, 159, 159);
-       border-top: 1px solid rgb(160, 159, 159);
-    border-bottom: 1px solid rgb(160, 159, 159);
-   }
- 
-   .menuright{
-     float: bottom;
-     text-align: center;
-     justify-content: flex-start;
-     border-right: 1px solid rgb(160, 159, 159);
-       border-top: 0px solid rgb(160, 159, 159);
-    border-bottom: 1px solid rgb(160, 159, 159);
-    }
+//    .menuright{
+//      float: bottom;
+//      text-align: center;
+//      justify-content: flex-start;
+//      border-right: 1px solid rgb(160, 159, 159);
+//        border-top: 0px solid rgb(160, 159, 159);
+//     border-bottom: 1px solid rgb(160, 159, 159);
+//     }
      
- }
+//  }
  
- @media (max-width: 600px) {
- .nav{
-     background-color:rgb(255, 255, 255);
-     top: 0;
-     left: 0;
-     right: 0;
-     width: 100vw;
-     z-index: 10;
-     height: 100px;
-     position: relative;
-     width: 100%;
-     display: flex;
-     flex-direction:column; 
-      }
+//  @media (max-width: 600px) {
+//  .nav{
+//      background-color:rgb(255, 255, 255);
+//      top: 0;
+//      left: 0;
+//      right: 0;
+//      width: 100vw;
+//      z-index: 10;
+//      height: 100px;
+//      position: relative;
+//      width: 100%;
+//      display: flex;
+//      flex-direction:column; 
+//       }
  
-   .menucenter{
+//    .menucenter{
     
-    display: none;
-   }
+//     display: none;
+//    }
  
-   .menuleft {
-     float: bottom;
-     text-align: center;
-     justify-content: flex-start;
-     border-right: 1px solid rgb(160, 159, 159);
-       border-top: 1px solid rgb(160, 159, 159);
-    border-bottom: 1px solid rgb(160, 159, 159);
-   }
+//    .menuleft {
+//      float: bottom;
+//      text-align: center;
+//      justify-content: flex-start;
+//      border-right: 1px solid rgb(160, 159, 159);
+//        border-top: 1px solid rgb(160, 159, 159);
+//     border-bottom: 1px solid rgb(160, 159, 159);
+//    }
  
-   .menuright{
-     float: bottom;
-     text-align: center;
-     justify-content: flex-start;
-     border-right: 1px solid rgb(160, 159, 159);
-       border-top: 0px solid rgb(160, 159, 159);
-    border-bottom: 1px solid rgb(160, 159, 159);
-    }
+//    .menuright{
+//      float: bottom;
+//      text-align: center;
+//      justify-content: flex-start;
+//      border-right: 1px solid rgb(160, 159, 159);
+//        border-top: 0px solid rgb(160, 159, 159);
+//     border-bottom: 1px solid rgb(160, 159, 159);
+//     }
  
-    .menuitem, .cartbox, .nameitem, .hoveritem {
-    position: relative;
-   text-align: center;
-    width:50%;
-  }
+//     .menuitem, .cartbox, .nameitem, .hoveritem {
+//     position: relative;
+//    text-align: center;
+//     width:50%;
+//   }
  
- }
+//  }

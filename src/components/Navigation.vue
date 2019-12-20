@@ -2,59 +2,47 @@
 <div> 
   
   <nav class="nav" > 
- 
-    <div class="menu menuleft">
-       <img src="../assets/sitelogo.png"  alt="cart"  @click="navigate('Home')" />
-      <!-- <div class="hoveritem"  @click="navigate('Home')">Home</div>
-      <div class="verticalBorder" />
-      <div class="hoveritem"  @click="navigate('Shop')">Shop</div>
-      <div class="verticalBorder" /> -->
-      <!-- <div class="hoveritem"  @click="navigate('Artists')">Artists</div>
-      <div class="verticalBorder" /> -->
-     
-    </div>
-
-     <!-- <div class="menu menucenter">
-      <img src="../assets/sitelogo.png"  alt="cart"  @click="navigate('Home')" />
-    </div> -->
-   
-   
-    <!-- <div class="menu menuright">
-       <div class="verticalBorder" />
-      <div class="cartbox left">
-       <img src="../assets/shoppingcart.png"  alt="cart"  @click="navigate('ShoppingCart')" class="cartimage"/>
-        <small class="numberbox" v-visible="totalitems > 0">{{totalitems}}</small>
-       </div>
-        <div class="verticalBorder" />
-      <div class="hoveritem" v-show="!isLoggedin" v-on:click="navigate('Login')" >Login</div>
-      <div class="hoveritem"  v-show="isLoggedin" v-on:click="navigate('Logout')" >Logout</div>
-    </div> -->
-
-    <div class="menu menuright">
-       <div class="verticalBorder" />
-      <div class="cartbox left">
-        <img src="../assets/shoppingcart.png"  alt="cart"  @click="navigate('ShoppingCart')" class="cartimage"/>
-        <small class="numberbox" v-visible="totalitems > 0">{{totalitems}}</small>
-       </div>
-        <div class="verticalBorder" />
-       <div class="dropdown">
-          <div class="hoveritem"  >menu</div>
-         <!-- <button class="dropbtn">menu</button> -->
-        <div class="dropdown-content">
-          <a v-show="!isLoggedin" v-on:click="navigate('Login')">login</a>
-          <a v-show="isLoggedin" v-on:click="navigate('Logout')">logout</a>
+    <div class="dropdown hoveritem">
+      <div class="menuicon">
+            <img src="../assets/menu.png"  alt="cart"  class="cartimage"/>
+            <small class="numberbox" v-visible="totalitems > 0">{{totalitems}}</small>
+          </div>
+      <div class="dropdown-content left">
           <a  v-on:click="navigate('Shop')">shop</a>
           <a  v-on:click="navigate('Artists')">artists</a>
-        </div>
+          <a  v-on:click="navigate('About')">about</a>
+          <a  v-on:click="navigate('Contact')">contact</a>
       </div>
-
     </div>
 
-   
+    
+    <!-- <div class="hoveritem">Two</div> -->
+    <div class="center hoveritem">
+        <img class="logo" src="../assets/sitelogo.png"  alt="cart"  @click="navigate('Home')" />
+    </div>
 
+    <div class="hoveritem">
+      <div class="menuicon">
+        <img src="../assets/shoppingcart.png"  alt="cart"  @click="navigate('ShoppingCart')" class="cartimage"/>
+        <small class="numberbox" v-visible="totalitems > 0">{{totalitems}}</small>
+      </div>
+    </div>
 
-  </nav> 
-</div>
+    <div class="dropdown  hoveritem">
+      <div class="menuicon">
+            <img src="../assets/login.png"  alt="cart"  class="cartimage"/>
+            <small class="numberbox" v-visible="totalitems > 0">{{totalitems}}</small>
+          </div>
+      <div class="dropdown-content right">
+        <a v-show="!isLoggedin" v-on:click="navigate('Login')">login</a>
+        <a v-show="!isLoggedin" v-on:click="navigate('Register')">register</a>
+          <a v-show="isLoggedin" v-on:click="navigate('Logout')">logout</a>
+          
+      </div>
+    </div>
+
+   </nav>
+ </div>
 </template>
 
 <script>
