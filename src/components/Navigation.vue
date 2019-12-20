@@ -4,21 +4,22 @@
   <nav class="nav" > 
  
     <div class="menu menuleft">
-      <div class="hoveritem"  @click="navigate('Home')">Home</div>
+       <img src="../assets/sitelogo.png"  alt="cart"  @click="navigate('Home')" />
+      <!-- <div class="hoveritem"  @click="navigate('Home')">Home</div>
       <div class="verticalBorder" />
       <div class="hoveritem"  @click="navigate('Shop')">Shop</div>
-      <div class="verticalBorder" />
+      <div class="verticalBorder" /> -->
       <!-- <div class="hoveritem"  @click="navigate('Artists')">Artists</div>
       <div class="verticalBorder" /> -->
      
     </div>
 
-     <div class="menu menucenter">
-      <img src="../assets/sitelogo.png"  alt="cart"  @click="navigate('ShoppingCart')" />
-    </div>
+     <!-- <div class="menu menucenter">
+      <img src="../assets/sitelogo.png"  alt="cart"  @click="navigate('Home')" />
+    </div> -->
    
    
-    <div class="menu menuright">
+    <!-- <div class="menu menuright">
        <div class="verticalBorder" />
       <div class="cartbox left">
        <img src="../assets/shoppingcart.png"  alt="cart"  @click="navigate('ShoppingCart')" class="cartimage"/>
@@ -27,7 +28,30 @@
         <div class="verticalBorder" />
       <div class="hoveritem" v-show="!isLoggedin" v-on:click="navigate('Login')" >Login</div>
       <div class="hoveritem"  v-show="isLoggedin" v-on:click="navigate('Logout')" >Logout</div>
+    </div> -->
+
+    <div class="menu menuright">
+       <div class="verticalBorder" />
+      <div class="cartbox left">
+        <img src="../assets/shoppingcart.png"  alt="cart"  @click="navigate('ShoppingCart')" class="cartimage"/>
+        <small class="numberbox" v-visible="totalitems > 0">{{totalitems}}</small>
+       </div>
+        <div class="verticalBorder" />
+       <div class="dropdown">
+          <div class="hoveritem"  >menu</div>
+         <!-- <button class="dropbtn">menu</button> -->
+        <div class="dropdown-content">
+          <a v-show="!isLoggedin" v-on:click="navigate('Login')">login</a>
+          <a v-show="isLoggedin" v-on:click="navigate('Logout')">logout</a>
+          <a  v-on:click="navigate('Shop')">shop</a>
+          <a  v-on:click="navigate('Artists')">artists</a>
+        </div>
+      </div>
+
     </div>
+
+   
+
 
   </nav> 
 </div>
@@ -137,213 +161,6 @@ methods: {
 }
 </script>
 
-<style> 
-
-.nav{
-   top: 0;
-   left: 0;
-   right: 0;
-   width: 100vw;
-   z-index: 10;
-   height: 50px;
-   position: relative;
-   width: 100%;
-   display: flex;
-   flex-direction:row; 
-  
- }
-
- 
- .menu {
-   height: 100%;
-   display: flex;
-   margin: 0% auto;
-   position: relative;
-   flex-direction:row; 
-    align-items: center;
-   justify-content: space-between;
-   font-weight: 10;
-   font-size: 20px;
-   width: 100%;
-   
- }
-
-.menuleft{
-   text-align: center;
-   justify-content: flex-start;
-   float: left;
-     border-left: 1px solid rgb(160, 159, 159);
-       border-top: 1px solid rgb(160, 159, 159);
-   border-bottom: 1px solid rgb(160, 159, 159);
-}
-
-.menuright{
-  text-align: center;
-  float: right;
-  justify-content: flex-end;
-  right:0;
-  border-right: 1px solid rgb(160, 159, 159);
-    border-top: 1px solid rgb(160, 159, 159);
-   border-bottom: 1px solid rgb(160, 159, 159);
-}
-
-.menucenter{
-  float:none;
-  text-align: center;
-  justify-content:center;
-  display: flex;
-}
-
-.menucenter img {
-   height: 100%;
-  width: auto;
-}
-
-.spacing { 
-  Margin-right: 15px; 
-} 
-
- .verticalBorder {
-   height: 100%;
-   border-left: 1px solid rgb(160, 159, 159);
- }
-
-.menuitem, .cartbox, .nameitem, .hoveritem {
-   position: relative;
-  text-align: center;
-   width:200px;
- }
-
- .cartbox {
-  color:transparent;
- }
-
-/* Bottom left text */
-.numberbox {
-  position: relative;
-  margin-top: 0px;
- color:rgb(238, 43, 157)
-}
-  .cartimage{
-   width: 25px;
-   height: 25px;
-  vertical-align: middle;
-  margin-top: 5px;
-  margin-right: 5px;
-  margin-left: 5px;
-  padding-right:3px;
-   cursor: pointer;
- }
-
-.nameitem{
-    background-color:transparent;
-    color: rgb(65, 63, 63);
-    justify-content:center;
-    align-content:center;
-    bottom:0;
-   }
-
-.hoveritem{
-    background-color:transparent;
-    color: rgb(65, 63, 63);
-    justify-content:center;
-    align-content:center;
- }
-
-  .hoveritem:hover {
-    text-decoration:underline;
-    cursor: pointer;
-    }
-
-  @media (max-width: 800px) {
-  .nav{
-    background-color:rgb(255, 255, 255);
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100vw;
-    z-index: 10;
-    height: 100px;
-    position: relative;
-    width: 100%;
-    display: flex;
-    flex-direction:column; 
-     }
-
-    .menuitem, .cartbox, .nameitem, .hoveritem {
-   position: relative;
-  text-align: center;
-   width:50%;
- }
-
-  .menucenter{
-   display: none
-  }
-
-  .menuleft {
-    float: bottom;
-    text-align: center;
-    justify-content: flex-start;
-    border-right: 1px solid rgb(160, 159, 159);
-      border-top: 1px solid rgb(160, 159, 159);
-   border-bottom: 1px solid rgb(160, 159, 159);
-  }
-
-  .menuright{
-    float: bottom;
-    text-align: center;
-    justify-content: flex-start;
-    border-right: 1px solid rgb(160, 159, 159);
-      border-top: 0px solid rgb(160, 159, 159);
-   border-bottom: 1px solid rgb(160, 159, 159);
-   }
-    
-}
-
-@media (max-width: 600px) {
-.nav{
-    background-color:rgb(255, 255, 255);
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100vw;
-    z-index: 10;
-    height: 100px;
-    position: relative;
-    width: 100%;
-    display: flex;
-    flex-direction:column; 
-     }
-
-  .menucenter{
-   
-   display: none;
-  }
-
-  .menuleft {
-    float: bottom;
-    text-align: center;
-    justify-content: flex-start;
-    border-right: 1px solid rgb(160, 159, 159);
-      border-top: 1px solid rgb(160, 159, 159);
-   border-bottom: 1px solid rgb(160, 159, 159);
-  }
-
-  .menuright{
-    float: bottom;
-    text-align: center;
-    justify-content: flex-start;
-    border-right: 1px solid rgb(160, 159, 159);
-      border-top: 0px solid rgb(160, 159, 159);
-   border-bottom: 1px solid rgb(160, 159, 159);
-   }
-
-   .menuitem, .cartbox, .nameitem, .hoveritem {
-   position: relative;
-  text-align: center;
-   width:50%;
- }
-
-}
-
-</style>
+<style lang="scss" scoped>
+    @import "~@/styles/navigationstyle.scss";
+  </style>

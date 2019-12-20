@@ -1,0 +1,243 @@
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+  }
+  
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-content a:hover {background-color: #ddd;}
+  
+  .dropdown:hover .dropdown-content {display: block;}
+  
+  .dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+  //@debug
+
+.nav{
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    z-index: 10;
+    height: 70px;
+    position: absolute;
+    width: 100%;
+    display: flex;
+    flex-direction:row; 
+   
+  }
+ 
+  
+  .menu {
+    height: 100%;
+    display: flex;
+    margin: 0% auto;
+    position: relative;
+    flex-direction:row; 
+     align-items: center;
+    justify-content: space-between;
+    font-weight: 10;
+    font-size: 20px;
+    width: 100%;
+    
+  }
+ 
+ .menuleft{
+   display: flex;
+    text-align: center;
+    justify-content: flex-start;
+    float: left;
+      border-left: 1px solid rgb(160, 159, 159);
+        border-top: 1px solid rgb(160, 159, 159);
+    border-bottom: 1px solid rgb(160, 159, 159);
+ }
+ 
+ .menuright{
+   text-align: center;
+   float: right;
+   justify-content: flex-end;
+   right:0;
+   border-right: 1px solid rgb(160, 159, 159);
+     border-top: 1px solid rgb(160, 159, 159);
+    border-bottom: 1px solid rgb(160, 159, 159);
+ }
+ 
+ .menucenter{
+    text-align: center;
+   justify-content:center;
+   display: flex;
+ }
+ 
+ .menuleft img {
+    height: 100%;
+   width: auto;
+ }
+ 
+ .spacing { 
+   Margin-right: 15px; 
+ } 
+ 
+  .verticalBorder {
+    height: 100%;
+    border-left: 1px solid rgb(160, 159, 159);
+  }
+ 
+ .menuitem, .cartbox, .nameitem, .hoveritem {
+    position: relative;
+   text-align: center;
+    width:200px;
+  }
+ 
+  .cartbox {
+   color:transparent;
+  }
+ 
+ /* Bottom left text */
+ .numberbox {
+   position: relative;
+   margin-top: 0px;
+  color:rgb(238, 43, 157)
+ }
+   .cartimage{
+    width: 25px;
+    height: 25px;
+   vertical-align: middle;
+   margin-top: 5px;
+   margin-right: 5px;
+   margin-left: 5px;
+   padding-right:3px;
+    cursor: pointer;
+  }
+ 
+ .nameitem{
+     background-color:transparent;
+     color: rgb(65, 63, 63);
+     justify-content:center;
+     align-content:center;
+     bottom:0;
+    }
+ 
+ .hoveritem{
+     background-color:transparent;
+     color: rgb(65, 63, 63);
+     justify-content:center;
+     align-content:center;
+  }
+ 
+   .hoveritem:hover {
+     text-decoration:underline;
+     cursor: pointer;
+     }
+ 
+   @media (max-width: 800px) {
+   .nav{
+     background-color:rgb(255, 255, 255);
+     top: 0;
+     left: 0;
+     right: 0;
+     width: 100vw;
+     z-index: 10;
+     height: 100px;
+     position: relative;
+     width: 100%;
+     display: flex;
+     flex-direction:column; 
+      }
+ 
+     .menuitem, .cartbox, .nameitem, .hoveritem {
+    position: relative;
+   text-align: center;
+    width:50%;
+  }
+ 
+   .menucenter{
+    display: none
+   }
+ 
+   .menuleft {
+     float: bottom;
+     text-align: center;
+     justify-content: flex-start;
+     border-right: 1px solid rgb(160, 159, 159);
+       border-top: 1px solid rgb(160, 159, 159);
+    border-bottom: 1px solid rgb(160, 159, 159);
+   }
+ 
+   .menuright{
+     float: bottom;
+     text-align: center;
+     justify-content: flex-start;
+     border-right: 1px solid rgb(160, 159, 159);
+       border-top: 0px solid rgb(160, 159, 159);
+    border-bottom: 1px solid rgb(160, 159, 159);
+    }
+     
+ }
+ 
+ @media (max-width: 600px) {
+ .nav{
+     background-color:rgb(255, 255, 255);
+     top: 0;
+     left: 0;
+     right: 0;
+     width: 100vw;
+     z-index: 10;
+     height: 100px;
+     position: relative;
+     width: 100%;
+     display: flex;
+     flex-direction:column; 
+      }
+ 
+   .menucenter{
+    
+    display: none;
+   }
+ 
+   .menuleft {
+     float: bottom;
+     text-align: center;
+     justify-content: flex-start;
+     border-right: 1px solid rgb(160, 159, 159);
+       border-top: 1px solid rgb(160, 159, 159);
+    border-bottom: 1px solid rgb(160, 159, 159);
+   }
+ 
+   .menuright{
+     float: bottom;
+     text-align: center;
+     justify-content: flex-start;
+     border-right: 1px solid rgb(160, 159, 159);
+       border-top: 0px solid rgb(160, 159, 159);
+    border-bottom: 1px solid rgb(160, 159, 159);
+    }
+ 
+    .menuitem, .cartbox, .nameitem, .hoveritem {
+    position: relative;
+   text-align: center;
+    width:50%;
+  }
+ 
+ }
