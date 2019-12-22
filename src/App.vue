@@ -2,7 +2,7 @@
   <div id="app">
     
     <Navigation ></Navigation>
-      <div class="fullpage" >
+    <div class="fullpage" >
     
             <transition-expand>
              <div  class="dropdownblocktransition" v-if="showCheckout">

@@ -5,20 +5,18 @@
     <div class="dropdown hoveritem">
       <div class="menuicon">
             <img src="../assets/menu.png"  alt="cart"  class="cartimage"/>
-            <small class="numberbox" v-visible="totalitems > 0">{{totalitems}}</small>
           </div>
       <div class="dropdown-content left">
-          <a  v-on:click="navigate('Shop')">shop</a>
-          <a  v-on:click="navigate('Artists')">artists</a>
-          <a  v-on:click="navigate('About')">about</a>
-          <a  v-on:click="navigate('Contact')">contact</a>
+          <a  v-on:click="navigate('Shop')">SHOP</a>
+          <a  v-on:click="navigate('Artists')">ARTISTS</a>
+          <a  v-on:click="navigate('About')">ABOUT</a>
+          <a  v-on:click="navigate('Contact')">CONTACT</a>
       </div>
     </div>
-
-    
+  
     <!-- <div class="hoveritem">Two</div> -->
     <div class="center hoveritem">
-        <img class="logo" src="../assets/sitelogo.png"  alt="cart"  @click="navigate('Home')" />
+        <img  class="logo" src="../assets/sitelogo.png"  alt="cart"  @click="navigate('Home')" />
     </div>
 
     <div class="hoveritem">
@@ -31,13 +29,11 @@
     <div class="dropdown  hoveritem">
       <div class="menuicon">
             <img src="../assets/login.png"  alt="cart"  class="cartimage"/>
-            <small class="numberbox" v-visible="totalitems > 0">{{totalitems}}</small>
-          </div>
+           </div>
       <div class="dropdown-content right">
-        <a v-show="!isLoggedin" v-on:click="navigate('Login')">login</a>
-        <a v-show="!isLoggedin" v-on:click="navigate('Register')">register</a>
-          <a v-show="isLoggedin" v-on:click="navigate('Logout')">logout</a>
-          
+        <a v-show="!isLoggedin" v-on:click="navigate('Login')">LOGIN</a>
+        <a v-show="!isLoggedin" v-on:click="navigate('Register')">REGISTER</a>
+        <a v-show="isLoggedin" v-on:click="navigate('Logout')">LOGOUT</a>
       </div>
     </div>
 

@@ -1,19 +1,8 @@
 <template>
- <!-- <div class="centralcontainer"> -->
-  <div :style="getContainerStyle()">
-      <!-- <transition
-          name="expand"
-          @enter="enter"
-          @after-enter="afterEnter"
-          @leave="leave"
-        > -->
-       <div :style="getBannerStyle()"> 
-          <img  class="frontimage" v-bind:src="imageurl"  alt=""   /> 
-        </div>
-
-         <!-- </transition>  -->
-
-      
+ <div :style="getContainerStyle()">
+   
+        <img  class="frontimage" v-bind:src="imageurl"  alt=""   /> 
+       
    </div>
   
 </template>
@@ -28,10 +17,8 @@ export default {
     },
   data() {
       return {
-        busy: false,
-        position: 'relative',
         imageurl: require('../assets/logo.png') ,
-        showCheckout: false
+         showCheckout: false
       }
     },
 
@@ -65,36 +52,23 @@ methods: {
 //  },
 
 getContainerStyle: function () { 
- let h = String(window.innerHeight - 120) + 'px'
+ let h = String(window.innerHeight - 50) + 'px'
          return  {
-          'max-width': '100vw',
-          'min-height' : h,
-          //'max-height': h,
-          'height': '100%',
+          'max-height': h,
+          'min-height': h,
+          'min-width' : '100vw',
+           'height': '100%',
           'width':'100%',
           'display': 'flex',
-          'overflow-y': 'auto',
+          'overflow-y': 'hidden',
           'overflow-x': 'hidden',
-          'flex-direction': 'row',
+          'flex-direction': 'column',
           'justify-content': 'center',
-         //'padding-top' : '0px',
+         
           
        }
     },
 
-  getBannerStyle: function () { 
-      return  {
-                'margin-top': 'auto',
-                'margin-bottom':  'auto',
-                'margin-left': 'auto',
-                'margin-right': 'auto',
-                'display': 'flex',
-                'height': '100%',
-                'width': 'auto',
-                'transition': 'all 3000ms ',
-                'transition-delay': '3000ms'
-   }
-  },
 }
 
 

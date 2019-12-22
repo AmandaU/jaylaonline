@@ -75,7 +75,7 @@ export default {
 
 .expand-enter-active,
 .expand-leave-active {
-  transition: opacity, height 1s ease-in-out;
+  transition: opacity, height 500ms ease-in-out;
   overflow: hidden;
 }
 
