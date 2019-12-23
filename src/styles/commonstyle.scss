@@ -80,12 +80,12 @@ font-size: 14px!important;
   }
 
 .frontimage{
-  object-fit: contain;
-  width: 100%;
+  object-fit: cover;
+  width: auto;
   height: 100%;
   // width:auto;
-  // max-height: 100vh;
-   margin:0 auto;
+   min-height: 100vh;
+  // margin:0 auto;
   // -moz-box-shadow:inset 0px 0px 6px 6px rgba(255,255,255,1);
   // -webkit-box-shadow:inset 0px 0px 6px 6px rgba(255,255,255,1);
   // box-shadow:inset 0px 0px 6px 6px rgba(255,255,255,1);
