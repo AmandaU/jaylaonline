@@ -53,7 +53,7 @@ methods: {
 }
 
 .menuitem{
-    color: white;
+    color: rgb(209, 232, 248);
    text-align: center;
     justify-content:center;
     align-content:center;
