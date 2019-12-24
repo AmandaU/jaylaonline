@@ -22,7 +22,11 @@
         </keep-alive>
         <BottomNav></BottomNav>
       </div>
-     </div>  
+  
+  
+  
+   </div>  
+  
  
 </template>
 
@@ -38,8 +42,8 @@ export default {
   components: {
     'Navigation': Navigation,
     'BottomNav': BottomNav,
-     'ShoppingCart': ShoppingCart ,
-     'TransitionExpand': TransitionExpand
+    'ShoppingCart': ShoppingCart ,
+    'TransitionExpand': TransitionExpand
   },
 
   data: function () {

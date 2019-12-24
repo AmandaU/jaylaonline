@@ -52,7 +52,7 @@ methods: {
 //  },
 
 getContainerStyle: function () { 
- let h = String(window.innerHeight - 50) + 'px'
+ let h = String(window.innerHeight) + 'px'
          return  {
           'max-height': h,
           'min-height': h,

@@ -1,16 +1,12 @@
 <template>
-<!-- <div >  -->
-    <div class="footer" ref="footer" v-bind:style="{ position: footerposition }">
+    <div class="footer" ref="footer" >
    
-        <div class=" menuitem "  @click="navigate('About')">About
-            <!-- <img src="../assets/home.png"  alt="About"  /><br> -->
-        </div>
-        <div class="menuitem "  @click="navigate('Contact')">Contact
-            <!-- <img src="../assets/home.png"  alt="Contact"  /><br> -->
+        <div class=" menuitem "  @click="navigate('About')">ABOUT
+         </div>
+        <div class="menuitem "  @click="navigate('Contact')">CONTACT
         </div>
   
     </div>
-<!-- </div>   -->
 </template>
 
 <script>
@@ -19,7 +15,7 @@ export default {
   name: 'BottomNav',
 data() {
     return {
-      footerposition: 'relative' 
+     // footerposition: 'relative' 
        }
   },
 
@@ -50,9 +46,14 @@ methods: {
     width:100%;
      height: 50px;
      position: absolute;
+     background-color: transparent;
+      font-weight: 6;
+    font-size: 12px;
+   
 }
 
 .menuitem{
+    color: white;
    text-align: center;
     justify-content:center;
     align-content:center;
