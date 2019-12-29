@@ -279,6 +279,7 @@ export default {
           totalpaid: instance.shoppingcart.totalpaid,
           totalitems: instance.shoppingcart.totalitems,
           deliveryfee: instance.shoppingcart.deliveryfee,
+          courier: instance.courier,
           user: {
             uid: instance.user.uid,
             firstname: instance.user.firstname,
