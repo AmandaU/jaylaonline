@@ -10,12 +10,9 @@
    
     <media :query="{maxWidth: 600}" @media-enter="media600Enter" @media-leave="media600Leave"> </Media> 
 
-
         <div v-if="!isLoading" v-bind:class="[isRow ? 'rowstyle' : 'cols']">  
-            <div :style="getImageStyle(product,true)"  v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
+            <div :style="getImageContainerStyle(product)"  v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
 
-
-             
                       <div class="flip-card">
 
                           <div  v-bind:class="[product.isFlipped ? 'doFlip' : 'doUnFlip']"
@@ -23,11 +20,11 @@
                               v-on:mouseover="onHover(product)">
                            
                             <div class="flip-card-front">
-                              <img  v-bind:src="product.images[0].url" alt="Avatar" :style="getImageStyle(product, false)" >
+                              <img  v-bind:src="product.images[0].url" alt="Avatar" :style="getImageStyle(product)" >
                             </div> 
                       
                             <div class="flip-card-back">
-                                <div :style="getImageStyle(product, false)"  >
+                                <div :style="getImageStyle(product)"  >
                                    <div v-for="(image, index) in product.images" v-bind:key="index" v-bind:class="[index == product.flipIndex ? 'isVisible' : 'isInvisible']">
                                     <img   v-bind:src="product.images[index].thumbUrl" alt="Avatar" rel="preload" class="flip-thumb-image" >
                                     <img   v-bind:src="product.images[index].url" alt="Avatar" rel="preload" class="flip-image" >
@@ -171,18 +168,30 @@ methods: {
           this.containerWidth = w * .33; 
     },
 
-    getImageStyle: function (product, withMargin) { 
+    getImageStyle: function (product) { 
+      let margin = this.isMobile || !this.greaterThan600 ? 0.8 : 1
+      let w = this.containerWidth * margin
+       return  {
+          
+          'position': 'relative',
+          'width': w + 'px',
+          'height': w + 'px',
+         'margin' : '0 auto',
+      }
+    },
+
+    getImageContainerStyle: function (product) { 
       let w = this.containerWidth 
        return  {
           'width': w + 'px',
           'height': w + 'px',
           'position': 'relative',
-          'margin': withMargin ? this.isMobile ? '15%' : '2%' : '0'
-      }
+          'margin' : '0 auto',
+       }
     },
 
    getContainerStyle: function () { 
-     let h = String(window.innerHeight - 20) + 'px'
+     let h = String(window.innerHeight - 70) + 'px'
       
          return  {
           'max-width': '100vw',
@@ -196,7 +205,8 @@ methods: {
           'justify-content': 'center',
           'align-items': 'center',
           'vertical-align': 'center',
-          'perspective': window.innerWidth - 20
+          'perspective': window.innerWidth - 20,
+          'margin-top': '70px'
            // ':hover .flip-card-inner' : {
           //     'transform': 'rotateY(180deg)'
          // }
