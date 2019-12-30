@@ -39,43 +39,6 @@
 
                      </div>  
 
-
-
-            <!-- <div class="flip-card" :style="getImageStyle(product)">
-                      <div class="flip-card-inner">
-
-                          <div  v-bind:class="[product.isFlipped ? 'doFlip' : 'doUnFlip']"
-                              v-on:mouseleave="onUnHover(product)"
-                              v-on:mouseover="onHover(product)">
-                      
-                        <div class="flip-card-front">
-                          <img  v-bind:src="product.images[0].url" alt="Avatar"  >
-                        </div>
-                      
-                        <div class="flip-card-back">
-                          <img v-bind:key="product.flipIndex"  v-bind:src="product.images[product.flipIndex].url" alt="Avatar" rel="preload" >
-                        </div>
-                        </div>
-                      
-                    </div> 
-            </div>  
- -->
-
-
-<!-- 
-                     <div class="tile" :style="getImageStyle(product)" 
-                       v-on:mouseleave="onUnHover(product)"
-                       v-on:mouseover="onHover(product)"
-                      >
-                 
-                        <transition name="flip" mode="out-in">
-                              
-                               <img   v-bind:key="product.flipIndex"  :src="product.images[product.flipIndex].thumbUrl" alt="Avatar"   rel="preload" > 
-
-                            </transition>
-
-                   </div>   -->
-
             </div>
         </div> 
 
@@ -106,7 +69,6 @@ export default {
         containerWidth: window.innerWidth > 800? (window.innerWidth * .8) * .33: window.innerWidth > 600? (window.innerWidth * .8) * .5: window.innerWidth * .8,
         showCheckout: false,
         hovering: false,
-        itemimages: [],
         loader: {},
         }
     },

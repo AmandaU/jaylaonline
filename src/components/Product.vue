@@ -19,16 +19,16 @@
             <br>
               
             <div class="priceblock">
-              <div  v-for="item in items" :key="item['.key']">
+              <div  v-for="item in product.items" :key="item['.key']">
                   <div class="itemrow">
-                
+                   
                       <div class="itemcolumn1">
                         <strong>Size {{item.size}},  R{{item.price}} each </strong>
                       </div>  
 
                       <div  class="itemcolumn2">
-                          <div v-show="!isAvailable(item)" class="itemdetail">SOLD OUT !! </div>
-                      
+                          
+                           <div v-show="!isAvailable(item)" class="itemdetail">SOLD OUT !! </div>
                           <div v-show="isAvailable(item)" class="numberrow" >
                               
                               <div  class="itemselection ">
@@ -102,9 +102,7 @@ export default {
       componentKey: 0,
       isLoading: true,
       haveArtist: false,
-      items: [],
-      itemimages: [],
-      product: {},
+       product: {},
       artists: [],
       artist: {},
       isMobile: false,
@@ -125,8 +123,7 @@ firebase () {
       }
    } 
     return {
-      items: db.ref('items').orderByChild("productid").equalTo(this.productid) ,
-      artists:  db.ref('artists')
+       artists:  db.ref('artists')
     }
 },
 
@@ -157,10 +154,17 @@ created () {
           self.product = products.val()[key];
        }
       
-      const arrayResult = Object.keys(self.product.images).map(imagekey => {
+      const imageArray = Object.keys(self.product.images).map(imagekey => {
           return self.product.images[imagekey]
       });
-       self.product.images = arrayResult
+       self.product.images = imageArray
+
+       const itemArray = Object.keys(self.product.items).map(itemkey => {
+         let item = self.product.items[itemkey]
+         item.key = itemkey
+          return item
+      });
+       self.product.items = itemArray
        self.loader.hide()
        self.isLoading = false
     });
@@ -293,7 +297,7 @@ methods: {
 
   createOrderItem (item) {
      let orderitem = {
-      key: item['.key'],
+      key: item.key,
       productid: item.productid,
       price: item.price,
       size: item.size,
@@ -323,13 +327,13 @@ methods: {
   },
 
   addItem(item, add) {
-    if(localStorage.getItem('jaylashop')) {
+   if(localStorage.getItem('jaylashop')) {
         this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
      } else {
        this.initialiseShoppingCart()
      }
     var existingitem = this.shoppingcart.items.find(existing => {
-      if (existing.key == item['.key']) {
+      if (existing.key == item.key) {
         return existing.key;
       }
     });
