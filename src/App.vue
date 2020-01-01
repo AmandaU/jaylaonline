@@ -7,10 +7,10 @@
             <transition-expand>
              <div  class="dropdownblocktransition" v-if="showCheckout">
              
-               <div class="shoppingcartrow" >
+               <!-- <div class="shoppingcartrow" >
                   <span @click="hide" class="hoveritem">hide this</span> 
                   <span @click="gotoCheckout" class="hoveritem">checkout</span>
-               </div>
+               </div> -->
                <ShoppingCart  :showCheckout="showCheckout"></ShoppingCart>
            
             <div class="thinline"/>
@@ -84,10 +84,6 @@ export default {
           navigator.userAgent.match(/iPod/i) ||
           navigator.userAgent.match(/BlackBerry/i) ||
           navigator.userAgent.match(/Windows Phone/i) ;
-      },
-
-      hide() {
-        this.$eventHub.$emit('showCheckout', false);
       },
 
       gotoCheckout () {

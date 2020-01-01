@@ -4,7 +4,7 @@
     <!-- <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media> -->
 
     <h2>Shopping cart:</h2> 
-     <div :style="getCartStyle()" :key="cartKey">
+      <div :style="getCartStyle()" :key="cartKey">
     <!-- <div class="shoppingcartblock"> -->
 
         <div class="checkoutblock" >
@@ -13,7 +13,7 @@
               <p  v-show="this.shoppingcart.totalitems == 0">There are no items in your cart,<span @click="goToShop" style="color:blue;cursor:pointer"> shop </span>some more ;)</p>
                   
               <div  class="checkoutrow" v-for="item in shoppingcart.items" :key="item.key ">
-                  <div  v-visible="canRemoveItem" @click="removeItem(item)" class="closebutton"><h1>X</h1></div>
+                  <div  v-visible="canRemoveItem" @click="removeItem(item)" class="removebutton"><h1>X</h1></div>
 
                   <div  class="itemthumbnailimage">
                      <img v-bind:src="item.thumburl" v-bind:alt="item.productname" >
@@ -34,7 +34,8 @@
         <div class="space"/>
 
         <div class="totalblock">
-
+          <div   @click="hide()" class="closebutton"><h1>X</h1></div>
+            <div class="totalinner">
               <div  class="totalrow">
                   
                   <div  class="rowlabel total">
@@ -58,15 +59,19 @@
                   </div>
 
               </div> 
+               </div> 
+              <button  @click="gotoCheckout" class="cartbutton">check out</button>
+             
         </div> 
+         
     </div>   
   </div>  
 
 </template>
 
 <script>
-
-import Media from 'vue-media'
+ import firebase from '../firebase-config';
+// import Media from 'vue-media'
  
 export default {
 
@@ -145,6 +150,11 @@ export default {
 
     methods: {
 
+      hide() {
+        this.showCheckout = false
+         this.$eventHub.$emit('showCheckout', false);
+      },
+
        goWide: function () {
           if (this.isMobile()) return true
           return !this.showCheckout
@@ -169,6 +179,16 @@ export default {
       // media800Leave(mediaQueryString) {
       //   this.greaterThan800 = true
       // },
+
+      gotoCheckout () {
+debugger
+        let currentuser = firebase.auth().currentUser;
+        if (!currentuser){
+        this.$router.push({ name: 'Login', params: {goto: 'Information'}});
+        } else{
+          this.$router.push({ name: 'Information'});
+        }
+      },
 
       redrawComponent() {
         this.cartKey += 1

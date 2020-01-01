@@ -191,7 +191,7 @@ methods: {
     },
 
    getContainerStyle: function () { 
-     let h = String(window.innerHeight - 70) + 'px'
+     let h = String(window.innerHeight - 140) + 'px'
       
          return  {
           'max-width': '100vw',
@@ -206,7 +206,7 @@ methods: {
           'align-items': 'center',
           'vertical-align': 'center',
           'perspective': window.innerWidth - 20,
-          'margin-top': '70px'
+          'margin-top': '100px'
            // ':hover .flip-card-inner' : {
           //     'transform': 'rotateY(180deg)'
          // }
