@@ -24,22 +24,36 @@
              </vue-tel-input>
 
             <h2>Shipping address</h2>
+             <small class="addresslabel">Country</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.country == ''">*</small>
+            <country-select v-model="shoppingcart.user.address.country" :country="shoppingcart.user.address.country" topCountry="ZA" class="countryitem"/>
+            <small class="addresslabel">Region</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.region == ''">*</small>
+            <region-select v-model="shoppingcart.user.address.region" :country="shoppingcart.user.address.country" :region="shoppingcart.user.address.region" class="countryitem" />
+           
             <small v-show="addressInvalid" style="color: red">Your address is not quite right, please check</small><br>
             <small class="addresslabel">Address line 1</small><small style="color: red" v-visible="addressInvalid && shoppingcart.user.address.addressline1 == ''">*</small>
             <input type="text" v-model="shoppingcart.user.address.addressline1" placeholder="Address line 1" class="addressitem">
             <small class="addresslabel">Address line 2</small>
             <input type="text" v-model="shoppingcart.user.address.addressline2" placeholder="Address line 2" class="addressitem">
-            <small class="addresslabel">Address line 1</small><small style="color: red" v-visible="addressInvalid && shoppingcart.user.address.addressline1 == ''">*</small>
             <small class="addresslabel">Suburb</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.suburb == ''">*</small>
-            <input type="text" v-model="shoppingcart.user.address.suburb" placeholder="Suburb" class="addressitem">
-            <small class="addresslabel">City</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.city == ''">*</small>
-            <input type="text" v-model="shoppingcart.user.address.city" placeholder="City" class="addressitem">
-            <small class="addresslabel">Country</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.country == ''">*</small>
-            <country-select v-model="shoppingcart.user.address.country" :country="shoppingcart.user.address.country" topCountry="ZA" class="countryitem"/>
-            <small class="addresslabel">Region</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.region == ''">*</small>
-            <region-select v-model="shoppingcart.user.address.region" :country="shoppingcart.user.address.country" :region="shoppingcart.user.address.region" class="countryitem"/>
-             <small class="addresslabel">Postal code</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.postalcode == ''">*</small>
-            <input type="number" v-model="shoppingcart.user.address.postalcode" placeholder="Code" class="addressitem"  ><br>
+           
+            <input type="text" v-model="shoppingcart.user.address.suburb" placeholder="Suburb" class="addressitem"  @change="onChangeSuburb()">
+            <div v-if="isChangingSuburb">
+                <div  v-for="address in filteredAddresses" v-bind:key="address.postalcode">
+                  <span @click="onSelectAddress(address)">{{ address.suburb }}, {{ address.city }}, {{ address.postalcode }}</span>
+                </div>
+             </div>
+            <!-- <select v-if="isChangingSuburb" v-model="validAddress" @change="onSelectAddress($event)" >
+               <option v-for="address in filteredAddresses" v-bind:key="address.postcode">{{ address.suburb }}, {{ address.city }}, {{ address.postalcode }}}</option>
+            </select>  -->
+
+
+              <small v-if="!isChangingSuburb" class="addresslabel" >{{shoppingcart.user.address.city}}</small>
+              <small v-if="!isChangingSuburb" class="addresslabel" >{{shoppingcart.user.address.postalcode}}</small>
+           
+            <!--  <small class="addresslabel">City</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.city == ''">*</small>
+              <input type="text" v-model="shoppingcart.user.address.city" placeholder="City" class="addressitem">
+              <small class="addresslabel">Postal code</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.postalcode == ''">*</small>
+            <input type="number" v-model="shoppingcart.user.address.postalcode" placeholder="Code" class="addressitem"  ><br> -->
            <div style=" text-align: center;">
             <button  @click="shopMore" class="buttonstyle">shop more</button>
             <button :disabled="shoppingcart.totalitems == 0"  @click="goToDelivery" class="buttonstyle">continue...</button>
@@ -73,6 +87,10 @@
 
  data() {
       return {
+        loader: {},
+        isChangingSuburb: false,
+        validAddress: {},
+        allValidAddresses: [],
         showCheckout: false,
         componentKey: 0,
         busy: true,
@@ -120,6 +138,10 @@
   },
 
  created() {
+    this.loader = this.$loading.show({
+              loader: 'dots',
+                color: 'blue'
+    });  
     window.addEventListener("resize", this.redrawComponent);
     this.$eventHub.$emit('showCheckout', this.isMobile());
     this.showCheckout = this.isMobile()
@@ -139,9 +161,70 @@
         }
       });
     }
+    this.getAddresses()
  },
 
+  computed: {
+
+      filteredAddresses: function()
+      {
+        let self = this
+         return self.allValidAddresses.filter(address => {
+                return address.suburb.contains(self.shoppingcart.user.address.suburb)
+            })
+         
+      },
+   },
+
   methods: {
+
+    onChangeSuburb() {
+      this.isChangingSuburb = true
+    },
+
+     onSelectAddress(event) {
+            console.log(event.target.value)
+            this.isChangingSuburb = false
+            this.shoppingcart.user.address.suburb = event.target.value.suburb 
+            this.shoppingcart.user.address.city = event.target.value.city
+            this.shoppingcart.user.address.postalcode = event.target.value.postalcode 
+        },
+
+    getAddresses() {
+      debugger
+      let self = this
+      const auth = {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Access-Control-Allow-Origin': '*'} 
+    }
+    //  this.axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+    //  this.axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
+   this.axios.get('https://www.rush.co.za/ecommerce/address/addressListingEcommerceApi.json', { crossdomain: true })
+     //this.axios.get('https://www.rush.co.za/ecommerce/address/addressListingEcommerceApi.json')
+       .then(result => {
+         debugger
+          if(result.statusText == "OK") {
+            self.allValidAddresses = result.data.data.filter(address => {
+                if (address['USE'] == "Yes")
+                {
+                  return {
+                    suburb : address['SUBURB'],
+                    city : address['STATE'],
+                    postalcode : address['POSTCODE'],
+                  }
+                }
+            })
+           }
+          self.isLoading = false
+          self.loader.hide()
+    
+        })
+        .catch(e => {
+           self.isLoading = false
+           self.loader.hide()
+         //  alert("There was a problem calculating the delivery fee")
+        })
+    },
+
 
     isMobile: function() {
           return window.innerWidth < 800 ||

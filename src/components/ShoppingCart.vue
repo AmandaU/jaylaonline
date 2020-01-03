@@ -181,7 +181,6 @@ export default {
       // },
 
       gotoCheckout () {
-debugger
         let currentuser = firebase.auth().currentUser;
         if (!currentuser){
         this.$router.push({ name: 'Login', params: {goto: 'Information'}});

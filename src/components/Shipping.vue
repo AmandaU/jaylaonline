@@ -24,8 +24,7 @@
               <button  @click="shopMore" class="buttonstyle">shop more</button>
               <!-- <button  :disabled="shoppingcart.totalitems == 0" @click="getDeliveryFee" class="buttonstyle">calculate delivery fee</button><br> -->
               <button  :disabled="shoppingcart.deliveryfee == 0"  @click="goToCheckout" class="buttonstyle">continue...</button>
-
-              
+        
             <!-- </div> -->
          </div>
      

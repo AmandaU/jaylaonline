@@ -9,7 +9,7 @@
     <div>
        <transition name=" slide-in">
      
-         <div v-if="!isLoading" >
+         <div v-if="isDone" >
            <h2>Delivery information</h2>
            <h4>Courier: {{courier.CarrierName}} </h4>
            <h4>Delivery time: {{hoursToDays(courier.DeliveryTimeHours)}} days</h4>
@@ -28,6 +28,7 @@ export default {
 
   data() {
     return {
+      isDone: false,
       isLoading: true,
       loader: {},
       shoppingcart: {},
@@ -56,14 +57,12 @@ created() {
    this.loader = this.$loading.show({
               loader: 'dots',
                 color: 'blue'
-    });
+    });  
    this.getDeliveryQuote()
 },
 
  computed: {
-
-      
-   
+  
    },
 
   methods: {
@@ -152,6 +151,7 @@ created() {
          }
           self.isLoading = false
           self.loader.hide()
+          self.isDone = true
         })
         .catch(e => {
            self.isLoading = false

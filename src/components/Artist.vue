@@ -118,8 +118,9 @@ methods:
 { 
      getContainerStyle: function () { 
   
-     let h = String(window.innerHeight - 120) + 'px'
+     let h = String(window.innerHeight - 140) + 'px'
          return  {
+          'margin-top': '100px',
            'max-width': '100vw',
           'height' : '100%',
           'min-height' : h,
