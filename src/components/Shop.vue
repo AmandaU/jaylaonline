@@ -207,9 +207,9 @@ methods: {
           'vertical-align': 'center',
           'perspective': window.innerWidth - 20,
           'margin-top': '100px'
-           // ':hover .flip-card-inner' : {
-          //     'transform': 'rotateY(180deg)'
-         // }
+        //    ':hover .flip-card-inner' : {
+        //       'transform': 'rotateY(180deg)'
+        //  }
          }
             
     },

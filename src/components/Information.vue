@@ -35,25 +35,26 @@
             <small class="addresslabel">Address line 2</small>
             <input type="text" v-model="shoppingcart.user.address.addressline2" placeholder="Address line 2" class="addressitem">
             <small class="addresslabel">Suburb</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.suburb == ''">*</small>
-           
-            <input type="text" v-model="shoppingcart.user.address.suburb" placeholder="Suburb" class="addressitem"  @change="onChangeSuburb()">
-            <div v-if="isChangingSuburb">
+
+            <!--Old way-->
+            <input type="text" v-model="shoppingcart.user.address.suburb" placeholder="Suburb" class="addressitem"  >
+           <small class="addresslabel">City</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.city == ''">*</small>
+              <input type="text" v-model="shoppingcart.user.address.city" placeholder="City" class="addressitem">
+              <small class="addresslabel">Postal code</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.postalcode == ''">*</small>
+            <input type="number" v-model="shoppingcart.user.address.postalcode" placeholder="Code" class="addressitem"  ><br>
+
+            <!--Better way-->
+            <!-- <input type="text" v-model="shoppingcart.user.address.suburb" placeholder="Suburb" class="addressitem"  @input="onChangeSuburb" >
+            <div v-if="isChangingSuburb && filteredAddresses.length > 0"> Changing suburb!
                 <div  v-for="address in filteredAddresses" v-bind:key="address.postalcode">
                   <span @click="onSelectAddress(address)">{{ address.suburb }}, {{ address.city }}, {{ address.postalcode }}</span>
                 </div>
              </div>
-            <!-- <select v-if="isChangingSuburb" v-model="validAddress" @change="onSelectAddress($event)" >
-               <option v-for="address in filteredAddresses" v-bind:key="address.postcode">{{ address.suburb }}, {{ address.city }}, {{ address.postalcode }}}</option>
-            </select>  -->
-
-
-              <small v-if="!isChangingSuburb" class="addresslabel" >{{shoppingcart.user.address.city}}</small>
-              <small v-if="!isChangingSuburb" class="addresslabel" >{{shoppingcart.user.address.postalcode}}</small>
            
-            <!--  <small class="addresslabel">City</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.city == ''">*</small>
-              <input type="text" v-model="shoppingcart.user.address.city" placeholder="City" class="addressitem">
-              <small class="addresslabel">Postal code</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.postalcode == ''">*</small>
-            <input type="number" v-model="shoppingcart.user.address.postalcode" placeholder="Code" class="addressitem"  ><br> -->
+              <small v-if="!isChangingSuburb" class="addresslabel" >{{shoppingcart.user.address.city}}, </small>
+              <small v-if="!isChangingSuburb" class="addresslabel" >{{shoppingcart.user.address.postalcode}}</small> -->
+           
+           
            <div style=" text-align: center;">
             <button  @click="shopMore" class="buttonstyle">shop more</button>
             <button :disabled="shoppingcart.totalitems == 0"  @click="goToDelivery" class="buttonstyle">continue...</button>
@@ -91,6 +92,7 @@
         isChangingSuburb: false,
         validAddress: {},
         allValidAddresses: [],
+        filteredAddresses: [],
         showCheckout: false,
         componentKey: 0,
         busy: true,
@@ -166,50 +168,64 @@
 
   computed: {
 
-      filteredAddresses: function()
-      {
-        let self = this
-         return self.allValidAddresses.filter(address => {
-                return address.suburb.contains(self.shoppingcart.user.address.suburb)
-            })
-         
-      },
+      
    },
 
   methods: {
 
-    onChangeSuburb() {
-      this.isChangingSuburb = true
+    filterAddresses()  {
+        let self = this
+        this.filteredAddresses =   self.allValidAddresses.filter(address => {
+         if (address) {
+                 if (address.suburb.toLowerCase().includes(self.shoppingcart.user.address.suburb.toLowerCase()) 
+                 || address.city.toLowerCase().includes(self.shoppingcart.user.address.suburb.toLowerCase())
+                 || address.state.toLowerCase().includes(self.shoppingcart.user.address.suburb.toLowerCase()) ) {
+                   return  address
+                 }
+          }
+         })
+       
+      },
+
+    onChangeSuburb(value) {
+       if(value.inputType == "insertText") {
+            if( this.shoppingcart.user.address.suburb.length <= 3) {
+            this.isChangingSuburb = false
+            return
+        }
+         this.filterAddresses()
+         this.isChangingSuburb = true
+      }
     },
 
-     onSelectAddress(event) {
-            console.log(event.target.value)
+     onSelectAddress(address) {
             this.isChangingSuburb = false
-            this.shoppingcart.user.address.suburb = event.target.value.suburb 
-            this.shoppingcart.user.address.city = event.target.value.city
-            this.shoppingcart.user.address.postalcode = event.target.value.postalcode 
+            this.shoppingcart.user.address.suburb = address.suburb 
+            this.shoppingcart.user.address.city = address.city
+            this.shoppingcart.user.address.postalcode = address.postalcode 
         },
 
     getAddresses() {
-      debugger
-      let self = this
+     let self = this
       const auth = {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Access-Control-Allow-Origin': '*'} 
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded', 
+        'Accept': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+         "Access-Control-Allow-Headers" : "Origin, X-Requested-With, Content-Type, Accept"} 
     }
-    //  this.axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-    //  this.axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
-   this.axios.get('https://www.rush.co.za/ecommerce/address/addressListingEcommerceApi.json', { crossdomain: true })
-     //this.axios.get('https://www.rush.co.za/ecommerce/address/addressListingEcommerceApi.json')
+    const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    const url = "https://www.rush.co.za/ecommerce/address/addressListingEcommerceApi.json"
+      this.axios.get(proxyurl + url, auth)
        .then(result => {
-         debugger
-          if(result.statusText == "OK") {
-            self.allValidAddresses = result.data.data.filter(address => {
-                if (address['USE'] == "Yes")
+         if(result.statusText == "OK") {
+            self.allValidAddresses = result.data.map(address => {
+                 if (address['USE'] == "Yes")
                 {
                   return {
                     suburb : address['SUBURB'],
                     city : address['STATE'],
                     postalcode : address['POSTCODE'],
+                    state: address['STATE']
                   }
                 }
             })

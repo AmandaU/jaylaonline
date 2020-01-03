@@ -5,6 +5,7 @@
 
     <h2>Shopping cart:</h2> 
       <div :style="getCartStyle()" :key="cartKey">
+          <div   @click="hide()" class="closebutton"><h1>X</h1></div>
     <!-- <div class="shoppingcartblock"> -->
 
         <div class="checkoutblock" >
@@ -32,9 +33,9 @@
         </div>  
 
         <div class="space"/>
-
+ 
         <div class="totalblock">
-          <div   @click="hide()" class="closebutton"><h1>X</h1></div>
+       
             <div class="totalinner">
               <div  class="totalrow">
                   
@@ -196,6 +197,7 @@ export default {
       getCartStyle: function () {
           return  {
          //'background-color':'rgb(147, 253, 40)',
+         'position': 'relative',
           'flex': '1',
           'min-width':   this.goWide() ? '90%' : this.showCheckout ? '700px' : '90%' ,
           'max-width': this.goWide() ? '90%' :this.showCheckout ? '700px' : '90%' ,

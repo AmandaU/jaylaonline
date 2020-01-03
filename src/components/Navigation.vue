@@ -7,8 +7,8 @@
           <img src="../assets/menu.png"  alt="cart"  class="cartimage"/>
       </div>
             
-      <div class="dropdown-content left">
-          <a  v-on:click="navigate('Shop')">SHOP</a>
+      <div class="dropdown-content left" :style="getColorStyle()">
+          <a  v-on:click="navigate('Shop')" >SHOP</a>
           <a  v-on:click="navigate('Artists')">ARTISTS</a>
           <a  v-on:click="navigate('About')">ABOUT</a>
           <a  v-on:click="navigate('Contact')">CONTACT</a>
@@ -36,7 +36,7 @@
       <div class="menuicon">
             <img src="../assets/login.png"  alt="cart"  class="cartimage"/>
            </div>
-      <div class="dropdown-content right">
+      <div class="dropdown-content right" :style="getColorStyle()">
         <a v-show="!isLoggedin" v-on:click="navigate('Login')">LOGIN</a>
         <a v-show="!isLoggedin" v-on:click="navigate('Register')">REGISTER</a>
         <a v-show="isLoggedin" v-on:click="navigate('Logout')">LOGOUT</a>
@@ -145,7 +145,14 @@ methods: {
     //      }
       //  }
       //  else
-   }
+   },
+
+    getColorStyle: function () {
+      let ishome = this.$route.name == 'Home'
+          return  {
+         'background-color': ishome ? 'transparent' : 'white'
+         }
+     },
 },
   
 }
