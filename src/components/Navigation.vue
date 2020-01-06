@@ -1,15 +1,18 @@
 <template>
 <div> 
    
-  <nav class="nav" > 
+  <nav class="nav" :style="getBarColorStyle()"
+        v-on:mouseleave="isHover = false"
+       v-on:mouseover="isHover = true"> 
     <div class="dropdown hoveritem"
       v-on:mouseleave="showLeftMenu = false"
        v-on:mouseover="showLeftMenu = true">
       <div class="menuicon" >
-          <img src="../assets/menu.svg"  alt="cart"  class="cartimage"/>
+          <img src="../assets/menu.svg"  alt="cart"  class="cartimage" :style="getColorStyle()"/>
+
       </div>
           <transition   name="slide">
-        <div v-if="showLeftMenu" class="dropdown-content left" >
+        <div v-if="showLeftMenu" class="dropdown-content left">
             <a  v-on:click="navigate('Shop')" >SHOP</a>
             <a  v-on:click="navigate('Artists')">ARTISTS</a>
             <a  v-on:click="navigate('About')">ABOUT</a>
@@ -19,19 +22,19 @@
     
     </div>
     <div class="hoveritem">
-      <div class="menuicon">
+      <div class="menuicon" >
         
       </div>
     </div>
   
     <!-- <div class="hoveritem">Two</div> -->
     <div class="center hoveritem">
-        <img  class="logo" src="../assets/sitelogo.svg"  alt="cart"  @click="navigate('Home')" />
+        <img  class="logo" src="../assets/sitelogo.svg"  alt="cart"  @click="navigate('Home')" :style="getColorStyle()"/>
     </div>
 
     <div class="hoveritem">
-      <div class="menuicon">
-        <img src="../assets/shoppingcart.svg"  alt="cart"  @click="navigate('ShoppingCart')" class="cartimage"/>
+      <div class="menuicon" >
+        <img src="../assets/shoppingcart.svg"  alt="cart"  @click="navigate('ShoppingCart')" class="cartimage" :style="getColorStyle()"/>
         <small class="numberbox" v-visible="totalitems > 0">{{totalitems}}</small>
       </div>
     </div>
@@ -40,7 +43,7 @@
      v-on:mouseleave="showRightMenu = false"
        v-on:mouseover="showRightMenu = true">
       <div class="menuicon">
-            <img src="../assets/login.svg"  alt="cart"  class="cartimage"/>
+            <img src="../assets/login.svg"  alt="cart"  class="cartimage" :style="getColorStyle()"/>
            </div>
         <transition   name="slide">
           <div v-if="showRightMenu" class="dropdown-content right" >
@@ -75,8 +78,9 @@ data() {
       currentuser: null,
       showCart: false,
       showLeftMenu: false,
-      showRightMenu: false
-    }
+      showRightMenu: false,
+      isHover: false,
+     }
 },
 
 firebase () {
@@ -86,7 +90,7 @@ firebase () {
 },
 
 mounted() {
-    if(this.currentuser){
+   if(this.currentuser){
       this.isLoggedin = true
       this.fetchUser()
     }
@@ -159,12 +163,21 @@ methods: {
       //  else
    },
 
-    getColorStyle: function () {
-      let ishome = this.$route.name == 'Home'
-          return  {
-         'background-color': ishome ? 'transparent' : 'white'
+    getBarColorStyle: function () {
+         return  {
+         'background-color':  this.isHover ? 'white' : this.$route.name == "Home" ? 'transparent' : 'white',
+        'transition': 'background-color 200ms ease-in'
          }
      },
+
+     getColorStyle: function() {
+       return  {
+         'filter': this.isHover ?'invert(0%)' : this.$route.name == "Home" ? 'invert(100%)' : 'invert(0%)',
+       
+         }
+     },
+
+     
     
 },
   
