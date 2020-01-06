@@ -1,18 +1,22 @@
 <template>
 <div> 
-  
+   
   <nav class="nav" > 
-    <div class="dropdown hoveritem">
-      <div class="menuicon">
-          <img src="../assets/menu.png"  alt="cart"  class="cartimage"/>
+    <div class="dropdown hoveritem"
+      v-on:mouseleave="showLeftMenu = false"
+       v-on:mouseover="showLeftMenu = true">
+      <div class="menuicon" >
+          <img src="../assets/menu.svg"  alt="cart"  class="cartimage"/>
       </div>
-            
-      <div class="dropdown-content left" :style="getColorStyle()">
-          <a  v-on:click="navigate('Shop')" >SHOP</a>
-          <a  v-on:click="navigate('Artists')">ARTISTS</a>
-          <a  v-on:click="navigate('About')">ABOUT</a>
-          <a  v-on:click="navigate('Contact')">CONTACT</a>
-      </div>   
+          <transition   name="slide">
+        <div v-if="showLeftMenu" class="dropdown-content left" >
+            <a  v-on:click="navigate('Shop')" >SHOP</a>
+            <a  v-on:click="navigate('Artists')">ARTISTS</a>
+            <a  v-on:click="navigate('About')">ABOUT</a>
+            <a  v-on:click="navigate('Contact')">CONTACT</a>
+        </div> 
+      </transition>    
+    
     </div>
     <div class="hoveritem">
       <div class="menuicon">
@@ -22,27 +26,33 @@
   
     <!-- <div class="hoveritem">Two</div> -->
     <div class="center hoveritem">
-        <img  class="logo" src="../assets/sitelogo.png"  alt="cart"  @click="navigate('Home')" />
+        <img  class="logo" src="../assets/sitelogo.svg"  alt="cart"  @click="navigate('Home')" />
     </div>
 
     <div class="hoveritem">
       <div class="menuicon">
-        <img src="../assets/shoppingcart.png"  alt="cart"  @click="navigate('ShoppingCart')" class="cartimage"/>
+        <img src="../assets/shoppingcart.svg"  alt="cart"  @click="navigate('ShoppingCart')" class="cartimage"/>
         <small class="numberbox" v-visible="totalitems > 0">{{totalitems}}</small>
       </div>
     </div>
 
-    <div class="dropdown  hoveritem">
+    <div class="dropdown  hoveritem"
+     v-on:mouseleave="showRightMenu = false"
+       v-on:mouseover="showRightMenu = true">
       <div class="menuicon">
-            <img src="../assets/login.png"  alt="cart"  class="cartimage"/>
+            <img src="../assets/login.svg"  alt="cart"  class="cartimage"/>
            </div>
-      <div class="dropdown-content right" :style="getColorStyle()">
-        <a v-show="!isLoggedin" v-on:click="navigate('Login')">LOGIN</a>
-        <a v-show="!isLoggedin" v-on:click="navigate('Register')">REGISTER</a>
-        <a v-show="isLoggedin" v-on:click="navigate('Logout')">LOGOUT</a>
-      </div>
+        <transition   name="slide">
+          <div v-if="showRightMenu" class="dropdown-content right" >
+            <a v-show="!isLoggedin" v-on:click="navigate('Login')">LOGIN</a>
+            <a v-show="!isLoggedin" v-on:click="navigate('Register')">REGISTER</a>
+            <a v-show="isLoggedin" v-on:click="navigate('Logout')">LOGOUT</a>
+        </div>
+        </transition>    
     </div>
 
+     <div class="thinline"/>
+  
    </nav>
  </div>
 </template>
@@ -63,7 +73,9 @@ data() {
       user: {},
       totalitems: 0,
       currentuser: null,
-      showCart: false
+      showCart: false,
+      showLeftMenu: false,
+      showRightMenu: false
     }
 },
 
@@ -153,11 +165,13 @@ methods: {
          'background-color': ishome ? 'transparent' : 'white'
          }
      },
+    
 },
   
 }
 </script>
 
 <style lang="scss" scoped>
-    @import "~@/styles/navigationstyle.scss";
+     @import "~@/styles/commonstyle.scss";
+  @import "~@/styles/navigationstyle.scss";
   </style>

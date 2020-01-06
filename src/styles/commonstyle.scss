@@ -1,37 +1,25 @@
+$color-textColor: #111111;
+$color-textHoverColor: #F1F1F1;
 
 #app {
-  
-  //
-  // margin:0;  
-  // max-height: 100vh;   /* This is used to reset any browser-default margins */
-   height:100vh; /* This is needed to overcome a Chrome bug. */
+     height:100vh; /* This is needed to overcome a Chrome bug. */
    width:100vw; 
    font-family: 'Helvetica Neue', Arial, sans-serif;
-  // color: rgb(76, 74, 80);
-  // background-color:rgb(255, 255, 255);
-  // -webkit-font-smoothing: antialiased;
-  // -moz-osx-font-smoothing: grayscale;
    max-width: 100%;
-  // max-height: 100%;
-  // position: relative;
-  // top: 0;
-  // bottom: 0;
-  // left: 0;
-  // right: 0;
-  //overflow: auto;
-  overscroll-behavior: none;
+   overscroll-behavior: none;
   -webkit-scrollbar { 
   display: none; 
 }
 
+
 h1, h2, h3 {
   font-weight: 500;
-  color: rgb(50, 50, 50);
+  color: $color-textColor;
 }
 
  h4, div {
   font-weight: 400;
-  color: rgb(50, 50, 50);
+  color:$color-textColor;
 }
 
 ul {
@@ -48,6 +36,8 @@ font-size: 14px!important;
 }
 
 }
+
+
 
 .fullpage {
  position: relative;
@@ -220,8 +210,8 @@ font-size: 14px!important;
 
   .buttonstyle {
     background-color: white;
-    border: 1px solid rgb(17, 17, 17);
-    border-radius: 5px;
+    border: 1px solid $color-textColor;
+    border-radius: 1px;
     margin-top: 20px;
     width: 100%;
     max-width:100%;
