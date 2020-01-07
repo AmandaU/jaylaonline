@@ -3,15 +3,12 @@
   <div class="cartcontainer" :key="componentKey">
     <!-- <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media> -->
 
-    <h2>Shopping cart:</h2> 
+      <h2>Shopping cart:</h2> 
       <div :style="getCartStyle()" :key="cartKey">
           <div   @click="hide()" class="closebutton"><h1>X</h1></div>
-    <!-- <div class="shoppingcartblock"> -->
-
         <div class="checkoutblock" >
-
-          <!-- <center>Center this text!</center> -->
-              <p  v-show="this.shoppingcart.totalitems == 0">There are no items in your cart,<span @click="goToShop" style="color:blue;cursor:pointer"> shop </span>some more ;)</p>
+   
+          <p  v-show="this.shoppingcart.totalitems == 0">There are no items in your cart,<span @click="goToShop" style="color:blue;cursor:pointer"> shop </span>some more ;)</p>
                   
               <div  class="checkoutrow" v-for="item in shoppingcart.items" :key="item.key ">
                   <div  v-visible="canRemoveItem" @click="removeItem(item)" class="removebutton"><h1>X</h1></div>
@@ -19,15 +16,16 @@
                   <div  class="itemthumbnailimage">
                      <img v-bind:src="item.thumburl" v-bind:alt="item.productname" >
                      </div>
-                
+              
                   <div  class="rowlabel item">
                     <small>{{item.productname}}, size {{item.size}}</small>
                     <small>{{item.number}} @ R{{item.price}} each</small>
                   </div>
 
-                  <div  class="rowvalue item">
+                  <div  class="rowvalue item" >
                     <small>{{totalValueForItem(item)}}</small>
                   </div> 
+                
               </div>
                   
         </div>  
@@ -51,7 +49,7 @@
 
               <div  class="totalrow">
                 
-                  <div  class="rowlabel item">
+                  <div  class="rowlabel total">
                     <h4>Total: </h4>
                   </div>
 
@@ -61,7 +59,7 @@
 
               </div> 
                </div> 
-              <button  @click="gotoCheckout" class="cartbutton">check out</button>
+              <button  @click="gotoCheckout" class="buttonstyle">check out</button>
              
         </div> 
          

@@ -34,28 +34,28 @@
   top: 70px;
   //box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 10;
-  border-top: 1px solid $color-textColor;
+  border-top: 1px solid $color-unHoverColor;
   //transition: margin-top 500ms ease-in; //, opacity 1000ms ease-in;
 }
 
 /* Links inside the dropdown */
 .dropdown-content a {
   z-index: 10;
-  color: $color-textColor;
+  color: $color-unHoverColor;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
   text-align: center;
-  border-left: 1px solid $color-textColor;;
-  border-right: 1px solid$color-textColor;;
-  border-bottom: 1px solid $color-textColor;;
+  border-left: 1px solid $color-unHoverColor;
+  border-right: 1px solid $color-unHoverColor;
+  border-bottom: 1px solid $color-unHoverColor;
   //transition: all 500ms ease-in, opacity 1000ms ease-in;
 }
 
 /* Change color of dropdown links on hover */
 .dropdown-content a:hover {
   background-color: white;
-  color: $color-textHoverColor;
+  color: $color-hoverColor;
   //filter: blur(2px); 
 }
 
@@ -86,7 +86,7 @@
     color: $color-textColor;
     text-decoration:underline;
     cursor: pointer;
-    }
+ }
 
   .right {
       margin-left: auto;
@@ -153,7 +153,6 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: white;
   }
 
   .slide-enter-active {

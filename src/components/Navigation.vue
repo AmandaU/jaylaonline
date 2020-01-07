@@ -5,10 +5,10 @@
         v-on:mouseleave="isHover = false"
        v-on:mouseover="isHover = true"> 
     <div class="dropdown hoveritem"
-      v-on:mouseleave="showLeftMenu = false"
+      v-on:mouseleave="showLeftMenu = false "
        v-on:mouseover="showLeftMenu = true">
       <div class="menuicon" >
-          <img src="../assets/menu.svg"  alt="cart"  class="cartimage" :style="getColorStyle()"/>
+          <img src="../assets/menu.svg"  alt="cart"  class="cartimage" :style="getColorStyle(showLeftMenu)"/>
 
       </div>
           <transition   name="slide">
@@ -28,22 +28,26 @@
     </div>
   
     <!-- <div class="hoveritem">Two</div> -->
-    <div class="center hoveritem">
-        <img  class="logo" src="../assets/sitelogo.svg"  alt="cart"  @click="navigate('Home')" :style="getColorStyle()"/>
+    <div class="center hoveritem"
+     v-on:mouseleave="logoIconHover = false"
+       v-on:mouseover="logoIconHover = true">
+        <img  class="logo" src="../assets/sitelogo.svg"  alt="cart"  @click="navigate('Home')" :style="getColorStyle(logoIconHover)"/>
     </div>
 
     <div class="hoveritem">
-      <div class="menuicon" >
-        <img src="../assets/shoppingcart.svg"  alt="cart"  @click="navigate('ShoppingCart')" class="cartimage" :style="getColorStyle()"/>
+      <div class="menuicon" 
+       v-on:mouseleave="cartIconHover = false"
+       v-on:mouseover="cartIconHover = true">
+        <img src="../assets/shoppingcart.svg"  alt="cart"  @click="navigate('ShoppingCart')" class="cartimage" :style="getColorStyle(cartIconHover)"/>
         <small class="numberbox" v-visible="totalitems > 0">{{totalitems}}</small>
       </div>
     </div>
 
     <div class="dropdown  hoveritem"
-     v-on:mouseleave="showRightMenu = false"
+       v-on:mouseleave="showRightMenu = false"
        v-on:mouseover="showRightMenu = true">
       <div class="menuicon">
-            <img src="../assets/login.svg"  alt="cart"  class="cartimage" :style="getColorStyle()"/>
+            <img src="../assets/login.svg"  alt="cart"  class="cartimage" :style="getColorStyle(showRightMenu)"/>
            </div>
         <transition   name="slide">
           <div v-if="showRightMenu" class="dropdown-content right" >
@@ -54,7 +58,7 @@
         </transition>    
     </div>
 
-     <div class="thinline"/>
+     <div class="thinline" :style="getBarDividerColorStyle()"/>
   
    </nav>
  </div>
@@ -71,6 +75,9 @@ name: 'Navigation',
 
 data() {
     return {
+      textColor: '#2c2c2c',
+     hoverColor: '#2c2c2c',  
+    unHoverColor: '#919090', 
       isLoggedin: false,
       shoppingcart: {},
       user: {},
@@ -80,7 +87,9 @@ data() {
       showLeftMenu: false,
       showRightMenu: false,
       isHover: false,
-     }
+      logoIconHover: false,
+      cartIconHover: false,
+      }
 },
 
 firebase () {
@@ -149,18 +158,6 @@ methods: {
         return
       }
         this.$router.push({ name: navPath});
-       
-    //  if(window.location.hash.length > 8 && window.location.hash.substring(2,6) == "shop")
-    //    {
-    //      if(navPath == "Login")
-    //      {
-    //         this.$router.replace({ name: navPath});
-    //      }
-    //      else{
-    //        this.$router.replace({ name: navPath});
-    //      }
-      //  }
-      //  else
    },
 
     getBarColorStyle: function () {
@@ -170,21 +167,27 @@ methods: {
          }
      },
 
-     getColorStyle: function() {
-       return  {
-         'filter': this.isHover ?'invert(0%)' : this.$route.name == "Home" ? 'invert(100%)' : 'invert(0%)',
-       
+     getBarDividerColorStyle: function () {
+         return  {
+         'background-color':  this.isHover ? this.unHoverColor : this.$route.name == "Home" ? 'white' : this.unHoverColor,
+        'transition': 'background-color 200ms ease-in'
          }
      },
 
-     
-    
+     getColorStyle: function(iconHover) {
+         return  {
+         'filter': iconHover ? 'invert(0.1)' :
+          this.isHover ? 'invert(0.5)' : 
+          this.$route.name == "Home" ? 'invert(1)' : 'invert(0.5)',
+         
+       }
+     },
 },
   
 }
 </script>
 
 <style lang="scss" scoped>
-     @import "~@/styles/commonstyle.scss";
-  @import "~@/styles/navigationstyle.scss";
+    @import "~@/styles/commonstyle.scss";
+    @import "~@/styles/navigationstyle.scss";
   </style>

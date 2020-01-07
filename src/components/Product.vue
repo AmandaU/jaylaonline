@@ -23,7 +23,7 @@
                   <div class="itemrow">
                    
                       <div class="itemcolumn1">
-                        <strong>Size {{item.size}},  R{{item.price}} each </strong>
+                        <h4>Size {{item.size}},  R{{item.price}} each </h4>
                       </div>  
 
                       <div  class="itemcolumn2">
