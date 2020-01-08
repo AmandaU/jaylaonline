@@ -44,10 +44,11 @@
 .pricecolumn {
  
    display: flex;
-  width:25%;
-   min-width: 25%;
+  width:40%;
+   min-width: 40%;
    float: right;
    flex-direction: column;
+   overflow: none;
    //background-color:rgb(199, 197, 197);
     padding-left: 30px;
   //  padding-right: 30px;
@@ -63,16 +64,34 @@
 
 .imageblock {
  // background-color:rgb(199, 197, 197);
-  width:75%;
- // width: 100%;
+  // width:60%;
+  // height: 100%;
+  // flex-wrap: wrap;
+  // display: flex;
+  // overflow-x: none;
+  // flex-direction: column;
+  // justify-content: center;
+  // align-items: center;
+  // position: relative;
+
+  position: absolute;
+  background-color: red;
+  width: 50%;
   height: 100%;
-  flex-wrap: wrap;
-  display: flex;
-  overflow-x: none;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  position: relative;
+  right: 0;
+  overflow: auto;
+ // padding:  20px;
+
+  // flex-direction: column;
+  // height: 100%;
+  // width: 100%;
+  // flex-wrap: nowrap;
+  // display: flex;
+  // overflow-y: auto;
+  // z-index:1;
+  // justify-content: center;
+  // align-items: center;
+  // text-align: center;
  }
 
   .mainimage, .thumbimage {
@@ -91,8 +110,9 @@
 .priceblock{
     display: flex;
     flex-direction: column;
-    margin: 0, auto;
-    width: 100%;
+   margin: 0 auto;;
+   margin-right: 40px;
+    width: 400px;
   }
 
 .itemrow {
@@ -306,10 +326,9 @@
 
 @media all and (max-width:600px) {
   
-    .priceblock{
-        flex: 1;
-       // width: 300px;
-    }
+    // .priceblock{
+    //     flex: 1;
+    // }
 
     
     .container {

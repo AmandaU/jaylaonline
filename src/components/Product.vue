@@ -7,18 +7,17 @@
    
          <div v-if="!isLoading" class="pricecolumn" >
         
-            <div  v-if="haveArtist" class="artistblock"  @click="gotoArtist(artist)" >
-              <!-- <h1> {{ artist.name }} </h1>  -->
-               <img v-bind:src="artist.logo" v-bind:alt="artist.name" style="height: 100px; width: auto; padding-left:20px;vertical-align:center;">
+            <!-- <div  v-if="haveArtist" class="artistblock"  @click="gotoArtist(artist)" >
+             <img v-bind:src="artist.logo" v-bind:alt="artist.name" style="height: 100px; width: auto; padding-left:20px;vertical-align:center;">
                 <img v-bind:src="artist.photourl" v-bind:alt="artist.name" style="height: 100px; width: auto; padding-left:20px;">
             </div> 
-             <br>
+             <br> -->
             
-            <h2>{{ product.name }}</h2> 
-            <h3>{{ product.description }}</h3>
-            <br>
               
             <div class="priceblock">
+               <h2>{{ product.name }}</h2> 
+              <h3>{{ product.description }}</h3>
+              <br>
               <div  v-for="item in product.items" :key="item['.key']">
                   <div class="itemrow">
                    
@@ -47,10 +46,11 @@
                   </div> 
                     <div class="thinline"></div>  
               </div>
+                 <br>
+               <button   @click="continueShopping" class="buttonstyle">MORE SHOPPPING</button>
+              <button   v-visible="showCheckoutButton" @click="gotoShipping" class="buttonstyle">CHECK OUT</button>
             </div>   
-            
-            <button   @click="continueShopping" class="buttonstyle">more shopping</button>
-            <button   v-visible="showCheckoutButton" @click="gotoShipping" class="buttonstyle">check out</button>
+           
         </div> 
 
         <!-- <div v-if="!isLoading" class="imageblock">  
@@ -211,11 +211,12 @@ methods: {
 
    getImageStyle: function (image) { 
          let randomTransitionTime =  Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000;
-         let w = 400
+         let w = window.innerWidth * 0.5
          let h = image.ratio * w;
               return  {
-              'width': h + 'px',
-              'height': w + 'px',
+                'width': '100%',
+              'max-width': w + 'px',
+              'height': h + 'px',
               'position': 'relative',
                'margin': '20px',
               'transition': 'all ' + randomTransitionTime + 'ms',
@@ -227,19 +228,21 @@ methods: {
   getContainerStyle: function () { 
      let h = String(window.innerHeight - 140) + 'px'
         return  {
+         
           'margin-top': '100px',
         'max-width': '100vw',
-        'min-height' : h,
+        'min-height' : window.innerHeight,
+        //  'max-height' : h,
         'width':'100%',
         'float':'left',
         'display': 'flex',
         'flex-direction': 'column',
-        'overflow-x': 'hidden',
+         'overflow': 'none',
         'align-self': 'center',
         'justify-content': 'center',
         'align-items': 'center',
-        'padding-top': 'auto',//this.showCheckout ? '2px' : '7%',
-        'padding-bottom': 'auto',
+        // 'padding-top': 'auto',//this.showCheckout ? '2px' : '7%',
+        // 'padding-bottom': 'auto',
         'transition': 'padding-top 500ms ease-in-out',
       }
   },

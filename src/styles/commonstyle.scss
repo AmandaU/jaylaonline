@@ -44,6 +44,7 @@ li {
 
 input, input:active, input:focus, input:focus-within, input:hover, input:visited {
 font-size: 14px!important;
+outline:none !important;
 }
 
 }
@@ -213,13 +214,17 @@ font-size: 14px!important;
     cursor: pointer;
   }
 
+  input[type=button] {
+    font-family: 'Avenir';
+
+}
   .buttonstyle {
     background-color: $color-whiteColor;
     color: $color-textColor;
-    font-size: 18px;
-    font-weight: 3;
+    font-size: 15px;
+    font-weight: 8;
     font-family: 'Avenir';
-    border: 1px solid $color-lightLineColor;
+    border: 1px solid $color-unHoverColor;
     border-radius: 1px;
     margin-top: 20px;
     width: 100%;
@@ -234,6 +239,11 @@ font-size: 14px!important;
     background-color:$color-hoverColor;
     color: $color-whiteColor;
      cursor: pointer;
+  }
+
+  .buttonstyle:focus {
+    outline: 0 !important;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0) !important;
   }
 
   @media all and (max-width: 800px) {
