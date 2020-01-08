@@ -35,13 +35,13 @@
     align-items: center;
     flex-direction:column;
     align-self: flex-start;
-    border: 1px solid $color-textColor;
+    border: 1px solid $color-lightLineColor;
     border-radius: 1px;
    
   }
 
   .totalrow{
-    background-color:rgb(252, 252, 252);
+    background-color:$color-whiteColor;
     position:relative;
      display: flex;
     flex-direction: row;
@@ -64,7 +64,7 @@
 
   .checkoutrow {
     min-height: 70px;
-    background-color:white;
+    background-color:$color-whiteColor;
     position:relative;
     display: flex;
     flex-direction: row;
@@ -74,7 +74,7 @@
     padding-top: 2px;
     padding-bottom: 2px;
     margin-bottom: 15px;
-    border: 1px solid $color-textColor;
+    border: 1px solid $color-lightLineColor;
     border-radius: 1px;
     // -moz-box-shadow: 1px 1px 1px #ccc;
     // -webkit-box-shadow: 1px 1px 1px #ccc;

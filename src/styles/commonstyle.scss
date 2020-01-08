@@ -1,6 +1,9 @@
-$color-textColor:#444343; 
-$color-hoverColor:#2c2c2c;  
-$color-unHoverColor: #919090; 
+$color-whiteColor:#ffffff; 
+$color-textColor:#111111; 
+$color-hoverColor:#111111;  
+$color-unHoverColor: #6a6a6a; 
+$color-lightLineColor: #949494; 
+$color-darkLineColor: #6a6a6a; 
 
 :export {
   color-textColor: $color-textColor;
@@ -10,9 +13,9 @@ $color-unHoverColor: #919090;
 }
 
 #app {
-    height:100vh; /* This is needed to overcome a Chrome bug. */
+  height:100vh; /* This is needed to overcome a Chrome bug. */
    width:100vw; 
-   font-family: 'Helvetica';
+   font-family: 'Avenir';
    max-width: 100%;
    overscroll-behavior: none;
   -webkit-scrollbar { 
@@ -25,7 +28,7 @@ h1, h2, h3 {
   color: $color-textColor;
 }
 
- h4, h5, p, div {
+ h4, h5, p, div, small {
   font-weight: 200;
   color:$color-textColor;
 }
@@ -211,10 +214,12 @@ font-size: 14px!important;
   }
 
   .buttonstyle {
-    background-color: white;
-    color: $color-textColor ;
-    font-size: 20px;
-    border: 1px solid $color-textColor;
+    background-color: $color-whiteColor;
+    color: $color-textColor;
+    font-size: 18px;
+    font-weight: 3;
+    font-family: 'Avenir';
+    border: 1px solid $color-lightLineColor;
     border-radius: 1px;
     margin-top: 20px;
     width: 100%;
@@ -227,7 +232,7 @@ font-size: 14px!important;
 
   .buttonstyle:hover {
     background-color:$color-hoverColor;
-    color: white;
+    color: $color-whiteColor;
      cursor: pointer;
   }
 

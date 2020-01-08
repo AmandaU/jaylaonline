@@ -28,10 +28,8 @@
     </div>
   
     <!-- <div class="hoveritem">Two</div> -->
-    <div class="center hoveritem"
-     v-on:mouseleave="logoIconHover = false"
-       v-on:mouseover="logoIconHover = true">
-        <img  class="logo" src="../assets/sitelogo.svg"  alt="cart"  @click="navigate('Home')" :style="getColorStyle(logoIconHover)"/>
+    <div class="center hoveritem">
+        <img  class="logo" src="../assets/sitelogo.svg"  alt="cart"  @click="navigate('Home')" :style="getLogoColorStyle()"/>
     </div>
 
     <div class="hoveritem">
@@ -75,9 +73,11 @@ name: 'Navigation',
 
 data() {
     return {
-      textColor: '#2c2c2c',
-     hoverColor: '#2c2c2c',  
-    unHoverColor: '#919090', 
+      whiteColor: '#ffffff',
+      textColor: '#111111',
+     hoverColor: '#111111',  
+      unHoverColor: '#6a6a6a',
+      lineColor: '#949494' ,
       isLoggedin: false,
       shoppingcart: {},
       user: {},
@@ -87,8 +87,7 @@ data() {
       showLeftMenu: false,
       showRightMenu: false,
       isHover: false,
-      logoIconHover: false,
-      cartIconHover: false,
+       cartIconHover: false,
       }
 },
 
@@ -166,14 +165,14 @@ methods: {
 
     getBarColorStyle: function () {
          return  {
-         'background-color':  this.isHover ? 'white' : this.$route.name == "Home" && !this.showCart  ? 'transparent' : 'white',
+         'background-color':  this.isHover ? this.whiteColor : this.$route.name == "Home" && !this.showCart  ? 'transparent' : this.whiteColor,
         'transition': 'background-color 200ms ease-in'
          }
      },
 
      getBarDividerColorStyle: function () {
          return  {
-         'background-color':  this.isHover ? this.unHoverColor : this.$route.name == "Home" && !this.showCart ? 'white' : this.unHoverColor,
+         'background-color':  this.isHover ? this.lineColor : this.$route.name == "Home" && !this.showCart ? this.whiteColor : this.lineColor,
         'transition': 'background-color 200ms ease-in'
          }
      },
@@ -183,8 +182,14 @@ methods: {
          'filter': iconHover ? 'invert(0.1)' :
           this.isHover ? 'invert(0.5)' : 
           this.$route.name == "Home" && !this.showCart ? 'invert(1)' : 'invert(0.5)',
-         
-       }
+        }
+     },
+
+     getLogoColorStyle: function(iconHover) {
+         return  {
+         'filter':  this.isHover ? 'invert(0)' : 
+          this.$route.name == "Home" && !this.showCart ? 'invert(1)' : 'invert(0)',
+        }
      },
 },
   

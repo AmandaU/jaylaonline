@@ -29,12 +29,12 @@
   display: block;
   position: absolute;
   opacity: 1;
-  background-color: white;
+  background-color: $color-whiteColor;
   width: 160px;
   top: 70px;
   //box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 10;
-  border-top: 1px solid $color-unHoverColor;
+  //border-top: 1px solid $color-unHoverColor;
   //transition: margin-top 500ms ease-in; //, opacity 1000ms ease-in;
 }
 
@@ -46,15 +46,15 @@
   text-decoration: none;
   display: block;
   text-align: center;
-  border-left: 1px solid $color-unHoverColor;
-  border-right: 1px solid $color-unHoverColor;
-  border-bottom: 1px solid $color-unHoverColor;
+  border-left: 1px solid $color-lightLineColor;
+  border-right: 1px solid $color-lightLineColor;
+  border-bottom: 1px solid $color-lightLineColor;
   //transition: all 500ms ease-in, opacity 1000ms ease-in;
 }
 
 /* Change color of dropdown links on hover */
 .dropdown-content a:hover {
-  background-color: white;
+  background-color: $color-whiteColor;
   color: $color-hoverColor;
   //filter: blur(2px); 
 }

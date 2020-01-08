@@ -14,8 +14,8 @@
             </div> 
              <br>
             
-            <h1>{{ product.name }}</h1> 
-            <h2>{{ product.description }}</h2>
+            <h2>{{ product.name }}</h2> 
+            <h3>{{ product.description }}</h3>
             <br>
               
             <div class="priceblock">
