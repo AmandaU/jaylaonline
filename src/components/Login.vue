@@ -6,7 +6,7 @@
           <h2>{{signinmessage}}</h2>
           <input type="text" v-model="email" placeholder="Email"  class="infoblockitem"><br>
           <input type="password" v-model="password" placeholder="Password"  class="infoblockitem"><br>
-          <button @click="login" class="loginbutton">Login</button>
+          <button @click="login" class="buttonstyle">Login</button>
           <p>You don't have an account ? You can 
             <span @click="goToSignup()" style="color:blue;cursor:pointer">create one</span>
            </p>
@@ -17,7 +17,7 @@
          <div v-if="showForgotPassword" class="infoblock">
           <h2>Send recovery email to:</h2>
           <input type="text" v-model="forgotEmail" placeholder="Recovery email"  class="infoblockitem"><br>
-           <button @click="forgotPassword" class="loginbutton">Send recovery email</button>
+           <button @click="forgotPassword" class="buttonstyle">Send recovery email</button>
         </div>
      </div>
   </div>
@@ -124,6 +124,7 @@
 </script>
 
 <style lang="scss" scoped>
+ @import "~@/styles/commonstyle.scss";
   @import "~@/styles/loginstyle.scss";
-  @import "~@/styles/commonstyle.scss";
+ 
 </style>

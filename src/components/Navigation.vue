@@ -117,6 +117,10 @@ mounted() {
     this.$eventHub.$on('shoppingcarttotal', (total)=> {
       self.totalitems = total
     });
+
+      this.$eventHub.$on('showCheckout', (show)=> {
+         this.showCart = show
+      });
   },
 
 methods: {
@@ -162,14 +166,14 @@ methods: {
 
     getBarColorStyle: function () {
          return  {
-         'background-color':  this.isHover ? 'white' : this.$route.name == "Home" ? 'transparent' : 'white',
+         'background-color':  this.isHover ? 'white' : this.$route.name == "Home" && !this.showCart  ? 'transparent' : 'white',
         'transition': 'background-color 200ms ease-in'
          }
      },
 
      getBarDividerColorStyle: function () {
          return  {
-         'background-color':  this.isHover ? this.unHoverColor : this.$route.name == "Home" ? 'white' : this.unHoverColor,
+         'background-color':  this.isHover ? this.unHoverColor : this.$route.name == "Home" && !this.showCart ? 'white' : this.unHoverColor,
         'transition': 'background-color 200ms ease-in'
          }
      },
@@ -178,7 +182,7 @@ methods: {
          return  {
          'filter': iconHover ? 'invert(0.1)' :
           this.isHover ? 'invert(0.5)' : 
-          this.$route.name == "Home" ? 'invert(1)' : 'invert(0.5)',
+          this.$route.name == "Home" && !this.showCart ? 'invert(1)' : 'invert(0.5)',
          
        }
      },

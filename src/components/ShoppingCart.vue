@@ -5,13 +5,13 @@
 
       <h2>Shopping cart:</h2> 
       <div :style="getCartStyle()" :key="cartKey">
-          <div   @click="hide()" class="closebutton"><h1>X</h1></div>
+        <div   @click="hide()" class="closebutton"><a>X</a></div>
         <div class="checkoutblock" >
    
           <p  v-show="this.shoppingcart.totalitems == 0">There are no items in your cart,<span @click="goToShop" style="color:blue;cursor:pointer"> shop </span>some more ;)</p>
                   
               <div  class="checkoutrow" v-for="item in shoppingcart.items" :key="item.key ">
-                  <div  v-visible="canRemoveItem" @click="removeItem(item)" class="removebutton"><h1>X</h1></div>
+                  <div  v-visible="canRemoveItem" @click="removeItem(item)" class="removebutton"><a>X</a></div>
 
                   <div  class="itemthumbnailimage">
                      <img v-bind:src="item.thumburl" v-bind:alt="item.productname" >
@@ -97,7 +97,7 @@ export default {
       let self = this;
 
        this.$eventHub.$on('showCheckout', (show)=> {
-      if (self.$route.name == 'Information'
+       if (self.$route.name == 'Information'
         || self.$route.name == 'Shipping'
         || self.$route.name == 'Checkout'
         || self.$route.name == 'Login'
@@ -180,6 +180,7 @@ export default {
       // },
 
       gotoCheckout () {
+        this.hide()
         let currentuser = firebase.auth().currentUser;
         if (!currentuser){
         this.$router.push({ name: 'Login', params: {goto: 'Information'}});

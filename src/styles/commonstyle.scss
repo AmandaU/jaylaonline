@@ -25,7 +25,7 @@ h1, h2, h3 {
   color: $color-textColor;
 }
 
- h4, h5, div {
+ h4, h5, p, div {
   font-weight: 200;
   color:$color-textColor;
 }
@@ -44,8 +44,6 @@ font-size: 14px!important;
 }
 
 }
-
-
 
 .fullpage {
  position: relative;
@@ -91,11 +89,7 @@ font-size: 14px!important;
   height: 100%;
   // width:auto;
    min-height: 100vh;
-  // margin:0 auto;
-  // -moz-box-shadow:inset 0px 0px 6px 6px rgba(255,255,255,1);
-  // -webkit-box-shadow:inset 0px 0px 6px 6px rgba(255,255,255,1);
-  // box-shadow:inset 0px 0px 6px 6px rgba(255,255,255,1);
-}
+ }
 
 .dropdownblocktransition{
 
@@ -226,7 +220,7 @@ font-size: 14px!important;
     width: 100%;
     max-width:100%;
     cursor: pointer;
-    height:60px;
+    height:50px;
     align-self: center;
     transition: color 200ms ease-in
   }

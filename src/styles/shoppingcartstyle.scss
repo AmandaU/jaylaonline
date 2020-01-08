@@ -2,22 +2,6 @@
   box-sizing: border-box;
 }
 
-h4 {
-  //font-family: 'Garamond Premier Pro Regular';
-  font-size: 15px;
-  color: #001230;
-  line-height: 5px;
-  //margin-top: -5px;    /* CORRECTION FOR LINE-HEIGHT */
-}
-
-p {
-  //font-family: 'Garamond Premier Pro Regular';
-  font-size: 20px;
-  color: #001230;
-  line-height: 25px;
-  text-align:center
-    /* CORRECTION FOR LINE-HEIGHT */
-}
 
 .cartcontainer {
   margin-bottom: 20px;
@@ -31,8 +15,6 @@ p {
   position: relative;
   width:100%;
   align-items: center;
-  // border: 1px solid rgb(182, 181, 181);
-  // border-radius: 2px;
 }
 
   .totalblock {
@@ -53,8 +35,8 @@ p {
     align-items: center;
     flex-direction:column;
     align-self: flex-start;
-    border: 1px solid rgb(182, 181, 181);
-    border-radius: 2px;
+    border: 1px solid $color-textColor;
+    border-radius: 1px;
    
   }
 
@@ -82,18 +64,18 @@ p {
 
   .checkoutrow {
     min-height: 70px;
-    background-color:rgb(252, 252, 252);
+    background-color:white;
     position:relative;
     display: flex;
     flex-direction: row;
     margin: 0, auto;
-    padding-left: 15px;
+    padding-left: 5px;
     padding-right: 15px;
     padding-top: 2px;
     padding-bottom: 2px;
     margin-bottom: 15px;
-    border: 1px solid rgb(182, 181, 181);
-    border-radius: 2px;
+    border: 1px solid $color-textColor;
+    border-radius: 1px;
     // -moz-box-shadow: 1px 1px 1px #ccc;
     // -webkit-box-shadow: 1px 1px 1px #ccc;
     // box-shadow: 1px 1px 1px #ccc;
@@ -102,13 +84,14 @@ p {
 
    .itemthumbnailimage {
     max-height: 60px;
+    min-width: 50px;
     overflow: hidden;
-    padding: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     margin-right: 5px;
     
      img {
       height: 100%;
-      object-fit: contain;
      }
    }
   
@@ -151,7 +134,7 @@ p {
     width: 100%;
     margin: 0px;
     height: 1px;
-    background-color: rgb(211, 212, 212);
+    background-color: $color-unHoverColor; 
   }
   
 
@@ -164,45 +147,35 @@ p {
     padding-left: 5px;
   }
 
-  .closebutton {
-   color: black;
-    line-height: 40px;
-    width: 18px;
-    font-size: 10pt;
-    font-family: Helvetica;
-    margin-top: 5px;
-    //margin-right: -5px;
-    position:absolute;
-    top:-70px;
+  .closebutton a {
+   color: $color-unHoverColor; 
+    font-size: 20pt;
+    font-weight: 10;
+     position:absolute;
+    top:-50px;
     right:0;
-}
-.closebutton:hover {
-  color:rgb(238, 43, 157);
-  //text-decoration:underline;
-  cursor: pointer;
-  
   }
+  
+.closebutton a:hover {
+   color: $color-hoverColor; 
+   cursor: pointer;
+ }
 
-.removebutton {
-   
-  line-height: 12px;
-  width: 18px;
-  font-size: 4pt;
-  font-family: Helvetica;
-  margin-top: -5px;
-  margin-right: -5px;
+.removebutton a {
+  color: $color-unHoverColor; 
+  width: 10px;
+  height: 10px;
+  margin-top: 3px;
+  margin-right: 4px;
   position:absolute;
   top:0;
   right:0;
 }
 
-.removebutton:hover {
-  text-decoration:underline;
+.removebutton a:hover {
+  color: $color-hoverColor;
   cursor: pointer;
-  font-size: 10pt;
-  margin-top:-10px;
-  margin-right: 0px;
-  }
+ }
 
 
 .addminusbox{
