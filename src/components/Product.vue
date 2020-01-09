@@ -201,8 +201,7 @@ methods: {
    getImageStyle: function (image) { 
          let randomTransitionTime =  Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000;
          let w = this.isMobile ? window.innerWidth : window.innerWidth * 0.5
-         debugger
-         let h = ( 1 + image.ratio) * w;
+          let h = ( 1 + image.ratio) * w;
              return  {
               'width': '100%',
               'max-width': w + 'px',

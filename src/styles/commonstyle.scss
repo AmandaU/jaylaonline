@@ -27,6 +27,27 @@ $color-darkLineColor: #6a6a6a;
   width: 0px;
 }
 
+::-webkit-input-placeholder { /* Edge */
+  color:  $color-unHoverColor;
+  font-size: 14px!important;
+  font-family: 'Avenir';
+  font-weight: 200;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color:  $color-unHoverColor;
+  font-size: 14px!important;
+  font-family: 'Avenir';
+  font-weight: 200;
+}
+
+::placeholder {
+  color:  $color-unHoverColor;
+  font-size: 14px!important;
+  font-family: 'Avenir';
+  font-weight: 200;
+}
+
 h1, h2, h3 {
   font-weight: 300;
   color: $color-textColor;
@@ -35,6 +56,7 @@ h1, h2, h3 {
  h4, h5, p, div, small {
   font-weight: 200;
   color:$color-textColor;
+  transition: all 200ms ease-in;
 }
 
 button {
@@ -51,12 +73,16 @@ li {
 }
 
 input, input:active, input:focus, input:focus-within, input:hover, input:visited {
+  height: 40px;
+  font-size: 14px!important;
   font-family: 'Avenir';
   font-weight: 200;
+  padding-left: 10px;
   color:$color-textColor;
-font-size: 12px!important;
-outline:none !important;
-}
+  border: 1px solid $color-lightLineColor;
+  border-radius: 2px;
+  outline:none !important;
+  }
 
 }
 
@@ -231,8 +257,8 @@ outline:none !important;
     //font-weight: 6;
     font-family: 'Avenir';
     border: 1px solid $color-unHoverColor;
-    border-radius: 1px;
-    margin-top: 20px;
+    border-radius: 2px;
+    margin-top: 10px;
     width: 100%;
     max-width:100%;
     cursor: pointer;

@@ -6,41 +6,44 @@
         
              <!-- <h1>Your information</h1> -->
             <h2>Contact details</h2>
-            <small v-show="userInvalid" style="color: red">Please enter a name and surname</small><br>
-             <small class="addresslabel">First name</small><small style="color: red" v-visible="userInvalid && shoppingcart.user.firstname == ''">*</small>
+            <small v-show="userInvalid" style="color: red">Please enter a name and surname</small>
+             <small style="color: red" v-show="userInvalid && shoppingcart.user.firstname == ''">*</small>
             <input type="text" v-model="shoppingcart.user.firstname" placeholder="First name" class="addressitem">
-             <small class="addresslabel">Surname</small><small style="color: red" v-visible="userInvalid && shoppingcart.user.surname == ''">*</small>
+             <small style="color: red" v-show="userInvalid && shoppingcart.user.surname == ''">*</small>
             <input type="text" v-model="shoppingcart.user.surname" placeholder="Surname" class="addressitem">
 
 
              <small v-show="emailInvalid" style="color: red">Please enter a valid email</small><br>
-             <small class="addresslabel">Email</small><small style="color: red" v-visible="userInvalid ">*</small>
-            <input type="email" v-model="shoppingcart.user.email" placeholder="Enter email" class="addressitem">
+             <small style="color: red" v-show="userInvalid ">*</small>
+            <input type="email" v-model="shoppingcart.user.email" placeholder="Email" class="addressitem">
 
              <small v-show="cellInvalid" style="color: red">Please enter a valid cell number</small><br>
-             <small class="addresslabel">Cellphone</small><small style="color: red" v-visible="cellInvalid ">*</small>
-             <vue-tel-input class="addressitem"  v-model="shoppingcart.user.cellphone"
+             <small style="color: red" v-show="cellInvalid ">*</small>
+             <vue-tel-input class="listSelectitem"  v-model="shoppingcart.user.cellphone"
                           :preferredCountries="['za']">
-             </vue-tel-input>
+             </vue-tel-input><br>
 
             <h2>Shipping address</h2>
-             <small class="addresslabel">Country</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.country == ''">*</small>
-            <country-select v-model="shoppingcart.user.address.country" :country="shoppingcart.user.address.country" topCountry="ZA" class="countryitem"/>
-            <small class="addresslabel">Region</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.region == ''">*</small>
-            <region-select v-model="shoppingcart.user.address.region" :country="shoppingcart.user.address.country" :region="shoppingcart.user.address.region" class="countryitem" />
+            <small v-show="addressInvalid" style="color: red">Your address is not quite right, please check</small>
+             <small style="color: red"  v-show="addressInvalid && shoppingcart.user.address.country == ''">*</small>
+            <country-select v-model="shoppingcart.user.address.country" :country="shoppingcart.user.address.country" topCountry="ZA" class="listSelectitem"/>
+            <small style="color: red"  v-show="addressInvalid && shoppingcart.user.address.region == ''">*</small>
+            <region-select v-model="shoppingcart.user.address.region" :country="shoppingcart.user.address.country" :region="shoppingcart.user.address.region" class="listSelectitem" />
            
-            <small v-show="addressInvalid" style="color: red">Your address is not quite right, please check</small><br>
-            <small class="addresslabel">Address line 1</small><small style="color: red" v-visible="addressInvalid && shoppingcart.user.address.addressline1 == ''">*</small>
-            <input type="text" v-model="shoppingcart.user.address.addressline1" placeholder="Address line 1" class="addressitem">
-            <small class="addresslabel">Address line 2</small>
-            <input type="text" v-model="shoppingcart.user.address.addressline2" placeholder="Address line 2" class="addressitem">
-            <small class="addresslabel">Suburb</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.suburb == ''">*</small>
+            
+            <small style="color: red" v-show="addressInvalid && shoppingcart.user.address.addressline1 == ''">*</small>
+            <input type="text" v-model="shoppingcart.user.address.addressline1" placeholder="Address" class="addressitem"><br>
+          
+            <small  v-visible="addressInvalid && shoppingcart.user.address.addressline1 == ''"> </small>
+            <input type="text" v-model="shoppingcart.user.address.addressline2" placeholder="Apartment, suite, etc (optional)" class="addressitem">
+            
+            <small style="color: red"  v-show="addressInvalid && shoppingcart.user.address.suburb == ''">*</small>
 
             <!--Old way-->
             <input type="text" v-model="shoppingcart.user.address.suburb" placeholder="Suburb" class="addressitem"  >
-           <small class="addresslabel">City</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.city == ''">*</small>
+            <small style="color: red"  v-show="addressInvalid && shoppingcart.user.address.city == ''">*</small>
               <input type="text" v-model="shoppingcart.user.address.city" placeholder="City" class="addressitem">
-              <small class="addresslabel">Postal code</small><small style="color: red"  v-visible="addressInvalid && shoppingcart.user.address.postalcode == ''">*</small>
+             <small style="color: red"  v-show="addressInvalid && shoppingcart.user.address.postalcode == ''">*</small>
             <input type="number" v-model="shoppingcart.user.address.postalcode" placeholder="Code" class="addressitem"  ><br>
 
             <!--Better way-->
@@ -326,6 +329,6 @@
 </script>
 
 <style lang="scss" scoped>
+ @import "~@/styles/commonstyle.scss";
   @import "~@/styles/shippingstyle.scss";
-   @import "~@/styles/commonstyle.scss";
 </style>

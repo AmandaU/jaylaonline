@@ -196,6 +196,7 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "~@/styles/commonstyle.scss";
   @import "~@/styles/shippingstyle.scss";
-    @import "~@/styles/commonstyle.scss";
+  
 </style>

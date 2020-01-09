@@ -13,22 +13,43 @@
     align-items: center;
   }
 
-.addressitem {
+  .addressitem {
     margin-bottom: 10px;
     width: 98%;
     max-width:98%;
     cursor: pointer;
     height:30px;
     padding-left: 2px;
-    
-}
+    transition: all 200ms ease-in;
+  }
 
-.countryitem {
+  .cellitem {
+    background-color: $color-whiteColor;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width:100%;
+    cursor: pointer;
+    height:40px;
+    color: $color-textColor;
+    border: 1px solid $color-lightLineColor;
+    border-radius: 2px;
+    outline:none !important;
+    padding-left: 10px;
+    transition: all 200ms ease-in;
+   }
+  
+
+.listSelectitem {
+  background-color: $color-whiteColor;
   margin-bottom: 10px;
   width: 100%;
   max-width:100%;
   cursor: pointer;
-  height:30px;
-  
+  height:40px;
+  color: $color-textColor;
+  border: 1px solid $color-lightLineColor;
+  border-radius: 2px;
+  outline:none !important;
+  transition: all 200ms ease-in;
 }
 
