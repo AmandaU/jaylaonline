@@ -102,7 +102,7 @@ export default {
         || self.$route.name == 'Checkout'
         || self.$route.name == 'Login'
         || self.$route.name == 'SignUp') {
-       self.showCheckout =  self.isMobile() ? show : false
+       self.showCheckout =  self.isMobile ? show : false
        } else {
            self.showCheckout = show ;
         }
@@ -129,6 +129,18 @@ export default {
 
     computed: {
 
+       isMobile: function() {
+          return window.innerWidth < 800 ||
+          navigator.userAgent.match(/Android/i) ||
+          navigator.userAgent.match(/webOS/i) ||
+          navigator.userAgent.match(/iPhone/i) ||
+          navigator.userAgent.match(/iPad/i) ||
+          navigator.userAgent.match(/iPod/i) ||
+          navigator.userAgent.match(/BlackBerry/i) ||
+          navigator.userAgent.match(/Windows Phone/i) ;
+      },
+
+
       canRemoveItem: function () {
         return this.$route.name != 'Checkout'
       },
@@ -154,23 +166,13 @@ export default {
          this.$eventHub.$emit('showCheckout', false);
       },
 
-       goWide: function () {
-          if (this.isMobile()) return true
-          return !this.showCheckout
-      },
+      //  goWide: function () {
+      //     if (this.isMobile()) return true
+      //     return !this.showCheckout
+      // },
  
 
-      isMobile: function() {
-          return window.innerWidth < 800 ||
-          navigator.userAgent.match(/Android/i) ||
-          navigator.userAgent.match(/webOS/i) ||
-          navigator.userAgent.match(/iPhone/i) ||
-          navigator.userAgent.match(/iPad/i) ||
-          navigator.userAgent.match(/iPod/i) ||
-          navigator.userAgent.match(/BlackBerry/i) ||
-          navigator.userAgent.match(/Windows Phone/i) ;
-      },
-
+     
       // media800Enter(mediaQueryString) {
       //   this.greaterThan800 = false
       // },
@@ -198,12 +200,12 @@ export default {
          //'background-color':'rgb(147, 253, 40)',
          'position': 'relative',
           'flex': '1',
-          'min-width':   this.goWide() ? '90%' : this.showCheckout ? '700px' : '90%' ,
-          'max-width': this.goWide() ? '90%' :this.showCheckout ? '700px' : '90%' ,
+          'min-width':   this.isMobile ? '90%' : '700px',//this.showCheckout ? '700px' : '90%' ,
+          'max-width': this.isMobile ? '90%' : '700px',//this.showCheckout ? '700px' : '90%' ,
           'display': 'flex',
           'align-items': 'center',
           'justify-content': 'center',
-          'flex-direction': this.isMobile() ? 'column' : 'row',
+          'flex-direction': this.isMobile ? 'column' : 'row',
           'align-self': 'center',
           'margin-bottom': '5px'
         }

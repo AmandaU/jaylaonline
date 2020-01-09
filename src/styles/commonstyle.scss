@@ -51,7 +51,10 @@ li {
 }
 
 input, input:active, input:focus, input:focus-within, input:hover, input:visited {
-font-size: 14px!important;
+  font-family: 'Avenir';
+  font-weight: 200;
+  color:$color-textColor;
+font-size: 12px!important;
 outline:none !important;
 }
 
@@ -61,7 +64,6 @@ outline:none !important;
  position: relative;
   //background-color:rgb(122, 231, 13);
   width:100vw;
- // display: flex;
   flex-direction:column; /* column | row  */
   top: 0;
   bottom: 0;
@@ -71,10 +73,6 @@ outline:none !important;
   overflow-x: hidden;
   overflow-y: hidden;
   min-height: 100vh;
-  // min-height:calc(100%-10px);
-  // min-height:-moz-calc(100%-10px);
-  // min-height:-webkit-calc(100%-10px);
-
 }
 
 .centralcontainer {

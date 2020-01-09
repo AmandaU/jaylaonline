@@ -27,7 +27,7 @@
 
                       <div  class="itemcolumn2">
                           
-                           <div v-show="!isAvailable(item)" class="itemdetail">SOLD OUT !! </div>
+                           <div v-show="!isAvailable(item)" class="itemdetail">SOLD OUT</div>
                           <div v-show="isAvailable(item)" class="numberrow" >
                               
                               <div  class="itemselection ">
@@ -201,7 +201,8 @@ methods: {
    getImageStyle: function (image) { 
          let randomTransitionTime =  Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000;
          let w = this.isMobile ? window.innerWidth : window.innerWidth * 0.5
-         let h = image.ratio * w;
+         debugger
+         let h = ( 1 + image.ratio) * w;
              return  {
               'width': '100%',
               'max-width': w + 'px',
