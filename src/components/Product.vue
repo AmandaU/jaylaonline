@@ -48,22 +48,18 @@
               </div>
                  <br>
                <button   @click="continueShopping" class="buttonstyle">MORE SHOPPPING</button>
-              <button   v-visible="showCheckoutButton" @click="gotoShipping" class="buttonstyle">CHECK OUT</button>
+               <button   v-visible="showCheckoutButton" @click="gotoShipping" class="buttonstyle">CHECK OUT</button>
             </div>   
            
         </div> 
 
-        <div v-if="!isLoading" class="imageblock">  
-            <div  :style="getImageStyle(image)"  v-for="image in product.images" v-bind:key="image.productid"  >
-              
-              <img v-bind:src="image.thumbUrl" v-bind:alt="image.alt"  class="thumbimage" >
-              <img v-bind:src="image.url" v-bind:alt="image.alt"  class="mainimage"  >
-               
-            </div>  
+        <div class="imagecontainer">
+                <div v-if="!isLoading" class="imageblock">  
+                    <div  class="imgContainer" v-for="image in product.images" v-bind:key="image.productid"  >
+                      <img v-bind:src="image.url" v-bind:alt="image.alt"  class="mainimage" v-bind:style='{ backgroundImage: imageThumbUrl(image) }' >
+                    </div>  
+                </div>
         </div>
-
-        
-  
     </div>
    </div>
   
@@ -198,22 +194,10 @@ watch: {
 
 methods: {
 
-   getImageStyle: function (image) { 
-         let randomTransitionTime =  Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000;
-         let w = this.isMobile ? window.innerWidth : window.innerWidth * 0.5
-          let h = ( 1 + image.ratio) * w;
-             return  {
-              'width': '100%',
-              'max-width': w + 'px',
-              'height': h + 'px',
-              'position': 'relative',
-               'margin': '20px',
-              'transition': 'all ' + randomTransitionTime + 'ms',
-                //'transition-delay': randomTransitionTime + 'ms'
-              }
-      
-    },
-  
+    imageThumbUrl: function(image) {
+         return 'url('+ image.thumburl + ')';
+     },
+
   getContainerStyle: function () { 
      let h = String(window.innerHeight - 140) + 'px'
         return  {
@@ -225,7 +209,7 @@ methods: {
         'float':'left',
         'display': 'flex',
         'flex-direction': 'column',
-         'overflow': 'hidden',
+        // 'overflow': 'hidden',
         'align-self': 'center',
         'justify-content': 'center',
         'align-items': 'center',

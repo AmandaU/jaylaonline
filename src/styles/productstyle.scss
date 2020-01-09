@@ -39,19 +39,28 @@
   position: relative;
   display: flex;
   flex-direction: row;
-  //background-color:rgb(121, 197, 21);
-  align-items: center;
+   align-items: center;
   height: 100%;
   width: 100%;
   margin-left: 2%;
   margin-right: 2%;
 }
 
+.imagecontainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+   align-items: center;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 .pricecolumn {
- 
    display: flex;
-  width:40%;
-   min-width: 40%;
+   width:50%;
+   min-width: 50%;
    float: right;
    flex-direction: column;
    overflow: none;
@@ -68,22 +77,41 @@
 }
 
 
+.imagecolumn {
+  display: flex;
+  width:50%;
+  min-width: 50%;
+  float: left;
+  flex-direction: column;
+  overflow: none;
+   margin: 2%;
+  vertical-align: middle;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  top: 0%;
+  z-index: 1;
+}
+
 .imageblock {
- position: relative;
- width: 50%;
   height: 100%;
-  overflow-x: none;
+  width: 70%;
+  margin: 0 auto;
+  margin-left:0px;
   overflow-y: auto;
- 
-  }
+  overflow-x: hidden;
+   .imgContainer{
+        width: 100%;
+    }
+ }
 
   .mainimage, .thumbimage {
-    top:0;
-   left:0;
-   width: 100%;
-   height: 100%;
-   position: absolute;
-   object-fit: cover;
+    float: left;
+    width: 100%;
+    img {
+        width: 100%;
+       // display: block;
+    }
   }
  
   .thumbimage {
@@ -179,15 +207,13 @@
     vertical-align: middle;
    }
 
-
   .itemdetail{
     //background-color: rgba(94, 163, 134, 0.966);
-  display: grid;
-  place-items: center;
-  height: 100%;
-  padding:5px;
+    display: grid;
+    place-items: center;
+    height: 100%;
+    padding:5px;
   }
-
 
 .addminusbox{
    display: flex;
@@ -220,7 +246,6 @@
     opacity: 1;
   }
 
-
   .thinline{
     width: 100%;
      margin-bottom: 0px;
@@ -240,76 +265,39 @@
     text-align: center;
   }
  
-  
-.pricecolumn {
-  width:80%;
-  flex-direction: column;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 2%;
-}
-
-.mainimage, .thumbimage {
-  top:0;
-  left:0;
-  width:100%;
-  height: auto;
-  position: absolute;
-}
-
-
-.itemrow {
-    //width: 600px;
-    flex-direction: row;
-    justify-content: left;
-    align-items: left;
-    text-align: left;
-    height:100%;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    //padding-bottom: 10px;
-    padding-top: 10px;
-
+  .pricecolumn {
+    width:80%;
+    flex-direction: column;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 2%;
   }
-  
-    // .itemcolumn1{
-      
-    //   flex: 0.5;
-    //   align-items: left;
-    //   text-align: left; 
-    //   justify-content: left;
-    //   vertical-align: middle;
-    //   padding: 0px;
-    //   padding-left: 0px;
-    
-    // }
-          
-    // .itemcolumn2{
-    //   flex-direction: column;
-    //   flex: 0.5;
-    //   width: 100%;
-    //   align-items: right;
-    //   text-align: right; 
-    //   justify-content: right;
-    //   vertical-align: middle;
-    //   padding-left: 0px;
-    //   padding-right: 0px;
-    // }
+
 }
 
 @media all and (max-width:600px) {
-  
+
   .imageblock {
-     position: relative;
-     width: 100%;
-     height: 100%;
-     overflow-x: none;
-     overflow-y: auto;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    margin-left:2px;
+    margin-right:2px;
+    overflow-y: auto;
+    overflow-x: hidden;
+     .imgContainer{
+          width: 100%;
+       }
    }
+
     
-  .container {
+  .priceblock{
     display: flex;
     flex-direction: column;
+    margin: 0 auto;
+    margin-left: 0 auto;
+    margin-right: 0 auto;
+    width: 300px;
   }
 
   .page{

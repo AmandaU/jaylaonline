@@ -36,7 +36,7 @@
           
             <small  v-visible="addressInvalid && shoppingcart.user.address.addressline1 == ''"> </small>
             <input type="text" v-model="shoppingcart.user.address.addressline2" placeholder="Apartment, suite, etc (optional)" class="addressitem">
-            
+
             <small style="color: red"  v-show="addressInvalid && shoppingcart.user.address.suburb == ''">*</small>
 
             <!--Old way-->
