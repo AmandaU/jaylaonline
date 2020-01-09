@@ -129,7 +129,13 @@
 
 /* Style the front side (fallback if image is missing) */
 .flip-card-front {
-  background-color: #bbb;
+  background-color: rgb(241, 157, 157);
+}
+
+.flip-card-front,  img {
+  max-width: 100%;
+    max-height: 100%;
+    min-height: 100%;
 }
 
 /* Style the back side */
@@ -151,6 +157,7 @@
 .isInvisible {
  opacity: 0;
 }
+
 .doUnFlip {
   transition: transform 0.8s;
   transform-style: preserve-3d;
@@ -159,12 +166,16 @@
 
  .flip-image, .flip-thumb-image {
    z-index: 100;
-  top:0;
-  left:0;
+   max-width: 100%;
+   max-height: 100%;
+   min-height: 100%;
+   top:0;
+   left:0;
+   right: 0;
   width: 100%;
   height: 100%;
-  position: absolute;
-  margin: 0 auto
+   position: absolute;
+   margin: 0 auto
  }
 
  .flip-thumb-image {

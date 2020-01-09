@@ -3,7 +3,7 @@
 <div :style="getContainerStyle()" :key="componentKey">
    
    <div class="productcontainer">
-     <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media>
+     <media :query="{maxWidth: 600}" @media-enter="media600Enter" @media-leave="media600Leave"> </Media>
    
          <div v-if="!isLoading" class="pricecolumn" >
         
@@ -53,19 +53,11 @@
            
         </div> 
 
-        <!-- <div v-if="!isLoading" class="imageblock">  
-            <div class="imagecontainer" v-for="image in product.images" v-bind:key="image.productid">
-              <img v-bind:src="image.thumbUrl" v-bind:alt="image.alt"  class="thumbimage">
-                <img v-bind:src="image.url" v-bind:alt="image.alt"  class="mainimage">
-                
-            </div>  
-        </div>  -->
-
         <div v-if="!isLoading" class="imageblock">  
             <div  :style="getImageStyle(image)"  v-for="image in product.images" v-bind:key="image.productid"  >
               
               <img v-bind:src="image.thumbUrl" v-bind:alt="image.alt"  class="thumbimage" >
-                <img v-bind:src="image.url" v-bind:alt="image.alt"  class="mainimage"  >
+              <img v-bind:src="image.url" v-bind:alt="image.alt"  class="mainimage"  >
                
             </div>  
         </div>
@@ -91,21 +83,18 @@ export default {
      Media
    },
 
-
   props: {
      productid: String,
    },
 
   data() {
     return {
-      greaterThan600: window.innerWidth > 600,
+      lessThan600: window.innerWidth < 600,
       componentKey: 0,
-      isLoading: true,
       haveArtist: false,
        product: {},
       artists: [],
       artist: {},
-      isMobile: false,
       shoppingcart: {},
       products:[],
       currentuser: null,
@@ -114,22 +103,21 @@ export default {
   },
 
 firebase () {
-  //this.currentuser = firebase.auth().currentUser;
   if (this.$props.productid == null) {
-      var index = window.location.hash.indexOf("=");
-      if(index >= 0)
-      {
-          this.productid =  window.location.hash.substring(index+1,window.location.hash.length) ;
-      }
-   } 
+        var index = window.location.hash.indexOf("=");
+        if(index >= 0)
+        {
+            this.productid =  window.location.hash.substring(index+1,window.location.hash.length) ;
+        }
+    } 
+  
     return {
        artists:  db.ref('artists')
     }
 },
 
 mounted() {
-   //this.getArtist('artist1')
-   let self = this;
+  let self = this;
   this.$eventHub.$on('showCheckout', ()=> {
        self.showCheckout = !self.showCheckout;
   });
@@ -168,7 +156,7 @@ created () {
        self.loader.hide()
        self.isLoading = false
     });
-
+this.isLoading = false
     this.loader = this.$loading.show({
               loader: 'dots',
               color: 'blue'
@@ -182,10 +170,11 @@ created () {
        return this.shoppingcart.totalitems > 0
      } else return false
    },
- 
-    isMobileDevice: function()
+
+    isMobile: function()
     {
-      return navigator.userAgent.match(/Android/i) ||
+      return this.lessThan600 ||
+          navigator.userAgent.match(/Android/i) ||
           navigator.userAgent.match(/webOS/i) ||
           navigator.userAgent.match(/iPhone/i) ||
           navigator.userAgent.match(/iPad/i) ||
@@ -193,7 +182,7 @@ created () {
           navigator.userAgent.match(/BlackBerry/i) ||
           navigator.userAgent.match(/Windows Phone/i);
     },
-
+ 
   },
 
 
@@ -211,10 +200,10 @@ methods: {
 
    getImageStyle: function (image) { 
          let randomTransitionTime =  Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000;
-         let w = window.innerWidth * 0.5
+         let w = this.isMobile ? window.innerWidth : window.innerWidth * 0.5
          let h = image.ratio * w;
-              return  {
-                'width': '100%',
+             return  {
+              'width': '100%',
               'max-width': w + 'px',
               'height': h + 'px',
               'position': 'relative',
@@ -228,21 +217,18 @@ methods: {
   getContainerStyle: function () { 
      let h = String(window.innerHeight - 140) + 'px'
         return  {
-         
-          'margin-top': '100px',
+        'margin-top': '100px',
         'max-width': '100vw',
         'min-height' : window.innerHeight,
-        //  'max-height' : h,
+        'height' : h,
         'width':'100%',
         'float':'left',
         'display': 'flex',
         'flex-direction': 'column',
-         'overflow': 'none',
+         'overflow': 'hidden',
         'align-self': 'center',
         'justify-content': 'center',
         'align-items': 'center',
-        // 'padding-top': 'auto',//this.showCheckout ? '2px' : '7%',
-        // 'padding-bottom': 'auto',
         'transition': 'padding-top 500ms ease-in-out',
       }
   },
@@ -263,12 +249,12 @@ methods: {
     this.$router.push({ name: 'Artist', params: {artistid: artist.id}});
   },
 
-  media800Enter(mediaQueryString) {
-    this.greaterThan800 = false
+  media600Enter(mediaQueryString) {
+    this.lessThan600 = true
   },
    
-  media800Leave(mediaQueryString) {
-    this.greaterThan800 = true
+  media600Leave(mediaQueryString) {
+    this.lessThan600 = false
   },
 
   itemsSelected( item, add) {

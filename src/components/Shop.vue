@@ -19,8 +19,10 @@
                               v-on:mouseleave="onUnHover(product)"
                               v-on:mouseover="onHover(product)">
                            
-                            <div class="flip-card-front">
-                              <img  v-bind:src="product.images[0].url" alt="Avatar" :style="getImageStyle(product)" >
+                            <div class="flip-card-front" >
+                               <div :style="getImageStyle(product)"  >
+                              <img  v-bind:src="product.images[0].url" alt="Avatar"  >
+                               </div> 
                             </div> 
                       
                             <div class="flip-card-back">

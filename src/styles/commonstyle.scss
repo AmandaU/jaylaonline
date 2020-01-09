@@ -22,6 +22,10 @@ $color-darkLineColor: #6a6a6a;
   display: none; 
 }
 
+::-webkit-scrollbar {
+  display: none; 
+  width: 0px;
+}
 
 h1, h2, h3 {
   font-weight: 300;
@@ -31,6 +35,10 @@ h1, h2, h3 {
  h4, h5, p, div, small {
   font-weight: 200;
   color:$color-textColor;
+}
+
+button {
+  font-weight: 200;
 }
 
 ul {
@@ -222,7 +230,7 @@ outline:none !important;
     background-color: $color-whiteColor;
     color: $color-textColor;
     font-size: 15px;
-    font-weight: 8;
+    //font-weight: 6;
     font-family: 'Avenir';
     border: 1px solid $color-unHoverColor;
     border-radius: 1px;

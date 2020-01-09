@@ -66,7 +66,7 @@ const router = new Router({
      props: route => ({
         productid: route.query.productid,
       }),
-    },
+     },
     {
       path: '/login',
       name: 'Login',
