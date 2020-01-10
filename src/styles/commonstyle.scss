@@ -1,25 +1,26 @@
 $color-whiteColor:#ffffff; 
-$color-textColor:#111111; 
-$color-hoverColor:#111111;  
+$color-textHeading:#1C1B1B; 
+$color-textBody:#1C1B1B; 
+$color-hoverColor:#1C1B1B;  
 $color-unHoverColor: #6a6a6a; 
 $color-lightLineColor: #949494; 
 $color-darkLineColor: #6a6a6a; 
 
-:export {
-  color-textColor: $color-textColor;
-  color-hoverColor: $color-hoverColor;
-  color-unHoverColor: $color-unHoverColor;
-  // etc...
-}
-
 #app {
   height:100vh; /* This is needed to overcome a Chrome bug. */
-   width:100vw; 
-   font-family: 'Avenir';
-   max-width: 100%;
-   overscroll-behavior: none;
+  width:100vw; 
+  font-family: 'AvenirNext-UltraLight', 'AvenirNext-Regular','NunitoSans-Light';
+  max-width: 100%;
+  overscroll-behavior: none;
   -webkit-scrollbar { 
   display: none; 
+}
+
+@font-face {
+  font-family: "AvenirNext-UltraLight", "AvenirNext-Regular","NunitoSans-Light";
+  src: url("~@/assets/fonts/AvenirNext-UltraLight.ttf") format("ttf");
+  src: url("~@/assets/fonts/AvenirNext-Regular.ttf") format("ttf");
+  //src: url("~@/assets/fonts/NunitoSans-Light.ttf") format("ttf");
 }
 
 ::-webkit-scrollbar {
@@ -30,37 +31,43 @@ $color-darkLineColor: #6a6a6a;
 ::-webkit-input-placeholder { /* Edge */
   color:  $color-unHoverColor;
   font-size: 14px!important;
-  font-family: 'Avenir';
-  font-weight: 200;
+  font-family: 'Nunito Sans';
+  font-weight: 100;
 }
 
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
   color:  $color-unHoverColor;
-  font-size: 14px!important;
-  font-family: 'Avenir';
-  font-weight: 200;
+  font-size: 12px!important;
+  font-family: 'Nunito Sans';
+  font-weight: 100;
 }
 
 ::placeholder {
   color:  $color-unHoverColor;
-  font-size: 14px!important;
-  font-family: 'Avenir';
-  font-weight: 200;
+  font-size: 12px!important;
+  font-family: 'Nunito Sans';
+  font-weight: 100;
 }
 
 h1, h2, h3 {
-  font-weight: 300;
-  color: $color-textColor;
+  font-family: 'AvenirNext-Regular';
+  font-weight: normal;
+  //font-size: 14px!important;
+  color: $color-textHeading;
 }
 
  h4, h5, p, div, small {
-  font-weight: 200;
-  color:$color-textColor;
+  font-family: 'AvenirNext-Regular';//'NunitoSans-Light';
+  //font-size: 14px!important;
+  font-weight: normal;
+  color: $color-textBody;
   transition: all 200ms ease-in;
 }
 
 button {
-  font-weight: 200;
+  font-family: 'AvenirNext-Regular';
+  font-weight: 100;
+  font-size: 12px!important;
 }
 
 ul {
@@ -75,10 +82,10 @@ li {
 input, input:active, input:focus, input:focus-within, input:hover, input:visited {
   height: 40px;
   font-size: 14px!important;
-  font-family: 'Avenir';
-  font-weight: 200;
+  font-family: 'Nunito Sans';
+  font-weight: 100;
   padding-left: 10px;
-  color:$color-textColor;
+  color:$color-textBody;
   border: 1px solid $color-lightLineColor;
   border-radius: 2px;
   outline:none !important;
@@ -252,7 +259,7 @@ input, input:active, input:focus, input:focus-within, input:hover, input:visited
 }
   .buttonstyle {
     background-color: $color-whiteColor;
-    color: $color-textColor;
+    color: $color-textBody;
     font-size: 15px;
     //font-weight: 6;
     font-family: 'Avenir';
