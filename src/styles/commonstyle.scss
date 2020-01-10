@@ -6,22 +6,29 @@ $color-unHoverColor: #6a6a6a;
 $color-lightLineColor: #949494; 
 $color-darkLineColor: #6a6a6a; 
 
+@import url('https://fonts.googleapis.com/css?family=Nunito:300,400,900');
+
+
 #app {
   height:100vh; /* This is needed to overcome a Chrome bug. */
   width:100vw; 
-  font-family: 'AvenirNext-UltraLight', 'AvenirNext-Regular','NunitoSans-Light';
+  font-family: 'NunitoSans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
   max-width: 100%;
   overscroll-behavior: none;
   -webkit-scrollbar { 
   display: none; 
 }
 
-@font-face {
-  font-family: "AvenirNext-UltraLight", "AvenirNext-Regular","NunitoSans-Light";
-  src: url("~@/assets/fonts/AvenirNext-UltraLight.ttf") format("ttf");
-  src: url("~@/assets/fonts/AvenirNext-Regular.ttf") format("ttf");
-  //src: url("~@/assets/fonts/NunitoSans-Light.ttf") format("ttf");
-}
+// @font-face {
+//   font-family: "Nunito";
+//   //src: url("../assets/fonts/AvenirNext-UltraLight.ttf") format("ttf");
+//  // src: url("~@/assets/fonts/AvenirNext-Regular.ttf") format("ttf");
+//   src: url('~@/assets/fonts/NunitoSans-Light.ttf') format('truetype');
+//   font-weight: normal;
+//   font-style: normal;
+// }
 
 ::-webkit-scrollbar {
   display: none; 
@@ -50,16 +57,16 @@ $color-darkLineColor: #6a6a6a;
 }
 
 h1, h2, h3 {
-  font-family: 'AvenirNext-Regular';
+  font-family: 'AvenirNext-UltraLight';
   font-weight: normal;
   //font-size: 14px!important;
   color: $color-textHeading;
 }
 
  h4, h5, p, div, small {
-  font-family: 'AvenirNext-Regular';//'NunitoSans-Light';
+  font-family: 'NunitoSans';
   //font-size: 14px!important;
-  font-weight: normal;
+ 
   color: $color-textBody;
   transition: all 200ms ease-in;
 }
