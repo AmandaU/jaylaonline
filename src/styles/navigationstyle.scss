@@ -32,10 +32,7 @@
   background-color: $color-whiteColor;
   width: 160px;
   top: 70px;
-  //box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 10;
-  //border-top: 1px solid $color-unHoverColor;
-  //transition: margin-top 500ms ease-in; //, opacity 1000ms ease-in;
+   z-index: 10;
 }
 
 /* Links inside the dropdown */
@@ -59,16 +56,6 @@
   //filter: blur(2px); 
 }
 
-// .dropdown:hover .right {
-//    margin-top: 1px;
-//    opacity: 1;
-//  }
-
-//  .dropdown:hover .left {
-//    margin-top: 1px;
-//    opacity: 1;
-//  }
-
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {background-color: #3e8e41;}
 
@@ -83,7 +70,7 @@
  }
 
   .hoveritem:hover {
-    color: $color-textColor;
+    color: $color-hoverColor;
     text-decoration:underline;
     cursor: pointer;
  }

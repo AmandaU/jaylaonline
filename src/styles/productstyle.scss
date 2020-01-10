@@ -238,12 +238,12 @@
     padding: 5px;
   }
 
-  .disabled{
-    opacity: 0.5;
+  .disabled div{
+    color: $color-unHoverColor; 
   }
 
-  .enabled{
-    opacity: 1;
+  .enabled div{
+    color: $color-hoverColor; 
   }
 
   .thinline{

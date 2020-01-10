@@ -15,14 +15,14 @@
             
               
             <div class="priceblock">
-               <h2>{{ product.name }}</h2> 
-              <h3>{{ product.description }}</h3>
+               <h3>{{ product.name }}</h3> 
+              <h4>{{ product.description }}</h4>
               <br>
               <div  v-for="item in product.items" :key="item['.key']">
                   <div class="itemrow">
                    
                       <div class="itemcolumn1">
-                        <h4>Size {{item.size}},  R{{item.price}} each </h4>
+                        <h5>Size {{item.size}},  R{{item.price}}</h5>
                       </div>  
 
                       <div  class="itemcolumn2">
@@ -36,9 +36,9 @@
                               <br>
 
                               <div  class="addminusbox">
-                                  <img :disabled="item.selected == 0" v-bind:class="[item.selected > 0 ? 'enabled' : 'disabled']"   src="../assets/minus.png"  alt="minus"  @click="itemsSelected(item, false)" class="addminusimage"/><br>
-                                  <img :disabled="item.number <= item.selected" v-bind:class="[item.number > item.selected ? 'enabled' : 'disabled']"  src="../assets/plus.jpg"  alt="plus"  @click="itemsSelected(item,true)" class="addminusimage"/>
-                                </div>   
+                                 <div :disabled="item.selected == 0" v-bind:class="[item.selected > 0 ? 'enabled' : 'disabled']"    @click="itemsSelected(item, false)" class=" addminusbox">-</div><br>
+                                  <div :disabled="item.number <= item.selected" v-bind:class="[item.number > item.selected ? 'enabled' : 'disabled']"    @click="itemsSelected(item,true)" class=" addminusbox">+</div>
+                               </div>   
                         
                           </div> 
                       </div> 
@@ -367,6 +367,6 @@ methods: {
 </script>
 
 <style lang="scss" scoped>
+   @import "~@/styles/commonstyle.scss";
   @import "~@/styles/productstyle.scss";
-    @import "~@/styles/commonstyle.scss";
-</style>
+ </style>
