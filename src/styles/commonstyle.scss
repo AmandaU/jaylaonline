@@ -37,27 +37,27 @@ $color-darkLineColor: #6a6a6a;
 
 ::-webkit-input-placeholder { /* Edge */
   color:  $color-unHoverColor;
-  font-size: 14px!important;
-  font-family: 'Avenir';
-  //font-weight: 200;
+  font-size: 12px!important;
+  font-family: 'NunitoSans';
+  font-weight: normal;
 }
 
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
   color:  $color-unHoverColor;
-  font-size: 14px!important;
-  font-family: 'Avenir';
- // font-weight: 200;
+  font-size: 12px!important;
+  font-family: 'NunitoSans';
+  font-weight: normal;
 }
 
 ::placeholder {
   color:  $color-unHoverColor;
-  font-size: 12px!important;
-  font-family: 'Nunito Sans';
-  font-weight: 100;
+  font-size: 12!important;
+  font-family: 'NunitoSans';
+  font-weight: normal;
 }
 
 h1, h2, h3 {
-  font-family: 'AvenirNext-UltraLight';
+  font-family: 'AvenirNext';
   font-weight: normal;
   //font-size: 14px!important;
   color: $color-textHeading;
@@ -65,15 +65,14 @@ h1, h2, h3 {
 
  h4, h5, p, div, small {
   font-family: 'NunitoSans';
-  //font-size: 14px!important;
- 
+  font-weight: normal;
   color: $color-textBody;
   transition: all 200ms ease-in;
 }
 
 button {
-  font-family: 'AvenirNext-Regular';
-  font-weight: 100;
+  font-family: 'AvenirNext';
+  font-weight: normal;
   font-size: 12px!important;
 }
 
@@ -89,8 +88,8 @@ li {
 input, input:active, input:focus, input:focus-within, input:hover, input:visited {
   height: 40px;
   font-size: 14px!important;
-  font-family: 'Nunito Sans';
-  font-weight: 100;
+  font-family: 'NunitoSans';
+  font-weight: normal;
   padding-left: 10px;
   color:$color-textBody;
   border: 1px solid $color-lightLineColor;
@@ -266,7 +265,8 @@ input, input:active, input:focus, input:focus-within, input:hover, input:visited
   }
 
   input[type=button] {
-    font-family: 'Avenir';
+    font-family: 'AvenirNext';
+  font-weight: normal;
 
 }
   .buttonstyle {
@@ -274,7 +274,8 @@ input, input:active, input:focus, input:focus-within, input:hover, input:visited
     color: $color-textBody;
     font-size: 15px;
     //font-weight: 6;
-    font-family: 'Avenir';
+    font-family: 'AvenirNext';
+    font-weight: normal;
     border: 1px solid $color-unHoverColor;
     border-radius: 2px;
     margin-top: 10px;

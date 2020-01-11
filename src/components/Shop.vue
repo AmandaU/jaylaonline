@@ -174,7 +174,7 @@ methods: {
       let margin = this.isMobile || !this.greaterThan600 ? 0.8 : 1
       let w = this.containerWidth * margin
        return  {
-          
+          'background-color': 'white',
           'position': 'relative',
           'width': w + 'px',
           'height': w + 'px',

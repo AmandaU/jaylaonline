@@ -1,7 +1,7 @@
 <template>
  <div :style="getContainerStyle()">
    
-        <img  class="frontimage" v-bind:src="imageurl"  alt=""   /> 
+        <img  class="frontimage" v-bind:src="imageurl"  alt="where the fuck did it go?"   /> 
        
    </div>
   

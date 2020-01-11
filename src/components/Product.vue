@@ -17,17 +17,19 @@
             <div class="priceblock">
                <h3>{{ product.name }}</h3> 
               <h4>{{ product.description }}</h4>
-              <br>
+              <h4>R{{ product.items[0].price }}</h4>
+              
               <div  v-for="item in product.items" :key="item['.key']">
                   <div class="itemrow">
                    
                       <div class="itemcolumn1">
-                        <h5>Size {{item.size}},  R{{item.price}}</h5>
+                        <!-- <h5>Size {{item.size}},  R{{item.price}}</h5> -->
+                        <h5>Size {{item.size}}</h5>
                       </div>  
 
                       <div  class="itemcolumn2">
                           
-                           <div v-show="!isAvailable(item)" class="itemdetail">SOLD OUT</div>
+                           <h5 v-show="!isAvailable(item)" class="numberrow">SOLD OUT</h5>
                           <div v-show="isAvailable(item)" class="numberrow" >
                               
                               <div  class="itemselection ">
