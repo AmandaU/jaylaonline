@@ -9,7 +9,7 @@
             :is-full-page="fullPage"></loading> -->
            <div class="payblock">
         
-          <h1>Success!!</h1>
+          <h2>Success!!</h2>
            <h3>{{message1}}</h3>
           <h3>{{message2}}</h3>
           <h3>{{message3}}</h3>

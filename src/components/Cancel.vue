@@ -2,7 +2,7 @@
      <div class="container" >
            <div class="payblock">
       
-                <h1>Your purchase was unsuccessful :( </h1>
+                <h2>Your purchase was unsuccessful :( </h2>
               <button   @click="gotoInformation" class="buttonstyle">try again...</button>
           </div>
        </div>
