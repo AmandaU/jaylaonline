@@ -1,7 +1,7 @@
 <template>
  <div :style="getContainerStyle()">
    
-        <img  class="frontimage" v-bind:src="imageurl"  alt="where the fuck did it go?"   /> 
+        <img  class="frontimage" v-bind:src="imageurl"  alt="where the fuck did it go?"   @click="gotoShop()" /> 
        
    </div>
   
@@ -42,14 +42,10 @@ mounted() {
 
 methods: {
 
-//  enter(element) {
-      
-//       element.style.height = '50px';
-//  },
+gotoShop() {
+  this.$router.push({ name: 'Shop'});
+},
 
-//   leave(element) {
-//        element.style.height = 'auto';
-//  },
 
 getContainerStyle: function () { 
  let h = String(window.innerHeight) + 'px'

@@ -1,7 +1,7 @@
 <template>
 <div> 
    
-  <nav class="nav" :style="getBarColorStyle()"
+  <nav v-if="!isHome" class="nav" :style="getBarColorStyle()"
         v-on:mouseleave="isHover = false"
        v-on:mouseover="isHover = true"> 
     <div class="dropdown hoveritem"
@@ -120,6 +120,13 @@ mounted() {
       this.$eventHub.$on('showCheckout', (show)=> {
          this.showCart = show
       });
+  },
+
+  computed: {
+
+   isHome: function () {
+     return this.$route.name == "Home"
+   }
   },
 
 methods: {
