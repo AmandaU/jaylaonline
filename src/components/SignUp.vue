@@ -12,7 +12,7 @@
                           @onInput="onInput"
                           :preferredCountries="['za']">
             </vue-tel-input><br>
-            <button @click="signUp" class="buttonstyle">Sign Up</button>
+            <button @click="signUp" class="buttonstyle">SIGN UP</button>
             <p>or go back to <span @click="goBackToLogin()" style="color:blue;cursor:pointer">login</span></p>
 
             

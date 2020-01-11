@@ -6,7 +6,7 @@
           <h2>{{signinmessage}}</h2>
           <input type="text" v-model="email" placeholder="Email"  class="infoblockitem"><br>
           <input type="password" v-model="password" placeholder="Password"  class="infoblockitem"><br>
-          <button @click="login" class="buttonstyle">Login</button>
+          <button @click="login" class="buttonstyle">LOGIN</button>
           <p>You don't have an account ? You can 
             <span @click="goToSignup()" style="color:blue;cursor:pointer">create one</span>
            </p>

@@ -59,7 +59,7 @@
 
               </div> 
                </div> 
-              <button  @click="gotoCheckout" class="buttonstyle">check out</button>
+              <button  @click="gotoCheckout" class="buttonstyle">CHECK OUT</button>
              
         </div> 
          

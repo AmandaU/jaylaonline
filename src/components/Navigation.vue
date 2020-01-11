@@ -148,6 +148,8 @@ methods: {
         firebase.auth().signOut().then(function() { 
         //console.log('Signed Out');
           alert('You have successfully logged out');
+           self.showCart = !self.showCart
+          self.$eventHub.$emit('showCheckout', self.showCart);
           self.isLoggedin = false;
           localStorage.clear()
           self.$eventHub.$emit('shoppingcarttotal', 0);
@@ -157,7 +159,13 @@ methods: {
           alert(error);
         });
         return
-      } 
+      }  
+      if(navPath == "Login" || navPath == "Register") {
+          this.showCart = !this.showCart
+          this.$eventHub.$emit('showCheckout', this.showCart);
+          this.$router.push({ name: navPath});
+          return
+      }
        if(navPath == "ShoppingCart") {
         if (this.totalitems == 0) {
           this.$router.push({ name: 'Shop'});

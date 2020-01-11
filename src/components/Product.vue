@@ -266,8 +266,8 @@ methods: {
       if(this.isAvailable(item))
       {
          if( item.selected == 0) return  "";
-          let total = item.selected * item.price;
-          return 'You will purchase  ' +  item.selected + ' at R' + item.price + ' each. The total is ' + String('R ' + total + '.00');
+          let total = item.selected * this.product.price;
+          return 'You will purchase  ' +  item.selected + ' at R' + this.product.price + ' each. The total is ' + String('R ' + total + '.00');
       }
     },
 
@@ -279,7 +279,7 @@ methods: {
      let orderitem = {
       key: item.key,
       productid: item.productid,
-      price: item.price,
+      price: this.product.price,
       size: item.size,
       number: item.selected,
       productname: this.product.name,

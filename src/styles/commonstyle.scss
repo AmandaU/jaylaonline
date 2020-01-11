@@ -59,13 +59,14 @@ $color-darkLineColor: #6a6a6a;
 h1, h2, h3 {
   font-family: 'AvenirNext';
   font-weight: normal;
-  //font-size: 14px!important;
+  letter-spacing: 0.2em!important;
   color: $color-textHeading;
 }
 
  h4, h5, p, div, small {
   font-family: 'NunitoSans';
   font-weight: normal;
+  //letter-spacing: 0.1em!important;
   color: $color-textBody;
   transition: all 200ms ease-in;
 }
@@ -74,6 +75,7 @@ button {
   font-family: 'AvenirNext';
   font-weight: normal;
   font-size: 12px!important;
+  letter-spacing: 0.2em!important;
 }
 
 ul {
