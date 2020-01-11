@@ -3,7 +3,7 @@
   <div class="cartcontainer" :key="componentKey">
     <!-- <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media> -->
 
-      <h2>Shopping cart:</h2> 
+      <h3>SHOPPING CART</h3> 
       <div :style="getCartStyle()" :key="cartKey">
         <div   @click="hide()" class="closebutton"><a>X</a></div>
         <div class="checkoutblock" >

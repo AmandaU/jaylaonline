@@ -6,24 +6,22 @@
      <div class="mainblock">
        
         <div class="addressblock">
-          
-            <h1>Delivery</h1>
-            
-            <h2>Contact details</h2>
+           
+            <h3>CONTACT DETAILS</h3>
             <p>{{ shoppingcart.user.firstname}} {{ shoppingcart.user.surname}}</p>
             <p >{{ shoppingcart.user.email}} </p>
             <p >{{ shoppingcart.user.cellphone}} </p><br>
 
-            <h2>Shipping address</h2>
+            <h3>SHIPPING ADDRESS</h3>
             <p >{{shippingAddress}}</p>
             
             <br>
              <ShippingCalculator ></ShippingCalculator>
             
             <!-- <div style=" text-align: center;"> -->
-              <button  @click="shopMore" class="buttonstyle">shop more</button>
+              <button  @click="shopMore" class="buttonstyle">SHOP MORE</button>
               <!-- <button  :disabled="shoppingcart.totalitems == 0" @click="getDeliveryFee" class="buttonstyle">calculate delivery fee</button><br> -->
-              <button  :disabled="shoppingcart.deliveryfee == 0"  @click="goToCheckout" class="buttonstyle">continue...</button>
+              <button  :disabled="shoppingcart.deliveryfee == 0"  @click="goToCheckout" class="buttonstyle">CONTINUE</button>
         
             <!-- </div> -->
          </div>

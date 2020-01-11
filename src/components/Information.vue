@@ -4,8 +4,7 @@
      <div class="mainblock">
         <div class="addressblock">
         
-             <!-- <h1>Your information</h1> -->
-            <h2>Contact details</h2>
+            <h3>CONTACT DETAILS</h3>
             <small v-show="userInvalid" style="color: red">Please enter a name and surname</small>
              <small style="color: red" v-show="userInvalid && shoppingcart.user.firstname == ''">*</small>
             <input type="text" v-model="shoppingcart.user.firstname" placeholder="First name" class="addressitem">
@@ -23,7 +22,7 @@
                           :preferredCountries="['za']">
              </vue-tel-input><br>
 
-            <h2>Shipping address</h2>
+            <h3>SHIPPING ADDRESS</h3>
             <small v-show="addressInvalid" style="color: red">Your address is not quite right, please check</small>
              <small style="color: red"  v-show="addressInvalid && shoppingcart.user.address.country == ''">*</small>
             <country-select v-model="shoppingcart.user.address.country" :country="shoppingcart.user.address.country" topCountry="ZA" class="listSelectitem"/>
@@ -42,7 +41,7 @@
             <!--Old way-->
             <input type="text" v-model="shoppingcart.user.address.suburb" placeholder="Suburb" class="addressitem"  >
             <small style="color: red"  v-show="addressInvalid && shoppingcart.user.address.city == ''">*</small>
-              <input type="text" v-model="shoppingcart.user.address.city" placeholder="City" class="addressitem">
+            <input type="text" v-model="shoppingcart.user.address.city" placeholder="City" class="addressitem">
              <small style="color: red"  v-show="addressInvalid && shoppingcart.user.address.postalcode == ''">*</small>
             <input type="number" v-model="shoppingcart.user.address.postalcode" placeholder="Code" class="addressitem"  ><br>
 
@@ -59,8 +58,8 @@
            
            
            <div style=" text-align: center;">
-            <button  @click="shopMore" class="buttonstyle">shop more</button>
-            <button :disabled="shoppingcart.totalitems == 0"  @click="goToDelivery" class="buttonstyle">continue...</button>
+            <button  @click="shopMore" class="buttonstyle">SHOP MORE</button>
+            <button :disabled="shoppingcart.totalitems == 0"  @click="goToDelivery" class="buttonstyle">CONTINUE</button>
             
             </div>
       
