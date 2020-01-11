@@ -272,10 +272,9 @@ input, input:active, input:focus, input:focus-within, input:hover, input:visited
   .buttonstyle {
     background-color: $color-whiteColor;
     color: $color-textBody;
-    font-size: 15px;
-    //font-weight: 6;
     font-family: 'AvenirNext';
     font-weight: normal;
+    font-size: 15px;
     border: 1px solid $color-unHoverColor;
     border-radius: 2px;
     margin-top: 10px;

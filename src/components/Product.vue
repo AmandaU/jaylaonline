@@ -5,7 +5,7 @@
    <div class="productcontainer">
      <media :query="{maxWidth: 600}" @media-enter="media600Enter" @media-leave="media600Leave"> </Media>
    
-         <div v-if="!isLoading" class="pricecolumn" >
+         <div v-if="!isLoading" class="pricecontainer" >
         
             <!-- <div  v-if="haveArtist" class="artistblock"  @click="gotoArtist(artist)" >
              <img v-bind:src="artist.logo" v-bind:alt="artist.name" style="height: 100px; width: auto; padding-left:20px;vertical-align:center;">
@@ -16,8 +16,9 @@
               
             <div class="priceblock">
                <h3>{{ product.name }}</h3> 
-              <h4>{{ product.description }}</h4>
-              <h4>R{{ product.items[0].price }}</h4>
+              <div>{{ product.description }}</div>
+              <br>
+              <div>R{{ product.price }}</div>
               
               <div  v-for="item in product.items" :key="item['.key']">
                   <div class="itemrow">
@@ -54,6 +55,9 @@
             </div>   
            
         </div> 
+
+
+        <div class="verticalspace"/>
 
         <div class="imagecontainer">
                 <div v-if="!isLoading" class="imageblock">  
