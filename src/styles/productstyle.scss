@@ -44,9 +44,7 @@
   height: 100%;
   width: auto;
   transition: all 200ms ease-in;
-  // margin-left: 2%;
-  // margin-right: 2%;
-}
+ }
 
 .imagecontainer {
   position: relative;
@@ -57,7 +55,7 @@
   width: 800px;
   overflow-y: auto;
   overflow-x: hidden;
-  transition: all 500ms ease-in-out;
+  transition: all 200ms ease-in-out;
 }
 
 
@@ -269,8 +267,8 @@
   @media all and (max-width:1400px) {
 
     .verticalspace {
-      display: none;
-      }
+        display: none;
+       }
   
     .imagecontainer {
       width: 100%;
@@ -278,7 +276,7 @@
     }
     
     .imageblock {
-      width: 100%;
+      width: 90%;
        margin: 0 auto;
     }
    
@@ -317,7 +315,9 @@
   }
 
   .verticalspace {
+ 
     display: none;
+   
     }
 
   .imagecontainer {
@@ -364,6 +364,11 @@
     text-align: center; 
     justify-content: center;
     vertical-align: middle;
+    }
+
+    .itemrow {
+     padding-top: 5px;
+    
     }
   
 }

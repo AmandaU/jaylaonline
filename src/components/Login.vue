@@ -17,7 +17,7 @@
          <div v-if="showForgotPassword" class="infoblock">
           <h2>Send recovery email to:</h2>
           <input type="text" v-model="forgotEmail" placeholder="Recovery email"  class="infoblockitem"><br>
-           <button @click="forgotPassword" class="buttonstyle">Send recovery email</button>
+          <button @click="forgotPassword" class="buttonstyle">Send recovery email</button>
         </div>
      </div>
   </div>
@@ -35,7 +35,8 @@
       return {
         showForgotPassword: false,
         forgotEmail: "",
-        busy: true,
+        isLoading: false,
+        loader: {},
         email: "",
         password: "",
         users: [],
@@ -49,6 +50,7 @@
    },
 
   created () {
+   
     if(this.$props.goto) {
       this.signinmessage = 'Please sign in to use your shopping cart'
     }
@@ -81,10 +83,16 @@
     
     login: function() {
       
-      this.busy = true;
+      this.isLoading = true;
+       this.loader = this.$loading.show({
+                loader: 'dots',
+                  color: 'blue'
+      });  
       let self = this;
       firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
         (user) => {
+            self.isLoading = false;
+            self.loader.hide()
           let uid = user.user.uid;
           alert('Successful login');
           self.$eventHub.$emit('loggedin', '');
@@ -100,7 +108,6 @@
             } else {
                self.$router.replace({ name: self.$props.goto});
            }
-            self.busy = false;
           }
           // else if(self.$props.cartref)
           // {
@@ -115,8 +122,7 @@
         },
         (err) => {
            alert('Oops. ' + err.message);
-          self.busy = false;
-        }
+         }
       );
       }
     }

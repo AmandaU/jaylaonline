@@ -18,8 +18,9 @@
                      </div>
               
                   <div  class="rowlabel item">
-                    <small>{{item.productname}}, size {{item.size}}</small>
-                    <small>{{item.number}} @ R{{item.price}} each</small>
+                    <small>{{item.productname}}</small>
+                    <small>SIZE {{item.size}}</small>
+                    <small>{{item.number}} @ R{{item.price}}</small>
                   </div>
 
                   <div  class="rowvalue item" >

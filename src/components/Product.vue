@@ -205,9 +205,9 @@ methods: {
      },
 
   getContainerStyle: function () { 
-     let h = String(window.innerHeight - 140) + 'px'
+     let h = String(window.innerHeight ) + 'px'
         return  {
-        'margin-top': '100px',
+        'margin-top': '90px',
         'max-width': '100vw',
         'min-height' : window.innerHeight,
         'height' : h,
@@ -219,7 +219,7 @@ methods: {
         'align-self': 'center',
         'justify-content': 'center',
         'align-items': 'center',
-        'transition': 'padding-top 500ms ease-in-out',
+        'transition': 'all 500ms ease-in-out',
       }
   },
 

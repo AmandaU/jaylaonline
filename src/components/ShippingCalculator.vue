@@ -11,9 +11,11 @@
      
          <div v-if="isDone" >
            <h2>Delivery information</h2>
-           <h4>Courier: {{courier.CarrierName}} </h4>
-           <h4>Delivery time: {{hoursToDays(courier.DeliveryTimeHours)}} days</h4>
-           <h4>Delivery fee: R {{courier.TotalCostPlusMarkup}} </h4>
+           <h4 v-if="!isInternational">Courier: {{courier.CarrierName}} </h4>
+           <h4 v-if="!isInternational">Delivery time: {{hoursToDays(courier.DeliveryTimeHours)}} days</h4>
+           <h4 v-if="!isInternational">Delivery fee: R {{courier.TotalCostPlusMarkup}} </h4>
+           <h4 v-if="isInternational">Delivery fee: {{shippingFee}} </h4>
+           <h5 v-if="isInternational">IMPORTANT!! YOUR COUNTRY MAY CHARGE YOU LOCAL CUSTOM DUTY</h5>
          </div>
         </transition>
       </div>
@@ -30,6 +32,7 @@ export default {
 
   data() {
     return {
+      isInternational: false,
       zones: [],
       rates: [],
       isDone: false,
@@ -45,9 +48,7 @@ export default {
 },
 
 created() {
- 
-    this.createZones()
-
+   this.createZones()
     this.$eventHub.$on('shoppingcarttotal', (totalitems)=> {
         if (totalitems != this.shoppingcart.totalitems) {
           this.isLoading = true
@@ -56,20 +57,24 @@ created() {
         }
     });
 
-    if(localStorage.getItem('jaylashop')) {
-        this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
-    }
-
-    if (this.shoppingcart.user.address.country == "South Africa") {
-        this.getDeliveryQuote()
-    } else {
-
-      let self = this
-      this.$rtdbBind('rates', ratesRef).then(rates => {
-        self.rates === rates
-        
-        self.loader.hide()
-        self.isLoading = false
+      if(localStorage.getItem('jaylashop')) {
+          this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
+      }
+      if (this.shoppingcart.user.address.country == "South Africa") {
+          this.getDeliveryQuote()
+      } else {
+        this.isInternational = true
+        let self = this
+        this.$rtdbBind('rates', ratesRef).then(rates => {
+            self.rates === rates
+            let rateKey  =  self.getCountryShippingZone(self.shoppingcart.user.address.country)
+            let rate  = self.rates.find(rate => {
+            let key = rate['.key']
+              if (key == rateKey) return rate
+            });
+            self.calculateInternationalShippingFee(rate, self)
+            self.loader.hide()
+            self.isLoading = false
       });
     }
 
@@ -81,23 +86,35 @@ created() {
 },
 
  computed: {
+
+    shippingFee: function() {
+        return 'R ' + String(this.shoppingcart.deliveryfee.toFixed(2))
+    },
   
    },
 
   methods: {
 
-    getInternationalShippingFee() {
-      let rateKey  =  zones[self.shoppingcart.user.address.country].value
+   getCountryShippingZone (country) {
+    if (this.zones.hasOwnProperty(country)) {
+        return this.zones[country];
+    } else {
+        return country;
+    }
+  },
+
+    getInternationalShippingFee(self) {
+      let rateKey  =  self.zones[self.shoppingcart.user.address.country].value
        let rate  = Object.keys(self.rates).find(ratekey => {
        
-         if (ratekey == rateKey) return rates[ratekey]
+         if (ratekey == rateKey) return self.rates[ratekey]
       });
-        this.calculateInternationalShippingFee(rate)
+        self.calculateInternationalShippingFee(rate)
     },
 
-    calculateInternationalShippingFee(rate) {
-        var fee = 0;
-      this.shoppingcart.items.forEach(item => {
+    calculateInternationalShippingFee(rate, self) {
+      var fee = 0;
+      self.shoppingcart.items.forEach(item => {
           if (item.weight < 0.5) {
             fee += item.number * rate.base
           } else if (item.weight > 0.5 && item.weight <= 1) {
@@ -110,8 +127,11 @@ created() {
              fee += item.number * rate.base * 0.75
           }
       })
-
-    },
+      self.shoppingcart.deliveryfee = fee
+       localStorage.setItem('jaylashop', JSON.stringify(self.shoppingcart));
+      self.$eventHub.$emit('fee', self.shoppingcart.deliveryfee);
+      self.isDone = true
+   },
 
     shippingToAddress: function()
       {
@@ -124,14 +144,13 @@ created() {
           return shipaddress
       },
 
-      shippingFromAddress: function()
-      {
-          return '18 Belper Road|| || Wynberg||Western Province||7800'
-      },
+    shippingFromAddress: function()
+    {
+        return '18 Belper Road|| || Wynberg||Western Province||7800'
+    },
 
-    hoursToDays: function(numberOfHours)
-      { 
-          var days=Math.floor(numberOfHours/24);
+    hoursToDays: function(numberOfHours) { 
+        var days=Math.floor(numberOfHours/24);
         var remainder=numberOfHours % 24;
         var hours=Math.floor(remainder);
         var minutes=Math.floor(60*(remainder-hours));
@@ -139,38 +158,7 @@ created() {
         //return({"Days":Days,"Hours":Hours,"Minutes":Minutes})
       },
 
-
-    getInternationalRate: function() {
-
-      switch (this.shoppingcart.user.address.country) {
-        //Zone J
-        case "Australia":
-        case "New Zealand":
-        case "China":
-          return 410;
-        //Zone G
-        case "USA":
-          return 265;
-        //Zone H
-        case "India":
-          return 300;
-        //Zone D
-        case "UK":
-          return 200;
-        case "France":
-        case "Germany":
-        case "Spain":
-          return 255;
-         //Zone A 
-        case "Botswana": 
-          return "200";
-        //Zone C
-        case "Namibia":
-          return  210;
-      }
-    },
-
-   getDeliveryQuote() {
+    getDeliveryQuote() {
 
       let self = this;
           let data =  {
@@ -240,183 +228,47 @@ debugger
     },
 
     createZones() {
-       zones.push({
-        key: "Botswana",
-        value: "A"
-      })
-      zones.push({
-        key: "Namibia",
-        value: "B"
-      })
-      zones.push({
-        key: "UK",
-        value: "D"
-      })
-      zones.push({
-        key: "France",
-        value: "F"
-      })
-      zones.push({
-        key: "Germany",
-        value: "F"
-      })
-      zones.push({
-        key: "Spain",
-        value: "F"
-      })
-      zones.push({
-        key: "USA",
-        value: "G"
-      })
-      zones.push({
-        key: "India",
-        value: "H"
-      })
-      zones.push({
-        key: "Australia",
-        value: "J"
-      })
-      zones.push({
-        key: "New Zealand",
-        value: "J"
-      })
-      zones.push({
-        key: "China",
-        value: "J"
-      })
-      zones.push({
-        key: "Andorra",
-        value: "F"
-      })
-      zones.push({
-        key: "Austria",
-        value: "F"
-      })
-      zones.push({
-        key: "Belgium",
-        value: "F"
-      })
-      zones.push({
-        key: "Denmark",
-        value: "F"
-      })
-      zones.push({
-        key: "Finland",
-        value: "F"
-      })
-      zones.push({
-        key: "France",
-        value: "F"
-      })
-      zones.push({
-        key: "Germany",
-        value: "F"
-      })
-      zones.push({
-        key: "Greece",
-        value: "F"
-      })
-      zones.push({
-        key: "Iceland",
-        value: "F"
-      })
-      zones.push({
-        key: "Ireland",
-        value: "F"
-      })
-      zones.push({
-        key: "Italy",
-        value: "F"
-      })
-      zones.push({
-        key: "Liechtenstein",
-        value: "F"
-      })
-      zones.push({
-        key: "Luxemborg",
-        value: "F"
-      })
-      zones.push({
-        key: "Malta",
-        value: "F"
-      })
-      zones.push({
-        key: "Monaco",
-        value: "F"
-      })
-      zones.push({
-        key: "Netherlands",
-        value: "F"
-      })
-      zones.push({
-        key: "Norway",
-        value: "F"
-      })
-      zones.push({
-        key: "Portugal",
-        value: "F"
-      })
-      zones.push({
-        key: "San Marino",
-        value: "F"
-      })
-      zones.push({
-        key: "Spain",
-        value: "F"
-      })
-      zones.push({
-        key: "Sweden",
-        value: "F"
-      })
-      zones.push({
-        key: "Switzerland",
-        value: "F"
-      })
-      zones.push({
-        key: "Turkey",
-        value: "F"
-      })
-
-      zones.push({
-        key: "Bulgaria",
-        value: "L"
-      })
-      zones.push({
-        key: "Czech Republic",
-        value: "L"
-      })
-      zones.push({
-        key: "Hungary",
-        value: "L"
-      })
-      zones.push({
-        key: "Poland",
-        value: "L"
-      })
-      zones.push({
-        key: "Romania",
-        value: "L"
-      })
-      zones.push({
-        key: "Russia",
-        value: "L"
-      })
-      zones.push({
-        key: "Slovakia",
-        value: "L"
-      })
-      zones.push({
-        key: "Belarus",
-        value: "L"
-      })
-      zones.push({
-        key: "Moldova",
-        value: "L"
-      })
-      zones.push({
-        key: "Ukraine",
-        value: "L"
-      })
+this.zones = { "Botswana": "A",
+ "Namibia": "B",
+  "UK": "D",
+   "USA": "G",
+    "India": "H",
+    "Australia": "J",
+    "New Zealand": "J",
+     "China": "J",
+     "Andorra": "F",
+     "Austria": "F",
+     "Belgium": "F",
+      "Denmark": "F",
+       "Finland": "F",
+       "France": "F",
+        "Germany": "F",
+         "Greece": "F",
+          "Iceland": "F",
+          "Ireland": "F",
+          "Italy": "F",
+           "Liechtenstein": "F",
+            "Luxemborg": "F",
+             "Malta": "F",
+              "Monaco": "F",
+               "Netherlands": "F",
+                "Norway": "F",
+                 "Portugal": "F",
+                  "San Marino": "F",
+                   "Spain": "F",
+                    "Sweden": "F",
+                    "Switzerland": "F",
+                     "Turkey": "F",
+                     "Bulgaria": "L",
+                      "Czech Republic": "L",
+                      "Hungary": "L",
+                       "Poland": "L",
+                       "Romania": "L",
+                        "Russia": "L",
+                        "Slovakia": "L",
+                         "Belarus": "L",
+                         "Moldova": "L",
+                          "Ukraine": "L"}
     }
 
   },

@@ -16,12 +16,10 @@
             <p >{{shippingAddress}}</p>
             
             <br>
-             <ShippingCalculator ></ShippingCalculator>
+            <ShippingCalculator ></ShippingCalculator>
             
-            <!-- <div style=" text-align: center;"> -->
-              <button  @click="shopMore" class="buttonstyle">SHOP MORE</button>
-              <!-- <button  :disabled="shoppingcart.totalitems == 0" @click="getDeliveryFee" class="buttonstyle">calculate delivery fee</button><br> -->
-              <button  :disabled="shoppingcart.deliveryfee == 0"  @click="goToCheckout" class="buttonstyle">CONTINUE</button>
+            <button  @click="shopMore" class="buttonstyle">SHOP MORE</button>
+            <button  :disabled="shoppingcart.deliveryfee == 0"  @click="goToCheckout" class="buttonstyle">CONTINUE</button>
         
             <!-- </div> -->
          </div>

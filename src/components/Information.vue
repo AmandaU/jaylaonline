@@ -25,11 +25,10 @@
             <h3>SHIPPING ADDRESS</h3>
             <small v-show="addressInvalid" style="color: red">Your address is not quite right, please check</small>
              <small style="color: red"  v-show="addressInvalid && shoppingcart.user.address.country == ''">*</small>
-            <country-select v-model="shoppingcart.user.address.country" :country="shoppingcart.user.address.country" topCountry="ZA" class="listSelectitem"/>
+            <country-select  v-model="shoppingcart.user.address.country" :country="shoppingcart.user.address.country" topCountry="South Africa" class="listSelectitem"  countryName="true"/>
             <small style="color: red"  v-show="addressInvalid && shoppingcart.user.address.region == ''">*</small>
-            <region-select v-model="shoppingcart.user.address.region" :country="shoppingcart.user.address.country" :region="shoppingcart.user.address.region" class="listSelectitem" />
+            <region-select   v-model="shoppingcart.user.address.region" :country="shoppingcart.user.address.country" :region="shoppingcart.user.address.region" class="listSelectitem" countryName="true" regionName="true" />
            
-            
             <small style="color: red" v-show="addressInvalid && shoppingcart.user.address.addressline1 == ''">*</small>
             <input type="text" v-model="shoppingcart.user.address.addressline1" placeholder="Address" class="addressitem"><br>
           
@@ -44,7 +43,10 @@
             <input type="text" v-model="shoppingcart.user.address.city" placeholder="City" class="addressitem">
              <small style="color: red"  v-show="addressInvalid && shoppingcart.user.address.postalcode == ''">*</small>
             <input type="number" v-model="shoppingcart.user.address.postalcode" placeholder="Code" class="addressitem"  ><br>
-
+            <div style="display:flex;flex-direction:row;vertical-align:middle">
+            <input type="checkbox" id="checkbox" v-model="useAsPersonalAddress">
+            <label for="checkbox" style="padding-left:10px;padding-top:10px">use this address as your personal address?</label>
+            </div>
             <!--Better way-->
             <!-- <input type="text" v-model="shoppingcart.user.address.suburb" placeholder="Suburb" class="addressitem"  @input="onChangeSuburb" >
             <div v-if="isChangingSuburb && filteredAddresses.length > 0"> Changing suburb!
@@ -90,6 +92,7 @@
 
  data() {
       return {
+        useAsPersonalAddress: false,
         loader: {},
         isChangingSuburb: false,
         validAddress: {},
@@ -122,7 +125,9 @@
               postalcode: ''
               }
             }
-       }
+       },
+    
+
       }
     },
 
@@ -168,12 +173,16 @@
     this.getAddresses()
  },
 
-  computed: {
-
-      
-   },
 
   methods: {
+
+    savePersonalAddress() {
+      if (this.useAsPersonalAddress) {
+           if(this.currentuser){
+            db.ref('users/' + this.key).set(this.shoppingcart.user);
+            } 
+      }
+    },
 
     filterAddresses()  {
         let self = this
@@ -304,12 +313,14 @@
     },
 
   shopMore () {
-    localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
+     localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
     this.$router.replace({ name: 'Shop'});
   },
   
    goToDelivery: function() {
       if(!this.checkForm()) return
+
+      this.savePersonalAddress()
       var theTotal = 0;
       this.shoppingcart.items.forEach(item => {
           theTotal += item.number * item.price;
@@ -317,11 +328,25 @@
       this.shoppingcart.purchasevalue = String((theTotal + this.shoppingcart.shipping))
       localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
 
-     if(this.currentuser){
-       db.ref('users/' + this.key).set(this.shoppingcart.user);
-      } 
       this.$router.push({ name: 'Shipping'});
      },
+
+     
+  getCountryName: function(countryCode) {
+      if (isoCountries.hasOwnProperty(countryCode)) {
+          return isoCountries[countryCode];
+      } else {
+          return countryCode;
+      }
+  },
+
+  getCountryCode: function(countryName) {
+    if (isoCountries.hasOwnProperty(countryName)) {
+        return isoCountries[countryName];
+    } else {
+        return countryCode;
+    }
+},
 
   }
 }

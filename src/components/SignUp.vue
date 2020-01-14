@@ -43,7 +43,8 @@
 
   data() {
     return {
-      busy: false,
+       loader: {},
+       isLoading: false,
       newUser: {
         uid: '',
         firstname: '',
@@ -70,6 +71,10 @@
       myusers: myUsersRef    
     }
   },
+
+   created () {
+    
+   },
  
 methods: {
       
@@ -112,11 +117,17 @@ methods: {
   },
 
   signUp: function() {
-    this.busy = true;
+    this.isLoading = true;
+    this.loader = this.$loading.show({
+              loader: 'dots',
+                color: 'blue'
+    });  
     let self = this;
   
     firebase.auth().createUserWithEmailAndPassword(this.newUser.email, this.newUser.password).then(
       (user) => {
+        self.isLoading = false;
+        self.loader.hide()
         let uid = user.user.uid;
         self.insert(uid)
         alert('Your account has been created')
@@ -133,7 +144,6 @@ methods: {
             } else {
               self.$router.replace({ name: self.$props.goto});
            }
-            self.busy = false;
           }
         // else if(self.$props.eventid)
         // {
@@ -148,7 +158,6 @@ methods: {
       },
       (err) => {
         alert('Oops. ' + err.message)
-        this.busy = false;
       }
     );
   }

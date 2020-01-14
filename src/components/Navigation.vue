@@ -50,7 +50,7 @@
         <transition   name="slide">
           <div v-if="showRightMenu" class="dropdown-content right" >
             <a v-show="!isLoggedin" v-on:click="navigate('Login')">LOGIN</a>
-            <a v-show="!isLoggedin" v-on:click="navigate('Register')">REGISTER</a>
+            <a v-show="!isLoggedin" v-on:click="navigate('Signup')">REGISTER</a>
             <a v-show="isLoggedin" v-on:click="navigate('Logout')">LOGOUT</a>
         </div>
         </transition>    
@@ -145,11 +145,14 @@ methods: {
   navigate (navPath) {
      if(navPath == "Logout") {
         let self = this;
+         if(self.showCart) {
+            self.showCart = false
+            self.$eventHub.$emit('showCheckout', self.showCart);
+          }
         firebase.auth().signOut().then(function() { 
         //console.log('Signed Out');
           alert('You have successfully logged out');
-           self.showCart = !self.showCart
-          self.$eventHub.$emit('showCheckout', self.showCart);
+         
           self.isLoggedin = false;
           localStorage.clear()
           self.$eventHub.$emit('shoppingcarttotal', 0);
@@ -161,10 +164,13 @@ methods: {
         return
       }  
       if(navPath == "Login" || navPath == "Register") {
-          this.showCart = !this.showCart
+
+        if(this.showCart) {
+          this.showCart = false
           this.$eventHub.$emit('showCheckout', this.showCart);
-          this.$router.push({ name: navPath});
-          return
+        }
+         this.$router.push({ name: navPath});
+        return
       }
        if(navPath == "ShoppingCart") {
         if (this.totalitems == 0) {
