@@ -71,7 +71,7 @@
 
 <script>
  import firebase from '../firebase-config';
-// import Media from 'vue-media'
+//import Media from 'vue-media'
  
 export default {
 
@@ -131,7 +131,7 @@ export default {
     computed: {
 
        isMobile: function() {
-          return window.innerWidth < 800 ||
+          return window.innerWidth < 1400 ||
           navigator.userAgent.match(/Android/i) ||
           navigator.userAgent.match(/webOS/i) ||
           navigator.userAgent.match(/iPhone/i) ||

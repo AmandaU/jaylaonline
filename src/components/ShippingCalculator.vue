@@ -203,7 +203,6 @@ created() {
             headers: {'X-Auth-Token': this.authToken,  'Content-Type': 'application/json'} 
         }
        const url = this.baseUrl + 'costComparison';
-debugger
        this.axios.post(url, data,auth)
        .then(result => {
          debugger
