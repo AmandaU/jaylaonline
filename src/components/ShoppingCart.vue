@@ -5,7 +5,7 @@
 
       <h3>SHOPPING CART</h3> 
       <div :style="getCartStyle()" :key="cartKey">
-        <div   @click="hide()" class="closebutton"><a>X</a></div>
+        <div v-if="showCloseButton"  @click="hide()" class="closebutton"><a>X</a></div>
         <div class="checkoutblock" >
    
           <p  v-show="this.shoppingcart.totalitems == 0">There are no items in your cart,<span @click="goToShop" style="color:blue;cursor:pointer"> shop </span>some more ;)</p>
@@ -130,8 +130,17 @@ export default {
 
     computed: {
 
+      showCloseButton: function () {
+        if (this.isMobile) return true
+
+        if (this.$route.name == "Information" ||
+        this.$route.name == "Shipping" ||
+        this.$route.name == "Checkout") return false
+        return true
+      },
+
        isMobile: function() {
-          return window.innerWidth < 1400 ||
+          return window.innerWidth < 800 ||
           navigator.userAgent.match(/Android/i) ||
           navigator.userAgent.match(/webOS/i) ||
           navigator.userAgent.match(/iPhone/i) ||
@@ -201,12 +210,12 @@ export default {
          //'background-color':'rgb(147, 253, 40)',
          'position': 'relative',
           'flex': '1',
-          'min-width':   this.isMobile ? '90%' : '700px',//this.showCheckout ? '700px' : '90%' ,
-          'max-width': this.isMobile ? '90%' : '700px',//this.showCheckout ? '700px' : '90%' ,
+          'min-width':   this.isMobile || window.innerWidth < 1000 ? '90%' : '700px',//this.showCheckout ? '700px' : '90%' ,
+          'max-width': this.isMobile || window.innerWidth < 1000 ? '90%' : '700px',//this.showCheckout ? '700px' : '90%' ,
           'display': 'flex',
           'align-items': 'center',
           'justify-content': 'center',
-          'flex-direction': this.isMobile ? 'column' : 'row',
+          'flex-direction': this.isMobile || window.innerWidth < 1000? 'column' : 'row',
           'align-self': 'center',
           'margin-bottom': '5px'
         }
