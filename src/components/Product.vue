@@ -72,6 +72,9 @@
 </template>
 
 <script>
+import { RepositoryFactory } from '../RepositoryFactory'
+//import { ExchangeRates } from '../exchangerates'
+const ExchangeRates = RepositoryFactory.get('rates')
 import Media from 'vue-media'
 import firebase from '../firebase-config';
 import {  db } from '../firebase-config';
@@ -91,6 +94,7 @@ export default {
 
   data() {
     return {
+     // exchangeRates: ExchangeRates,
       lessThan600: window.innerWidth < 600,
       componentKey: 0,
       haveArtist: false,
@@ -100,7 +104,9 @@ export default {
       shoppingcart: {},
       products:[],
       currentuser: null,
-      showCheckout: false
+      showCheckout: false,
+      USDPrice: 0,
+      EURPrice: 0
      }
   },
 
@@ -132,6 +138,8 @@ mounted() {
 },
 
 created () {
+  
+ // this.getExchangeRates()
   this.showCheckout = false
    if(localStorage.getItem('jaylashop'))
     {
@@ -143,6 +151,7 @@ created () {
           console.log("snapshot.val" + products.val()[key]);
           self.product = products.val()[key];
        }
+       self.fetchRates()
       
       const imageArray = Object.keys(self.product.images).map(imagekey => {
           return self.product.images[imagekey]
@@ -199,6 +208,12 @@ watch: {
   },
 
 methods: {
+
+   fetchRates() {
+    debugger
+    this.USDPrice =  ExchangeRates.getUSDPrice(this.product.price)
+    //this.EURPrice = await ExchangeRates.getEURPrice(this.product.price)
+  },
 
     imageThumbUrl: function(image) {
          return 'url('+ image.thumburl + ')';
@@ -367,6 +382,34 @@ methods: {
              },
           };
    },
+
+   getExchangeRates() {
+     debugger
+     const URL_API = "https://api.exchangeratesapi.io/latest?base=ZAR" //?symbols=USD,GBP,ZAR"
+   // const URL_API = "https://my-backend-application.herokuapp.com/currency/latest?symbols=USD,GBP";
+
+    this.axios.get(URL_API)
+     .then(result => {
+       data = JSON.parse(result.data);
+        data = data["quotes"];
+
+        const table = {};
+        table["EUR"] = 1;
+
+        for (let each in data) {
+            if (!data.hasOwnProperty(each)) {
+                continue;
+            }
+
+            const abbr = each.substring(3);
+            table[abbr] = data[each];
+        }
+    
+    }).catch((error) => {
+        console.log(">>> Updating rate failed \n" + error);
+        alert("Please enable sending HTTP request in the browser's page specific setting\nThis app will make a HTTP request to update exchange rate.");
+    });
+}
 
   }
 }
