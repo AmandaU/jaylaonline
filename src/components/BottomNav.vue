@@ -1,9 +1,9 @@
 <template>
-    <div class="footer" ref="footer" >
+    <div :class="isHome ? 'footerhome' : 'footer'"  ref="footer" >
    
-        <div class=" menuitem "  @click="navigate('About')">ABOUT
+        <div :class="isHome ? 'menuitem homecolor' : 'menuitem normalcolor'"  @click="navigate('About')" >ABOUT
          </div>
-        <div class="menuitem "  @click="navigate('Contact')">CONTACT
+        <div :class="isHome ? 'menuitem homecolor' : 'menuitem normalcolor'"   @click="navigate('Contact')">CONTACT
         </div>
   
     </div>
@@ -15,12 +15,19 @@ export default {
   name: 'BottomNav',
 data() {
     return {
-     // footerposition: 'relative' 
+   
        }
   },
 
  mounted() {
     
+ },
+
+ computed: {
+
+   isHome: function() {
+      return this.$route.name == "Home"
+   },
  },
 
 methods: {
@@ -35,37 +42,7 @@ methods: {
 }
 </script>
 
-<style> 
-
-.footer{
-    left: 0;
-    display:  flex;
-    flex-direction:row; 
-    justify-content: space-between;
-    bottom:0;
-    right:0px;
-    width:100%;
-     height: 50px;
-     position: relative;
-     background-color: transparent;
-      font-weight: 6;
-    font-size: 12px;
-   
-}
-
-.menuitem{
-    color: rgb(209, 232, 248);
-   text-align: center;
-    justify-content:center;
-    align-content:center;
-    align-self: center;
-    display: flex;
-    margin: 0% auto;
-  
-}
-  
-  .menuitem:hover {
-    text-decoration:underline;
-    cursor: pointer;
-    }
-</style>
+<style lang="scss" scoped>
+  // @import "~@/styles/commonstyle.scss";
+  @import "~@/styles/bottomstyle.scss";
+ </style>

@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     
-    <Navigation ></Navigation>
+   <Navigation ></Navigation>
     <div class="fullpage" >
-    
+      <!-- <Navigation ></Navigation> -->
             <transition-expand>
              <div  class="dropdownblocktransition" v-if="showCheckout">
              
@@ -20,9 +20,9 @@
         <keep-alive include="Information,Shipping,Checkout">
           <router-view></router-view>
         </keep-alive>
-        <!-- <BottomNav></BottomNav> -->
+        <BottomNav></BottomNav>
       </div>
-     <BottomNav></BottomNav>
+     <!-- <BottomNav></BottomNav> -->
    </div>  
   </template>
 

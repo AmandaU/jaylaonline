@@ -1,0 +1,48 @@
+
+.footer{
+    height: 40px; 
+    justify-content: space-between;
+    width:100%;
+    display:  flex;
+    font-weight: 6;
+    font-size: 12px; 
+    margin-top:10px; 
+} 
+.footerhome {
+    left: 0;
+    display:  flex;
+    flex-direction:row; 
+    justify-content: space-between;
+    bottom:0;
+    right:0px;
+    width:100%;
+    height: 40px;
+    position: absolute;
+    background-color: transparent;
+    font-weight: 6;
+    font-size: 12px;  
+
+}
+
+.menuitem{
+      text-align: center;
+    justify-content:center;
+    align-content:center;
+    align-self: center;
+    display: flex;
+    margin: 0% auto;
+  
+ }
+  
+  .menuitem:hover {
+    text-decoration:underline;
+    cursor: pointer;
+    }
+
+  .homecolor {
+    color: white;
+  }
+
+  .normalcolor {
+color:#1C1B1B; // $color-textBody;;
+  }

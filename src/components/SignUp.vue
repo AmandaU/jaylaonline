@@ -3,12 +3,12 @@
     <div class="container" >
           <!-- <cube-spin v-if="busy"></cube-spin> -->
           <div class="infoblock">
-            <h2>Let's create a new account !</h2>
+            <h4>CREATE AN ACCOUNT</h4>
             <input type="text" v-model="newUser.firstname" placeholder="First name" class="infoblockitem"><br>
             <input type="text" v-model="newUser.surname" placeholder="Surname" class="infoblockitem"><br>
             <input type="text" v-model="newUser.email" placeholder="Email" class="infoblockitem"><br>
             <input type="password" v-model="newUser.password" placeholder="Password" class="infoblockitem"><br><br>
-            <vue-tel-input class="tel"  v-model="newUser.cellphone"
+            <vue-tel-input class="tel" style="height:40px;margin-top:-10px" v-model="newUser.cellphone"
                           @onInput="onInput"
                           :preferredCountries="['za']">
             </vue-tel-input><br>

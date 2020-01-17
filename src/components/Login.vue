@@ -3,7 +3,7 @@
      <div class="container" >
        <!-- <cube-spin v-if="busy"></cube-spin> -->
         <div v-if="!showForgotPassword" class="infoblock">
-          <h2>{{signinmessage}}</h2>
+          <h4>{{signinmessage}}</h4>
           <input type="text" v-model="email" placeholder="Email"  class="infoblockitem"><br>
           <input type="password" v-model="password" placeholder="Password"  class="infoblockitem"><br>
           <button @click="login" class="buttonstyle">LOGIN</button>
@@ -41,7 +41,7 @@
         password: "",
         users: [],
         shoppingcart: {},
-        signinmessage: 'Sign in:'
+        signinmessage: 'SIGN IN'
     }
   },
 
@@ -52,7 +52,7 @@
   created () {
    
     if(this.$props.goto) {
-      this.signinmessage = 'Please sign in to use your shopping cart'
+      this.signinmessage = 'SIGN IN TO USE YOUR SHOPPING CART'
     }
   },
  

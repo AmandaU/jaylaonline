@@ -230,18 +230,17 @@ methods: {
      },
 
   getContainerStyle: function () { 
-     let h = String(window.innerHeight ) + 'px'
+     let h = String(window.innerHeight - 90) + 'px'
         return  {
-        'margin-top': '90px',
+        'margin-top': '80px',
        
         'max-width': '100vw',
-        'min-height' : window.innerHeight,
+        'min-height' : h,
         'height' : h,
         'width':'100%',
         'float':'left',
         'display': 'flex',
         'flex-direction': 'column',
-        // 'overflow': 'hidden',
         'align-self': 'center',
         'justify-content': 'center',
         'align-items': 'center',
