@@ -43,9 +43,10 @@ methods: {
     flex-direction:row; 
     justify-content: space-between;
     bottom:0;
+    right:0px;
     width:100%;
      height: 50px;
-     position: absolute;
+     position: relative;
      background-color: transparent;
       font-weight: 6;
     font-size: 12px;

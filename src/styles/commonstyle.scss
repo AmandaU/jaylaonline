@@ -30,9 +30,14 @@ $color-darkLineColor: #6a6a6a;
 //   font-style: normal;
 // }
 
+// ::-webkit-scrollbar {
+//   display: none; 
+//   width: 0px;
+// }
+
 ::-webkit-scrollbar {
-  display: none; 
   width: 0px;
+  background: transparent; /* make scrollbar transparent */
 }
 
 ::-webkit-input-placeholder { /* Edge */
@@ -112,7 +117,7 @@ input, input:active, input:focus, input:focus-within, input:hover, input:visited
   right: 0;
   margin: 0px;
   overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-y: scroll;
   min-height: 100vh;
 }
 

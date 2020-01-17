@@ -120,22 +120,31 @@
 //   z-index: 1;
 // }
 
-  .mainimage, .thumbimage {
-    float: left;
-    width: 100%;
-    img {
-        width: 100%;
-       // display: block;
-    }
+.mainimage, .thumbimage {
+  float: left;
+  width: 100%;
+  img {
+      width: 100%;
+      // display: block;
   }
- 
-  .thumbimage {
-   filter: blur(2px);
-  }
+}
+
+.thumbimage {
+  filter: blur(2px);
+}
+
+.pricerow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+  height:30px;
+  
+}
  
 .itemrow {
  
-    background-color:white;
+    //background-color:white;
     display: flex;
     flex-direction: row;
     justify-content: center;

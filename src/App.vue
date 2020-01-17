@@ -22,16 +22,12 @@
         </keep-alive>
         <!-- <BottomNav></BottomNav> -->
       </div>
-  
-  
-  
+     <BottomNav></BottomNav>
    </div>  
-  
- 
-</template>
+  </template>
 
 <script>
-//import BottomNav from './components/BottomNav'
+import BottomNav from './components/BottomNav'
 import Navigation from './components/Navigation'
 import ShoppingCart from './components/ShoppingCart'
 import TransitionExpand from './components/TransitionExpand'
@@ -41,7 +37,7 @@ export default {
   name: 'app',
   components: {
     'Navigation': Navigation,
-   // 'BottomNav': BottomNav,
+    'BottomNav': BottomNav,
     'ShoppingCart': ShoppingCart ,
     'TransitionExpand': TransitionExpand
   },

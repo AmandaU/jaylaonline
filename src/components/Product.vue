@@ -18,8 +18,12 @@
                <h3>{{ product.name }}</h3> 
               <div>{{ product.description }}</div>
               <br>
-              <div>R{{ product.price }}</div>
-              
+               <div class="pricerow">
+                <div>R {{ product.price }}</div>
+                <div v-if="USDRate > 0">$ {{dollarPrice}}</div>
+                <div v-if="EURRate > 0">&#163; {{ euroPrice }}</div>
+              </div>
+              <small>Dollar and euro price at today's rates</small>
               <div  v-for="item in product.items" :key="item['.key']">
                   <div class="itemrow">
                    
@@ -73,13 +77,13 @@
 
 <script>
 import { RepositoryFactory } from '../RepositoryFactory'
-//import { ExchangeRates } from '../exchangerates'
-const ExchangeRates = RepositoryFactory.get('rates')
 import Media from 'vue-media'
 import firebase from '../firebase-config';
 import {  db } from '../firebase-config';
 let productsRef = db.ref('products');
 let artistsRef = db.ref('artists');
+
+const ExchangeRates = RepositoryFactory.get('rates')
 
 export default {
   name: 'product',
@@ -94,8 +98,7 @@ export default {
 
   data() {
     return {
-     // exchangeRates: ExchangeRates,
-      lessThan600: window.innerWidth < 600,
+       lessThan600: window.innerWidth < 600,
       componentKey: 0,
       haveArtist: false,
        product: {},
@@ -105,8 +108,8 @@ export default {
       products:[],
       currentuser: null,
       showCheckout: false,
-      USDPrice: 0,
-      EURPrice: 0
+      USDRate: 0,
+      EURRate: 0
      }
   },
 
@@ -138,8 +141,7 @@ mounted() {
 },
 
 created () {
-  
- // this.getExchangeRates()
+   this.fetchRates()
   this.showCheckout = false
    if(localStorage.getItem('jaylashop'))
     {
@@ -151,7 +153,7 @@ created () {
           console.log("snapshot.val" + products.val()[key]);
           self.product = products.val()[key];
        }
-       self.fetchRates()
+      
       
       const imageArray = Object.keys(self.product.images).map(imagekey => {
           return self.product.images[imagekey]
@@ -175,6 +177,13 @@ this.isLoading = false
 },
 
  computed: {
+
+   dollarPrice: function() {
+      return Math.round(this.product.price * this.USDRate)
+   },
+   euroPrice: function () {
+      return Math.round(this.product.price * this.EURRate)
+   },
 
    showCheckoutButton: function () {
      if (this.shoppingcart) {
@@ -209,10 +218,11 @@ watch: {
 
 methods: {
 
-   fetchRates() {
-    debugger
-    this.USDPrice =  ExchangeRates.getUSDPrice(this.product.price)
-    //this.EURPrice = await ExchangeRates.getEURPrice(this.product.price)
+  async  fetchRates() {
+    await ExchangeRates.getRates()
+    // debugger
+    this.USDRate = ExchangeRates.USDRate
+    this.EURRate = ExchangeRates.EURRate
   },
 
     imageThumbUrl: function(image) {
@@ -223,6 +233,7 @@ methods: {
      let h = String(window.innerHeight ) + 'px'
         return  {
         'margin-top': '90px',
+       
         'max-width': '100vw',
         'min-height' : window.innerHeight,
         'height' : h,
@@ -382,36 +393,7 @@ methods: {
              },
           };
    },
-
-   getExchangeRates() {
-     debugger
-     const URL_API = "https://api.exchangeratesapi.io/latest?base=ZAR" //?symbols=USD,GBP,ZAR"
-   // const URL_API = "https://my-backend-application.herokuapp.com/currency/latest?symbols=USD,GBP";
-
-    this.axios.get(URL_API)
-     .then(result => {
-       data = JSON.parse(result.data);
-        data = data["quotes"];
-
-        const table = {};
-        table["EUR"] = 1;
-
-        for (let each in data) {
-            if (!data.hasOwnProperty(each)) {
-                continue;
-            }
-
-            const abbr = each.substring(3);
-            table[abbr] = data[each];
-        }
-    
-    }).catch((error) => {
-        console.log(">>> Updating rate failed \n" + error);
-        alert("Please enable sending HTTP request in the browser's page specific setting\nThis app will make a HTTP request to update exchange rate.");
-    });
 }
-
-  }
 }
 </script>
 

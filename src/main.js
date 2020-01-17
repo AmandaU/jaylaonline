@@ -3,10 +3,12 @@ import App from './App.vue';
 import router from './router';
 import firebase from './firebase-config';
 import './styles/fontsandcolors.scss';
-
-Vue.config.productionTip = false;
+//import ExchangeRates from './exchangerates';
 
 let app = ''
+Vue.config.productionTip = false
+
+//Vue.prototype.$exchangerates = new ExchangeRates();
 Vue.prototype.$eventHub = new Vue(); 
 
 Vue.directive('visible', function(el, binding) {

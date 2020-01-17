@@ -8,7 +8,7 @@
         :color="blue"
         :is-full-page="fullPage"></loading> -->
    
-    <media :query="{maxWidth: 600}" @media-enter="media600Enter" @media-leave="media600Leave"> </Media> 
+    <media :query="{maxWidth: 800}" @media-enter="media600Enter" @media-leave="media600Leave"> </Media> 
 
         <div v-if="!isLoading" v-bind:class="[isRow ? 'rowstyle' : 'cols']">  
             <div :style="getImageContainerStyle(product)"  v-for="product in products"  v-bind:key="product['.key']" v-on:click="navigateToItem(product)">
@@ -46,10 +46,12 @@
 </template>
 
 <script>
+import { RepositoryFactory } from '../RepositoryFactory'
 import Media from 'vue-media'
  import firebase from '../firebase-config';
 import { db } from '../firebase-config';
-  const productsRef = db.ref('products')
+const productsRef = db.ref('products')
+const ExchangeRates = RepositoryFactory.get('rates')
 
 export default {
   name: 'shop',
@@ -93,6 +95,7 @@ mounted() {
 },
 
  created () {
+   this.fetchRates()
     this.showCheckout = false
     this.addProducts()
     let self = this
@@ -143,6 +146,12 @@ mounted() {
   },
  
 methods: {
+
+   async  fetchRates() {
+    await ExchangeRates.getRates()
+    // this.USDRate = ExchangeRates.USDRate
+    // this.EURRate = ExchangeRates.EURRate
+  },
 
   onHover(product) {
 
