@@ -210,12 +210,12 @@ export default {
          //'background-color':'rgb(147, 253, 40)',
          'position': 'relative',
           'flex': '1',
-          'min-width':   this.isMobile || window.innerWidth < 1000 ? '90%' : '700px',//this.showCheckout ? '700px' : '90%' ,
-          'max-width': this.isMobile || window.innerWidth < 1000 ? '90%' : '700px',//this.showCheckout ? '700px' : '90%' ,
+          'min-width':   this.isMobile || window.innerWidth < 1000 ? '90%' : this.showCheckout ? '700px' : '90%' ,
+          'max-width': this.isMobile || window.innerWidth < 1000 ? '90%' : this.showCheckout ? '700px' : '90%' ,
           'display': 'flex',
           'align-items': 'center',
           'justify-content': 'center',
-          'flex-direction': this.isMobile || window.innerWidth < 1000? 'column' : 'row',
+          'flex-direction': this.isMobile || window.innerWidth < 1200? 'column' : 'row',
           'align-self': 'center',
           'margin-bottom': '5px'
         }

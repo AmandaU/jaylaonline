@@ -40,7 +40,7 @@ export default {
       loader: {},
       shoppingcart: {},
       user: {},
-      courier: {},
+      couriers: [],
       authToken: 'a0a06d61fe7ff9f06235476a1af267f6311e6d8d239ba6c95565502ebf29ad04',
       baseUrl: 'https://rush.test.jini.guru/api/v2/'  //https://www.rush.co.za/api/v2/
       
@@ -207,11 +207,19 @@ created() {
        .then(result => {
          debugger
           if(result.statusText == "OK") {
-          self.courier = result.data.data.CostComparisonResult.CostComparisonResults.ResultSet.Result
-          self.shoppingcart.courier = self.courier
-          self.shoppingcart.deliveryfee = Number(self.courier.TotalCostPlusMarkup.replace(',',''))
-           localStorage.setItem('jaylashop', JSON.stringify(self.shoppingcart));
-          self.$eventHub.$emit('fee', self.shoppingcart.deliveryfee);
+            debugger
+           
+          let allcouriers = result.data.data.CostComparisonResult.CostComparisonResults.ResultSet.Result
+
+           let min = allcouriers[0]
+
+         
+          var minCost = Math.min.apply(null, allcouriers.map(item => Number(item.grandtotmrkup)));
+          var minTime = Math.min.apply(null, allcouriers.map(item => Number(item.DeliveryTimeHours)));
+          // self.shoppingcart.courier = self.courier
+          // self.shoppingcart.deliveryfee = Number(self.courier.TotalCostPlusMarkup.replace(',',''))
+          //  localStorage.setItem('jaylashop', JSON.stringify(self.shoppingcart));
+          // self.$eventHub.$emit('fee', self.shoppingcart.deliveryfee);
          }
           self.isLoading = false
           self.loader.hide()
