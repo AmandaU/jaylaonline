@@ -47,6 +47,7 @@
             <input type="checkbox" id="checkbox" v-model="useAsPersonalAddress">
             <label for="checkbox" style="padding-left:10px;padding-top:10px">use this address as your personal address?</label>
             </div>
+
             <!--Better way-->
             <!-- <input type="text" v-model="shoppingcart.user.address.suburb" placeholder="Suburb" class="addressitem"  @input="onChangeSuburb" >
             <div v-if="isChangingSuburb && filteredAddresses.length > 0"> Changing suburb!
@@ -127,7 +128,6 @@
             }
        },
     
-
       }
     },
 
@@ -151,6 +151,7 @@
               loader: 'dots',
                 color: 'blue'
     });  
+    
     window.addEventListener("resize", this.redrawComponent);
     this.$eventHub.$emit('showCheckout', this.isMobile());
     this.showCheckout = this.isMobile()
@@ -170,7 +171,11 @@
         }
       });
     }
-    this.getAddresses()
+
+    //TODO get valid addresses
+   // this.getAddresses()
+   this.loader.hide()
+    this.isLoading = false
  },
 
 

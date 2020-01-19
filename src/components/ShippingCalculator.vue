@@ -10,10 +10,31 @@
        <transition name=" slide-in">
      
          <div v-if="isDone" >
-           <h2>Delivery information</h2>
-           <h4 v-if="!isInternational">Courier: {{courier.CarrierName}} </h4>
-           <h4 v-if="!isInternational">Delivery time: {{hoursToDays(courier.DeliveryTimeHours)}} days</h4>
-           <h4 v-if="!isInternational">Delivery fee: R {{courier.TotalCostPlusMarkup}} </h4>
+           <h2>DELIVERY</h2>
+           <div v-if="!isInternational">
+              <div  v-for="courier in couriers" :key="courier.CarrierName">
+                  <div class="itemrow">
+                    <div class="courierrow">
+                     <div class="itemcolumn1">
+                        <small style="color:white">{{courier.CarrierName}}, </small>
+                        <small style="color:white">{{hoursToDays(courier)}} days</small>
+                     </div>
+                       </div>
+
+                    <div class="itemcolumn2"> 
+                         <small style="color:white">{{localDeliveryFee(courier)}} </small>
+                    </div> 
+
+                    <div class="itemcolumn3"  @click="selectCourier(courier)" > 
+                      <button  v-bind:class="[isCourierSelected(courier) ? 'courierbutton red' : 'courierbutton white']"></button>
+                    </div>  
+
+                  </div>  
+              </div> 
+               <h5 v-if="isCOD">We will email you to arrange delivery. Expect an email from info@jadeayla.com</h5> 
+          </div> 
+
+          
            <h4 v-if="isInternational">Delivery fee: {{shippingFee}} </h4>
            <h5 v-if="isInternational">IMPORTANT!! YOUR COUNTRY MAY CHARGE YOU LOCAL CUSTOM DUTY</h5>
          </div>
@@ -32,11 +53,13 @@ export default {
 
   data() {
     return {
+      isCOD: false,
       isInternational: false,
       zones: [],
       rates: [],
       isDone: false,
       isLoading: true,
+      hasFetched: false,
       loader: {},
       shoppingcart: {},
       user: {},
@@ -90,10 +113,27 @@ created() {
     shippingFee: function() {
         return 'R ' + String(this.shoppingcart.deliveryfee.toFixed(2))
     },
-  
    },
 
   methods: {
+
+    isCourierSelected: function (courier) {
+      if(courier.isSelected) return true
+      return false
+    },
+
+    localDeliveryFee: function (courier) {
+     if (courier.CarrierName.subString(0,3) == "COD") return ''
+     return 'R ' + courier.grandtotmrkup
+   },
+
+    selectCourier(courier) {
+         courier.isSelected = !courier.isSelected
+        this.shoppingcart.courier = courier
+        this.shoppingcart.deliveryfee = Number(courier.grandtotmrkup.replace(',',''))
+        localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
+        this.$eventHub.$emit('fee', this.shoppingcart.deliveryfee);
+    },
 
    getCountryShippingZone (country) {
     if (this.zones.hasOwnProperty(country)) {
@@ -149,16 +189,20 @@ created() {
         return '18 Belper Road|| || Wynberg||Western Province||7800'
     },
 
-    hoursToDays: function(numberOfHours) { 
-        var days=Math.floor(numberOfHours/24);
-        var remainder=numberOfHours % 24;
-        var hours=Math.floor(remainder);
-        var minutes=Math.floor(60*(remainder-hours));
+    hoursToDays: function(courier) { 
+      debugger
+      if (courier.CarrierName.subString(0,3) == "COD") return ''
+        var days= Math.floor(Number(courier.DeliveryTimeHours)/24);
+        var remainder = Number(courier.DeliveryTimeHours) % 24;
+        var hours= Math.floor(remainder);
+        var minutes= Math.floor(60*(remainder-hours));
         return days == 0 ? 1 : days
         //return({"Days":Days,"Hours":Hours,"Minutes":Minutes})
       },
 
     getDeliveryQuote() {
+      if (this.hasFetched) return
+      this.hasFetched = true
 
       let self = this;
           let data =  {
@@ -205,59 +249,77 @@ created() {
        const url = this.baseUrl + 'costComparison';
        this.axios.post(url, data,auth)
        .then(result => {
-         debugger
           if(result.statusText == "OK") {
-            debugger
-           
-          let allcouriers = result.data.data.CostComparisonResult.CostComparisonResults.ResultSet.Result
+             let allcouriers = result.data.data.CostComparisonResult.CostComparisonResults.ResultSet.Result
+             if(allcouriers && allcouriers.length > 0) {
+                self.getCouriers(allcouriers, self)
+             }
+          }
 
-           let min = allcouriers[0]
-
-         
-          var minCost = Math.min.apply(null, allcouriers.map(item => Number(item.grandtotmrkup)));
-          var minTime = Math.min.apply(null, allcouriers.map(item => Number(item.DeliveryTimeHours)));
-          // self.shoppingcart.courier = self.courier
-          // self.shoppingcart.deliveryfee = Number(self.courier.TotalCostPlusMarkup.replace(',',''))
-          //  localStorage.setItem('jaylashop', JSON.stringify(self.shoppingcart));
-          // self.$eventHub.$emit('fee', self.shoppingcart.deliveryfee);
-         }
           self.isLoading = false
           self.loader.hide()
           self.isDone = true
         })
         .catch(e => {
-          debugger
            self.isLoading = false
            self.loader.hide()
-           alert("There was a problem calculating the delivery fee")
+            alert("There was a problem calculating the delivery fee")
         })
 
     },
 
+    getCouriers(allcouriers, self) {
+            //cheapest
+            self.couriers[0] = allcouriers[0]
+             allcouriers.forEach(courier => {
+                if(Number(courier.grandtotmrkup.replace(',','')) < Number( self.couriers[0].grandtotmrkup.replace(',',''))) {
+                   self.couriers[0] = courier
+                   self.couriers[0].isSelected = false
+                }
+              });
+
+            //fastest
+            self.couriers[1] = allcouriers[1]
+              allcouriers.forEach(courier => {
+                if(Number(courier.DeliveryTimeHours) < Number( self.couriers[1].DeliveryTimeHours)) {
+                  self.couriers[1] = courier
+                  self.couriers[1].isSelected = false
+                }
+              });
+
+            //COD
+              self.couriers[2] = {
+                CarrierName: "COD, pickup or custom arrangment",
+                DeliveryTimeHours: '',
+                TotalCostPlusMarkup: "TBA",
+                isSelected: false
+              }
+    },
+
     createZones() {
-this.zones = { "Botswana": "A",
- "Namibia": "B",
-  "UK": "D",
-   "USA": "G",
-    "India": "H",
-    "Australia": "J",
-    "New Zealand": "J",
-     "China": "J",
-     "Andorra": "F",
-     "Austria": "F",
-     "Belgium": "F",
-      "Denmark": "F",
-       "Finland": "F",
-       "France": "F",
-        "Germany": "F",
-         "Greece": "F",
-          "Iceland": "F",
-          "Ireland": "F",
-          "Italy": "F",
-           "Liechtenstein": "F",
-            "Luxemborg": "F",
-             "Malta": "F",
-              "Monaco": "F",
+        this.zones = { "Botswana": "A",
+                        "Namibia": "B",
+                        "UK": "D",
+                        "USA": "G",
+                        "India": "H",
+                        "Australia": "J",
+                        "New Zealand": "J",
+                        "China": "J",
+                        "Andorra": "F",
+                        "Austria": "F",
+                        "Belgium": "F",
+                        "Denmark": "F",
+                        "Finland": "F",
+                        "France": "F",
+                        "Germany": "F",
+                        "Greece": "F",
+                        "Iceland": "F",
+                        "Ireland": "F",
+                        "Italy": "F",
+                        "Liechtenstein": "F",
+                       "Luxemborg": "F",
+                        "Malta": "F",
+                       "Monaco": "F",
                "Netherlands": "F",
                 "Norway": "F",
                  "Portugal": "F",
@@ -285,5 +347,6 @@ this.zones = { "Botswana": "A",
 
 <style lang="scss" scoped>
      @import "~@/styles/commonstyle.scss";
+      @import "~@/styles/shippingstyle.scss";
 </style>
 

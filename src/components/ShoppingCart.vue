@@ -20,7 +20,7 @@
                   <div  class="rowlabel item">
                     <small>{{item.productname}}</small>
                     <small>SIZE {{item.size}}</small>
-                    <small>{{item.number}} @ R{{item.price}}</small>
+                    <small>{{item.number}} X R{{item.price}}</small>
                   </div>
 
                   <div  class="rowvalue item" >
@@ -60,7 +60,7 @@
 
               </div> 
                </div> 
-              <button  @click="gotoCheckout" class="buttonstyle">CHECK OUT</button>
+              <button v-if="showCheckoutButton" @click="gotoCheckout" class="buttonstyle">CHECK OUT</button>
              
         </div> 
          
@@ -133,6 +133,13 @@ export default {
       showCloseButton: function () {
         if (this.isMobile) return true
 
+        if (this.$route.name == "Information" ||
+        this.$route.name == "Shipping" ||
+        this.$route.name == "Checkout") return false
+        return true
+      },
+
+      showCheckoutButton: function () {
         if (this.$route.name == "Information" ||
         this.$route.name == "Shipping" ||
         this.$route.name == "Checkout") return false
