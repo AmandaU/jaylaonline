@@ -17,7 +17,7 @@
           </div>
            </transition-expand>
        
-        <keep-alive include="Information,Shipping,Checkout">
+        <keep-alive include="Information,Shipping,Checkout,ShippingCalculator">
           <router-view></router-view>
         </keep-alive>
         <BottomNav></BottomNav>
