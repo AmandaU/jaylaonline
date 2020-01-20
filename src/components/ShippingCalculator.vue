@@ -11,27 +11,28 @@
      
          <div v-if="isDone" >
            <h2>DELIVERY</h2>
-           <div v-if="!isInternational">
-              <div  v-for="courier in couriers" :key="courier.CarrierName">
+           <div v-if="!isInternational" :key="componentKey">
+              <div  v-for="courier in couriers" :key="courier.CarrierName" >
                   <div class="itemrow">
                     <div class="courierrow">
-                     <div class="itemcolumn1">
-                        <small style="color:white">{{courier.CarrierName}}, </small>
-                        <small style="color:white">{{hoursToDays(courier)}} days</small>
-                     </div>
-                       </div>
+                      <div class="itemcolumn1">
+                          <small style="color:white">{{courier.CarrierName}}, </small>
+                          <small style="color:white">{{hoursToDays(courier)}} days</small>
+                      </div>
+                      
 
-                    <div class="itemcolumn2"> 
-                         <small style="color:white">{{localDeliveryFee(courier)}} </small>
-                    </div> 
+                      <div class="itemcolumn2"> 
+                          <small style="color:white">{{localDeliveryFee(courier)}} </small>
+                      </div> 
+                    </div>
 
                     <div class="itemcolumn3"  @click="selectCourier(courier)" > 
-                      <button  v-bind:class="[isCourierSelected(courier) ? 'courierbutton red' : 'courierbutton white']"></button>
+                      <button  v-bind:class="[courier.isSelected ? 'courierbutton red' : 'courierbutton white']"></button>
                     </div>  
 
                   </div>  
               </div> 
-               <h5 v-if="isCOD">We will email you to arrange delivery. Expect an email from info@jadeayla.com</h5> 
+               <h5 v-if="isCOD" >We will email you to arrange delivery. Expect an email from info@jadeayla.com</h5> 
           </div> 
 
           
@@ -65,8 +66,8 @@ export default {
       user: {},
       couriers: [],
       authToken: 'a0a06d61fe7ff9f06235476a1af267f6311e6d8d239ba6c95565502ebf29ad04',
-      baseUrl: 'https://rush.test.jini.guru/api/v2/'  //https://www.rush.co.za/api/v2/
-      
+      baseUrl: 'https://rush.test.jini.guru/api/v2/',  //https://www.rush.co.za/api/v2/
+       componentKey: 0,
     }
 },
 
@@ -108,6 +109,17 @@ created() {
    
 },
 
+watch: {
+    'courier.isSelected': {
+      // call it upon creation too
+      deep: true,
+      handler(artistid) {
+        debugger
+        this.$forceUpdate ()
+      },
+    },
+  },
+
  computed: {
 
     shippingFee: function() {
@@ -123,16 +135,21 @@ created() {
     },
 
     localDeliveryFee: function (courier) {
-     if (courier.CarrierName.subString(0,3) == "COD") return ''
+     if (courier.CarrierName.substring(0,3) == "COD") return ''
      return 'R ' + courier.grandtotmrkup
    },
 
     selectCourier(courier) {
-         courier.isSelected = !courier.isSelected
+      this.couriers.forEach(c => {
+        c.isSelected = false
+      })
+        courier.isSelected = !courier.isSelected
         this.shoppingcart.courier = courier
-        this.shoppingcart.deliveryfee = Number(courier.grandtotmrkup.replace(',',''))
+        this.shoppingcart.deliveryfee  = courier.CarrierName.substring(0,3) == "COD" ? 0 : Number(courier.grandtotmrkup.replace(',',''))
         localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
         this.$eventHub.$emit('fee', this.shoppingcart.deliveryfee);
+        this.componentKey += 1
+        this.isCOD = courier.CarrierName.substring(0,3) == "COD"
     },
 
    getCountryShippingZone (country) {
@@ -190,8 +207,7 @@ created() {
     },
 
     hoursToDays: function(courier) { 
-      debugger
-      if (courier.CarrierName.subString(0,3) == "COD") return ''
+      if (courier.CarrierName.substring(0,3) == "COD") return ''
         var days= Math.floor(Number(courier.DeliveryTimeHours)/24);
         var remainder = Number(courier.DeliveryTimeHours) % 24;
         var hours= Math.floor(remainder);

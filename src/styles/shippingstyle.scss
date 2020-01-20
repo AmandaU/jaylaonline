@@ -69,46 +69,49 @@
 }
 
 .courierrow {
+  //background-color: rgb(211, 238, 138);
   display: flex;
   justify-content: space-between;
   vertical-align: middle;
   text-align: center; 
   flex-direction: row;
-  width: 100%;
+  width: 90%;
   
 }
  
 .itemcolumn1{
- // background-color: white;
+ // background-color: rgb(187, 54, 127);
   height: 100%;
-  // display: flex;
+  width: 70%;
+   display: flex;
   // flex-wrap: nowrap;
-  // flex-direction: row;
+   flex-direction: row;
   // //flex: 0.55;
-  // align-items: left;
-  // text-align: left; 
-  // justify-content: left;
-  // align-self: center;
-  // vertical-align: middle;
-  // margin: 0 auto;
+   align-items: left;
+   text-align: left; 
+   align-items: center;
+   vertical-align: middle;
+   padding-left: 5px;
   
 }
 
 .itemcolumn2{
- // background-color:rgb(255, 254, 254);
+// background-color:rgb(84, 109, 223);
   //width: 100%;
   height: 100%;
-  // display: flex;
-  // flex-direction: column;
-  // flex:0.25;
-  // align-items: right;
-  // text-align: right; 
-  // justify-content: right;
-  // vertical-align: middle;
+  width: 30%;
+   display: flex;
+   flex-direction: row;
+    vertical-align: middle;
+   align-items: center;
+   text-align: right; 
+   justify-content: flex-end;
+ 
  }
 
 .itemcolumn3{
   //background-color:rgb(255, 254, 254);
+  cursor: pointer;
   width: 50px;
   height: 100%;
   display: flex;
@@ -120,13 +123,13 @@
 .courierbutton {
  // background-color: $color-whiteColor;
  // color: $color-textBody;
- 
+ cursor: pointer;
   border: 1px solid $color-unHoverColor;
   border-radius: 50%;
   margin: o auto;
-  width:30px;
-  height: 30px;
-  cursor: pointer;
+  width: 20px;
+  height: 20px;
+ 
  align-self: center;
   transition: color 200ms ease-in
 }
