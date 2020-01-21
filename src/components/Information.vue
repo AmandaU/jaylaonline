@@ -11,7 +11,6 @@
              <small style="color: red" v-show="userInvalid && shoppingcart.user.surname == ''">*</small>
             <input type="text" v-model="shoppingcart.user.surname" placeholder="Surname" class="addressitem">
 
-
              <small v-show="emailInvalid" style="color: red">Please enter a valid email</small><br>
              <small style="color: red" v-show="userInvalid ">*</small>
             <input type="email" v-model="shoppingcart.user.email" placeholder="Email" class="addressitem">
@@ -44,8 +43,8 @@
              <small style="color: red"  v-show="addressInvalid && shoppingcart.user.address.postalcode == ''">*</small>
             <input type="number" v-model="shoppingcart.user.address.postalcode" placeholder="Code" class="addressitem"  ><br>
             <div style="display:flex;flex-direction:row;vertical-align:middle">
-            <input type="checkbox" id="checkbox" v-model="useAsPersonalAddress">
-            <label for="checkbox" style="padding-left:10px;padding-top:10px">use this address as your personal address?</label>
+            <input  type="checkbox" id="checkbox" v-model="useAsPersonalAddress">
+            <label  for="checkbox" style="padding-left:10px;padding-top:10px">use this address as your personal address?</label>
             </div>
 
             <!--Better way-->
@@ -101,15 +100,14 @@
         filteredAddresses: [],
         showCheckout: false,
         componentKey: 0,
-        busy: true,
+        isLoading: true,
         addressInvalid: false,
         userInvalid: false,
         emailInvalid: false,
         cellInvalid: false,
         key: '',
         currentuser: null,
-        totalitems: 0,
-        shoppingcart : {
+         shoppingcart : {
           items: [],
           user: {
             firstname: '',
@@ -134,7 +132,6 @@
   mounted() {
     let self = this
     this.$eventHub.$on('shoppingcarttotal', (total)=> {
-       self.totalitems = total
         if(localStorage.getItem('jaylashop'))
         {
           self.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
@@ -158,7 +155,6 @@
     if(localStorage.getItem('jaylashop'))
     {
       this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
-      this.totalitems = this.shoppingcart.totalitems
     }
     this.currentuser = firebase.auth().currentUser;
     if(this.currentuser){
@@ -168,16 +164,15 @@
           console.log("snapshot.val" + users.val()[key]);
           self.shoppingcart.user = users.val()[key];
           self.key = key
+          self.isLoading = false
+          self.loader.hide()
         }
       });
-    }
+    } 
 
     //TODO get valid addresses
    // this.getAddresses()
-   this.loader.hide()
-    this.isLoading = false
- },
-
+  },
 
   methods: {
 
@@ -282,7 +277,7 @@
     },
 
     onInput({ number, isValid, country }) {
-      if(valid) {
+       if(valid) {
        this.shoppingcart.user.cellphone = number;
       }
     },

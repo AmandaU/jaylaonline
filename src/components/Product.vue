@@ -311,6 +311,9 @@ methods: {
       sku: item.sku,
       dimensions: item.dimensions,
       weight: item.weight,
+      height: this.product.height,
+      width: this.product.width,
+      length: this.product.length,
       isSelected: false,
       thumburl: this.product.images[0].thumbUrl,
       selecteditemkey: ''

@@ -63,7 +63,7 @@
   vertical-align: middle;
   text-align: center; 
   width: 100%;
-  height:30px;
+  height:40px;
   margin-bottom: 1px;
 
 }
@@ -75,7 +75,7 @@
   vertical-align: middle;
   text-align: center; 
   flex-direction: row;
-  width: 90%;
+  width: 100%;
   
 }
  
@@ -98,21 +98,20 @@
 .itemcolumn2{
 // background-color:rgb(84, 109, 223);
   //width: 100%;
-  height: 100%;
-  width: 30%;
+   height: 100%;
+   width: 30%;
    display: flex;
    flex-direction: row;
-    vertical-align: middle;
+   vertical-align: middle;
    align-items: center;
    text-align: right; 
    justify-content: flex-end;
- 
- }
+  }
 
 .itemcolumn3{
   //background-color:rgb(255, 254, 254);
   cursor: pointer;
-  width: 50px;
+  width: 40px;
   height: 100%;
   display: flex;
   align-items: center;

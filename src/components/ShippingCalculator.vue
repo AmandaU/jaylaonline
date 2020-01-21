@@ -10,7 +10,7 @@
        <transition name=" slide-in">
      
          <div v-if="isDone" >
-           <h2>DELIVERY</h2>
+           <h3>DELIVERY</h3>
            <div v-if="!isInternational" :key="componentKey">
               <div  v-for="courier in couriers" :key="courier.CarrierName" >
                   <div class="itemrow">
@@ -48,8 +48,9 @@
   import firebase from '../firebase-config';
   import {  db } from '../firebase-config';
   const ratesRef = db.ref('rates')
-export default {
-  name: 'ShippingCalculator',
+
+  export default {
+   name: 'ShippingCalculator',
 
   data() {
     return {
@@ -66,13 +67,13 @@ export default {
       couriers: [],
       authToken: 'a0a06d61fe7ff9f06235476a1af267f6311e6d8d239ba6c95565502ebf29ad04',
       baseUrl: 'https://rush.test.jini.guru/api/v2/',  //https://www.rush.co.za/api/v2/
-       componentKey: 0,
+      componentKey: 0,
     }
-},
+  },
 
-created() {
+  created() {
    this.createZones()
-    this.$eventHub.$on('shoppingcarttotal', (totalitems)=> {
+   this.$eventHub.$on('shoppingcarttotal', (totalitems)=> {
         if (totalitems != this.shoppingcart.totalitems) {
           this.isLoading = true
           this.loader.show()
@@ -80,32 +81,19 @@ created() {
         }
     });
 
-      if(localStorage.getItem('jaylashop')) {
-          this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
-      }
-      if (this.shoppingcart.user.address.country == "South Africa") {
-          this.getDeliveryQuote()
-      } else {
-        this.isInternational = true
-        let self = this
-        this.$rtdbBind('rates', ratesRef).then(rates => {
-            self.rates === rates
-            let rateKey  =  self.getCountryShippingZone(self.shoppingcart.user.address.country)
-            let rate  = self.rates.find(rate => {
-            let key = rate['.key']
-              if (key == rateKey) return rate
-            });
-            self.calculateInternationalShippingFee(rate, self)
-            self.loader.hide()
-            self.isLoading = false
-      });
+    if(localStorage.getItem('jaylashop')) {
+        this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
+    }
+    if (this.shoppingcart.user.address.country == "South Africa") {
+        this.getLocalDeliveryQuote()
+    } else {
+       this.getInternationalDeliveryQuote()
     }
 
     this.loader = this.$loading.show({
                 loader: 'dots',
                   color: 'blue'
       });  
-   
 },
 
 watch: {
@@ -121,28 +109,39 @@ watch: {
 
   methods: {
 
-    isCourierSelected: function (courier) {
-      if(courier.isSelected) return true
-      return false
+    shippingToAddress: function()
+      {
+          if(!this.shoppingcart || !this.shoppingcart.user) return ""
+          let shipaddress = this.shoppingcart.user.address.addressline1 + '||'
+          shipaddress += this.shoppingcart.user.address.addressline2 == '' ? ' ||' : this.shoppingcart.user.address.addressline2 + '||'
+          shipaddress += this.shoppingcart.user.address.suburb + '||' 
+          + this.shoppingcart.user.address.region + '||'
+           + this.shoppingcart.user.address.postalcode
+          return shipaddress
+      },
+
+    shippingFromAddress: function()
+    {
+        return '18 Belper Road|| || Wynberg||Western Province||7800'
     },
 
-    localDeliveryFee: function (courier) {
-     if (courier.CarrierName.substring(0,3) == "COD") return ''
-     return 'R ' + courier.grandtotmrkup
-   },
-
-    selectCourier(courier) {
-      this.couriers.forEach(c => {
-        c.isSelected = false
-      })
-        courier.isSelected = !courier.isSelected
-        this.shoppingcart.courier = courier
-        this.shoppingcart.deliveryfee  = courier.CarrierName.substring(0,3) == "COD" ? 0 : Number(courier.grandtotmrkup.replace(',',''))
-        localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
-        this.$eventHub.$emit('fee', this.shoppingcart.deliveryfee);
-        this.componentKey += 1
-        this.isCOD = courier.CarrierName.substring(0,3) == "COD"
+//International
+    getInternationalDeliveryQuote() {
+      this.isInternational = true
+      let self = this
+      this.$rtdbBind('rates', ratesRef).then(rates => {
+          self.rates === rates
+          let rateKey  =  self.getCountryShippingZone(self.shoppingcart.user.address.country)
+          let rate  = self.rates.find(rate => {
+          let key = rate['.key']
+            if (key == rateKey) return rate
+          });
+          self.calculateInternationalShippingFee(rate, self)
+          self.loader.hide()
+          self.isLoading = false
+      });
     },
+
 
    getCountryShippingZone (country) {
     if (this.zones.hasOwnProperty(country)) {
@@ -154,7 +153,7 @@ watch: {
 
     getInternationalShippingFee(self) {
       let rateKey  =  self.zones[self.shoppingcart.user.address.country].value
-       let rate  = Object.keys(self.rates).find(ratekey => {
+      let rate  = Object.keys(self.rates).find(ratekey => {
        
          if (ratekey == rateKey) return self.rates[ratekey]
       });
@@ -177,38 +176,13 @@ watch: {
           }
       })
       self.shoppingcart.deliveryfee = fee
-       localStorage.setItem('jaylashop', JSON.stringify(self.shoppingcart));
+      localStorage.setItem('jaylashop', JSON.stringify(self.shoppingcart));
       self.$eventHub.$emit('fee', self.shoppingcart.deliveryfee);
       self.isDone = true
    },
 
-    shippingToAddress: function()
-      {
-          if(!this.shoppingcart || !this.shoppingcart.user) return ""
-          let shipaddress = this.shoppingcart.user.address.addressline1 + '||'
-          shipaddress += this.shoppingcart.user.address.addressline2 == '' ? ' ||' : this.shoppingcart.user.address.addressline2 + '||'
-          shipaddress += this.shoppingcart.user.address.suburb + '||' 
-          + this.shoppingcart.user.address.region + '||'
-           + this.shoppingcart.user.address.postalcode
-          return shipaddress
-      },
-
-    shippingFromAddress: function()
-    {
-        return '18 Belper Road|| || Wynberg||Western Province||7800'
-    },
-
-    hoursToDays: function(courier) { 
-      if (courier.CarrierName.substring(0,3) == "COD") return ''
-        var days= Math.floor(Number(courier.DeliveryTimeHours)/24);
-        var remainder = Number(courier.DeliveryTimeHours) % 24;
-        var hours= Math.floor(remainder);
-        var minutes= Math.floor(60*(remainder-hours));
-        return days == 0 || days == 1 ? " - 1 day" : " - " + days + " days"
-        //return({"Days":Days,"Hours":Hours,"Minutes":Minutes})
-      },
-
-    getDeliveryQuote() {
+//Local
+    getLocalDeliveryQuote() {
       if (this.hasFetched) return
       this.hasFetched = true
 
@@ -236,36 +210,62 @@ watch: {
            self.loader.hide()
             alert("There was a problem calculating the delivery fee")
         })
+  },
 
+    isCourierSelected: function (courier) {
+      if(courier.isSelected) return true
+      return false
     },
 
-    shippingParameters: function() {
+    localDeliveryFee: function (courier) {
+     if (courier.CarrierAccount == "COD") return ''
+     return 'R ' + courier.grandtotmrkup
+   },
 
-          let data = {      "insurance":false,
-              "weight":{
-                "0":2,
-                "1":2
-                },
-                "length":{
+    selectCourier(courier) {
+      this.couriers.forEach(c => {
+        c.isSelected = false
+      })
+        courier.isSelected = !courier.isSelected
+        this.shoppingcart.courier = courier
+        this.shoppingcart.deliveryfee  = courier.CarrierAccount == "COD" ? 0 : Number(courier.grandtotmrkup.replace(',',''))
+        localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
+        this.$eventHub.$emit('fee', this.shoppingcart.deliveryfee);
+        this.componentKey += 1
+        this.isCOD = courier.CarrierAccount == "COD"
+    },
 
-                "0":5,
-                "1":5
-                },
-                "width":{
 
-                "0":5,
-                "1":19
-                },
-                "height":{
-
-                "0":5,
-                "1":67
-                },
-                "amount":{
-
-                "0":1,
-                "1":1
-                },
+    hoursToDays: function(courier) { 
+      if (courier.CarrierAccount == "COD") return ''
+        var days= Math.floor(Number(courier.DeliveryTimeHours)/24);
+        var remainder = Number(courier.DeliveryTimeHours) % 24;
+        var hours= Math.floor(remainder);
+        var minutes= Math.floor(60*(remainder-hours));
+        return days == 0 || days == 1 ? " - 1 day" : " - " + days + " days"
+     },
+  
+  shippingParameters: function() {
+      let weight = {}    
+      let length = {}
+      let width = {}
+      let height = {}
+      let amount = {}
+      let ind = 0;
+      this.shoppingcart.items.forEach(item => {
+        weight[ind] = item.weight
+        length[ind] = item.length
+        width[ind] = item.width
+        height[ind] = item.height
+        amount[ind] = item.number
+        ind += 1
+      })
+          let data = {   "insurance":false,
+             "weight": weight,
+              "length": length,
+              "width": width,
+              "height": height,
+              "amount": amount,
               "pick_up": this.shippingFromAddress(),//"test,test2|| ||ALBERT LUTHULI||BLOEMFONTEIN||9323",
               "sender_name":"JadeAyla",
               "sender_email":"info@jadeayla.com",
@@ -278,6 +278,42 @@ watch: {
               "receiver_email": this.shoppingcart.user.email,
               "drop_off":  this.shippingToAddress()//"2 ,road||reter||ACTON CABA||TSOMO||5401"
         }
+        //  let data2 = {   "insurance":false,
+            
+        //       "weight":{
+        //         "0":2,
+        //         "1":2
+        //         },
+        //       "length":{
+        //         "0":5,
+        //         "1":5
+        //         },
+        //       "width":{
+        //         "0":5,
+        //         "1":19
+        //         },
+        //       "height":{
+        //         "0":5,
+        //         "1":67
+        //         },
+        //       "amount":{
+        //         "0":1,
+        //         "1":1
+        //         },
+        //       "pick_up": this.shippingFromAddress(),//"test,test2|| ||ALBERT LUTHULI||BLOEMFONTEIN||9323",
+        //       "sender_name":"JadeAyla",
+        //       "sender_email":"info@jadeayla.com",
+        //       "sender_tel":"",
+        //       "sender_mob":"0828391629",
+        //       "receiver_contact":"testege",
+        //       "receiver_name": this.shoppingcart.user.firstname,
+        //       "receiver_phone":"",
+        //       "receiver_mobile": this.shoppingcart.user.cellphone,
+        //       "receiver_email": this.shoppingcart.user.email,
+        //       "drop_off":  this.shippingToAddress()//"2 ,road||reter||ACTON CABA||TSOMO||5401"
+        // }
+        //  console.log( JSON.stringify(data) );
+        //   console.log( JSON.stringify(data2) );
         return data
     },
 
@@ -285,24 +321,27 @@ watch: {
             //cheapest
             self.couriers[0] = allcouriers[0]
              allcouriers.forEach(courier => {
+               if(courier.CarrierService == "Locker") return
                 if(Number(courier.grandtotmrkup.replace(',','')) < Number( self.couriers[0].grandtotmrkup.replace(',',''))) {
                    self.couriers[0] = courier
                    self.couriers[0].isSelected = false
-                }
+               }
               });
 
             //fastest
             self.couriers[1] = allcouriers[1]
-              allcouriers.forEach(courier => {
+            allcouriers.forEach(courier => {
+                 if(courier.CarrierService == "Locker") return
                 if(Number(courier.DeliveryTimeHours) < Number( self.couriers[1].DeliveryTimeHours)) {
                   self.couriers[1] = courier
                   self.couriers[1].isSelected = false
-                }
-              });
+              }
+             });
 
             //COD
               self.couriers[2] = {
                 CarrierName: "COD, pickup or by arrangement",
+                CarrierAccount: "COD",
                 DeliveryTimeHours: '',
                 TotalCostPlusMarkup: "TBA",
                 isSelected: false
@@ -353,7 +392,8 @@ watch: {
                           "Ukraine": "L"}
     }
 
-  },
+  }, 
+
 };
 
 </script>
