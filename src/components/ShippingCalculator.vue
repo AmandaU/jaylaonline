@@ -16,11 +16,10 @@
                   <div class="itemrow">
                     <div class="courierrow">
                       <div class="itemcolumn1">
-                          <small style="color:white">{{courier.CarrierName}}, </small>
-                          <small style="color:white">{{hoursToDays(courier)}} days</small>
+                          <small style="color:white">{{courier.CarrierName}}</small>
+                          <small style="color:white"> {{hoursToDays(courier)}}</small>
                       </div>
                       
-
                       <div class="itemcolumn2"> 
                           <small style="color:white">{{localDeliveryFee(courier)}} </small>
                       </div> 
@@ -32,10 +31,10 @@
 
                   </div>  
               </div> 
-               <h5 v-if="isCOD" >We will email you to arrange delivery. Expect an email from info@jadeayla.com</h5> 
+               <small v-if="isCOD" >Expect an email from info@jadeayla.com to arrange delivery</small> 
+               <br>
           </div> 
 
-          
            <h4 v-if="isInternational">Delivery fee: {{shippingFee}} </h4>
            <h5 v-if="isInternational">IMPORTANT!! YOUR COUNTRY MAY CHARGE YOU LOCAL CUSTOM DUTY</h5>
          </div>
@@ -45,7 +44,7 @@
 </template>
 
 <script>
- import qs from "qs";
+  import qs from "qs";
   import firebase from '../firebase-config';
   import {  db } from '../firebase-config';
   const ratesRef = db.ref('rates')
@@ -110,14 +109,7 @@ created() {
 },
 
 watch: {
-    'courier.isSelected': {
-      // call it upon creation too
-      deep: true,
-      handler(artistid) {
-        debugger
-        this.$forceUpdate ()
-      },
-    },
+   
   },
 
  computed: {
@@ -212,7 +204,7 @@ watch: {
         var remainder = Number(courier.DeliveryTimeHours) % 24;
         var hours= Math.floor(remainder);
         var minutes= Math.floor(60*(remainder-hours));
-        return days == 0 ? 1 : days
+        return days == 0 || days == 1 ? " - 1 day" : " - " + days + " days"
         //return({"Days":Days,"Hours":Hours,"Minutes":Minutes})
       },
 
@@ -221,8 +213,35 @@ watch: {
       this.hasFetched = true
 
       let self = this;
-          let data =  {
-                "insurance":false,
+          let data = this.shippingParameters() 
+      const auth = {
+            headers: {'X-Auth-Token': this.authToken,  'Content-Type': 'application/json'} 
+        }
+       const url = this.baseUrl + 'costComparison';
+       this.axios.post(url, data,auth)
+       .then(result => {
+          if(result.statusText == "OK") {
+             let allcouriers = result.data.data.CostComparisonResult.CostComparisonResults.ResultSet.Result
+             if(allcouriers && allcouriers.length > 0) {
+                self.getCouriers(allcouriers, self)
+             }
+          }
+
+          self.isLoading = false
+          self.loader.hide()
+          self.isDone = true
+        })
+        .catch(e => {
+           self.isLoading = false
+           self.loader.hide()
+            alert("There was a problem calculating the delivery fee")
+        })
+
+    },
+
+    shippingParameters: function() {
+
+          let data = {      "insurance":false,
               "weight":{
                 "0":2,
                 "1":2
@@ -259,29 +278,7 @@ watch: {
               "receiver_email": this.shoppingcart.user.email,
               "drop_off":  this.shippingToAddress()//"2 ,road||reter||ACTON CABA||TSOMO||5401"
         }
-      const auth = {
-            headers: {'X-Auth-Token': this.authToken,  'Content-Type': 'application/json'} 
-        }
-       const url = this.baseUrl + 'costComparison';
-       this.axios.post(url, data,auth)
-       .then(result => {
-          if(result.statusText == "OK") {
-             let allcouriers = result.data.data.CostComparisonResult.CostComparisonResults.ResultSet.Result
-             if(allcouriers && allcouriers.length > 0) {
-                self.getCouriers(allcouriers, self)
-             }
-          }
-
-          self.isLoading = false
-          self.loader.hide()
-          self.isDone = true
-        })
-        .catch(e => {
-           self.isLoading = false
-           self.loader.hide()
-            alert("There was a problem calculating the delivery fee")
-        })
-
+        return data
     },
 
     getCouriers(allcouriers, self) {
@@ -305,7 +302,7 @@ watch: {
 
             //COD
               self.couriers[2] = {
-                CarrierName: "COD, pickup or custom arrangment",
+                CarrierName: "COD, pickup or by arrangement",
                 DeliveryTimeHours: '',
                 TotalCostPlusMarkup: "TBA",
                 isSelected: false
