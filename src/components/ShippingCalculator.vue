@@ -72,6 +72,7 @@
   },
 
   created() {
+    debugger
    this.createZones()
    this.$eventHub.$on('shoppingcarttotal', (totalitems)=> {
         if (totalitems != this.shoppingcart.totalitems) {

@@ -37,13 +37,14 @@
 </template>
 
 <script>
+import { RepositoryFactory } from '../RepositoryFactory'
   import firebase from '../firebase-config';
   import {  db } from '../firebase-config';
   import ShoppingCart from '../components/ShoppingCart'
-  import ShippingCalculator from '../components/ShippingCalculator'
+  //import ShippingCalculator from '../components/ShippingCalculator'
   //import CubeSpin from 'vue-loading-spinner/src/components/ScaleOut'
   const userRef = db.ref('users')
-  
+  const ShippingCalculator = RepositoryFactory.get('couriers')
   export default {
   name: 'shipping',
 
