@@ -82,7 +82,7 @@
               self.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
           }
           self.showLoader()
-          CourierService.Couriers = null;
+         CourierService.Couriers = null;
           self.getQuotes()
         }
     });

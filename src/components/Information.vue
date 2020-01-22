@@ -2,7 +2,7 @@
     <div class="container" :key="componentKey">
        <!-- <cube-spin v-if="busy"></cube-spin> -->
      <div class="mainblock">
-        <div class="addressblock">
+        <div v-if="!isLoading" class="addressblock">
         
             <h3>CONTACT DETAILS</h3>
             <small v-show="userInvalid" style="color: red">Please enter a name and surname</small>

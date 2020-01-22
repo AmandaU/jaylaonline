@@ -304,6 +304,10 @@ input, input:active, input:focus, input:focus-within, input:hover, input:visited
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0) !important;
   }
 
+  .buttonstyle:disabled {
+    background-color:$color-unHoverColor;
+  }
+
   @media all and (max-width: 800px) {
 
     .container {
