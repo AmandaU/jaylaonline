@@ -1,10 +1,10 @@
 import ExchangeRates from "./exchangerates";
-import ShippingCalculator from "./components/ShippingCalculator.vue";
+import CourierService from "./courierservice";
 
 
 const repositories = {
   rates: ExchangeRates,
-  couriers: ShippingCalculator
+  couriers: CourierService
 };
 
 export const RepositoryFactory = {

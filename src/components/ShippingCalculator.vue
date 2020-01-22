@@ -44,27 +44,30 @@
 </template>
 
 <script>
+  import { RepositoryFactory } from '../RepositoryFactory'
   import qs from "qs";
   import firebase from '../firebase-config';
   import {  db } from '../firebase-config';
   const ratesRef = db.ref('rates')
+  const CourierService = RepositoryFactory.get('couriers')
 
   export default {
    name: 'ShippingCalculator',
 
   data() {
     return {
+      couriers: [],
       isCOD: false,
       isInternational: false,
       zones: [],
       rates: [],
+      isBusy: false,
       isDone: false,
       isLoading: true,
       hasFetched: false,
       loader: {},
       shoppingcart: {},
       user: {},
-      couriers: [],
       authToken: 'a0a06d61fe7ff9f06235476a1af267f6311e6d8d239ba6c95565502ebf29ad04',
       baseUrl: 'https://rush.test.jini.guru/api/v2/',  //https://www.rush.co.za/api/v2/
       componentKey: 0,
@@ -182,34 +185,18 @@ watch: {
    },
 
 //Local
-    getLocalDeliveryQuote() {
-      if (this.hasFetched) return
-      this.hasFetched = true
-
-      let self = this;
-          let data = this.shippingParameters() 
-      const auth = {
-            headers: {'X-Auth-Token': this.authToken,  'Content-Type': 'application/json'} 
-        }
-       const url = this.baseUrl + 'costComparison';
-       this.axios.post(url, data,auth)
-       .then(result => {
-          if(result.statusText == "OK") {
-             let allcouriers = result.data.data.CostComparisonResult.CostComparisonResults.ResultSet.Result
-             if(allcouriers && allcouriers.length > 0) {
-                self.getCouriers(allcouriers, self)
-             }
-          }
-
-          self.isLoading = false
-          self.loader.hide()
-          self.isDone = true
-        })
-        .catch(e => {
-           self.isLoading = false
-           self.loader.hide()
-            alert("There was a problem calculating the delivery fee")
-        })
+   async getLocalDeliveryQuote() {
+     if (this.isBusy)return
+     this.isBusy = true
+    await CourierService.getCostComparison(this.shoppingcart)
+      this.couriers = CourierService.Couriers
+     if(this.couriers && this.couriers.length > 0) {
+      this.isLoading = false
+      this.loader.hide()
+      this.isDone = true
+       this.isBusy = false
+     } 
+      
   },
 
     isCourierSelected: function (courier) {
@@ -244,109 +231,7 @@ watch: {
         var minutes= Math.floor(60*(remainder-hours));
         return days == 0 || days == 1 ? " - 1 day" : " - " + days + " days"
      },
-  
-  shippingParameters: function() {
-      let weight = {}    
-      let length = {}
-      let width = {}
-      let height = {}
-      let amount = {}
-      let ind = 0;
-      this.shoppingcart.items.forEach(item => {
-        weight[ind] = item.weight
-        length[ind] = item.length
-        width[ind] = item.width
-        height[ind] = item.height
-        amount[ind] = item.number
-        ind += 1
-      })
-          let data = {   "insurance":false,
-             "weight": weight,
-              "length": length,
-              "width": width,
-              "height": height,
-              "amount": amount,
-              "pick_up": this.shippingFromAddress(),//"test,test2|| ||ALBERT LUTHULI||BLOEMFONTEIN||9323",
-              "sender_name":"JadeAyla",
-              "sender_email":"info@jadeayla.com",
-              "sender_tel":"",
-              "sender_mob":"0828391629",
-              "receiver_contact":"testege",
-              "receiver_name": this.shoppingcart.user.firstname,
-              "receiver_phone":"",
-              "receiver_mobile": this.shoppingcart.user.cellphone,
-              "receiver_email": this.shoppingcart.user.email,
-              "drop_off":  this.shippingToAddress()//"2 ,road||reter||ACTON CABA||TSOMO||5401"
-        }
-        //  let data2 = {   "insurance":false,
-            
-        //       "weight":{
-        //         "0":2,
-        //         "1":2
-        //         },
-        //       "length":{
-        //         "0":5,
-        //         "1":5
-        //         },
-        //       "width":{
-        //         "0":5,
-        //         "1":19
-        //         },
-        //       "height":{
-        //         "0":5,
-        //         "1":67
-        //         },
-        //       "amount":{
-        //         "0":1,
-        //         "1":1
-        //         },
-        //       "pick_up": this.shippingFromAddress(),//"test,test2|| ||ALBERT LUTHULI||BLOEMFONTEIN||9323",
-        //       "sender_name":"JadeAyla",
-        //       "sender_email":"info@jadeayla.com",
-        //       "sender_tel":"",
-        //       "sender_mob":"0828391629",
-        //       "receiver_contact":"testege",
-        //       "receiver_name": this.shoppingcart.user.firstname,
-        //       "receiver_phone":"",
-        //       "receiver_mobile": this.shoppingcart.user.cellphone,
-        //       "receiver_email": this.shoppingcart.user.email,
-        //       "drop_off":  this.shippingToAddress()//"2 ,road||reter||ACTON CABA||TSOMO||5401"
-        // }
-        //  console.log( JSON.stringify(data) );
-        //   console.log( JSON.stringify(data2) );
-        return data
-    },
 
-    getCouriers(allcouriers, self) {
-            //cheapest
-            self.couriers[0] = allcouriers[0]
-             allcouriers.forEach(courier => {
-               if(courier.CarrierService == "Locker") return
-                if(Number(courier.grandtotmrkup.replace(',','')) < Number( self.couriers[0].grandtotmrkup.replace(',',''))) {
-                   self.couriers[0] = courier
-                   self.couriers[0].isSelected = false
-               }
-              });
-
-            //fastest
-            self.couriers[1] = allcouriers[1]
-            allcouriers.forEach(courier => {
-                 if(courier.CarrierService == "Locker") return
-                if(Number(courier.DeliveryTimeHours) < Number( self.couriers[1].DeliveryTimeHours)) {
-                  self.couriers[1] = courier
-                  self.couriers[1].isSelected = false
-              }
-             });
-
-            //COD
-              self.couriers[2] = {
-                CarrierName: "COD, pickup or by arrangement",
-                CarrierAccount: "COD",
-                DeliveryTimeHours: '',
-                TotalCostPlusMarkup: "TBA",
-                isSelected: false
-              }
-    },
 
     createZones() {
         this.zones = { "Botswana": "A",
