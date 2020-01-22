@@ -63,7 +63,6 @@
       rates: [],
       isBusy: false,
       isDone: false,
-      isLoading: true,
       hasFetched: false,
       loader: {},
       shoppingcart: {},
@@ -76,27 +75,25 @@
 
   created() {  
    this.createZones()
+   let self = this
    this.$eventHub.$on('shoppingcarttotal', (totalitems)=> {
         if (totalitems != this.shoppingcart.totalitems) {
-          this.isLoading = true
-          this.loader.show()
-          this.getDeliveryQuote()
+           if(localStorage.getItem('jaylashop')) {
+              self.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
+          }
+          self.showLoader()
+          CourierService.Couriers = null;
+          self.getQuotes()
         }
     });
 
     if(localStorage.getItem('jaylashop')) {
         this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
     }
-    if (this.shoppingcart.user.address.country == "South Africa") {
-        this.getLocalDeliveryQuote()
-    } else {
-       this.getInternationalDeliveryQuote()
-    }
+    this.getQuotes()
 
-    this.loader = this.$loading.show({
-                loader: 'dots',
-                  color: 'blue'
-      });  
+    this.showLoader()
+
 },
 
 watch: {
@@ -111,6 +108,21 @@ watch: {
    },
 
   methods: {
+
+
+  showLoader () {
+      this.loader = this.$loading.show({
+                loader: 'dots',
+                  color: 'blue'
+      });  
+  },
+    getQuotes() {
+       if (this.shoppingcart.user.address.country == "South Africa") {
+        this.getLocalDeliveryQuote()
+        } else {
+          this.getInternationalDeliveryQuote()
+        }
+    },
 
     shippingToAddress: function()
       {
@@ -141,7 +153,7 @@ watch: {
           });
           self.calculateInternationalShippingFee(rate, self)
           self.loader.hide()
-          self.isLoading = false
+          
       });
     },
 
@@ -191,7 +203,6 @@ watch: {
     await CourierService.getCostComparison(this.shoppingcart)
       this.couriers = CourierService.Couriers
      if(this.couriers && this.couriers.length > 0) {
-      this.isLoading = false
       this.loader.hide()
       this.isDone = true
        this.isBusy = false
