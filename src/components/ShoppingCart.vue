@@ -3,10 +3,11 @@
   <div class="cartcontainer" :key="componentKey">
     <!-- <media :query="{maxWidth: 800}" @media-enter="media800Enter" @media-leave="media800Leave"> </Media> -->
 
-      <h3>SHOPPING CART</h3> 
-      <div :style="getCartStyle()" :key="cartKey">
-        <div v-if="showCloseButton"  @click="hide()" class="closebutton"><a>X</a></div>
-        <div class="checkoutblock" >
+      <div class="shoppingcartblock">
+         <div v-bind:class="[showCheckout ? 'headingcenter' : 'headingleft']"><h3>SHOPPING CART</h3></div>
+      <div v-bind:class="[isCartColumn ? 'cartcolumn' : 'cartrow']" :key="cartKey">
+         <div v-if="showCloseButton"  @click="hide()" class="closebutton"><a>X</a></div>
+        <div v-bind:class="[isCartColumn ? 'checkoutblockcolumn' : 'checkoutblockrow']">
    
           <p  v-show="this.shoppingcart.totalitems == 0">There are no items in your cart,<span @click="goToShop" style="color:blue;cursor:pointer"> shop </span>some more ;)</p>
                   
@@ -30,10 +31,9 @@
               </div>
                   
         </div>  
-
-        <div class="space"/>
  
-        <div class="totalblock">
+ 
+        <div  v-bind:class="[isCartColumn ? 'totalblockcolumn' : 'totalblockrow']">
        
             <div class="totalinner">
               <div  class="totalrow">
@@ -64,7 +64,8 @@
              
         </div> 
          
-    </div>   
+    </div>  
+    </div>  
   </div>  
 
 </template>
@@ -91,6 +92,8 @@ export default {
           canRemoveItems: false,
           componentKey: 0,
           cartKey: 0,
+          isCartColumn: false,
+          isCartContainerColumn: false,
         }
     },
 
@@ -103,7 +106,7 @@ export default {
         || self.$route.name == 'Checkout'
         || self.$route.name == 'Login'
         || self.$route.name == 'SignUp') {
-       self.showCheckout =  self.isMobile ? show : false
+       self.showCheckout =  self.isMobile() ? show : false
        } else {
            self.showCheckout = show ;
         }
@@ -117,6 +120,8 @@ export default {
         self.getShoppingCart()
         this.componentKey += 1
       });
+
+      this.redrawComponent()
     },
 
     created() {
@@ -125,6 +130,7 @@ export default {
      },
 
      destroyed() {
+       debuuger
       window.removeEventListener("resize", this.redrawComponent);
      },
 
@@ -146,18 +152,6 @@ export default {
         return true
       },
 
-       isMobile: function() {
-          return window.innerWidth < 800 ||
-          navigator.userAgent.match(/Android/i) ||
-          navigator.userAgent.match(/webOS/i) ||
-          navigator.userAgent.match(/iPhone/i) ||
-          navigator.userAgent.match(/iPad/i) ||
-          navigator.userAgent.match(/iPod/i) ||
-          navigator.userAgent.match(/BlackBerry/i) ||
-          navigator.userAgent.match(/Windows Phone/i) ;
-      },
-
-
       canRemoveItem: function () {
         return this.$route.name != 'Checkout'
       },
@@ -178,19 +172,23 @@ export default {
 
     methods: {
 
+       isMobile: function() {
+          return window.innerWidth < 800 ||
+          navigator.userAgent.match(/Android/i) ||
+          navigator.userAgent.match(/webOS/i) ||
+          navigator.userAgent.match(/iPhone/i) ||
+          navigator.userAgent.match(/iPad/i) ||
+          navigator.userAgent.match(/iPod/i) ||
+          navigator.userAgent.match(/BlackBerry/i) ||
+          navigator.userAgent.match(/Windows Phone/i) ;
+      },
+
       hide() {
         this.showCheckout = false
          this.$eventHub.$emit('showCheckout', false);
       },
 
-      //  goWide: function () {
-      //     if (this.isMobile()) return true
-      //     return !this.showCheckout
-      // },
- 
-
-     
-      // media800Enter(mediaQueryString) {
+       // media800Enter(mediaQueryString) {
       //   this.greaterThan800 = false
       // },
       
@@ -209,20 +207,45 @@ export default {
       },
 
       redrawComponent() {
-        this.cartKey += 1
+        if (this.isMobile()) {
+          this.isCartColumn = true
+        } else {
+           if (!this.showCheckout) {
+            this.isCartColumn = window.innerWidth < 1400
+          } else {
+            this.isCartColumn = false
+          }
+        }
+         this.cartKey += 1
       },
 
       getCartStyle: function () {
+
+        if (this.showCheckout) {
+            return  {
+          //'background-color':'rgb(147, 253, 40)',
+           'position': 'relative',
+            'flex': '1',
+            'min-width':  window.innerWidth < 1000 ? '80%' :  '700px' ,
+            'max-width':  window.innerWidth < 1000 ? '80%' :  '700px' ,
+            'display': 'flex',
+            'align-items': 'center',
+            'justify-content': 'center',
+            'flex-direction': window.innerWidth < 800? 'column' : 'row',
+            'align-self': 'center',
+            'margin-bottom': '5px'
+          }
+        }
           return  {
          //'background-color':'rgb(147, 253, 40)',
-         'position': 'relative',
+          'position': 'relative',
           'flex': '1',
-          'min-width':   this.isMobile || window.innerWidth < 1000 ? '90%' : this.showCheckout ? '700px' : '90%' ,
-          'max-width': this.isMobile || window.innerWidth < 1000 ? '90%' : this.showCheckout ? '700px' : '90%' ,
+          'min-width':   window.innerWidth < 1000 ? '80%' :  '600px',
+          'max-width':  window.innerWidth < 1000 ? '80%' :  '600px',
           'display': 'flex',
           'align-items': 'center',
           'justify-content': 'center',
-          'flex-direction': this.isMobile || window.innerWidth < 1200? 'column' : 'row',
+          'flex-direction': window.innerWidth < 1400? 'column' : 'row',
           'align-self': 'center',
           'margin-bottom': '5px'
         }

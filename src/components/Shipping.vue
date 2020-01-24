@@ -19,7 +19,7 @@
             <ShippingCalculator ></ShippingCalculator>
             
             <button  @click="shopMore" class="buttonstyle">SHOP MORE</button>
-            <button  :disabled="!haveCourier"  @click="goToCheckout" class="buttonstyle">CONTINUE</button>
+            <button  :disabled="shoppingcart.deliveryfee == 0"  @click="goToCheckout" class="buttonstyle">CONTINUE</button>
         
             <!-- </div> -->
          </div>
@@ -37,13 +37,14 @@
 </template>
 
 <script>
+  import { RepositoryFactory } from '../RepositoryFactory'
   import firebase from '../firebase-config';
   import {  db } from '../firebase-config';
   import ShoppingCart from '../components/ShoppingCart'
-  import ShippingCalculator from '../components/ShippingCalculator'
-   import { RepositoryFactory } from '../RepositoryFactory'
-  const CourierService = RepositoryFactory.get('couriers')
+  //import ShippingCalculator from '../components/ShippingCalculator'
+  //import CubeSpin from 'vue-loading-spinner/src/components/ScaleOut'
   const userRef = db.ref('users')
+  const ShippingCalculator = RepositoryFactory.get('couriers')
   export default {
   name: 'shipping',
 
@@ -51,11 +52,9 @@
     'ShoppingCart': ShoppingCart ,
     'ShippingCalculator' : ShippingCalculator
   },
-
  
  data() {
       return {
-        haveCourier: false,
         showCheckout: false,
         busy: true,
         key: '',
@@ -90,7 +89,6 @@
 
     this.$eventHub.$on('fee', (fee)=> {
          self.shoppingcart.deliveryfee = fee
-         self.haveCourier = true
       });
 
     
@@ -99,7 +97,7 @@
         if(localStorage.getItem('jaylashop'))
         {
           self.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
-         }
+        }
    });
  },
 
@@ -115,9 +113,6 @@
     {
         this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
         this.totalitems = this.shoppingcart.totalitems
-        CourierService.Couriers = null
-        this.shoppingcart.courier = null
-        this.haveCourier = false
     }
 
     this.currentuser = firebase.auth().currentUser;
@@ -135,7 +130,8 @@
 
    computed: {
 
-      shippingAddress: function() {
+      shippingAddress: function()
+      {
           let shipaddress = this.shoppingcart.user.address.addressline1 + ', '
           shipaddress += this.shoppingcart.user.address.addressline2 == '' ? '' : this.shoppingcart.user.address.addressline2 + ', '
           shipaddress += this.shoppingcart.user.address.suburb + ', ' 
@@ -181,8 +177,7 @@
       this.$eventHub.$emit('fee', this.shoppingcart.deliveryfee);
     },
 
-   goToCheckout() {
-     debugger
+   goToCheckout: function() {
       var theTotal = 0;
       this.shoppingcart.items.forEach(item => {
           theTotal += item.number * item.price;

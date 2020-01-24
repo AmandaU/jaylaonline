@@ -11,11 +11,11 @@
              <small style="color: red" v-show="userInvalid && shoppingcart.user.surname == ''">*</small>
             <input type="text" v-model="shoppingcart.user.surname" placeholder="Surname" class="addressitem">
 
-             <small v-show="emailInvalid" style="color: red">Please enter a valid email</small><br>
+             <small v-show="emailInvalid" style="color: red">Please enter a valid email</small>
              <small style="color: red" v-show="userInvalid ">*</small>
             <input type="email" v-model="shoppingcart.user.email" placeholder="Email" class="addressitem">
 
-             <small v-show="cellInvalid" style="color: red">Please enter a valid cell number</small><br>
+             <small v-show="cellInvalid" style="color: red">Please enter a valid cell number</small>
              <small style="color: red" v-show="cellInvalid ">*</small>
              <vue-tel-input class="listSelectitem"  v-model="shoppingcart.user.cellphone"
                           :preferredCountries="['za']">
@@ -29,7 +29,7 @@
             <region-select   v-model="shoppingcart.user.address.region" :country="shoppingcart.user.address.country" :region="shoppingcart.user.address.region" class="listSelectitem" countryName="true" regionName="true" />
            
             <small style="color: red" v-show="addressInvalid && shoppingcart.user.address.addressline1 == ''">*</small>
-            <input type="text" v-model="shoppingcart.user.address.addressline1" placeholder="Address" class="addressitem"><br>
+            <input type="text" v-model="shoppingcart.user.address.addressline1" placeholder="Address" class="addressitem">
           
             <small  v-visible="addressInvalid && shoppingcart.user.address.addressline1 == ''"> </small>
             <input type="text" v-model="shoppingcart.user.address.addressline2" placeholder="Apartment, suite, etc (optional)" class="addressitem">
@@ -57,14 +57,10 @@
            
               <small v-if="!isChangingSuburb" class="addresslabel" >{{shoppingcart.user.address.city}}, </small>
               <small v-if="!isChangingSuburb" class="addresslabel" >{{shoppingcart.user.address.postalcode}}</small> -->
-           
-           
-           <div style=" text-align: center;">
+          
             <button  @click="shopMore" class="buttonstyle">SHOP MORE</button>
             <button :disabled="shoppingcart.totalitems == 0"  @click="goToDelivery" class="buttonstyle">CONTINUE</button>
             
-            </div>
-      
          </div>
     
      </div> 
@@ -146,7 +142,7 @@
  created() {
     this.loader = this.$loading.show({
               loader: 'dots',
-                color: 'blue'
+                color: '#1C1B1B'
     });  
     
     window.addEventListener("resize", this.redrawComponent);
@@ -265,11 +261,11 @@
       },
 
     redrawComponent() {
-       if (window.innerWidth < 800 && !this.showCheckout) {
+       if (this.isMobile() && !this.showCheckout) {
          this.$eventHub.$emit('showCheckout', true);
          this.showCheckout = true
       } 
-      if (window.innerWidth > 800 && this.showCheckout) {
+      if (!this.isMobile() && this.showCheckout) {
           this.$eventHub.$emit('showCheckout', false);
          this.showCheckout = false
       }

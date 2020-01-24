@@ -5,9 +5,9 @@
     <div class="mainblock" >
        
         <div class="payblock">
-          <h1>Checkout</h1>
-          <h2>Payment options</h2>
-          <central >Thank you for buying RudeBoyz kit.</central>
+          <h3>Checkout</h3>
+          <h4>Payment options</h4>
+          <div >Thank you for buying RudeBoyz kit.</div>
         
           <div class="payfastRow">
               <img src="../assets/PaymentMethods.png"  alt="Payment Methods"   style="margin: 10px;"/>  

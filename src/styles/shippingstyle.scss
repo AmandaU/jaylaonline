@@ -6,7 +6,8 @@
 
 .addressblock {
     //background-color:rgb(92, 36, 82);
-    display: block;
+    display: flex;
+    flex-direction: column;
    // text-align: left;
     width: 400px;
     justify-content: center;
@@ -16,7 +17,7 @@
   .addressitem {
     margin-bottom: 10px;
     width: 98%;
-    max-width:98%;
+   // max-width:98%;
     cursor: pointer;
     height:30px;
     padding-left: 2px;
@@ -141,3 +142,17 @@
   background-color: red;
 }
 
+
+@media all and (max-width: 800px) {
+
+  .addressblock {
+    width: 80%;
+   }
+}
+
+@media all and (max-width: 600px) {
+
+  .addressblock {
+    width: 85%;
+   }
+}
