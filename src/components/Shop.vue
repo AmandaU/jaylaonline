@@ -62,12 +62,13 @@ export default {
 
   data() {
       return {
+        marginFactor: .9,
          isLoading: true,
         busy: false,
         products: [],
         numberOfProducts: 0,
         greaterThan600: window.innerWidth > 600,
-        containerWidth: window.innerWidth > 800? (window.innerWidth * .8) * .33: window.innerWidth > 600? (window.innerWidth * .8) * .5: window.innerWidth * .8,
+        containerWidth: window.innerWidth > 800? (window.innerWidth * this.marginFactor) * .33: window.innerWidth > 600? (window.innerWidth * this.marginFactor) * .5: window.innerWidth * this.marginFactor,
         showCheckout: false,
         hovering: false,
         loader: {},
@@ -86,7 +87,6 @@ firebase () {
 
 mounted() {
   window.addEventListener('resize', this.handleWindowResize);
- 
   let self = this;
   this.$eventHub.$on('showCheckout', ()=> {
        self.showCheckout = !self.showCheckout;
@@ -110,7 +110,7 @@ mounted() {
            product.index = index
             product.isFlipped = false
           index += 1
-
+         
        });
        self.loader.hide()
        self.isLoading = false
@@ -165,7 +165,7 @@ methods: {
     },
 
    handleWindowResize(event) { 
-     let w = event.currentTarget.innerWidth * .8
+       let w = event.currentTarget.innerWidth * this.marginFactor
         if(window.innerWidth < 600)
         {
           this.containerWidth = w ;
@@ -180,7 +180,13 @@ methods: {
     },
 
     getImageStyle: function (product) { 
-      let margin = this.isMobile || !this.greaterThan600 ? 0.8 : 1
+
+      var margin = 1
+      if(this.products.length > 1) {
+        margin = this.isMobile || !this.greaterThan600 ? 0.8 : 1
+      } else {
+        this.containerWidth + (this.containerWidth * this.marginFactor)
+      }
       let w = this.containerWidth * margin
        return  {
           'background-color': 'white',
@@ -198,11 +204,11 @@ methods: {
           'height': w + 'px',
           'position': 'relative',
           'margin' : '0 auto',
-       }
+        }
     },
 
    getContainerStyle: function () { 
-     let h = String(window.innerHeight - 140) + 'px'
+     let h = String(window.innerHeight - 90) + 'px'
       
          return  {
           'max-width': '100vw',
@@ -212,12 +218,12 @@ methods: {
           'float':'right',
           'display': 'flex',
           'overflow': 'auto',
-          'align-self': 'center',
+          'align-self': this.showCheckout ? 'flex-start' : 'center',
           'justify-content': 'center',
-          'align-items': 'center',
-          'vertical-align': 'center',
+          'align-items': this.showCheckout ? 'flex-start' :'center',
+          'vertical-align': this.showCheckout ? 'flex-start' :'center',
           'perspective': window.innerWidth - 20,
-          'margin-top': '100px'
+          'margin-top': this.showCheckout ? '20px' : 'auto'
         //    ':hover .flip-card-inner' : {
         //       'transform': 'rotateY(180deg)'
         //  }
