@@ -68,7 +68,7 @@ export default {
         products: [],
         numberOfProducts: 0,
         greaterThan600: window.innerWidth > 600,
-        containerWidth: window.innerWidth > 800? (window.innerWidth * this.marginFactor) * .33: window.innerWidth > 600? (window.innerWidth * this.marginFactor) * .5: window.innerWidth * this.marginFactor,
+        containerWidth: window.innerWidth > 800? (window.innerWidth * 0.9) * .33: window.innerWidth > 600? (window.innerWidth * 0.9) * .5: window.innerWidth * 0.9,
         showCheckout: false,
         hovering: false,
         loader: {},
@@ -110,6 +110,7 @@ mounted() {
            product.index = index
             product.isFlipped = false
           index += 1
+  
          
        });
        self.loader.hide()
@@ -180,8 +181,7 @@ methods: {
     },
 
     getImageStyle: function (product) { 
-
-      var margin = 1
+     var margin = 1
       if(this.products.length > 1) {
         margin = this.isMobile || !this.greaterThan600 ? 0.8 : 1
       } else {
