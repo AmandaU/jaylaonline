@@ -1,8 +1,7 @@
 <template>
-  <div class="shipping">
 
  <div class="container" :key="componentKey" >
-       <!-- <cube-spin v-if="busy"></cube-spin> -->
+     
      <div class="mainblock">
        
         <div class="addressblock">
@@ -16,14 +15,12 @@
             <p >{{shippingAddress}}</p>
             
             <br>
-            <ShippingCalculator ></ShippingCalculator>
+            <ShippingCalculator style="width: 100%"></ShippingCalculator>
             
             <button  @click="shopMore" class="buttonstyle">SHOP MORE</button>
             <button  :disabled="shoppingcart.deliveryfee == 0"  @click="goToCheckout" class="buttonstyle">CONTINUE</button>
         
-            <!-- </div> -->
          </div>
-     
     
      </div> 
 
@@ -32,8 +29,7 @@
      </div>
 
   </div>
-
-  </div>
+  
 </template>
 
 <script>
@@ -41,10 +37,10 @@
   import firebase from '../firebase-config';
   import {  db } from '../firebase-config';
   import ShoppingCart from '../components/ShoppingCart'
-  //import ShippingCalculator from '../components/ShippingCalculator'
+  import ShippingCalculator from '../components/ShippingCalculator'
   //import CubeSpin from 'vue-loading-spinner/src/components/ScaleOut'
   const userRef = db.ref('users')
-  const ShippingCalculator = RepositoryFactory.get('couriers')
+  //const ShippingCalculator = RepositoryFactory.get('couriers')
   export default {
   name: 'shipping',
 
@@ -90,7 +86,6 @@
     this.$eventHub.$on('fee', (fee)=> {
          self.shoppingcart.deliveryfee = fee
       });
-
     
     this.$eventHub.$on('shoppingcarttotal', (total)=> {
        self.totalitems = total

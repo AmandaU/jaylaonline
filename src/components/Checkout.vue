@@ -5,15 +5,24 @@
     <div class="mainblock" >
        
         <div class="payblock">
-          <h3>Checkout</h3>
-          <h4>Payment options</h4>
-          <div >Thank you for buying RudeBoyz kit.</div>
+          <h3>CHECKOUT</h3>
+          <h4>PAYMENT OPTIONS</h4> <br>
+          <!-- <div >Thank you for buying RudeBoyz kit.</div> -->
         
-          <div class="payfastRow">
-              <img src="../assets/PaymentMethods.png"  alt="Payment Methods"   style="margin: 10px;"/>  
-
-                <br> <br>
-                <a  v-bind:href="payFastUrl"><img src="https://www.payfast.co.za/images/buttons/dark-large-paynow.png"  style="margin: 10px; width: 174 ; height: 59" alt="Pay" title="Pay Now with PayFast" /></a>
+          <div class="payfastcolumn">
+            <img src="../assets/PayFastLogo.png"  alt="Payment Methods"  />  <br>
+            <div class="payfastlogopack">
+              <img src="../assets/PFMethods/bitcoin.png"  alt="Bitcoin"  />  
+               <img src="../assets/PFMethods/InstantEFT.png"  alt="PFInstantEFT"  />  
+                <img src="../assets/PFMethods/Maestro.png"  alt="Maestro"  />  
+                 <img src="../assets/PFMethods/Mastercard.png"  alt="Mastercard"  />  
+                  <img src="../assets/PFMethods/Masterpass.png"  alt="masterpass"  />  
+                    <img src="../assets/PFMethods/Mobicred.png"  alt="Mobicred"  />  
+                      <img src="../assets/PFMethods/SCode.jpg"  alt="SCode"  />  
+                        <img src="../assets/PFMethods/VisaElectron.png"  alt="VisaElectron"  /> 
+                         <img src="../assets/PFMethods/Visa.png"  alt="Visa"  />   
+            </div> <br> <br>
+              <a  v-bind:href="payFastUrl"><img src="https://www.payfast.co.za/images/buttons/dark-large-paynow.png"  style="10px; width: 348 ; height: 118" alt="Pay" title="Pay Now with PayFast" /></a>
           </div>
 
           <br>
@@ -312,6 +321,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import "~@/styles/commonstyle.scss";
   @import "~@/styles/checkoutstyle.scss";
-   @import "~@/styles/commonstyle.scss";
-  </style>
+</style>

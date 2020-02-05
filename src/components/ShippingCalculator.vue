@@ -1,19 +1,13 @@
 <template>
-  <!-- <transition
-    name="expand"
-    @enter="enter"
-    @after-enter="afterEnter"
-    @leave="leave"
-    @after-leave="afterLeave"
-  > -->
+ 
     <div>
        <transition name=" slide-in">
      
          <div v-if="isDone" >
            <h3>DELIVERY</h3>
            <div v-if="!isInternational" :key="componentKey">
-              <div  v-for="courier in couriers" :key="courier.CarrierName" >
-                  <div class="itemrow">
+              <div class="itemrow" v-for="courier in couriers" :key="courier.CarrierName" >
+                  <!-- <div class="itemrow"> -->
                     <div class="courierrow">
                       <div class="itemcolumn1">
                           <small style="color:white">{{courier.CarrierName}}</small>
@@ -29,7 +23,7 @@
                       <button  v-bind:class="[courier.isSelected ? 'courierbutton red' : 'courierbutton white']"></button>
                     </div>  
 
-                  </div>  
+                  <!-- </div>   -->
               </div> 
                <small v-if="isCOD" >Expect an email from info@jadeayla.com to arrange delivery</small> 
                <br>
@@ -37,7 +31,7 @@
 
            <h4 v-if="isInternational">Delivery fee: {{shippingFee}} </h4>
            <h5 v-if="isInternational">IMPORTANT!! YOUR COUNTRY MAY CHARGE YOU LOCAL CUSTOM DUTY</h5>
-         </div>
+         </div> 
         </transition>
       </div>
  
@@ -81,8 +75,9 @@
            if(localStorage.getItem('jaylashop')) {
               self.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
           }
+          debugger
           self.showLoader()
-         CourierService.Couriers = null;
+          //CourierService.Couriers = null;
           self.getQuotes()
         }
     });
@@ -105,17 +100,17 @@ watch: {
     shippingFee: function() {
         return 'R ' + String(this.shoppingcart.deliveryfee.toFixed(2))
     },
-   },
+    },
 
   methods: {
 
+    showLoader () {
+        this.loader = this.$loading.show({
+                  loader: 'dots',
+                    color: 'blue'
+        });  
+    },
 
-  showLoader () {
-      this.loader = this.$loading.show({
-                loader: 'dots',
-                  color: 'blue'
-      });  
-  },
     getQuotes() {
        if (this.shoppingcart.user.address.country == "South Africa") {
         this.getLocalDeliveryQuote()

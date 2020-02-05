@@ -40,9 +40,7 @@ created() {
 </script>
 
 <style lang="scss" scoped>
-  // @import "~@/styles/commonstyle.scss";
+   @import "~@/styles/commonstyle.scss";
   @import "~@/styles/checkoutstyle.scss";
-  @import "~@/styles/commonstyle.scss";
-
 </style>
 

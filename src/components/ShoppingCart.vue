@@ -130,7 +130,6 @@ export default {
      },
 
      destroyed() {
-       debuuger
       window.removeEventListener("resize", this.redrawComponent);
      },
 
