@@ -21,7 +21,7 @@
                            
                             <div class="flip-card-front" >
                                <div :style="getImageStyle(product)"  >
-                              <img  v-bind:src="product.images[0].url" alt="Avatar"  >
+                                 <img  v-bind:src="product.images[0].url" alt="Avatar"  >
                                </div> 
                             </div> 
                       
@@ -36,7 +36,10 @@
 
                           </div>
 
-                     </div>  
+                     </div>  <br> <br>
+                      <div style="text-align:center"> {{product.name}}</div>
+
+                    
 
             </div>
         </div> 
