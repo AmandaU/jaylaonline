@@ -75,7 +75,6 @@
            if(localStorage.getItem('jaylashop')) {
               self.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
           }
-          debugger
           self.showLoader()
           //CourierService.Couriers = null;
           self.getQuotes()

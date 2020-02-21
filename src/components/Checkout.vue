@@ -118,18 +118,26 @@ export default {
      return theTotal.toFixed(2)
     },
 
-   
+  //  //Test Environment
+  //   // a computed getter SameSite=None
+  //   payFastUrl: function () {
+  //       const url =  'https://sandbox.payfast.co.za/eng/process?cmd=_paynow&receiver=10011455&item_name=' + 'JaylaOnline Shopping'
+  //       + '&item_description=merchandise&amount=' + this.shoppingcart.purchasevalue
+  //       + '&return_url=http%3A%2F%2F192.168.8.103%3A8080%2F%23%2FSuccess%2F%3Forderid%3D' + this.shoppingcart.reference ; 
+  //       + '&cancel_url=http%3A%2F%2F192.168.8.103%3A8080%2F%23%Cancel%2F%3Forderid%3D' + this.shoppingcart.reference ; 
+  //       //console.log(url);
+  //       return url;
+  //   },
+
+    //Live Environment
     // a computed getter SameSite=None
     payFastUrl: function () {
-        const url =  'https://sandbox.payfast.co.za/eng/process?cmd=_paynow&receiver=10011455&item_name=' + 'JaylaOnline Shopping'
-        + '&item_description=tickets&amount=' + this.shoppingcart.purchasevalue
+        const url =  'https://www.payfast.co.za/eng/process?cmd=_paynow&receiver=12581557&item_name=' + 'JaylaOnline Shopping'
+        + '&item_description=merchandise&amount=' + this.shoppingcart.purchasevalue
         + '&return_url=http%3A%2F%2F192.168.8.103%3A8080%2F%23%2FSuccess%2F%3Forderid%3D' + this.shoppingcart.reference ; 
         + '&cancel_url=http%3A%2F%2F192.168.8.103%3A8080%2F%23%Cancel%2F%3Forderid%3D' + this.shoppingcart.reference ; 
         //console.log(url);
         return url;
-
-
-            // <a href="https://www.payfast.co.za/eng/process?cmd=_paynow&amp;receiver=12581557&amp;item_name=JaylaOnline&amp;item_description=merchandise&amp;amount=55.00&amp;return_url=http%3A%2F%2F192.168.8.103%3A8080%2Fsuccess%2Forderid%3D&amp;cancel_url=http%3A%2F%2F192.168.8.103%3A8080%2Fcancel%2Forderid%3D"><img src="https://www.payfast.co.za/images/buttons/light-small-paynow.png" width="165" height="36" alt="Pay" title="Pay Now with PayFast" /></a>
     },
 
     //  zapperUrl: function () {
