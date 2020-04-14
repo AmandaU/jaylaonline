@@ -236,7 +236,7 @@ methods: {
        
         'max-width': '100vw',
         'min-height' : h,
-        'height' : h,
+        //'height' : h,
         'width':'100%',
         'float':'left',
         'display': 'flex',

@@ -107,7 +107,7 @@
    .cartimage {
      width: 30px;
      height: 30px;
-    vertical-align: middle;
+     vertical-align: middle;
    }
 
 
@@ -172,4 +172,26 @@
  .slide-enter, .slide-leave-to {
     overflow: hidden;
     max-height: 0;
+ }
+
+ @media all and (max-width:600px) {
+
+      .logo {
+        height: auto;
+        width:70%;
+      }
+
+      .cartimage {
+        width: 30px;
+        height: 30px;
+        vertical-align: middle;
+      }
+
+      .menuicon{
+        z-index:0;
+       width: 40px;
+       vertical-align: middle;
+       margin-right:0px;
+       margin-left:0px;
+      }
  }

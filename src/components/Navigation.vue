@@ -14,7 +14,7 @@
           <transition   name="slide">
         <div v-if="showLeftMenu" class="dropdown-content left">
             <a  v-on:click="navigate('Shop')" >SHOP</a>
-            <a  v-on:click="navigate('Artists')">ARTISTS</a>
+            <!-- <a  v-on:click="navigate('Artists')">ARTISTS</a> -->
             <a  v-on:click="navigate('About')">ABOUT</a>
             <a  v-on:click="navigate('Contact')">CONTACT</a>
         </div> 
