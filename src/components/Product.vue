@@ -1,19 +1,12 @@
 <template>
 
-<div :style="getContainerStyle()" :key="componentKey">
+<!-- <div :style="getContainerStyle()" :key="componentKey"> -->
    
    <div class="productcontainer">
      <media :query="{maxWidth: 600}" @media-enter="media600Enter" @media-leave="media600Leave"> </Media>
    
-         <div v-if="!isLoading" class="pricecontainer" >
-        
-            <!-- <div  v-if="haveArtist" class="artistblock"  @click="gotoArtist(artist)" >
-             <img v-bind:src="artist.logo" v-bind:alt="artist.name" style="height: 100px; width: auto; padding-left:20px;vertical-align:center;">
-                <img v-bind:src="artist.photourl" v-bind:alt="artist.name" style="height: 100px; width: auto; padding-left:20px;">
-            </div> 
-             <br> -->
-            
-              
+         <div v-if="!isLoading" class="left" >
+           
             <div class="priceblock">
                <h3>{{ product.name }}</h3> 
               <div>{{ product.description }}</div>
@@ -24,9 +17,9 @@
                 <div v-if="EURRate > 0">&#163; {{ euroPrice }}</div>
               </div>
               <small>Dollar and euro price at today's rates</small>
-              <div  v-for="item in product.items" :key="item['.key']">
+              <br><br>
+              <div  class="itemcol" v-for="item in product.items" :key="item['.key']">
                   <div class="itemrow">
-                   
                       <div class="itemcolumn1">
                         <!-- <h5>Size {{item.size}},  R{{item.price}}</h5> -->
                         <h5>Size {{item.size}}</h5>
@@ -42,16 +35,15 @@
                               </div>  
                               <br>
 
-                              <div  class="addminusbox">
-                                 <div :disabled="item.selected == 0" v-bind:class="[item.selected > 0 ? 'enabled' : 'disabled']"    @click="itemsSelected(item, false)" class=" addminusbox">-</div><br>
-                                  <div :disabled="item.number <= item.selected" v-bind:class="[item.number > item.selected ? 'enabled' : 'disabled']"    @click="itemsSelected(item,true)" class=" addminusbox">+</div>
+                              <div  class="addminusboxcontainer">
+                                 <div :disabled="item.selected == 0" v-bind:class="[item.selected > 0 ? 'enabled' : 'disabled']"    @click="itemsSelected(item, false)" class=" addminusbox minus" >-</div><br>
+                                  <div :disabled="item.number <= item.selected" v-bind:class="[item.number > item.selected ? 'enabled' : 'disabled']"    @click="itemsSelected(item,true)" class=" addminusbox plus">+</div>
                                </div>   
                         
                           </div> 
                       </div> 
-                
                   </div> 
-                    <div class="thinline"></div>  
+                  <div class="thinline"></div> 
               </div>
                  <br>
                <button   @click="continueShopping" class="buttonstyle">MORE SHOPPPING</button>
@@ -61,9 +53,7 @@
         </div> 
 
 
-        <div class="verticalspace"/>
-
-        <div class="imagecontainer">
+        <div class="right">
                 <div v-if="!isLoading" class="imageblock">  
                     <div  class="imgContainer" v-for="image in product.images" v-bind:key="image.productid"  >
                       <img v-bind:src="image.url" v-bind:alt="image.alt"  class="mainimage" v-bind:style='{ backgroundImage: imageThumbUrl(image) }' >
@@ -71,7 +61,7 @@
                 </div>
         </div>
     </div>
-   </div>
+   <!-- </div> -->
   
 </template>
 
@@ -229,25 +219,7 @@ methods: {
          return 'url('+ image.thumburl + ')';
      },
 
-  getContainerStyle: function () { 
-     let h = String(window.innerHeight - 90) + 'px'
-        return  {
-        'margin-top': '80px',
-       
-        'max-width': '100vw',
-        'min-height' : h,
-        //'height' : h,
-        'width':'100%',
-        'float':'left',
-        'display': 'flex',
-        'flex-direction': 'column',
-        'align-self': 'center',
-        'justify-content': 'center',
-        'align-items': 'center',
-        'transition': 'all 500ms ease-in-out',
-      }
-  },
-
+ 
  getArtist(artistid) {
    let self = this
       this.$rtdbBind('artists', artistsRef.orderByChild("id").equalTo(artistid).limitToFirst(1)).then(artists => {
