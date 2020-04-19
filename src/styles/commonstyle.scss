@@ -2,7 +2,7 @@ $color-whiteColor:#ffffff;
 $color-textHeading:#1C1B1B; 
 $color-textBody:#1C1B1B; 
 $color-hoverColor:#1C1B1B;  
-$color-unHoverColor: #6a6a6a; 
+$color-unHoverColor: #c4c2c2; 
 $color-lightLineColor: #949494; 
 $color-darkLineColor: #6a6a6a; 
 
@@ -68,13 +68,21 @@ h1, h2, h3 {
   color: $color-textHeading;
 }
 
- h4, h5, p, div, small {
+h4, h5, p, small {
   font-family: 'NunitoSans';
   font-weight: normal;
   //letter-spacing: 0.1em!important;
   color: $color-textBody;
   transition: all 200ms ease-in;
 }
+
+//  h4, h5, p, div, small {
+//   font-family: 'NunitoSans';
+//   font-weight: normal;
+//   //letter-spacing: 0.1em!important;
+//   color: $color-textBody;
+//   transition: all 200ms ease-in;
+// }
 
 button {
   font-family: 'AvenirNext';

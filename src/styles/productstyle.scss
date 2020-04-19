@@ -93,7 +93,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
- width: 100%;
+  width: 100%;
   height:30px;
    
 }
@@ -103,7 +103,7 @@
     flex-direction: column;
     justify-content: center;
     margin:auto;
-     width: 60%;
+    width: 100%;
     height:100%;
     margin-bottom: 1px;
     margin-top: 0px;
@@ -111,9 +111,7 @@
 
    
 .itemrow {
- 
-  //background-color:white;
-  display: flex;
+   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -121,8 +119,6 @@
   align-self: center;
   width: 100%;
   height:100%;
- 
-
 }
   
   .itemcolumn1{
@@ -130,7 +126,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    flex: 0.5;
+    flex: 0.7;
     align-items: left;
     text-align: left; 
     justify-content: left;
@@ -145,7 +141,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    flex:0.5;
+    flex:0.3;
     align-items: right;
     text-align: right; 
     justify-content: right;
@@ -174,7 +170,7 @@
    justify-items: center;
    height: 100%;
    padding:5px;
-  }
+   }
 
   .numberrow{
     //background-color:rgb(88, 196, 66);
@@ -227,9 +223,13 @@
    vertical-align: middle;
  
    font-size: 25px;
-    font-family: 'AvenirNext';
+  font-family: 'AvenirNext';
    font-weight: normal;
-   }
+  }
+
+   .addminusbox:hover {
+    color: $color-unHoverColor !important; 
+  }
 
   .minus{
     margin-right:10px;
@@ -239,12 +239,12 @@
     background-color: transparent;
    }
   
-  .disabled div{
-    color: $color-unHoverColor; 
+  .disabled {
+    color: $color-unHoverColor !important;
   }
 
-  .enabled div{
-    color: $color-hoverColor; 
+  .enabled {
+    color: $color-hoverColor !important;
   }
 
   @media all and (max-width:1400px) {
