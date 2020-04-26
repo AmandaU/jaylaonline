@@ -143,6 +143,7 @@ methods: {
   },
 
   navigate (navPath) {
+    this.showRightMenu = false
      if(navPath == "Logout") {
         let self = this;
          if(self.showCart) {
