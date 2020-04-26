@@ -245,22 +245,20 @@
   cursor: pointer;
  }
 
-
 .addminusbox{
   display: flex;
- flex-direction: row;
- cursor: pointer;
- width:100%;
- flex: 0.5;
- height: 100%;
- flex-direction: flex;
- align-items: center;
- text-align: right; 
- justify-content: right;
- vertical-align: middle;
+  flex-direction: row;
+  cursor: pointer;
+  width:100%;
+  flex: 0.5;
+  height: 100%;
+  flex-direction: flex;
+  align-items: center;
+  text-align: right; 
+  justify-content: right;
+  vertical-align: middle;
  }
- 
- 
+
 
  @media all and (max-width: 800px) {
  .shoppingcartblock {
@@ -288,4 +286,5 @@
     margin-right: 5px;
     
    }
+
   }

@@ -279,6 +279,8 @@ export default {
         this.shoppingcart.deliveryfee = 0
         localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
         this.$eventHub.$emit('shoppingcarttotal', this.shoppingcart.totalitems);
+        this.$eventHub.$emit('removeitem', item);
+
         this.componentKey += 1
       },
 

@@ -1,13 +1,11 @@
 <template>
-
-<!-- <div :style="getContainerStyle()" :key="componentKey"> -->
    
-   <div class="productcontainer">
+   <div class="productcontainer" >
      <media :query="{maxWidth: 600}" @media-enter="media600Enter" @media-leave="media600Leave"> </Media>
    
          <div v-if="!isLoading" class="left" >
            
-            <div class="priceblock">
+            <div class="priceblock"  :key="componentKey">
                <h3>{{ product.name }}</h3> 
               <div>{{ product.description }}</div>
               <br>
@@ -18,7 +16,7 @@
               </div>
               <small>Dollar and euro price at today's rates</small>
               <br><br>
-              <div  class="itemcol" v-for="item in product.items" :key="item['.key']">
+              <div  class="itemcol" v-for="item in product.items" :key="item['.key']" >
                   <div class="itemrow">
                       <div class="itemcolumn1">
                         <!-- <h5>Size {{item.size}},  R{{item.price}}</h5> -->
@@ -61,7 +59,6 @@
                 </div>
         </div>
     </div>
-   <!-- </div> -->
   
 </template>
 
@@ -88,10 +85,10 @@ export default {
 
   data() {
     return {
-       lessThan600: window.innerWidth < 600,
+      lessThan600: window.innerWidth < 600,
       componentKey: 0,
       haveArtist: false,
-       product: {},
+      product: {},
       artists: [],
       artist: {},
       shoppingcart: {},
@@ -118,16 +115,28 @@ firebase () {
 },
 
 mounted() {
-  let self = this;
-  this.$eventHub.$on('showCheckout', ()=> {
-       self.showCheckout = !self.showCheckout;
-  });
+    let self = this;
+
+
+    this.$eventHub.$on('showCheckout', ()=> {
+        self.showCheckout = !self.showCheckout;
+    });
+
     this.$eventHub.$on('shoppingcarttotal', (total)=> {
        if(localStorage.getItem('jaylashop'))
       {
         self.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
       }
    });
+
+   this.$eventHub.$on('removeitem', (item)=> {
+       var productItem = self.product.items.find(pi => pi.key == item.key)
+        if(productItem)
+        {
+          productItem.selected = 0;
+        }
+        self.componentKey += 1
+      });
 },
 
 created () {
@@ -144,7 +153,6 @@ created () {
           self.product = products.val()[key];
        }
       
-      
       const imageArray = Object.keys(self.product.images).map(imagekey => {
           return self.product.images[imagekey]
       });
@@ -155,15 +163,25 @@ created () {
          item.key = itemkey
           return item
       });
+       
        self.product.items = itemArray
+       self.product.items.forEach(pi => {
+            var shoppingCartItem = self.shoppingcart.items.find(si => si.key == pi.key)
+            if(shoppingCartItem)
+            {
+              pi.selected = shoppingCartItem.number;
+            }
+        })
+     
        self.loader.hide()
        self.isLoading = false
+     });
+
+    this.isLoading = false
+        this.loader = this.$loading.show({
+                  loader: 'dots',
+                  color: 'blue'
     });
-this.isLoading = false
-    this.loader = this.$loading.show({
-              loader: 'dots',
-              color: 'blue'
-      });
 },
 
  computed: {
@@ -322,6 +340,10 @@ methods: {
         existingitem.number += 1
       } else {
        existingitem.number -= 1
+       if(existingitem.number == 0)
+       {
+          this.shoppingcart.items.splice(this.shoppingcart.items.indexOf(item), 1);
+       }
       }
     } else {
       if(item.selected > 0) {
