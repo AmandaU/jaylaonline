@@ -13,10 +13,10 @@
       </div>
           <transition   name="slide">
         <div v-if="showLeftMenu" class="dropdown-content left">
-            <a  v-on:click="navigate('Shop')" >SHOP</a>
+            <a  v-on:click="navigate('Shop',true)" >SHOP</a>
             <!-- <a  v-on:click="navigate('Artists')">ARTISTS</a> -->
-            <a  v-on:click="navigate('About')">ABOUT</a>
-            <a  v-on:click="navigate('Contact')">CONTACT</a>
+            <a  v-on:click="navigate('About', true)">ABOUT</a>
+            <a  v-on:click="navigate('Contact', true)">CONTACT</a>
         </div> 
       </transition>    
     
@@ -36,7 +36,7 @@
       <div class="menuicon" 
        v-on:mouseleave="cartIconHover = false"
        v-on:mouseover="cartIconHover = true">
-        <img src="../assets/shoppingcart.svg"  alt="cart"  @click="navigate('ShoppingCart')" class="cartimage" :style="getColorStyle(cartIconHover)"/>
+        <img src="../assets/cart.svg"  alt="cart"  @click="navigate('ShoppingCart')" class="cartimage" :style="getColorStyle(cartIconHover)"/>
         <small class="numberbox" v-visible="totalitems > 0">{{totalitems}}</small>
       </div>
     </div>
@@ -45,13 +45,13 @@
        v-on:mouseleave="showRightMenu = false"
        v-on:mouseover="showRightMenu = true">
       <div class="menuicon">
-            <img src="../assets/login.svg"  alt="cart"  class="cartimage" :style="getColorStyle(showRightMenu)"/>
+            <img src="../assets/user.svg"  alt="cart"  class="cartimage" :style="getColorStyle(showRightMenu)"/>
            </div>
         <transition   name="slide">
           <div v-if="showRightMenu" class="dropdown-content right" >
-            <a v-show="!isLoggedin" v-on:click="navigate('Login')">LOGIN</a>
-            <a v-show="!isLoggedin" v-on:click="navigate('Signup')">REGISTER</a>
-            <a v-show="isLoggedin" v-on:click="navigate('Logout')">LOGOUT</a>
+            <a v-show="!isLoggedin" v-on:click="navigate('Login', false)">LOGIN</a>
+            <a v-show="!isLoggedin" v-on:click="navigate('Signup', false)">REGISTER</a>
+            <a v-show="isLoggedin" v-on:click="navigate('Logout', false)">LOGOUT</a>
         </div>
         </transition>    
     </div>
@@ -142,10 +142,16 @@ methods: {
     
   },
 
-  navigate (navPath) {
+  navigate (navPath, isLeft) {
+    if(isLeft){
+       this.showLeftMenu = false
+    }
     this.showRightMenu = false
+   
+    if(navPath == this.$route.name)
+    return;
      if(navPath == "Logout") {
-        let self = this;
+         let self = this;
          if(self.showCart) {
             self.showCart = false
             self.$eventHub.$emit('showCheckout', self.showCart);
@@ -201,9 +207,12 @@ methods: {
 
      getColorStyle: function(iconHover) {
          return  {
-         'filter': iconHover ? 'invert(0.1)' :
-          this.isHover ? 'invert(0.5)' : 
-          this.$route.name == "Home" && !this.showCart ? 'invert(1)' : 'invert(0.5)',
+        //  'filter': iconHover ? 'invert(0.1)' :
+        //   this.isHover ? 'invert(0.5)' : 
+        //   this.$route.name == "Home" && !this.showCart ? 'invert(1)' : 'invert(0.5)',
+          'filter': iconHover ? 'invert(1)' : 'invert(0.01)'
+   
+
         }
      },
 
@@ -211,6 +220,7 @@ methods: {
          return  {
          'filter':  this.isHover ? 'invert(0)' : 
           this.$route.name == "Home" && !this.showCart ? 'invert(1)' : 'invert(0)',
+         
         }
      },
 },

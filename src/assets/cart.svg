@@ -6,8 +6,11 @@
 	.st0{fill:none;stroke:#1C1B1B;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
 </style>
 <g>
-	<line class="st0" x1="49.12" y1="59.97" x2="150.88" y2="59.97"/>
-	<line class="st0" x1="49.12" y1="100" x2="150.88" y2="100"/>
-	<line class="st0" x1="49.12" y1="140.03" x2="150.88" y2="140.03"/>
+	<path class="st0" d="M27.82,30.86c9.97,0,15.11,1.51,18.13,18.13l13.6,72.52c0,0,1.51,13.6,19.64,13.6c10.58,0,78.57,0,78.57,0"/>
+	<path class="st0" d="M45.68,47.54h113.2c11.22,0,14.55,4.67,12.44,14.23l-8.68,42.53c-1.76,7.94-8.58,12.34-15.36,12.34H58.64"/>
+	<g>
+		<circle class="st0" cx="72.19" cy="158.34" r="10.8"/>
+		<circle class="st0" cx="146.96" cy="158.34" r="10.8"/>
+	</g>
 </g>
 </svg>
