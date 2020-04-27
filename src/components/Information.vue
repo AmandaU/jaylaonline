@@ -128,9 +128,9 @@
   mounted() {
     let self = this
     this.$eventHub.$on('shoppingcarttotal', (total)=> {
-        if(localStorage.getItem('jaylashop'))
+         if(sessionStorage.getItem('jaylashop'))
         {
-          self.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
+          self.shoppingcart = JSON.parse(sessionStorage.getItem('jaylashop'));
         }
       });
   },
@@ -148,9 +148,9 @@
     window.addEventListener("resize", this.redrawComponent);
     this.$eventHub.$emit('showCheckout', this.isMobile());
     this.showCheckout = this.isMobile()
-    if(localStorage.getItem('jaylashop'))
+    if(sessionStorage.getItem('jaylashop'))
     {
-      this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
+      this.shoppingcart = JSON.parse(sessionStorage.getItem('jaylashop'));
     }
     this.currentuser = firebase.auth().currentUser;
     if(this.currentuser){
@@ -309,7 +309,7 @@
     },
 
   shopMore () {
-     localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
+     sessionStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
     this.$router.replace({ name: 'Shop'});
   },
   
@@ -322,7 +322,7 @@
           theTotal += item.number * item.price;
       });
       this.shoppingcart.purchasevalue = String((theTotal + this.shoppingcart.shipping))
-      localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
+      sessionStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
 
       this.$router.push({ name: 'Shipping'});
      },

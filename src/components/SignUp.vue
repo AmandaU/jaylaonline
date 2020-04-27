@@ -132,9 +132,9 @@ methods: {
         self.insert(uid)
         alert('Your account has been created')
         self.$eventHub.$emit('loggedin', '');
-       if(localStorage.getItem(uid))
+       if(sessionStorage.getItem(uid))
         {
-            self.shoppingcart = JSON.parse(localStorage.getItem(uid));
+            self.shoppingcart = JSON.parse(sessionStorage.getItem(uid));
             self.$eventHub.$emit('shoppingcarttotal', self.shoppingcart.totalitems);
         }
        if(self.$props.goto)

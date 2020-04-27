@@ -123,9 +123,9 @@ mounted() {
     });
 
     this.$eventHub.$on('shoppingcarttotal', (total)=> {
-       if(localStorage.getItem('jaylashop'))
+       if(sessionStorage.getItem('jaylashop'))
       {
-        self.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
+        self.shoppingcart = JSON.parse(sessionStorage.getItem('jaylashop'));
       }
    });
 
@@ -140,12 +140,15 @@ mounted() {
 },
 
 created () {
-   this.fetchRates()
-  this.showCheckout = false
-   if(localStorage.getItem('jaylashop'))
+  this.fetchRates()
+   this.showCheckout = false
+   if(sessionStorage.getItem('jaylashop'))
     {
-      this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
+      this.shoppingcart = JSON.parse(sessionStorage.getItem('jaylashop'));
     }
+    else {
+       this.initialiseShoppingCart()
+     }
     let self = this
     this.$rtdbBind('products', productsRef.orderByChild("id").equalTo(this.productid).limitToFirst(1)).then(products => {
       for(var key in products.val()){
@@ -212,7 +215,6 @@ created () {
     },
  
   },
-
 
 watch: {
     'product.artistid': {
@@ -325,11 +327,9 @@ methods: {
   },
 
   addItem(item, add) {
-   if(localStorage.getItem('jaylashop')) {
-        this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
-     } else {
-       this.initialiseShoppingCart()
-     }
+       if(sessionStorage.getItem('jaylashop')) {
+        this.shoppingcart = JSON.parse(sessionStorage.getItem('jaylashop'));
+     } 
     var existingitem = this.shoppingcart.items.find(existing => {
       if (existing.key == item.key) {
         return existing.key;
@@ -356,7 +356,7 @@ methods: {
       total += item.number;
     });
     this.shoppingcart.totalitems = total 
-    localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
+    sessionStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
     this.$eventHub.$emit('shoppingcarttotal', total);
      this.$eventHub.$emit('refreshshoppingcart', '');
   },

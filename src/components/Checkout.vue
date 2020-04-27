@@ -86,9 +86,9 @@ export default {
     this.$eventHub.$emit('showCheckout', this.isMobile());
     this.showCheckout = this.isMobile()
 
-    if(localStorage.getItem('jaylashop'))
+    if(sessionStorage.getItem('jaylashop'))
      {
-        this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
+        this.shoppingcart = JSON.parse(sessionStorage.getItem('jaylashop'));
      }
     let self = this
     const currentuser = firebase.auth().currentUser;
@@ -118,27 +118,27 @@ export default {
      return theTotal.toFixed(2)
     },
 
-  //  //Test Environment
-  //   // a computed getter SameSite=None
-  //   payFastUrl: function () {
-  //       const url =  'https://sandbox.payfast.co.za/eng/process?cmd=_paynow&receiver=10011455&item_name=' + 'JaylaOnline Shopping'
-  //       + '&item_description=merchandise&amount=' + this.shoppingcart.purchasevalue
-  //       + '&return_url=http%3A%2F%2F192.168.8.103%3A8080%2F%23%2FSuccess%2F%3Forderid%3D' + this.shoppingcart.reference ; 
-  //       + '&cancel_url=http%3A%2F%2F192.168.8.103%3A8080%2F%23%Cancel%2F%3Forderid%3D' + this.shoppingcart.reference ; 
-  //       //console.log(url);
-  //       return url;
-  //   },
-
-    //Live Environment
+   //Test Environment
     // a computed getter SameSite=None
     payFastUrl: function () {
-        const url =  'https://www.payfast.co.za/eng/process?cmd=_paynow&receiver=12581557&item_name=' + 'JaylaOnline Shopping'
+        const url =  'https://sandbox.payfast.co.za/eng/process?cmd=_paynow&receiver=10011455&item_name=' + 'Jayla Shopping'
         + '&item_description=merchandise&amount=' + this.shoppingcart.purchasevalue
-        + '&return_url=http%3A%2F%2F192.168.8.103%3A8080%2F%23%2FSuccess%2F%3Forderid%3D' + this.shoppingcart.reference ; 
-        + '&cancel_url=http%3A%2F%2F192.168.8.103%3A8080%2F%23%Cancel%2F%3Forderid%3D' + this.shoppingcart.reference ; 
+        + '&return_url=https%3A%2F%2Fjaylashop.web.app%2F%23%2FSuccess%2F%3Forderid%3D' + this.shoppingcart.reference ; 
+        + '&cancel_url=https%3A%2F%2jaylashop.web.app%2F%23%Cancel%2F%3Forderid%3D' + this.shoppingcart.reference ; 
         //console.log(url);
         return url;
     },
+
+    //Live Environment
+    // a computed getter SameSite=None
+    // payFastUrl: function () {
+    //     const url =  'https://www.payfast.co.za/eng/process?cmd=_paynow&receiver=12581557&item_name=' + 'Jayla Shopping'
+    //     + '&item_description=merchandise&amount=' + this.shoppingcart.purchasevalue
+    //     + '&return_url=http%3A%2F%2Fjaylashop.web.app%3A8080%2F%23%2FSuccess%2F%3Forderid%3D' + this.shoppingcart.reference ; 
+    //     + '&cancel_url=http%3A%2F%2Fjaylashop.web.app%3A8080%2F%23%Cancel%2F%3Forderid%3D' + this.shoppingcart.reference ; 
+    //     //console.log(url);
+    //     return url;
+    // },
 
     //  zapperUrl: function () {
     //   const qrcode = 'http://2.zap.pe?t=6&i=' + zapperConfig.merchantId + ':' + zapperConfig.siteId +':7[34|' + this.purchasevalue + '|11,66|' + this.shoppingcart.reference +
@@ -222,7 +222,7 @@ export default {
         //   {
         //     self.shoppingcart.zapperPaymentId = zapperId;
         //      self.shoppingcart.zapperReference = reference;
-        //     localStorage.setItem(self.shoppingcart.reference, JSON.stringify(self.shoppingcart));
+        //     sessionStorage.setItem(self.shoppingcart.reference, JSON.stringify(self.shoppingcart));
         //     self.$router.replace({ name: 'Cancel', params: {ticketid: self.shoppingcart.reference}});
         //   }
         //})
@@ -309,7 +309,7 @@ export default {
           zapperReference: instance.shoppingcart.zapperReference
         };
       
-      sessionStorage.setItem(order.reference, JSON.stringify(order));
+      localStorage.setItem(order.reference, JSON.stringify(order));
     },
 
     saveTicketLocal() {
@@ -317,7 +317,7 @@ export default {
       // let key = this.shoppingcart.pricebreak['.key'];
       // let totalreserved  = Number(this.shoppingcart.pricebreak.reserved) + Number(this.shoppingcart.pricebreak.tickets);
       // this.$firebaseRefs.pricebreaks.child(key).child('reserved').set(totalreserved);
-      localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
+      sessionStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
      
      // this.$router.replace({ name: 'Success'});
       this.$router.replace({ name: 'Success', query: {orderref: String(this.shoppingcart.reference)}});

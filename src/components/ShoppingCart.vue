@@ -251,8 +251,8 @@ export default {
      },
 
       getShoppingCart() {
-        if(localStorage.getItem('jaylashop')) {
-        this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
+        if(sessionStorage.getItem('jaylashop')) {
+        this.shoppingcart = JSON.parse(sessionStorage.getItem('jaylashop'));
         if (this.shoppingcart.items.count == 0) {
             this.hideAll = true
         }
@@ -277,7 +277,7 @@ export default {
         });
         this.shoppingcart.totalitems = total 
         this.shoppingcart.deliveryfee = 0
-        localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
+        sessionStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
         this.$eventHub.$emit('shoppingcarttotal', this.shoppingcart.totalitems);
         this.$eventHub.$emit('removeitem', item);
 
@@ -326,7 +326,7 @@ export default {
             } 
         }
         this.$eventHub.$emit('shoppingcarttotal', this.shoppingcart.totalitems);
-        localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
+        sessionStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
      },
   }
 }

@@ -9,11 +9,11 @@
             :is-full-page="fullPage"></loading> -->
            <div class="payblock">
         
-          <h2>Success!!</h2>
-           <h3>{{message1}}</h3>
-          <h3>{{message2}}</h3>
-          <h3>{{message3}}</h3>
-          <br>
+            <h2>Success!!</h2>
+            <h3>{{message1}}</h3>
+            <h3>{{message2}}</h3>
+            <h3>{{message3}}</h3>
+            <br>
         </div>
    </div>
 </template>
@@ -85,9 +85,9 @@ export default {
          orderid =  window.location.hash.substring(index+1,window.location.hash.length) ;
       }
  
-      if(sessionStorage.getItem(orderid))
+      if(localStorage.getItem(orderid))
       {
-         this.order = JSON.parse(sessionStorage.getItem(orderid));
+         this.order = JSON.parse(localStorage.getItem(orderid));
        
            if(this.order.zapperPaymentMethod) {
               this.$nextTick(() => {

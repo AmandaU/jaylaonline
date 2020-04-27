@@ -102,9 +102,9 @@ mounted() {
       this.isLoggedin = true
       this.fetchUser()
     }
-    if(localStorage.getItem('jaylashop'))
+    if(sessionStorage.getItem('jaylashop'))
     {
-        this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
+        this.shoppingcart = JSON.parse(sessionStorage.getItem('jaylashop'));
         this.totalitems = this.shoppingcart.totalitems
     }
     let self = this;
@@ -161,7 +161,7 @@ methods: {
           alert('You have successfully logged out');
          
           self.isLoggedin = false;
-          localStorage.clear()
+          sessionStorage.clear()
           self.$eventHub.$emit('shoppingcarttotal', 0);
           self.$router.replace({ name: 'Home'});
         }, 
@@ -212,7 +212,6 @@ methods: {
         //   this.$route.name == "Home" && !this.showCart ? 'invert(1)' : 'invert(0.5)',
           'filter': iconHover ? 'invert(1)' : 'invert(0.01)'
    
-
         }
      },
 

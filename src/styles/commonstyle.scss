@@ -330,7 +330,7 @@ input, input:active, input:focus, input:focus-within, input:hover, input:visited
       justify-content: center;
       align-items: center;
       align-self: center;
-      border-right: 0px solid transparent;
+     border-right: 0px solid transparent;
     }
   
     .cartblock{
@@ -344,6 +344,24 @@ input, input:active, input:focus, input:focus-within, input:hover, input:visited
       
     }
   }
+
+  @media all and (max-width: 800px) {
+
+    .container {
+      flex-direction: column;
+    }
+  
+    .mainblock {
+      // background-color:rgb(243, 245, 241);
+     width: 100%;
+      margin-top: -50px;
+       display: flex;
+      justify-content: center;
+      align-items: center;
+      align-self: center;
+     border-right: 0px solid transparent;
+    }
+    }
 
   @keyframes slide-in {
       100% { transform: translateY(0%);  opacity: 1;}

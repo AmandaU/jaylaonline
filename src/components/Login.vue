@@ -97,9 +97,9 @@
           let uid = user.user.uid;
           alert('Successful login');
           self.$eventHub.$emit('loggedin', '');
-          if(localStorage.getItem('jaylashop'))
+          if(sessionStorage.getItem('jaylashop'))
           {
-              self.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
+              self.shoppingcart = JSON.parse(sessionStorage.getItem('jaylashop'));
               self.$eventHub.$emit('shoppingcarttotal', self.shoppingcart.totalitems);
           }
           if(self.$props.goto)

@@ -72,8 +72,8 @@
    let self = this
    this.$eventHub.$on('shoppingcarttotal', (totalitems)=> {
         if (totalitems != this.shoppingcart.totalitems) {
-           if(localStorage.getItem('jaylashop')) {
-              self.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
+           if(sessionStorage.getItem('jaylashop')) {
+              self.shoppingcart = JSON.parse(sessionStorage.getItem('jaylashop'));
           }
           self.showLoader()
           //CourierService.Couriers = null;
@@ -81,8 +81,8 @@
         }
     });
 
-    if(localStorage.getItem('jaylashop')) {
-        this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
+    if(sessionStorage.getItem('jaylashop')) {
+        this.shoppingcart = JSON.parse(sessionStorage.getItem('jaylashop'));
     }
     this.getQuotes()
 
@@ -185,7 +185,7 @@ watch: {
           }
       })
       self.shoppingcart.deliveryfee = fee
-      localStorage.setItem('jaylashop', JSON.stringify(self.shoppingcart));
+      sessionStorage.setItem('jaylashop', JSON.stringify(self.shoppingcart));
       self.$eventHub.$emit('fee', self.shoppingcart.deliveryfee);
       self.isDone = true
    },
@@ -221,7 +221,7 @@ watch: {
         courier.isSelected = !courier.isSelected
         this.shoppingcart.courier = courier
         this.shoppingcart.deliveryfee  = courier.CarrierAccount == "COD" ? 0 : Number(courier.grandtotmrkup.replace(',',''))
-        localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
+        sessionStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
         this.$eventHub.$emit('fee', this.shoppingcart.deliveryfee);
         this.componentKey += 1
         this.isCOD = courier.CarrierAccount == "COD"

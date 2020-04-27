@@ -89,9 +89,9 @@
     
     this.$eventHub.$on('shoppingcarttotal', (total)=> {
        self.totalitems = total
-        if(localStorage.getItem('jaylashop'))
+        if(sessionStorage.getItem('jaylashop'))
         {
-          self.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
+          self.shoppingcart = JSON.parse(sessionStorage.getItem('jaylashop'));
         }
    });
  },
@@ -104,9 +104,9 @@
      window.addEventListener("resize", this.redrawComponent);
     this.$eventHub.$emit('showCheckout', this.isMobile());
     this.showCheckout = this.isMobile()
-    if(localStorage.getItem('jaylashop'))
+    if(sessionStorage.getItem('jaylashop'))
     {
-        this.shoppingcart = JSON.parse(localStorage.getItem('jaylashop'));
+        this.shoppingcart = JSON.parse(sessionStorage.getItem('jaylashop'));
         this.totalitems = this.shoppingcart.totalitems
     }
 
@@ -178,7 +178,7 @@
           theTotal += item.number * item.price;
       });
       this.shoppingcart.purchasevalue = String((theTotal + this.shoppingcart.deliveryfee))
-      localStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
+      sessionStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
       this.$router.push({ name: 'Checkout'});
    },
 

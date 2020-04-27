@@ -26,7 +26,7 @@ export default {
   },
 
 created() {
-   //localStorage.clear()
+   //sessionStorage.clear()
  },
 
   methods: {
