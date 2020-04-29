@@ -9,7 +9,7 @@
             :is-full-page="fullPage"></loading> -->
            <div class="payblock">
         
-            <h2>Success!!</h2>
+            <h2>{{successMessage}}</h2>
             <h3>{{message1}}</h3>
             <h3>{{message2}}</h3>
             <h3>{{message3}}</h3>
@@ -34,6 +34,7 @@ export default {
         payFastRef: "",
         promotion: [],
         order: {},
+        successMessage:"",
         message1:"",
         message2:"",
         message3:"",
@@ -46,7 +47,6 @@ export default {
  firebase() {
       return {
            ordersRef: db.ref('orders'),
-          
          }
       },
 
@@ -76,7 +76,7 @@ export default {
   created(){
       this.loader = this.$loading.show({
               loader: 'dots',
-                color: 'blue'
+                color: 'grey'
           });
       var orderid = '';
       var index = window.location.hash.indexOf("=");
@@ -85,9 +85,9 @@ export default {
          orderid =  window.location.hash.substring(index+1,window.location.hash.length) ;
       }
  
-      if(localStorage.getItem(orderid))
+      if(sessionStorage.getItem(orderid))
       {
-         this.order = JSON.parse(localStorage.getItem(orderid));
+         this.order = JSON.parse(sessionStorage.getItem(orderid));
        
            if(this.order.zapperPaymentMethod) {
               this.$nextTick(() => {
@@ -177,18 +177,17 @@ methods: {
     },
 
     setConfirmationInfo(){
-         const reference = 'Purchase reference number: ' + this.order.reference;
+        const reference = 'Purchase reference number: ' + this.order.reference;
         var total = String(this.totalValue );
-        var numberOfTickets = this.totalItems > 1? ' tickets': ' ticket';
-        var each = this.totalTickets > 1? ' each': '';
+        this.successMessage = 'Order number: ' + this.order.reference;
         this.message1 = 'Your purchase from JaylaOnline was successful' ;
-         this.message2 = 'The total deducted from your account is R ' + this.order.totalpaid + '.00';
-        this.message3 = 'We will email you information about your delivery'
+        this.message2 = 'The total deducted from your account is R ' + this.order.totalpaid + '.00';
+        this.message3 = 'We will email you information about your delivery.'
         this.$firebaseRefs.ordersRef.push(this.order);
         this.updateItems()
         this.isLoading = false
          this.loader.hide()
-        localStorage.clear()
+        sessionStorage.clear()
         this.$eventHub.$emit('shoppingcarttotal', 0);
         this.$eventHub.$emit('refreshshoppingcart', '');
     },

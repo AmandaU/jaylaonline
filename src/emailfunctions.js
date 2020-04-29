@@ -47,7 +47,7 @@ const mailTransport = nodemailer.createTransport({
     
       var title = 'Hi ' + val.user.firstname;
      
-      var message1 = 'This is confirmation of your order for ' + val.totalitems  + ' item(s) of RudeBoyz merch.'
+      var message1 = 'This is confirmation of your order for ' + val.totalitems  + ' item(s).';
       var message2 = 'Total value of R' + String(val.purchasevalue) + '.00';
       var message3 = 'Delivery fee of R' + String(val.deliveryfee) + '.00';
       var message4 = 'You paid a total of R' +  String(val.totalpaid) + '.00';

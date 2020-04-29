@@ -114,8 +114,8 @@
   //@debug
 
 .nav{
-    top: 2;
-    left: 2;
+    top: 0;
+    left: 0;
     right: 0;
     width: 100%;
     z-index: 10;
@@ -126,8 +126,7 @@
     justify-content: space-between;
     font-weight: 6;
     font-size: 12px;
-  //  background-color: transparent;
-  }
+   }
 
   // .nav:hover {
   //   background-color: white;

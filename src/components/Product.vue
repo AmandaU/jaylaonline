@@ -117,7 +117,6 @@ firebase () {
 mounted() {
     let self = this;
 
-
     this.$eventHub.$on('showCheckout', ()=> {
         self.showCheckout = !self.showCheckout;
     });
@@ -140,7 +139,7 @@ mounted() {
 },
 
 created () {
-  this.fetchRates()
+   this.fetchRates()
    this.showCheckout = false
    if(sessionStorage.getItem('jaylashop'))
     {
@@ -183,7 +182,7 @@ created () {
     this.isLoading = false
         this.loader = this.$loading.show({
                   loader: 'dots',
-                  color: 'blue'
+                  color: 'grey'
     });
 },
 

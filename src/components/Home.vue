@@ -1,9 +1,7 @@
 <template>
- <div :style="getContainerStyle()">
-   
+    <div :style="getContainerStyle()">
         <img  class="frontimage" v-bind:src="imageurl"  alt="where the fuck did it go?"   @click="gotoShop()" /> 
-       
-   </div>
+    </div>
   
 </template>
 
@@ -60,8 +58,8 @@ getContainerStyle: function () {
           'overflow-x': 'hidden',
           'flex-direction': 'column',
           'justify-content': 'center',
-         
-          
+          'margin': '0px'
+            
        }
     },
 

@@ -151,9 +151,9 @@ input, input:active, input:focus, input:focus-within, input:hover, input:visited
 .frontimage{
   object-fit: cover;
   width: auto;
+  margin:0px;
   height: 100%;
-  // width:auto;
-   min-height: 100vh;
+  min-height: 100vh;
  }
 
 .dropdownblocktransition{
@@ -353,13 +353,13 @@ input, input:active, input:focus, input:focus-within, input:hover, input:visited
   
     .mainblock {
       // background-color:rgb(243, 245, 241);
-     width: 100%;
+      width: 100%;
       margin-top: -50px;
-       display: flex;
+      display: flex;
       justify-content: center;
       align-items: center;
       align-self: center;
-     border-right: 0px solid transparent;
+      border-right: 0px solid transparent;
     }
     }
 

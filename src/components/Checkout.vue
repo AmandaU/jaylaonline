@@ -277,7 +277,7 @@ export default {
     saveInvoice(instance) {
       if(!instance) instance = this;
       let order = {
-         date: instance.getNow(),
+          date: instance.getNow(),
           reference: instance.shoppingcart.reference,
           purchasevalue: instance.shoppingcart.purchasevalue,
           items: instance.shoppingcart.items.map(item => {
@@ -309,7 +309,7 @@ export default {
           zapperReference: instance.shoppingcart.zapperReference
         };
       
-      localStorage.setItem(order.reference, JSON.stringify(order));
+      sessionStorage.setItem(order.reference, JSON.stringify(order));
     },
 
     saveTicketLocal() {

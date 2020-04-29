@@ -3,17 +3,10 @@
     
    <Navigation ></Navigation>
     <div class="fullpage" >
-      <!-- <Navigation ></Navigation> -->
             <transition-expand>
              <div  class="dropdownblocktransition" v-if="showCheckout">
-             
-               <!-- <div class="shoppingcartrow" >
-                  <span @click="hide" class="hoveritem">hide this</span> 
-                  <span @click="gotoCheckout" class="hoveritem">checkout</span>
-               </div> -->
                <ShoppingCart  :showCheckout="showCheckout"></ShoppingCart>
-           
-            <div class="thinline"/>
+               <div class="thinline"/>
           </div>
            </transition-expand>
        
@@ -22,16 +15,15 @@
         </keep-alive>
         <BottomNav></BottomNav>
       </div>
-     <!-- <BottomNav></BottomNav> -->
    </div>  
-  </template>
+</template>
 
 <script>
 import BottomNav from './components/BottomNav'
 import Navigation from './components/Navigation'
 import ShoppingCart from './components/ShoppingCart'
 import TransitionExpand from './components/TransitionExpand'
- import firebase from './firebase-config';
+import firebase from './firebase-config';
 
 export default {
   name: 'app',

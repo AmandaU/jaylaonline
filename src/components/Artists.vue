@@ -96,7 +96,7 @@ mounted() {
 
       this.loader = this.$loading.show({
                 loader: 'dots',
-                 color: 'blue'
+                 color: 'grey'
             });
        
     },
