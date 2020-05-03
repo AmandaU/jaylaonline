@@ -74,6 +74,7 @@ export default {
   },
  
   created(){
+     this.$eventHub.$emit('showCheckout', false);
       this.loader = this.$loading.show({
               loader: 'dots',
                 color: 'grey'
@@ -189,7 +190,7 @@ methods: {
          this.loader.hide()
         sessionStorage.clear()
         this.$eventHub.$emit('shoppingcarttotal', 0);
-        this.$eventHub.$emit('refreshshoppingcart', '');
+        this.$eventHub.$emit('refreshshoppingcart', true);
     },
     
   },

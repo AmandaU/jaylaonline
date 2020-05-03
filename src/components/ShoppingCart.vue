@@ -32,7 +32,6 @@
                   
         </div>  
  
- 
         <div  v-bind:class="[isCartColumn ? 'totalblockcolumn' : 'totalblockrow']">
        
             <div class="totalinner">
@@ -116,8 +115,13 @@ export default {
          self.shoppingcart.deliveryfee = fee
       });
 
-      this.$eventHub.$on('refreshshoppingcart', ()=> {
+      this.$eventHub.$on('refreshshoppingcart', (success)=> {
         self.getShoppingCart()
+        if(success)
+        {
+          this.shoppingcart.items.splice(0,this.shoppingcart.items.length)
+          this.shoppingcart.totalitems = 0
+        }
         this.componentKey += 1
       });
 

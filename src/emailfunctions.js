@@ -52,7 +52,7 @@ const mailTransport = nodemailer.createTransport({
       var message3 = 'Delivery fee of R' + String(val.deliveryfee) + '.00';
       var message4 = 'You paid a total of R' +  String(val.totalpaid) + '.00';
        
-      const from = 'With love from the JaylaShop xx'
+      const from = 'With love from the JaylaShop xx';
     
       // Building Email message.
     

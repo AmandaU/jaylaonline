@@ -112,8 +112,9 @@
 .itemcolumn3{
   //background-color:rgb(255, 254, 254);
   cursor: pointer;
-  width: 40px;
+  width: auto;
   height: 100%;
+  margin: 2px;
   display: flex;
   align-items: center;
   justify-content: center;

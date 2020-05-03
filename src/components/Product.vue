@@ -357,7 +357,7 @@ methods: {
     this.shoppingcart.totalitems = total 
     sessionStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
     this.$eventHub.$emit('shoppingcarttotal', total);
-     this.$eventHub.$emit('refreshshoppingcart', '');
+     this.$eventHub.$emit('refreshshoppingcart', false);
   },
 
   initialiseShoppingCart() {
