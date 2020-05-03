@@ -158,16 +158,16 @@ methods: {
           }
         firebase.auth().signOut().then(function() { 
         //console.log('Signed Out');
-          alert('You have successfully logged out');
-         
+          self.$swal('Bye!', 'You have successfully logged out', 'warning') 
+          
           self.isLoggedin = false;
           sessionStorage.clear()
           self.$eventHub.$emit('shoppingcarttotal', 0);
           self.$router.replace({ name: 'Home'});
         }, 
         function(error) {
-          alert(error);
-        });
+           this.$swal('hmm...', error, 'error') 
+          });
         return
       }  
       if(navPath == "Login" || navPath == "Register") {

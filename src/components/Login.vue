@@ -64,12 +64,12 @@
         var emailAddress = "user@example.com";
         let self = this
         auth.sendPasswordResetEmail(this.forgotEmail).then(function() {
-                  
-            alert('Email sent successfully. Check your email for steps to reset your password' )
+               this.$swal('Success', 'Email was sent successfully. Check your email for steps to reset your password', 'success')    
+           
               self.$router.replace({ name: 'Home'});
            
              }).catch(function(error) {
-            alert('We could not send the email. Please check your email address and internet connectivity');
+             this.$swal('O no...', 'We could not send the email. Please check your email address and internet connectivity', 'error')    
         });
     },
 
@@ -95,8 +95,8 @@
             self.isLoading = false;
             self.loader.hide()
           let uid = user.user.uid;
-          alert('Successful login');
-          self.$eventHub.$emit('loggedin', '');
+           self.$swal('Great!', 'Successful login', 'success') ;
+           self.$eventHub.$emit('loggedin', '');
           if(sessionStorage.getItem('jaylashop'))
           {
               self.shoppingcart = JSON.parse(sessionStorage.getItem('jaylashop'));
@@ -110,19 +110,14 @@
                self.$router.replace({ name: self.$props.goto});
            }
           }
-          // else if(self.$props.cartref)
-          // {
-          //   self.$router.replace({ name: 'Event', params: {cartref: self.shoppingcart}});
-          // }
-          else
+            else
           {
-            self.$router.replace({ name: 'Home'});
+            self.$router.replace({ name: 'Shop'});
           }
-        
            
         },
         (err) => {
-           alert('Oops. ' + err.message);
+           self.$swal('Oops...!',  err.message, 'error') 
          }
       );
       }

@@ -300,7 +300,7 @@ export default {
       itemsSelected: function( item, add) {
         if(item.number == 0 && !add)return;
         if(add && item.selected > item.number) {
-          alert("no more items");
+          this.$swal('No more available stock', 'Please email info@jadeayla.com to pre-order more items', 'warning') 
           return;
         }
         var existingitem = this.shoppingcart.items.find(existing => {

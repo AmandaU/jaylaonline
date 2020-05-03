@@ -44,7 +44,7 @@
             <input type="number" v-model="shoppingcart.user.address.postalcode" placeholder="Code" class="addressitem"  ><br>
             <div style="display:flex;flex-direction:row;vertical-align:middle">
             <input  type="checkbox" id="checkbox" v-model="useAsPersonalAddress">
-            <label  for="checkbox" style="padding-left:10px;padding-top:10px">use this address as your personal address?</label>
+            <label  for="checkbox" style="padding-left:10px;padding-top:12px">use this address as your personal address?</label>
             </div>
 
             <!--Better way-->
@@ -244,7 +244,6 @@
         .catch(e => {
            self.isLoading = false
            self.loader.hide()
-         //  alert("There was a problem calculating the delivery fee")
         })
     },
 

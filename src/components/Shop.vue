@@ -15,7 +15,7 @@
 
                       <div class="flip-card">
 
-                          <div  v-bind:class="[product.isFlipped ? 'doFlip' : 'doUnFlip']"
+                          <div  v-bind:class="[isMobile ? '' : product.isFlipped ? 'doFlip' : 'doUnFlip']"
                               v-on:mouseleave="onUnHover(product)"
                               v-on:mouseover="onHover(product)">
                            
@@ -38,9 +38,7 @@
 
                      </div>  <br> <br>
                       <div style="text-align:center"> {{product.name}}</div>
-
-                    
-
+        
             </div>
         </div> 
 
@@ -158,13 +156,14 @@ methods: {
   },
 
   onHover(product) {
-
+    if(this.isMobile || product.images.length == 1) return;   
     if(!product.isFlipped) {
        product.flipIndex = product.flipIndex == product.images.length - 1 ? 1 : product.flipIndex += 1
     }
  },
 
   onUnHover(product) {
+       if(this.isMobile || product.images.length == 1) return;     
        product.isFlipped =  !product.isFlipped
     },
 

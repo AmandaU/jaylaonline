@@ -33,7 +33,8 @@ export  default  {
             }
           })
           .catch(e => {
-               alert("There was a problem calculating the delivery fee");
+            this.$swal('O no..', 'There was a problem calculating the delivery fee', 'error')
+             
           });
     },
    

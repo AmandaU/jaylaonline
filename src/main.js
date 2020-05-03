@@ -3,7 +3,10 @@ import App from './App.vue';
 import router from './router';
 import firebase from './firebase-config';
 import './styles/fontsandcolors.scss';
+import VueSweetalert2 from 'vue-sweetalert2';
 //import ExchangeRates from './exchangerates';
+
+Vue.use(VueSweetalert2);
 
 let app = ''
 Vue.config.productionTip = false

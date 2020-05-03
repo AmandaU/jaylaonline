@@ -13,6 +13,10 @@
                           :preferredCountries="['za']">
             </vue-tel-input><br>
             <button @click="signUp" class="buttonstyle">SIGN UP</button>
+           <div style="display:flex;flex-direction:row;vertical-align:middle">
+              <input  type="checkbox" id="checkbox" v-model="subscribe" >
+              <label  for="checkbox" style="padding-left:10px;padding-top:12px">would you like to subscribe to our newsletter?</label>
+            </div>
             <p>or go back to <span @click="goBackToLogin()" style="color:blue;cursor:pointer">login</span></p>
 
             
@@ -43,9 +47,14 @@
 
   data() {
     return {
+       subscribe: false,
        loader: {},
        isLoading: false,
-      newUser: {
+        mailer: {
+          name: '',
+          email: '',
+      },
+       newUser: {
         uid: '',
         firstname: '',
         surname: '',
@@ -90,6 +99,7 @@ methods: {
 
   logout: function() {
     firebase.auth().signOut().then(() => {
+      debugger
     this.$router.replace('Login')
   })
   },
@@ -104,7 +114,7 @@ methods: {
     this.newUser.uid = '',
     this.newUser.isAdmin = false,
     this.busy = false;
-    alert("Succeessfully added")
+      this.$swal('Hello', 'You are now a customer of ours, congratulations', 'success') 
   },
 
   remove(userUID){
@@ -117,12 +127,20 @@ methods: {
   },
 
   signUp: function() {
+    
     this.isLoading = true;
     this.loader = this.$loading.show({
               loader: 'dots',
               color: 'grey'
     });  
     let self = this;
+
+     if(this.subscribe)
+    {
+      this.mailer.name = this.newUser.firstname + ' ' + this.newUser.surname;
+      this.mailer.email = this.newUser.email;
+      this.$firebaseRefs.mailersRef.push(this.mailer);
+    }
   
     firebase.auth().createUserWithEmailAndPassword(this.newUser.email, this.newUser.password).then(
       (user) => {
@@ -130,7 +148,7 @@ methods: {
         self.loader.hide()
         let uid = user.user.uid;
         self.insert(uid)
-        alert('Your account has been created')
+         this.$swal('Hello', 'You have registered successfully, congratulations', 'success') 
         self.$eventHub.$emit('loggedin', '');
        if(sessionStorage.getItem(uid))
         {
@@ -157,7 +175,7 @@ methods: {
             
       },
       (err) => {
-        alert('Oops. ' + err.message)
+         this.$swal('Oops...', err.message, 'error') 
       }
     );
   }
