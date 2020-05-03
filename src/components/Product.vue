@@ -46,6 +46,7 @@
                  <br>
                <button   @click="continueShopping" class="buttonstyle">MORE SHOPPPING</button>
                <button   v-visible="showCheckoutButton" @click="gotoShipping" class="buttonstyle">CHECK OUT</button>
+                <br>
             </div>   
            
         </div> 

@@ -5,10 +5,9 @@
          </div> -->
         
           <div  v-visible="!isHome" class="mailer">
-           <div class="mailercol">
-             <h3>Subscribe to our mailer and get notified when new items land</h3> 
-             <h5>We will not spam you. We will not share your email address with anyone</h5>
-               <br>
+           <div class="mailercol" style="padding-top:10px;font-size: 14px!important;">
+             <div >Subscribe to our mailer and get notified when new items land.</div> 
+             <div>We will not spam you. We will not share your email address with anyone</div>
            </div>
            <div class="mailercol">
              <br>
@@ -56,6 +55,18 @@ data() {
 
  computed: {
 
+    isMobile: function()
+    {
+      return this.lessThan600 ||
+          navigator.userAgent.match(/Android/i) ||
+          navigator.userAgent.match(/webOS/i) ||
+          navigator.userAgent.match(/iPhone/i) ||
+          navigator.userAgent.match(/iPad/i) ||
+          navigator.userAgent.match(/iPod/i) ||
+          navigator.userAgent.match(/BlackBerry/i) ||
+          navigator.userAgent.match(/Windows Phone/i);
+    },
+
    isHome: function() {
       return this.$route.name == "Home"
    },
@@ -94,6 +105,6 @@ methods: {
 </script>
 
 <style lang="scss" scoped>
- // @import "~@/styles/commonstyle.scss";
+ @import "~@/styles/commonstyle.scss";
   @import "~@/styles/bottomstyle.scss";
  </style>
