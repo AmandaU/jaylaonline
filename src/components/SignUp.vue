@@ -99,7 +99,6 @@ methods: {
 
   logout: function() {
     firebase.auth().signOut().then(() => {
-      debugger
     this.$router.replace('Login')
   })
   },

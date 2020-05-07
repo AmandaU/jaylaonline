@@ -1,5 +1,5 @@
 <template>
-    <div class="container" :key="componentKey">
+    <div class="container" :key="componentKey" style="margin-bottom: 20px">
        <!-- <cube-spin v-if="busy"></cube-spin> -->
      <div class="mainblock">
         <div v-if="!isLoading" class="addressblock">
@@ -146,8 +146,8 @@
     });  
     
     window.addEventListener("resize", this.redrawComponent);
-    this.$eventHub.$emit('showCheckout', this.isMobile());
-    this.showCheckout = this.isMobile()
+    this.$eventHub.$emit('showCheckout', this.isMobile);
+    this.showCheckout = this.isMobile
     if(sessionStorage.getItem('jaylashop'))
     {
       this.shoppingcart = JSON.parse(sessionStorage.getItem('jaylashop'));
@@ -168,6 +168,20 @@
 
     //TODO get valid addresses
    // this.getAddresses()
+  },
+
+  computed: {
+
+       isMobile: function() {
+          return window.innerWidth < 800 ||
+          navigator.userAgent.match(/Android/i) ||
+          navigator.userAgent.match(/webOS/i) ||
+          navigator.userAgent.match(/iPhone/i) ||
+          navigator.userAgent.match(/iPad/i) ||
+          navigator.userAgent.match(/iPod/i) ||
+          navigator.userAgent.match(/BlackBerry/i) ||
+          navigator.userAgent.match(/Windows Phone/i) ;
+      },
   },
 
   methods: {
@@ -247,24 +261,12 @@
         })
     },
 
-
-    isMobile: function() {
-          return window.innerWidth < 800 ||
-          navigator.userAgent.match(/Android/i) ||
-          navigator.userAgent.match(/webOS/i) ||
-          navigator.userAgent.match(/iPhone/i) ||
-          navigator.userAgent.match(/iPad/i) ||
-          navigator.userAgent.match(/iPod/i) ||
-          navigator.userAgent.match(/BlackBerry/i) ||
-          navigator.userAgent.match(/Windows Phone/i) ;
-      },
-
     redrawComponent() {
-       if (this.isMobile() && !this.showCheckout) {
+       if (this.isMobile && !this.showCheckout) {
          this.$eventHub.$emit('showCheckout', true);
          this.showCheckout = true
       } 
-      if (!this.isMobile() && this.showCheckout) {
+      if (!this.isMobile && this.showCheckout) {
           this.$eventHub.$emit('showCheckout', false);
          this.showCheckout = false
       }

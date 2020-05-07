@@ -1,6 +1,6 @@
 <template>
 
- <div class="container" :key="componentKey" >
+ <div class="container" :key="componentKey" style="margin-bottom: 20px" >
      
      <div class="mainblock">
        
@@ -18,7 +18,7 @@
             <ShippingCalculator style="width: 100%"></ShippingCalculator>
             
             <button  @click="shopMore" class="buttonstyle">SHOP MORE</button>
-            <button  :disabled="shoppingcart.deliveryfee == 0"  @click="goToCheckout" class="buttonstyle">CONTINUE</button>
+            <button  :disabled="!chekoutEnabled"  @click="goToCheckout" class="buttonstyle">CONTINUE</button>
         
          </div>
     
@@ -51,6 +51,7 @@
  
  data() {
       return {
+        chekoutEnabled: false,
         showCheckout: false,
         busy: true,
         key: '',
@@ -84,7 +85,8 @@
     let self = this
 
     this.$eventHub.$on('fee', (fee)=> {
-         self.shoppingcart.deliveryfee = fee
+        self.chekoutEnabled = true
+        self.shoppingcart.deliveryfee = fee
       });
     
     this.$eventHub.$on('shoppingcarttotal', (total)=> {
@@ -102,8 +104,8 @@
 
  created() {
      window.addEventListener("resize", this.redrawComponent);
-    this.$eventHub.$emit('showCheckout', this.isMobile());
-    this.showCheckout = this.isMobile()
+    this.$eventHub.$emit('showCheckout', this.isMobile);
+    this.showCheckout = this.isMobile
     if(sessionStorage.getItem('jaylashop'))
     {
         this.shoppingcart = JSON.parse(sessionStorage.getItem('jaylashop'));
@@ -125,6 +127,17 @@
 
    computed: {
 
+       isMobile: function() {
+          return window.innerWidth < 800 ||
+          navigator.userAgent.match(/Android/i) ||
+          navigator.userAgent.match(/webOS/i) ||
+          navigator.userAgent.match(/iPhone/i) ||
+          navigator.userAgent.match(/iPad/i) ||
+          navigator.userAgent.match(/iPod/i) ||
+          navigator.userAgent.match(/BlackBerry/i) ||
+          navigator.userAgent.match(/Windows Phone/i) ;
+      },
+
       shippingAddress: function()
       {
           let shipaddress = this.shoppingcart.user.address.addressline1 + ', '
@@ -138,17 +151,6 @@
    },
 
   methods: {
-
-      isMobile: function() {
-          return window.innerWidth < 800 ||
-          navigator.userAgent.match(/Android/i) ||
-          navigator.userAgent.match(/webOS/i) ||
-          navigator.userAgent.match(/iPhone/i) ||
-          navigator.userAgent.match(/iPad/i) ||
-          navigator.userAgent.match(/iPod/i) ||
-          navigator.userAgent.match(/BlackBerry/i) ||
-          navigator.userAgent.match(/Windows Phone/i) ;
-      },
 
     redrawComponent() {
 

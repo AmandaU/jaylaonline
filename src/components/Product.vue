@@ -230,7 +230,6 @@ methods: {
 
   async  fetchRates() {
     await ExchangeRates.getRates()
-    // debugger
     this.USDRate = ExchangeRates.USDRate
     this.EURRate = ExchangeRates.EURRate
   },

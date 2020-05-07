@@ -227,7 +227,6 @@ watch: {
         this.isCOD = courier.CarrierAccount == "COD"
     },
 
-
     hoursToDays: function(courier) { 
       if (courier.CarrierAccount == "COD") return ''
         var days= Math.floor(Number(courier.DeliveryTimeHours)/24);

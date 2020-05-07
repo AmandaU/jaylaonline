@@ -1,6 +1,6 @@
 <template>
 
- <div class="container">
+ <div class="container" style="margin-bottom: 20px">
  
     <div class="mainblock" >
        
@@ -83,8 +83,8 @@ export default {
  
   created() {
     window.addEventListener("resize", this.redrawComponent);
-    this.$eventHub.$emit('showCheckout', this.isMobile());
-    this.showCheckout = this.isMobile()
+    this.$eventHub.$emit('showCheckout', this.isMobile);
+    this.showCheckout = this.isMobile
 
     if(sessionStorage.getItem('jaylashop'))
      {
@@ -108,6 +108,17 @@ export default {
   },
 
   computed: {
+
+      isMobile: function() {
+          return window.innerWidth < 800 ||
+          navigator.userAgent.match(/Android/i) ||
+          navigator.userAgent.match(/webOS/i) ||
+          navigator.userAgent.match(/iPhone/i) ||
+          navigator.userAgent.match(/iPad/i) ||
+          navigator.userAgent.match(/iPod/i) ||
+          navigator.userAgent.match(/BlackBerry/i) ||
+          navigator.userAgent.match(/Windows Phone/i) ;
+      },
  
     total: function()
     {
@@ -160,17 +171,6 @@ export default {
                     const dateTime = date +' '+ time;
                    return dateTime;
       },
-
-    isMobile: function() {
-        return window.innerWidth < 800 ||
-        navigator.userAgent.match(/Android/i) ||
-        navigator.userAgent.match(/webOS/i) ||
-        navigator.userAgent.match(/iPhone/i) ||
-        navigator.userAgent.match(/iPad/i) ||
-        navigator.userAgent.match(/iPod/i) ||
-        navigator.userAgent.match(/BlackBerry/i) ||
-        navigator.userAgent.match(/Windows Phone/i) ;
-    },
 
     redrawComponent() {
 

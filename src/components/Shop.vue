@@ -225,7 +225,8 @@ methods: {
           'align-items': this.showCheckout ? 'flex-start' :'center',
           'vertical-align': this.showCheckout ? 'flex-start' :'center',
           'perspective': window.innerWidth - 20,
-          'margin-top': this.showCheckout ? '20px' : 'auto'
+          'margin-top': this.showCheckout ? '20px' : 'auto',
+          'margin-bottom': this.isMobile ? '20px' : 'auto'
         //    ':hover .flip-card-inner' : {
         //       'transform': 'rotateY(180deg)'
         //  }

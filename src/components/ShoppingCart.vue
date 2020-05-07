@@ -105,7 +105,7 @@ export default {
         || self.$route.name == 'Checkout'
         || self.$route.name == 'Login'
         || self.$route.name == 'SignUp') {
-       self.showCheckout =  self.isMobile() ? show : false
+       self.showCheckout =  self.isMobile ? show : false
        } else {
            self.showCheckout = show ;
         }
@@ -138,6 +138,17 @@ export default {
      },
 
     computed: {
+
+       isMobile: function() {
+          return window.innerWidth < 800 ||
+          navigator.userAgent.match(/Android/i) ||
+          navigator.userAgent.match(/webOS/i) ||
+          navigator.userAgent.match(/iPhone/i) ||
+          navigator.userAgent.match(/iPad/i) ||
+          navigator.userAgent.match(/iPod/i) ||
+          navigator.userAgent.match(/BlackBerry/i) ||
+          navigator.userAgent.match(/Windows Phone/i) ;
+      },
 
       showCloseButton: function () {
         if (this.isMobile) return true
@@ -175,17 +186,6 @@ export default {
 
     methods: {
 
-       isMobile: function() {
-          return window.innerWidth < 800 ||
-          navigator.userAgent.match(/Android/i) ||
-          navigator.userAgent.match(/webOS/i) ||
-          navigator.userAgent.match(/iPhone/i) ||
-          navigator.userAgent.match(/iPad/i) ||
-          navigator.userAgent.match(/iPod/i) ||
-          navigator.userAgent.match(/BlackBerry/i) ||
-          navigator.userAgent.match(/Windows Phone/i) ;
-      },
-
       hide() {
         this.showCheckout = false
          this.$eventHub.$emit('showCheckout', false);
@@ -210,7 +210,7 @@ export default {
       },
 
       redrawComponent() {
-        if (this.isMobile()) {
+        if (this.isMobile) {
           this.isCartColumn = true
         } else {
            if (!this.showCheckout) {
