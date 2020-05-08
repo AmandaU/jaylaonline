@@ -145,17 +145,61 @@ input, input:active, input:focus, input:focus-within, input:hover, input:visited
   align-items: center;
 }
 
+
+.homecontainer {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+ }
+
 .banner {
     display: block;
   }
 
-.frontimage{
-  object-fit: cover;
-  width: auto;
-  margin:0px;
-  height: 100%;
-  min-height: 100vh;
+
+/* Make the container relative */
+.swap-on-hover {
+  position: relative;	
+	margin:  0 auto;
+  max-width: 500px;
+  width:500px;
+  height:500px;
+
  }
+
+/* Select the image and make it absolute to the container */
+.swap-on-hover img {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+	/* Sets the width and height for the images*/
+	width: 500px;
+	height: auto;
+}
+
+/* 
+	We set z-index to be higher than the back image, so it's alwyas on the front.
+
+We give it an opacity leaner to .25s, that way when we hover we will get a nice fading effect. 
+*/
+.swap-on-hover .swap-on-hover__front-image {
+  z-index: 9999;
+  transition: opacity .2s linear;
+  cursor: pointer;
+}
+
+/* When we hover the figure element, the block with .swap-on-hover, we want to use > so the front-image is going to have opacity of 0, which means it will be hidden, to the back image will show */
+.swap-on-hover:hover > .swap-on-hover__front-image{
+  opacity: 0;
+}
+
+
+
 
 .dropdownblocktransition{
 

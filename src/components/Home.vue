@@ -1,8 +1,13 @@
 <template>
-    <div :style="getContainerStyle()">
-        <img  class="frontimage" v-bind:src="imageurl"  alt="where the fuck did it go?"   @click="gotoShop()" /> 
-    </div>
+    <div :style="getContainerStyle()" >
   
+      <div class="swap-on-hover" @click="gotoShop()">
+         <img  class="swap-on-hover__front-image"   v-bind:src="imageurl"/>
+         <img  class="swap-on-hover__back-image"  v-bind:src="hoverImageUrl"/>
+        <!-- <img  class="frontimage" v-bind:src="imageurl"  alt="where the fuck did it go?"   @click="gotoShop()" />  -->
+       </div>
+   </div>
+ 
 </template>
 
 <script>
@@ -15,8 +20,9 @@ export default {
     },
   data() {
       return {
-        imageurl: require('../assets/logo.png') ,
-         showCheckout: false
+        imageurl: require('../assets/dog.png') ,
+        hoverImageUrl: require('../assets/eish-dog.png') ,
+        showCheckout: false
       }
     },
 
@@ -48,9 +54,11 @@ gotoShop() {
 getContainerStyle: function () { 
  let h = String(window.innerHeight) + 'px'
          return  {
-          'max-height': h,
-          'min-height': h,
+          'max-height': '100vh',
+          'min-height': '100vh',
           'min-width' : '100vw',
+          'margin-top': '70px',
+         // 'background-color': 'orange',
            'height': '100%',
           'width':'100%',
           'display': 'flex',
@@ -58,8 +66,10 @@ getContainerStyle: function () {
           'overflow-x': 'hidden',
           'flex-direction': 'column',
           'justify-content': 'center',
-          'margin': '0px'
-            
+          'align-content': 'center',
+          'align-self': 'center',
+          'vertical-align': 'middle',
+          'margin': '0 auto'
        }
     },
 

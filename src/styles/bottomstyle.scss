@@ -117,7 +117,7 @@
   }
 
   .mailerbutton:disabled {
-    background-color:$color-unHoverColor;
+   color:$color-unHoverColor;
   }
 
   @media all and (max-width: 600px) {
