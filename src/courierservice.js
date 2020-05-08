@@ -62,7 +62,7 @@ export  default  {
             "amount": amount,
             "pick_up": this.shippingFromAddress(),//"test,test2|| ||ALBERT LUTHULI||BLOEMFONTEIN||9323",
             "sender_name":"JadeAyla",
-            "sender_email":"info@jadeayla.com",
+            "sender_email":"info@ifinyela.com",
             "sender_tel":"",
             "sender_mob":"0828391629",
             "receiver_contact":"testege",

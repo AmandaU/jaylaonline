@@ -25,7 +25,7 @@
 
                   <!-- </div>   -->
               </div> 
-               <small v-if="isCOD" >Expect an email from info@jadeayla.com to arrange delivery</small> 
+               <small v-if="isCOD" >Expect an email from info@infinyela.com to arrange delivery</small> 
                <br>
           </div> 
 
