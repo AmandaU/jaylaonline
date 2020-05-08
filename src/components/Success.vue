@@ -74,6 +74,7 @@ export default {
   },
  
   created(){
+    debugger;
      this.$eventHub.$emit('showCheckout', false);
       this.loader = this.$loading.show({
               loader: 'dots',
@@ -92,6 +93,7 @@ export default {
        
            if(this.order.zapperPaymentMethod) {
               this.$nextTick(() => {
+                debugger;
                 this.getZapperPaymentDetails();
               });
             } else {
@@ -134,32 +136,38 @@ methods: {
     //             );
     // },
 
-   
+   // Live : https://api.zapper.com/business/api/v1/merchants/{merchantId}/payments/{zapperId}
 
     getZapperPaymentDetails()
     {
       let self = this;
-      const url = 'https://zapapi.zapzap.mobi/ecommerce/api/v2/merchants/' + this.zapperDetails.merchantId + '/sites/' + this.zapperDetails.siteId + '/payments/' + this.order.zapperPaymentId;
-         this.axios.get(
+      //const url = 'https://zapapi.zapzap.mobi/ecommerce/api/v2/merchants/' + this.zapperDetails.merchantId + '/sites/' + this.zapperDetails.siteId + '/payments/' + this.order.zapperPaymentId;
+       const url = 'https://zapapi.zapzap.mobi/ecommerce/api/v2/merchants/' + this.zapperDetails.merchantId + '/payments/' + this.order.zapperPaymentId;
+      debugger
+       this.axios.get(
           url,
           {headers: {
-           // "status": 'HTTP/1.0 200 OK',
-            "siteid": String(this.zapperDetails.siteId),
-            "poskey": this.zapperDetails.posKey,
-            "posid": this.zapperDetails.posToken,
-            "postype": "paatipassports",
-            "posversion": "1.0",
-            "signature": this.zapperDetails.signature
+            "status": 'HTTP/1.0 200 OK',
+           // "siteid": String(this.zapperDetails.siteId),
+           // "poskey": this.zapperDetails.posKey,
+           // "posid": this.zapperDetails.posToken,
+           // "postype": "paatipassports",
+          //  "posversion": "1.0",
+           // "signature": this.zapperDetails.signature
+           "x-api-key": this.zapperDetails.API_key,
+           "Accept": "application/json"
             }
           }
           )
           .then((response) => {
              if(response.data.statusId == 1)
               {
+                debugger;
                 var data = response.data.data[0];
                 if(!data)return;
-                self.order.zapperReference = data.ZapperId;
-                self.order.totalpaid = data.PaidAmount;
+                self.order.zapperReference = self.order.zapperPaymentId;
+                self.order.totalpaid = data.tenderedAmount;
+                self.currency = data.currencyISOCode
                 self.setConfirmationInfo()
               }
             },
@@ -181,8 +189,8 @@ methods: {
         const reference = 'Purchase reference number: ' + this.order.reference;
         var total = String(this.totalValue );
         this.successMessage = 'Order number: ' + this.order.reference;
-        this.message1 = 'Your purchase from JaylaOnline was successful' ;
-        this.message2 = 'The total deducted from your account is R ' + this.order.totalpaid + '.00';
+        this.message1 = 'Your purchase from Ifinyela was successful' ;
+        this.message2 = 'The total deducted from your account is ' + this.order.currency + ' ' + this.order.totalpaid;
         this.message3 = 'We will email you information about your delivery.'
         this.$firebaseRefs.ordersRef.push(this.order);
         this.updateItems()

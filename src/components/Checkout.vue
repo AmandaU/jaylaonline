@@ -101,7 +101,7 @@ export default {
       });
     }
    this.loadZapperScript();
-   this.saveInvoice()
+   this.saveOrder()
   },
 
   watch: {
@@ -187,7 +187,7 @@ export default {
 
 
     shopMore() {
-      this.saveInvoice()
+      this.saveOrder()
       this.$router.push('Success')
     },
 
@@ -240,7 +240,7 @@ export default {
             self.shoppingcart.zapperPaymentId = paymentResult.payment.paymentId;
             self.shoppingcart.totalpaid = paymentResult.payment.amountPaid;
             self.shoppingcart.zapperReference = paymentResult.payment.zapperId;
-            self.saveInvoice(self); 
+            self.saveOrder(self); 
             self.$router.replace({ name: 'Success', query: {orderid: self.shoppingcart.reference}});
           } else {
             self.$router.replace({ name: 'Cancel'});
@@ -274,7 +274,7 @@ export default {
         this.containerWidth = event.currentTarget.innerWidth/3; 
     },
    
-    saveInvoice(instance) {
+    saveOrder(instance) {
       if(!instance) instance = this;
       let order = {
           date: instance.getNow(),
@@ -304,6 +304,7 @@ export default {
             email: instance.user.email,
             address: instance.user.address
            },
+           currency: 'ZAR',
           zapperPaymentMethod: instance.shoppingcart.zapperPaymentMethod,
           zapperPaymentId: instance.shoppingcart.zapperPaymentId,
           zapperReference: instance.shoppingcart.zapperReference
@@ -313,14 +314,8 @@ export default {
     },
 
     saveTicketLocal() {
-     //saveInvoice(null)
-      // let key = this.shoppingcart.pricebreak['.key'];
-      // let totalreserved  = Number(this.shoppingcart.pricebreak.reserved) + Number(this.shoppingcart.pricebreak.tickets);
-      // this.$firebaseRefs.pricebreaks.child(key).child('reserved').set(totalreserved);
-      sessionStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
-     
-     // this.$router.replace({ name: 'Success'});
-      this.$router.replace({ name: 'Success', query: {orderref: String(this.shoppingcart.reference)}});
+       sessionStorage.setItem('jaylashop', JSON.stringify(this.shoppingcart));
+       this.$router.replace({ name: 'Success', query: {orderref: String(this.shoppingcart.reference)}});
     },
 
   }
