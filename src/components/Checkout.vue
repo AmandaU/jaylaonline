@@ -131,35 +131,24 @@ export default {
 
    //Test Environment
     // a computed getter SameSite=None
-    payFastUrl: function () {
-        const url =  'https://sandbox.payfast.co.za/eng/process?cmd=_paynow&receiver=10011455&item_name=' + 'Jayla Shopping'
+    // payFastUrl: function () {
+    //     const url =  'https://sandbox.payfast.co.za/eng/process?cmd=_paynow&receiver=10011455&item_name=' + 'Jayla Shopping'
+    //     + '&item_description=merchandise&amount=' + this.shoppingcart.purchasevalue
+    //     + '&return_url=https%3A%2F%2Fjaylashop.web.app%2F%23%2FSuccess%2F%3Forderid%3D' + this.shoppingcart.reference ; 
+    //     + '&cancel_url=https%3A%2F%2jaylashop.web.app%2F%23%Cancel%2F%3Forderid%3D' + this.shoppingcart.reference ; 
+    //     return url;
+    // },
+
+    //Live Environment
+     payFastUrl: function () {
+        const url =  'https://www.payfast.co.za/eng/process?cmd=_paynow&receiver=12581557&item_name=' + 'Jayla Shopping'
         + '&item_description=merchandise&amount=' + this.shoppingcart.purchasevalue
-        + '&return_url=https%3A%2F%2Fjaylashop.web.app%2F%23%2FSuccess%2F%3Forderid%3D' + this.shoppingcart.reference ; 
-        + '&cancel_url=https%3A%2F%2jaylashop.web.app%2F%23%Cancel%2F%3Forderid%3D' + this.shoppingcart.reference ; 
+        + '&return_url=http%3A%2F%2Fjaylashop.web.app%3A8080%2F%23%2FSuccess%2F%3Forderid%3D' + this.shoppingcart.reference ; 
+        + '&cancel_url=http%3A%2F%2Fjaylashop.web.app%3A8080%2F%23%Cancel%2F%3Forderid%3D' + this.shoppingcart.reference ; 
         //console.log(url);
         return url;
     },
-
-    //Live Environment
-    // a computed getter SameSite=None
-    // payFastUrl: function () {
-    //     const url =  'https://www.payfast.co.za/eng/process?cmd=_paynow&receiver=12581557&item_name=' + 'Jayla Shopping'
-    //     + '&item_description=merchandise&amount=' + this.shoppingcart.purchasevalue
-    //     + '&return_url=http%3A%2F%2Fjaylashop.web.app%3A8080%2F%23%2FSuccess%2F%3Forderid%3D' + this.shoppingcart.reference ; 
-    //     + '&cancel_url=http%3A%2F%2Fjaylashop.web.app%3A8080%2F%23%Cancel%2F%3Forderid%3D' + this.shoppingcart.reference ; 
-    //     //console.log(url);
-    //     return url;
-    // },
-
-    //  zapperUrl: function () {
-    //   const qrcode = 'http://2.zap.pe?t=6&i=' + zapperConfig.merchantId + ':' + zapperConfig.siteId +':7[34|' + this.purchasevalue + '|11,66|' + this.shoppingcart.reference +
-    //     '|10,60|1:10[38|Paati+Passports,39|ZAR';
-    //     const url = 'https://www.zapper.com/payWithZapper?qr=' + qrcode + 
-    //     '&appName=Paati+Passports' +
-    //     '&successCallbackURL=http%3A%2F%2F192.168.8.103%3A8080%2F%23%2FSuccess%2F%3Fticketid%3D' + this.shoppingcart.reference ; 
-    //     '&failureCallbackURL=http%3A%2F%2F192.168.8.103%3A8080%2F%23%2FCancel%2F%3Fticketid%3D' + this.shoppingcart.reference ; 
-    //     return url;
-    // },
+  
   },
 
   methods: {

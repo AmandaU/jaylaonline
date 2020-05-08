@@ -74,7 +74,6 @@ export default {
   },
  
   created(){
-    debugger;
      this.$eventHub.$emit('showCheckout', false);
       this.loader = this.$loading.show({
               loader: 'dots',
@@ -141,20 +140,22 @@ methods: {
     getZapperPaymentDetails()
     {
       let self = this;
-      //const url = 'https://zapapi.zapzap.mobi/ecommerce/api/v2/merchants/' + this.zapperDetails.merchantId + '/sites/' + this.zapperDetails.siteId + '/payments/' + this.order.zapperPaymentId;
-       const url = 'https://zapapi.zapzap.mobi/ecommerce/api/v2/merchants/' + this.zapperDetails.merchantId + '/payments/' + this.order.zapperPaymentId;
-      debugger
+      //Test
+     // const url = 'https://zapapi.zapzap.mobi/ecommerce/api/v2/merchants/' + this.zapperDetails.merchantId + '/sites/' + this.zapperDetails.siteId + '/payments/' + this.order.zapperPaymentId;
+      //Live
+      const url = 'https://api.zapper.com/business/api/v1/merchants/' + this.zapperDetails.merchantId + '/sites/' + this.zapperDetails.siteId + '/payments/' + this.order.zapperPaymentId;
+   
+     debugger
        this.axios.get(
           url,
           {headers: {
             "status": 'HTTP/1.0 200 OK',
-           // "siteid": String(this.zapperDetails.siteId),
-           // "poskey": this.zapperDetails.posKey,
-           // "posid": this.zapperDetails.posToken,
-           // "postype": "paatipassports",
-          //  "posversion": "1.0",
-           // "signature": this.zapperDetails.signature
-           "x-api-key": this.zapperDetails.API_key,
+           "siteid": String(this.zapperDetails.siteId),
+           "poskey": this.zapperDetails.posKey,
+           "posid": this.zapperDetails.posToken,
+           "postype": "paatipassports",
+           "posversion": "1.0",
+           "signature": this.zapperDetails.signature,
            "Accept": "application/json"
             }
           }
@@ -166,13 +167,15 @@ methods: {
                 var data = response.data.data[0];
                 if(!data)return;
                 self.order.zapperReference = self.order.zapperPaymentId;
-                self.order.totalpaid = data.tenderedAmount;
-                self.currency = data.currencyISOCode
+                self.order.totalpaid = data.InvoicedAmount;
+                self.currency = data.CurrencyISO
                 self.setConfirmationInfo()
               }
             },
             (error) => { 
-
+                self.isLoading = false
+               self.loader.hide()
+               this.message1 = 'Your purchase from Ifinyela was successful but we could not retrieve the details. Please check your email for details from Zapper' ;
             }
           );
     },
