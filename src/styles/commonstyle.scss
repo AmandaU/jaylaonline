@@ -77,13 +77,25 @@ h4, h5, p, small {
   transition: all 200ms ease-in;
 }
 
-//  h4, h5, p, div, small {
-//   font-family: 'NunitoSans';
-//   font-weight: normal;
-//   //letter-spacing: 0.1em!important;
-//   color: $color-textBody;
-//   transition: all 200ms ease-in;
-// }
+.fa {
+  padding: 20px;
+  font-size: 30px;
+  width: 70px;
+ 
+  text-align: center;
+  text-decoration: none;
+}
+
+.fa:hover {
+  opacity: 0.7;
+}
+
+/* Set a specific color for each brand */
+
+/* Facebook */
+.fa-instagram {
+  color: rgb(66, 64, 64);
+}
 
 button {
   font-family: 'AvenirNext';

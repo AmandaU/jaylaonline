@@ -7,8 +7,8 @@
            
             <div class="priceblock"  :key="componentKey">
                <h3>{{ product.name }}</h3> 
-              <div>{{ product.description }}</div>
-              <div>{{ product.specialNotice }}</div>
+              <h4>{{ product.description }}</h4>
+              <h5>{{ product.specialNotice }}</h5>
               <br>
                <div class="pricerow">
                 <div>R {{ product.price }}</div>

@@ -1,6 +1,7 @@
 <template>
   <div class="centralcontainer" >
-    <h1>This is an about page</h1>
+    <h3>This is an about page</h3>
+     <h4>This is an about page,.kjhkjkhbk.jhbkjhkhjbkhbkjb.kjb.kjbh.kjbh.kjb.kjb.kjb.kjb.kjb.kjb.kjb,kjb,jhb,jb</h4>
     
   </div>
 </template>
