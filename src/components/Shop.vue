@@ -137,7 +137,8 @@ mounted() {
 
     isMobile: function()
     {
-        return navigator.userAgent.match(/Android/i) ||
+        return !this.greaterThan600 ||
+        navigator.userAgent.match(/Android/i) ||
           navigator.userAgent.match(/webOS/i) ||
           navigator.userAgent.match(/iPhone/i) ||
           navigator.userAgent.match(/iPad/i) ||
@@ -200,7 +201,8 @@ methods: {
     },
 
     getImageContainerStyle: function (product) { 
-      let w = this.containerWidth 
+      var margin = this.isMobile ? 0.8 : 1
+      let w = this.containerWidth * margin
        return  {
           'width': w + 'px',
           'height': w + 'px',
@@ -210,13 +212,13 @@ methods: {
     },
 
    getContainerStyle: function () { 
-     let h = String(window.innerHeight - 90) + 'px'
+     let h = String(window.innerHeight - 150) + 'px'
       
          return  {
           'max-width': '100vw',
           'height' : '100%',
           'min-height' : h,
-          'width':'100%',
+           'width':'100%',
           'float':'right',
           'display': 'flex',
           'overflow': 'auto',
@@ -225,7 +227,7 @@ methods: {
           'align-items': this.showCheckout ? 'flex-start' :'center',
           'vertical-align': this.showCheckout ? 'flex-start' :'center',
           'perspective': window.innerWidth - 20,
-          'margin-top': this.showCheckout ? '20px' : 'auto',
+          'margin-top': this.showCheckout ? '20px' :  this.isMobile ? '70px' : 'auto',
           'margin-bottom': this.isMobile ? '20px' : 'auto'
         //    ':hover .flip-card-inner' : {
         //       'transform': 'rotateY(180deg)'
