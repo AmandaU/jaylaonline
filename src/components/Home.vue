@@ -58,7 +58,7 @@ getContainerStyle: function () {
           'min-height': '100vh',
           'min-width' : '100vw',
           'margin-top': '70px',
-         // 'background-color': 'orange',
+          'background-color': 'orange',
            'height': '100%',
           'width':'100%',
           'display': 'flex',

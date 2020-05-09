@@ -18,16 +18,17 @@
                      <img v-bind:src="item.thumburl" v-bind:alt="item.productname" >
                      </div>
               
-                  <div  class="rowlabel item">
+           <div class="itemflex">
+                  <div  class="rowlabel rowflexlabel item" >
                     <small>{{item.productname}}</small>
                     <small>SIZE {{item.size}}</small>
                     <small>{{item.number}} X R{{item.price}}</small>
                   </div>
 
-                  <div  class="rowvalue item" >
+                  <div  class="rowvalue rowflexvalue item" >
                     <small>{{totalValueForItem(item)}}</small>
                   </div> 
-                
+               </div>
               </div>
                   
         </div>  
@@ -37,11 +38,11 @@
             <div class="totalinner">
               <div  class="totalrow">
                   
-                  <div  class="rowlabel total">
+                  <div  class="rowlabel rowflextotallabel total"  >
                       <h4>Delivery</h4>
                   </div> 
 
-                  <div  class="rowvalue total"> 
+                  <div  class="rowvalue rowflextotalvalue total"  > 
                     <h4>{{shippingFee}}</h4>
                   </div> 
 
@@ -49,11 +50,11 @@
 
               <div  class="totalrow">
                 
-                  <div  class="rowlabel total">
+                  <div  class="rowlabel rowflextotallabel total">
                     <h4>Total: </h4>
                   </div>
 
-                  <div  class="rowvalue total"> 
+                  <div  class="rowvalue rowflextotalvalue total"> 
                     <h4>R {{total}}</h4>
                   </div>
 
@@ -139,17 +140,6 @@ export default {
 
     computed: {
 
-       isMobile: function() {
-          return window.innerWidth < 800 ||
-          navigator.userAgent.match(/Android/i) ||
-          navigator.userAgent.match(/webOS/i) ||
-          navigator.userAgent.match(/iPhone/i) ||
-          navigator.userAgent.match(/iPad/i) ||
-          navigator.userAgent.match(/iPod/i) ||
-          navigator.userAgent.match(/BlackBerry/i) ||
-          navigator.userAgent.match(/Windows Phone/i) ;
-      },
-
       showCloseButton: function () {
         if (this.isMobile) return true
 
@@ -185,6 +175,20 @@ export default {
     },
 
     methods: {
+  
+    isMobile: function() {
+       if( navigator.userAgent.match(/Android/i) ||
+          navigator.userAgent.match(/webOS/i) ||
+          navigator.userAgent.match(/iPhone/i) ||
+          navigator.userAgent.match(/iPad/i) ||
+          navigator.userAgent.match(/iPod/i) ||
+          navigator.userAgent.match(/BlackBerry/i) ||
+          navigator.userAgent.match(/Windows Phone/i) )
+          {
+            return true
+          }
+           return window.innerWidth < 800
+      },
 
       hide() {
         this.showCheckout = false
@@ -210,7 +214,7 @@ export default {
       },
 
       redrawComponent() {
-        if (this.isMobile) {
+        if (this.isMobile()) {
           this.isCartColumn = true
         } else {
            if (!this.showCheckout) {

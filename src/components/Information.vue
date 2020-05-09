@@ -146,8 +146,8 @@
     });  
     
     window.addEventListener("resize", this.redrawComponent);
-    this.$eventHub.$emit('showCheckout', this.isMobile);
-    this.showCheckout = this.isMobile
+    this.$eventHub.$emit('showCheckout', this.isMobile());
+    this.showCheckout = this.isMobile()
     if(sessionStorage.getItem('jaylashop'))
     {
       this.shoppingcart = JSON.parse(sessionStorage.getItem('jaylashop'));
@@ -171,20 +171,24 @@
   },
 
   computed: {
+   
+  },
 
-       isMobile: function() {
-          return window.innerWidth < 800 ||
-          navigator.userAgent.match(/Android/i) ||
+  methods: {
+
+     isMobile: function() {
+       if( navigator.userAgent.match(/Android/i) ||
           navigator.userAgent.match(/webOS/i) ||
           navigator.userAgent.match(/iPhone/i) ||
           navigator.userAgent.match(/iPad/i) ||
           navigator.userAgent.match(/iPod/i) ||
           navigator.userAgent.match(/BlackBerry/i) ||
-          navigator.userAgent.match(/Windows Phone/i) ;
+          navigator.userAgent.match(/Windows Phone/i) )
+          {
+            return true
+          }
+           return window.innerWidth < 800
       },
-  },
-
-  methods: {
 
     savePersonalAddress() {
       if (this.useAsPersonalAddress) {
@@ -262,11 +266,11 @@
     },
 
     redrawComponent() {
-       if (this.isMobile && !this.showCheckout) {
+       if (this.isMobile() && !this.showCheckout) {
          this.$eventHub.$emit('showCheckout', true);
          this.showCheckout = true
       } 
-      if (!this.isMobile && this.showCheckout) {
+      if (!this.isMobile() && this.showCheckout) {
           this.$eventHub.$emit('showCheckout', false);
          this.showCheckout = false
       }

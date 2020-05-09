@@ -5,7 +5,7 @@
          </div> -->
         
           <div  v-visible="!isHome" class="mailer">
-           <div class="mailercol" style="padding-top:10px;font-size: 14px!important;">
+           <div class="mailercol" style="font-size: 14px!important;">
              <div >Subscribe to our mailer and get notified when new items land.</div> 
              <div>We will not spam you. We will not share your email address with anyone</div>
            </div>
@@ -15,7 +15,8 @@
                 <input type="text" v-model="mailer.email" placeholder="Email" class="infoblockitem">
              <br>
             </div>
-            <div class="mailercol">
+            <div class="mailercol" >
+             
             <button :disabled="mailer.name == '' || mailer.email == ''"  @click="signUp" class="mailerbutton">SUBSCRIBE</button>
             <br v-visible="isMobile">
              </div>

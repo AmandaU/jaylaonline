@@ -157,7 +157,6 @@ input, input:active, input:focus, input:focus-within, input:hover, input:visited
   align-items: center;
 }
 
-
 .homecontainer {
   margin: 0;
   position: absolute;
@@ -170,7 +169,6 @@ input, input:active, input:focus, input:focus-within, input:hover, input:visited
     display: block;
   }
 
-
 /* Make the container relative */
 .swap-on-hover {
   position: relative;	
@@ -178,8 +176,7 @@ input, input:active, input:focus, input:focus-within, input:hover, input:visited
   max-width: 500px;
   width:500px;
   height:500px;
-
- }
+}
 
 /* Select the image and make it absolute to the container */
 .swap-on-hover img {

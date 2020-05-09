@@ -58,6 +58,7 @@
      background-color: #1C1B1B;
     color: $color-whiteColor;
     vertical-align: middle;
+    padding-top:0px ;
   }
 
   .mailercol {
@@ -98,11 +99,12 @@
     font-size: 15px;
     border: 1px solid $color-unHoverColor;
     border-radius: 2px;
-    width: 80%;
+    width: 83%;
      cursor: pointer;
     height:50px;
     align-self: center;
     transition: color 200ms ease-in;
+    margin-top: 3%;
    }
 
   .mailerbutton:hover {
@@ -124,11 +126,16 @@
     .mailer{
       display: flex;
       flex-direction: column;
-   }
+      padding-top:10px;
+    }
 
     .mailercol {
       display: flex;
       flex: 100%;
       width:100%;
     }
+
+    .mailerbutton {
+      margin-top: 0%;
+     }
   }

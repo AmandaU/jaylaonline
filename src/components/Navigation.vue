@@ -29,7 +29,7 @@
   
     <!-- <div class="hoveritem">Two</div> -->
     <div class="center hoveritem">
-        <img  class="logo" src="../assets/sitelogo.png"  alt="cart"  @click="navigate('Home')" :style="getLogoColorStyle()"/>
+        <img  class="logo" src="../assets/sitelogo.png"  alt="cart"  @click="navigate('Shop')" :style="getLogoColorStyle()"/>
     </div>
 
     <div class="hoveritem">

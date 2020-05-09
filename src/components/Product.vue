@@ -118,7 +118,6 @@ firebase () {
 
 mounted() {
     let self = this;
-
     this.$eventHub.$on('showCheckout', ()=> {
         self.showCheckout = !self.showCheckout;
     });
@@ -167,7 +166,6 @@ created () {
          item.key = itemkey
           return item
       });
-       
        self.product.items = itemArray
        self.product.items.forEach(pi => {
             var shoppingCartItem = self.shoppingcart.items.find(si => si.key == pi.key)
