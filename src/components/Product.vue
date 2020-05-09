@@ -3,7 +3,15 @@
    <div class="productcontainer" >
      <media :query="{maxWidth: 600}" @media-enter="media600Enter" @media-leave="media600Leave"> </Media>
    
-         <div v-if="!isLoading" class="left" >
+        <div class="left">
+                <div v-if="!isLoading" class="imageblock">  
+                    <div  class="imgContainer" v-for="image in product.images" v-bind:key="image.productid"  >
+                      <img v-bind:src="image.url" v-bind:alt="image.alt"  class="mainimage" v-bind:style='{ backgroundImage: imageThumbUrl(image) }' >
+                    </div>  
+                </div>
+        </div>
+
+         <div v-if="!isLoading" class="right" >
            
             <div class="priceblock"  :key="componentKey">
                <h3>{{ product.name }}</h3> 
@@ -53,13 +61,7 @@
         </div> 
 
 
-        <div class="right">
-                <div v-if="!isLoading" class="imageblock">  
-                    <div  class="imgContainer" v-for="image in product.images" v-bind:key="image.productid"  >
-                      <img v-bind:src="image.url" v-bind:alt="image.alt"  class="mainimage" v-bind:style='{ backgroundImage: imageThumbUrl(image) }' >
-                    </div>  
-                </div>
-        </div>
+      
     </div>
   
 </template>
