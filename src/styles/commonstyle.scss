@@ -176,20 +176,31 @@ input, input:active, input:focus, input:focus-within, input:hover, input:visited
   max-width: 500px;
   width:500px;
   height:500px;
+  img {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    /* Sets the width and height for the images*/
+    width: 500px;
+    height: auto;
+  }
 }
 
-/* Select the image and make it absolute to the container */
-.swap-on-hover img {
-  position: absolute;
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
-  right: 0;
-  text-align: center;
-	/* Sets the width and height for the images*/
-	width: 500px;
-	height: auto;
-}
+// /* Select the image and make it absolute to the container */
+// .swap-on-hover img {
+//   position: absolute;
+//   margin-left: auto;
+//   margin-right: auto;
+//   left: 0;
+//   right: 0;
+//   text-align: center;
+// 	/* Sets the width and height for the images*/
+// 	width: 500px;
+// 	height: auto;
+// }
 
 /* 
 	We set z-index to be higher than the back image, so it's alwyas on the front.
@@ -206,8 +217,6 @@ We give it an opacity leaner to .25s, that way when we hover we will get a nice 
 .swap-on-hover:hover > .swap-on-hover__front-image{
   opacity: 0;
 }
-
-
 
 
 .dropdownblocktransition{
@@ -399,22 +408,42 @@ We give it an opacity leaner to .25s, that way when we hover we will get a nice 
     }
   }
 
-  @media all and (max-width: 800px) {
+  @media all and (max-width: 600px) {
 
-    .container {
-      flex-direction: column;
-    }
-  
-    .mainblock {
-      // background-color:rgb(243, 245, 241);
-      width: 100%;
-      margin-top: -50px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      align-self: center;
-      border-right: 0px solid transparent;
-    }
+      .container {
+        flex-direction: column;
+      }
+    
+      .mainblock {
+        // background-color:rgb(243, 245, 241);
+        width: 100%;
+        margin-top: -50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-self: center;
+        border-right: 0px solid transparent;
+      }
+
+      .swap-on-hover {
+        position: relative;	
+        margin:  0 auto;
+        max-width: 500px;
+        width: 500px;
+        height:500px;
+        padding-right:-200px;
+        img {
+          position: absolute;
+          margin-left: auto;
+          margin-right: auto;
+          left: 0;
+          right: 0;
+          text-align: center;
+          /* Sets the width and height for the images*/
+          width:500px;
+          height: auto;
+        }
+      }
     }
 
   @keyframes slide-in {
