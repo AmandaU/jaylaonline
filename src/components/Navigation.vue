@@ -131,6 +131,7 @@ mounted() {
 
 methods: {
 
+
   fetchUser() {
     let self = this
       this.$rtdbBind('users', usersRef.orderByChild("uid").equalTo(this.currentuser.uid).limitToFirst(1)).then(users => {

@@ -1,10 +1,15 @@
 <template>
     <div :style="getContainerStyle()" >
+
+       <div v-if="isMobile()" class="swap-on-hover" @click="gotoShop()">
+         <img  :src="imageMobile"  class="swap-on-hover__front-image">
+          <img  :src="imageMobile"  class="swap-on-hover__back-image">
+       </div>
+ 
   
-      <div class="swap-on-hover" @click="gotoShop()">
-         <img  class="swap-on-hover__front-image"   v-bind:src="imageSrc()"/>
-         <img  v-show="isMobile" class="swap-on-hover__back-image" v-if="pointshover" :src="isMobile ? pointshover : leaderPoints[0].playerimg" />
-        <!-- <img  class="frontimage" v-bind:src="imageurl"  alt="where the fuck did it go?"   @click="gotoShop()" />  -->
+      <div v-if="!isMobile()" class="swap-on-hover" @click="gotoShop()">
+          <img   :src="imageurl"  class="swap-on-hover__front-image"/>
+          <img   :src="hoverImageUrl"  class="swap-on-hover__back-image"/>
        </div>
    </div>
  
@@ -21,6 +26,7 @@ export default {
       return {
         imageurl: require('../assets/dog.png') ,
         hoverImageUrl: require('../assets/eish-dog.png') ,
+        imageMobile: require('../assets/dog-mobile.png') ,
         showCheckout: false
       }
     },
