@@ -77,11 +77,19 @@ h4, h5, p, small {
   transition: all 200ms ease-in;
 }
 
+.tiny {
+  font-size: 8!important;
+  font-family: 'NunitoSans';
+  font-weight: normal;
+  //letter-spacing: 0.1em!important;
+  color: $color-textBody;
+  transition: all 200ms ease-in;
+}
+
 .fa {
   padding: 20px;
   font-size: 30px;
   width: 70px;
- 
   text-align: center;
   text-decoration: none;
 }

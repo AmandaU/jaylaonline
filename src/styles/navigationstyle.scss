@@ -16,11 +16,13 @@
 }
 
 .right {
- right: 2;
+ right: 0;
+ border-left: 1px solid $color-lightLineColor;
 }
 
 .left {
   left: 0;
+  border-right: 1px solid $color-lightLineColor;
  }
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {
@@ -42,8 +44,6 @@
   text-decoration: none;
   display: block;
   text-align: center;
-  border-left: 1px solid $color-lightLineColor;
-  border-right: 1px solid $color-lightLineColor;
   border-bottom: 1px solid $color-lightLineColor;
   //transition: all 500ms ease-in, opacity 1000ms ease-in;
 }

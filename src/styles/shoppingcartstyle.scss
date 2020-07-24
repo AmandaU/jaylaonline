@@ -152,7 +152,6 @@
      }
    }
  
-
   .rowlabel{
     display: flex;
      flex-direction: column;
@@ -193,6 +192,9 @@
   .rowflexlabel {
     padding-left: 10px;
     width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .rowflexlvalue{
    background-color: transparent;
@@ -292,7 +294,7 @@
 
   @media all and (max-width: 600px) {
    .shoppingcartblock {
-    width: 85%;
+    width: 95%;
    }
 
    .itemthumbnailimage {
