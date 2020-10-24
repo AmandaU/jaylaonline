@@ -29,12 +29,29 @@ export  default  {
                 let allcouriers = result.data.data.CostComparisonResult.CostComparisonResults.ResultSet.Result
                if(allcouriers && allcouriers.length > 0) {
                   let c =  self.getCouriers(allcouriers);  
-                  self.Couriers = c;             }
+                  self.Couriers = c;           
+                  }
             }
           })
           .catch(e => {
-            this.$swal('O no..', 'There was a problem calculating the delivery fee', 'error')
-             
+            let c = [];
+            c[0] = {
+              CarrierName: "COD, pickup or by arrangement",
+              CarrierAccount: "COD",
+              DeliveryTimeHours: '',
+              TotalCostPlusMarkup: "TBA",
+              isSelected: false
+            };
+            c[1] = {
+              CarrierName: "Flat fee",
+              CarrierAccount: "Flat",
+              DeliveryTimeHours: '48',
+              grandtotmrkup: '150',
+              isSelected: false
+            };
+
+            self.Couriers = c;  
+          // self.$swal('O no..', 'There was a problem calculating the delivery fee', 'error')
           });
     },
    

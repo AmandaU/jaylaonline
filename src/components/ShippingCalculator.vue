@@ -200,8 +200,12 @@ watch: {
       this.loader.hide()
       this.isDone = true
        this.isBusy = false
-     } 
-      
+     } else {
+       this.loader.hide()
+      this.isDone = true
+       this.isBusy = false
+       self.$swal('O no..', 'There was a problem calculating the delivery fee', 'error')
+     }
   },
 
     isCourierSelected: function (courier) {

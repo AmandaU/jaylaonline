@@ -11,13 +11,13 @@
           <img src="../assets/menu.svg"  alt="cart"  class="cartimage" :style="getColorStyle(showLeftMenu)"/>
 
       </div>
-          <transition   name="slide">
-        <div v-if="showLeftMenu" class="dropdown-content left">
-            <a  v-on:click="navigate('Shop',true)" >SHOP</a>
-            <!-- <a  v-on:click="navigate('Artists')">ARTISTS</a> -->
-            <a  v-on:click="navigate('About', true)">ABOUT</a>
-            <a  v-on:click="navigate('Contact', true)">CONTACT</a>
-        </div> 
+        <transition name="slide">
+          <div v-if="showLeftMenu" class="dropdown-content left">
+              <a  v-on:click="navigate('Shop',true)" >SHOP</a>
+              <!-- <a  v-on:click="navigate('Artists')">ARTISTS</a> -->
+              <a  v-on:click="navigate('About', true)">ABOUT</a>
+              <a  v-on:click="navigate('Contact', true)">CONTACT</a>
+          </div> 
       </transition>    
     
     </div>
@@ -47,7 +47,7 @@
       <div class="menuicon">
             <img src="../assets/user.svg"  alt="cart"  class="cartimage" :style="getColorStyle(showRightMenu)"/>
            </div>
-        <transition   name="slide">
+        <transition  name="slide">
           <div v-if="showRightMenu" class="dropdown-content right" >
             <a v-show="!isLoggedin" v-on:click="navigate('Login', false)">LOGIN</a>
             <a v-show="!isLoggedin" v-on:click="navigate('Signup', false)">REGISTER</a>
